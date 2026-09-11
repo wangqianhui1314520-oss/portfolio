@@ -1,0 +1,64 @@
+/* ============================================
+ * signal.css — 自 index.html 行 1339-1399 拆分
+ * 生长档案 GROWTH ARCHIVE
+ * ============================================ */
+/* ===== 第五章：信号中继台 ===== */
+.sig { background: #0a0b0c; color: #b8c8b8; }
+.sig-wrap { max-width: 860px; margin: 0 auto; padding: 18px 22px 40px; }
+.sig-titlebar { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #10241a; border: 1px solid #2a4a34; border-radius: 6px 6px 0 0; font-size: 12px; }
+.sig-tb-l { color: #7ac97a; font-weight: 700; letter-spacing: 1px; }
+.sig-tb-r { color: #4a6a4a; font-size: 11px; }
+.sig-status { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: #0d1410; border: 1px solid #1e3326; border-top: none; font-size: 12px; color: #7ac97a; font-family: Consolas, monospace; }
+.sig-dot { width: 8px; height: 8px; border-radius: 50%; background: #3a8a4a; animation: sigBlink 1.6s infinite; }
+@keyframes sigBlink { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+.sig-term { margin-top: 14px; background: #07090a; border: 1px solid #1a2a1e; border-radius: 6px; padding: 12px 14px; min-height: 90px; }
+.sig-log { font-family: Consolas, monospace; font-size: 13px; line-height: 1.9; color: #9ab89a; }
+.sig-line { margin: 3px 0; }
+.sig-boot { color: #4a6a4a; }
+.sig-frag { margin-top: 12px; border: 1px solid #2a3a2a; background: #0c100d; border-radius: 6px; padding: 12px 14px; }
+.sig-frag-h { font-size: 11px; color: #8a6a3a; letter-spacing: 2px; margin-bottom: 8px; }
+.sig-frag-b { font-size: 14px; color: #c8d8c8; line-height: 1.9; }
+.sig-frag-act { margin-top: 10px; }
+.sig-btn { display: inline-block; padding: 6px 14px; background: #14301e; color: #7ac97a; border: 1px solid #2a5a34; border-radius: 4px; font-size: 12px; cursor: pointer; letter-spacing: 1px; }
+.sig-btn:hover { background: #1a3c26; }
+.sig-btn-red { background: #301414; border-color: #5a2a2a; color: #e09090; }
+.sig-btn-red:hover { background: #3c1a1a; }
+.sig-cmp { margin-top: 12px; border: 1px solid #3a3a2a; background: #0d0e0c; border-radius: 6px; padding: 14px; }
+.sig-cmp-title { font-size: 13px; color: #d8b878; margin-bottom: 10px; font-weight: 700; }
+.sig-cmp-cards { display: flex; gap: 12px; flex-wrap: wrap; }
+.sig-cmp-card { flex: 1; min-width: 240px; border: 1px solid #2a3a2a; background: #0a0e0c; border-radius: 6px; padding: 12px; font-size: 12px; line-height: 1.8; color: #9ab89a; }
+.sig-cmp-card b { color: #c8d8c8; display: block; margin-bottom: 6px; }
+.sig-cmp-foot { margin-top: 12px; text-align: right; }
+.sig-reveal-box { margin-top: 14px; border: 1px solid #3a3a2a; background: #0d0e0c; border-radius: 6px; padding: 16px; }
+.sig-reveal-h { font-size: 13px; color: #d8b878; letter-spacing: 3px; font-weight: 700; margin-bottom: 10px; }
+.sig-reveal-b { font-size: 14px; line-height: 2; color: #c8d8c8; }
+.sig-reveal-b b { color: #e0c090; }
+.sig-reveal-audio { margin-top: 14px; }
+.sig-audio-row { display: flex; align-items: center; gap: 10px; }
+.sig-audio-bar { margin-top: 8px; height: 6px; background: #1a2a1e; border-radius: 3px; overflow: hidden; }
+.sig-audio-bar i { display: block; height: 100%; width: 0%; background: #7ac97a; }
+.sig-cutout { margin-top: 14px; border: 1px solid #5a2a2a; background: #100a0a; border-radius: 6px; padding: 20px; text-align: center; }
+.sig-cutout-h { font-size: 16px; color: #e06060; letter-spacing: 6px; font-weight: 700; margin-bottom: 12px; }
+.sig-cutout-b { font-size: 13px; color: #c0a0a0; line-height: 1.9; }
+.sig-cutout-wait { margin: 12px 0 4px; font-size: 11px; color: #6a4a4a; font-family: Consolas, monospace; }
+.sig-matrix-b { font-size: 13px; line-height: 1.9; color: #9ab89a; }
+.sig-chain-title, .sig-rule-title, .sig-four-title { font-size: 12px; color: #d8b878; letter-spacing: 2px; font-weight: 700; margin: 12px 0 8px; }
+.sig-chain { width: 100%; height: auto; margin: 4px 0 10px; }
+.sig-rule-row { display: flex; justify-content: space-between; gap: 20px; font-size: 12px; padding: 4px 0; border-bottom: 1px dashed #1e2e22; color: #8aa88a; }
+.sig-rule-row span:first-child { color: #d8b878; }
+.sig-four-row { padding: 5px 0; font-size: 12.5px; border-bottom: 1px dashed #1e2e22; }
+.sig-four-row b { color: #c8d8c8; }
+.sig-plan-b { font-size: 13.5px; line-height: 2; color: #9ab89a; }
+.sig-plan-b p { margin: 6px 0; }
+.sig-ip-box { margin: 12px 0; border: 1px solid #2a3a2a; border-radius: 6px; padding: 10px 14px; font-size: 12.5px; }
+.sig-ip-row { display: flex; justify-content: space-between; gap: 16px; padding: 4px 0; color: #8aa88a; }
+.sig-ip-row b { color: #e0c090; font-family: Consolas, monospace; }
+.sig-warn-text { color: #c0a0a0 !important; }
+.sig-cut-bar { height: 8px; background: #1a2a1e; border-radius: 4px; overflow: hidden; }
+.sig-cut-bar i { display: block; height: 100%; width: 0%; background: #e08060; }
+.sig-done-b { font-size: 13.5px; line-height: 2; color: #9ab89a; }
+.sig-done-b p { margin: 8px 0; }
+.sig-ly-line { color: #c8d8c8; border-left: 3px solid #3a6a4a; padding-left: 10px; }
+.sig-done-note { margin-top: 12px; font-size: 11px; color: #6a8a6a; }
+.sig-finish-box { display: inline-block; border: 1px dashed #3a5a4a; border-radius: 6px; padding: 14px 24px; font-size: 13px; color: #7ac97a; line-height: 1.9; }
+.sig-wait { margin: 14px 0; font-size: 12px; color: #4a6a4a; font-family: Consolas, monospace; text-align: center; }

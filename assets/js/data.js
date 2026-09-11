@@ -1,0 +1,177 @@
+/* ============================================
+   作品集数据源 —— 后续只需修改本文件
+   ============================================ */
+
+window.PORTFOLIO_DATA = {
+  /* ---------- 个人资料 ---------- */
+  profile: {
+    name: "王乾辉",
+    enName: "Wang Qianhui",
+    title: "游戏开发 / 物联网应用技术",
+    tagline: "做能跑起来的东西",
+    location: "江苏",
+    intro:
+      "独立开发与团队协作并行。主攻 Godot / Unreal / Web 全栈游戏开发，同时做嵌入式硬件与小说创作。习惯把想法做成能真正运行的东西 —— 游戏、设备、故事，都算。",
+    avatar: "",
+    award: "腾讯云黑客松大赛 · 华东赛区优胜奖",
+    links: [
+      { label: "邮箱", url: "mailto:3171678809@qq.com" },
+      { label: "抖音 · 1779807797", url: "https://www.douyin.com/search/1779807797?type=user" },
+      { label: "手机 · 18361620821", url: "tel:18361620821" }
+    ]
+  },
+
+  /* ---------- 作品列表（不分类，按你想展示的顺序排）----------
+     type     类型标签，自由填写：游戏 / 参与 / 设备 / 小说 / 视频 ...
+     cover    封面图路径，留空显示占位框
+     ratio    封面比例，默认 "16 / 9"，竖屏视频用 "9 / 16"
+     play     试玩配置：
+                { type: "iframe",   url: "..." }  站内弹窗直接玩
+                { type: "external", url: "..." }  新窗口打开
+                { type: "none",     url: "" }     仅展示
+     highlights  亮点条目（可选）
+     specs       参数表（可选）
+     excerpt     摘录段落（可选，小说类用）
+     links       外链按钮（可选）
+  */
+  works: [
+    {
+      id: "ming",
+      type: "游戏",
+      title: "大明王朝 1566：天下棋局",
+      subtitle: "Godot 4 · 单机叙事策略",
+      cover: "assets/covers/ming-kv.jpg",
+      year: "2026",
+      role: "主创",
+      status: "第 1 章已发布",
+      stack: ["Godot 4", "GDScript"],
+      desc: "以政治抉择驱动的明代叙事策略游戏。核心承诺：每个选择都产生可理解、角色特有、可持续的后果。",
+      highlights: ["10 角色 × 5 步骤 = 50 route steps", "21 人物 / 48 物品 / 33 地点", "11 段教程引导"],
+      specs: [],
+      play: { type: "none", url: "" },
+      links: []
+    },
+    {
+      id: "yuanmo",
+      type: "游戏",
+      title: "元末逐鹿",
+      subtitle: "v3.0 · 网页策略",
+      cover: "assets/covers/yuanmo-factions.jpg",
+      year: "2026",
+      role: "主创 / 全栈",
+      status: "已完成 · 腾讯云黑客松华东赛区优胜奖",
+      stack: ["Vue 3", "Canvas2D", "Three.js", "FastAPI"],
+      desc: "多派系博弈的元末乱世策略游戏，含局势推演引擎、双结局与三条自定义势力国策路径。",
+      highlights: [
+        "腾讯云黑客松大赛 · 华东赛区优胜奖",
+        "多派系博弈系统",
+        "局势推演引擎",
+        "双结局 + 3 条国策路径"
+      ],
+      specs: [],
+      play: { type: "external", url: "https://qiankuntokenyun.cn" },
+      links: []
+    },
+    {
+      id: "epoch",
+      type: "游戏",
+      title: "机械纪元：人类余烬",
+      subtitle: "Unreal 5 · 影视 Demo",
+      cover: "assets/covers/epoch-cover.jpg",
+      year: "2026",
+      role: "主创 / 导演",
+      status: "Demo 完成",
+      stack: ["Unreal 5", "AI 生成管线"],
+      desc: "12 分钟影视化 Demo，60 个片段 × 12 秒，全程 AI 生成图像与视频素材。",
+      highlights: ["12 分钟成片", "60 segments × 12s", "AI 全链路出片"],
+      specs: [],
+      play: { type: "none", url: "" },
+      links: []
+    },
+    {
+      id: "growth",
+      type: "游戏",
+      title: "生长档案",
+      subtitle: "Global Game Jam 2026 · 网页叙事解谜",
+      cover: "assets/covers/growth-album.jpg",
+      ratio: "16 / 9",
+      year: "2026",
+      role: "独立开发",
+      status: "已完成",
+      stack: ["原生 HTML / CSS / JS", "无引擎 · 无依赖"],
+      desc: "以「现实时间 == 游戏时间」为核心的叙事解谜网页游戏。玩家扮演整理旧物的人，在一台旧电脑的浏览器里逐步拼合档案碎片，穿过 QQ 空间、旧博客、医院档案、信号监听等章节，还原一段跨越多年的人生叙事，并在多重结局中作出最终选择。",
+      highlights: [
+        "GGJ 2026 · 翌光计划（武汉全球高校游戏创作挑战赛）",
+        "核心机制：现实时间 == 游戏时间",
+        "QQ 空间 / 医院档案 / 信号监听等多章节叙事",
+        "多重结局 · 全程离线可运行"
+      ],
+      specs: [
+        { k: "平台", v: "Web 浏览器直接运行" },
+        { k: "技术栈", v: "原生 HTML / CSS / JS" },
+        { k: "素材", v: "28 图 / 8 音频 / 8 视频" }
+      ],
+      play: { type: "iframe", url: "games/growth-archive/index.html", ratio: "816 / 624" },
+      links: []
+    },
+    {
+      id: "rebirth",
+      type: "游戏",
+      title: "Rebirth 重生",
+      subtitle: "RPG Maker MV · 科幻解谜",
+      cover: "assets/covers/rebirth-cg.jpg",
+      year: "2026",
+      role: "主创",
+      status: "已发布",
+      stack: ["RPG Maker MV", "JavaScript", "nw.js"],
+      desc: "你从实验室培养皿中苏醒（系统提示「已唤醒实验对象」），在逐渐异化的设施中探索逃亡：墙壁血字、监控红灯、积液与血管组织逐渐蔓延。沿途遭遇编号实验体——03号（视觉敏锐）、07号、13号（无眼，靠嗅觉）、42号，最终面对模仿你一切的 99号母体。",
+      highlights: [
+        "实验室逃亡 × 逐步异化的设施叙事",
+        "五种编号实验体遭遇战，各具感知特性",
+        "最终决战：模仿你一切的 99号母体"
+      ],
+      specs: [
+        { k: "平台", v: "Windows 桌面端 · 816 × 624" },
+        { k: "类型", v: "解谜 / 科幻" }
+      ],
+      play: { type: "external", url: "https://www.gcores.com/games/181588" },
+      links: [{ label: "机核主页", url: "https://www.gcores.com/games/181588" }]
+    },
+    {
+      id: "kun",
+      type: "游戏",
+      title: "困",
+      subtitle: "视觉小说 · 罕见病教育",
+      cover: "assets/covers/kun-paralysis.jpg",
+      year: "2026",
+      role: "制作",
+      status: "已完成",
+      stack: ["视觉小说", "IndexTTS 2.5"],
+      desc: "嗜睡症主题的罕见病教育视觉小说，16 个角色设定，本地语音模型生成配音。",
+      highlights: ["16 角色设定", "嗜睡症科普主题"],
+      specs: [],
+      play: { type: "none", url: "" },
+      links: []
+    },
+    {
+      id: "novel",
+      type: "小说",
+      title: "斗修天诀",
+      subtitle: "玄幻 · 修炼",
+      cover: "assets/covers/douxiu-cover.jpg",
+      year: "连载中",
+      role: "作者",
+      status: "",
+      stack: [],
+      desc: "玄幻修炼长篇，配套完整的世界观、人物与修炼体系设定。",
+      highlights: [],
+      specs: [
+        { k: "章节长度", v: "2800–3200 字" },
+        { k: "星石品阶", v: "白 黄 青 蓝 紫 金 红" }
+      ],
+      excerpt: "夜色如墨，星辉垂落。少年立于断崖之巅，掌心那枚黯淡的白色星石忽然一颤——一缕比发丝更细的青芒，正沿着石纹缓缓爬升。品阶之别，天壤之分，白阶之上是黄，黄阶之上是青。而传闻中的黑，从来不入谱录。他攥紧星石，听见了体内第一声剑鸣。",
+      play: { type: "none", url: "" },
+      links: []
+    },
+  ]
+};

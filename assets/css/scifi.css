@@ -1,0 +1,611 @@
+/* ============================================
+   科幻风主题 + HUD + 3D 圆环 + 街机小游戏
+   ============================================ */
+
+/* ---------- 主题变量：科幻 ---------- */
+[data-theme="scifi"] {
+  --bg: #04060c;
+  --bg-elev: #080d18;
+  --surface: rgba(9, 18, 32, .74);
+  --surface-2: rgba(14, 26, 44, .62);
+  --text: #d6f4ff;
+  --text-dim: #7ba6c2;
+  --text-mute: #46688a;
+  --accent: #00f0ff;
+  --accent-2: #ff2e88;
+  --border: rgba(0, 240, 255, .16);
+  --border-strong: rgba(0, 240, 255, .5);
+  --font-display: "Consolas", "JetBrains Mono", "Courier New", monospace;
+  --font-body: "Consolas", "Microsoft YaHei", monospace;
+  --radius: 2px;
+  --radius-lg: 3px;
+  --glow: 0 0 22px rgba(0, 240, 255, .22);
+}
+
+/* ---------- 全局氛围层 ---------- */
+[data-theme="scifi"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(900px circle at 20% 0%, rgba(0, 240, 255, .10), transparent 55%),
+    radial-gradient(700px circle at 85% 20%, rgba(255, 46, 136, .08), transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+[data-theme="scifi"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 240, 255, .045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, .045) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(circle at 50% 40%, #000 20%, transparent 78%);
+  -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 20%, transparent 78%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---------- HUD 顶栏 ---------- */
+.hud {
+  position: sticky;
+  top: 0;
+  z-index: 120;
+  border-bottom: 1px solid var(--border-strong);
+  background: rgba(4, 6, 12, .82);
+  backdrop-filter: blur(10px);
+}
+
+[data-theme="scifi"] .hud {
+  box-shadow: 0 0 24px rgba(0, 240, 255, .12);
+}
+
+.hud-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.hud-logo {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.hud-logo::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  margin-right: 9px;
+  animation: hudPulse 1.6s infinite;
+}
+
+@keyframes hudPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .25; }
+}
+
+.hud-stats {
+  display: flex;
+  gap: 16px;
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: .08em;
+  flex-wrap: wrap;
+}
+
+.hud-stats b {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.hud-stats .warn b { color: var(--accent-2); }
+
+/* ---------- 切角容器 ---------- */
+.clip {
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+}
+
+/* ---------- Hero + 街机画布 ---------- */
+.arcade {
+  position: relative;
+  border-bottom: 1px solid var(--border);
+  min-height: 460px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+#arcade-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: 50;
+  pointer-events: none;
+  opacity: .68;
+}
+
+[data-theme="scifi"] #arcade-canvas { display: block; }
+
+/* 主题切换瞬间禁用过渡，避免全站重绘抖动 */
+.no-trans, .no-trans *, .no-trans *::before, .no-trans *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+.arcade .wrap { position: relative; z-index: 2; }
+
+.hero-tag {
+  font-family: var(--font-display);
+  letter-spacing: .3em;
+  font-size: 11px;
+}
+
+/* Hero 获奖徽章：金色霓虹，赛博奖状 */
+.hero-award {
+  border-color: rgba(245, 197, 66, .55);
+  background: linear-gradient(90deg, rgba(245, 197, 66, .12), rgba(245, 197, 66, .03));
+  color: #ffe9ad;
+  font-family: var(--font-display);
+  text-shadow: 0 0 14px rgba(245, 197, 66, .4);
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+
+.hero-award .award-star {
+  color: #f5c542;
+  text-shadow: 0 0 12px rgba(245, 197, 66, .8);
+  animation: award-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes award-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .45; }
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  letter-spacing: .02em;
+  text-shadow: 0 0 26px rgba(0, 240, 255, .35);
+}
+
+.hero h1 em {
+  color: var(--accent-2);
+  text-shadow: 0 0 22px rgba(255, 46, 136, .45);
+}
+
+/* 街机提示 */
+.arcade-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+  padding: 7px 14px;
+  border: 1px solid var(--border-strong);
+  background: rgba(0, 240, 255, .06);
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: var(--accent);
+  pointer-events: none;
+}
+
+.arcade-hint i {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  display: inline-block;
+  animation: hudPulse 1.2s infinite;
+}
+
+/* ---------- 3D 圆环舞台 ---------- */
+.ring-section {
+  padding: 64px 0 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.ring-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.ring-title {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3.4vw, 30px);
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.ring-stage {
+  position: relative;
+  height: 500px;
+  margin: 10px 0 4px;
+  touch-action: pan-y;
+}
+
+.ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform: translateX(0);
+  transition: transform .45s cubic-bezier(.22, .78, .3, 1);
+  will-change: transform;
+}
+
+.ring.dragging { transition: none; }
+
+.ring-card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  /* 宽高与偏移由 JS 按容器宽度动态设置 */
+  background: rgba(7, 14, 26, .96);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: translate(-50%, -50%) translateX(var(--tx, 0px)) scale(var(--s, 1));
+  transition: transform .45s cubic-bezier(.22, .78, .3, 1),
+              border-color .25s,
+              opacity .3s;
+  user-select: none;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+/* 顶部信号线：仅当前卡片亮起 */
+.ring-card.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: var(--accent);
+  z-index: 3;
+}
+
+/* 选中弹开 */
+.ring-card.pop {
+  border-color: var(--accent);
+  box-shadow: 0 0 70px rgba(0, 240, 255, .4), 0 34px 70px rgba(0, 0, 0, .55);
+  z-index: 40;
+}
+
+/* ---------- 两侧衔接特效 ---------- */
+.edge-veil {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 240px;
+  pointer-events: none;
+  z-index: 6;
+}
+
+.edge-veil.left {
+  left: 0;
+  background: linear-gradient(90deg, var(--bg) 6%, rgba(4, 6, 12, .75) 45%, transparent 100%);
+}
+
+.edge-veil.right {
+  right: 0;
+  background: linear-gradient(270deg, var(--bg) 6%, rgba(4, 6, 12, .75) 45%, transparent 100%);
+}
+
+.edge-veil::after {
+  content: "";
+  position: absolute;
+  top: 12%;
+  bottom: 12%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--accent), transparent);
+  animation: veilScan 2.6s ease-in-out infinite;
+}
+
+.edge-veil.left::after { left: 30px; }
+.edge-veil.right::after { right: 30px; }
+
+.edge-veil::before {
+  content: "";
+  position: absolute;
+  top: 12%;
+  bottom: 12%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--accent-2), transparent);
+  opacity: .5;
+  animation: veilScan 3.4s ease-in-out infinite reverse;
+}
+
+.edge-veil.left::before { left: 42px; }
+.edge-veil.right::before { right: 42px; }
+
+@keyframes veilScan {
+  0%, 100% { opacity: .2; }
+  50% { opacity: .85; }
+}
+
+.ring-card:hover { border-color: var(--border-strong); }
+
+.ring-card.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 30px rgba(0, 240, 255, .3), inset 0 0 40px rgba(0, 240, 255, .06);
+}
+
+.ring-card.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: var(--accent);
+}
+
+.rc-cover {
+  height: 47%;
+  min-height: 92px;
+  background: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.rc-cover img { width: 100%; height: 100%; object-fit: cover; }
+
+.rc-cover .ph {
+  width: 34px;
+  height: 34px;
+  border: 1px dashed var(--text-mute);
+  position: absolute;
+}
+
+.rc-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+
+.rc-idx {
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: .18em;
+  color: var(--accent);
+}
+
+.rc-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.rc-sub { font-size: 11px; color: var(--text-dim); }
+
+.rc-foot {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-display);
+  font-size: 10px;
+  color: var(--text-mute);
+  letter-spacing: .08em;
+}
+
+/* 圆环控制 */
+.ring-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.rc-btn {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--border-strong);
+  background: rgba(0, 240, 255, .05);
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rc-btn:hover { background: var(--accent); color: var(--bg); }
+
+.ring-counter {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: .16em;
+  color: var(--text-dim);
+  min-width: 92px;
+  text-align: center;
+}
+
+.ring-counter b { color: var(--accent); }
+
+/* ---------- 详情展开面板 ---------- */
+.detail {
+  margin-top: 20px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+  display: none;
+}
+
+.detail.open { display: block; animation: detailIn .38s ease; }
+
+@keyframes detailIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: none; }
+}
+
+.detail-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0, 240, 255, .04);
+}
+
+.detail-head h3 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.detail-head .dt-type {
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: .14em;
+  padding: 3px 9px;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.detail-close {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.detail-close:hover { background: var(--accent-2); color: #fff; border-color: var(--accent-2); }
+
+.detail-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 28px;
+  padding: 24px 22px;
+}
+
+.detail-main { display: flex; flex-direction: column; gap: 14px; }
+
+.detail-desc { font-size: 14px; color: var(--text-dim); line-height: 1.85; }
+
+.detail-side { display: flex; flex-direction: column; gap: 12px; }
+
+/* ---------- 其余作品列表 ---------- */
+.list-section { padding: 48px 0 90px; position: relative; z-index: 1; }
+
+.list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 18px;
+}
+
+.lcard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  transition: border-color .25s, box-shadow .25s, transform .25s;
+}
+
+.lcard:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--glow);
+  transform: translateY(-3px);
+}
+
+.lcard h3 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.lcard .lc-sub { font-size: 12px; color: var(--accent); }
+
+.lcard p { font-size: 13px; color: var(--text-dim); flex: 1; }
+
+/* ---------- 成就提示 ---------- */
+.toast-wrap {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast {
+  border: 1px solid var(--accent);
+  background: rgba(4, 12, 22, .94);
+  padding: 11px 16px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: .06em;
+  animation: toastIn .4s ease;
+  max-width: 280px;
+}
+
+.toast small {
+  display: block;
+  color: var(--text-dim);
+  font-size: 11px;
+  margin-top: 3px;
+  letter-spacing: .04em;
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(24px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- 移动端降级 ---------- */
+@media (pointer: coarse) {
+  .arcade-hint { display: none; }
+  #arcade-canvas { display: none; }
+}
+@media (max-width: 900px) {
+  .detail-body { grid-template-columns: 1fr; gap: 20px; }
+}
+
+@media (max-width: 760px) {
+  .arcade { min-height: 380px; }
+  .hud-stats { font-size: 10px; gap: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hud-logo::before, .arcade-hint i { animation: none; }
+  .ring, .ring-card { transition: none; }
+}

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>王乾辉 · 作品集 · Print</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #04060c; }
+  body {
+    font-family: "Microsoft YaHei", "Consolas", monospace;
+    color: #d6f4ff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .page {
+    width: 210mm; height: 297mm;
+    page-break-after: always;
+    position: relative;
+    padding: 16mm 15mm 20mm;
+    overflow: hidden;
+    background:
+      radial-gradient(120mm circle at 85% 0%, rgba(0,240,255,.08), transparent 60%),
+      radial-gradient(100mm circle at 0% 100%, rgba(255,46,136,.06), transparent 60%),
+      #04060c;
+  }
+  .page::before {
+    content: "";
+    position: absolute; left: 15mm; right: 15mm; top: 10mm;
+    height: .6mm; background: linear-gradient(90deg, #00f0ff, transparent 70%);
+  }
+  .page::after {
+    content: "";
+    position: absolute; left: 15mm; right: 15mm; bottom: 10mm;
+    height: .3mm; background: rgba(0,240,255,.25);
+  }
+  .ghost-num {
+    position: absolute; right: 12mm; top: 6mm;
+    font-family: Consolas, monospace; font-size: 64pt; font-weight: 700;
+    color: transparent; -webkit-text-stroke: .4mm rgba(0,240,255,.14);
+    line-height: 1;
+  }
+  .pfoot {
+    position: absolute; left: 15mm; right: 15mm; bottom: 13mm;
+    display: flex; justify-content: space-between;
+    font-size: 8pt; color: #46688a; letter-spacing: .12em;
+  }
+  .kicker { font-size: 10pt; letter-spacing: .28em; color: #00f0ff; margin-bottom: 6mm; }
+  .wtype { font-size: 9.5pt; letter-spacing: .2em; color: #00f0ff; }
+  h1 { font-size: 24pt; font-weight: 700; line-height: 1.25; margin: 3mm 0 2mm; }
+  .sub { font-size: 11pt; color: #ff2e88; margin-bottom: 5mm; }
+  .meta { display: flex; gap: 8mm; font-size: 9pt; color: #7ba6c2; margin-bottom: 6mm; }
+  .meta b { color: #d6f4ff; font-weight: 600; }
+  .cover {
+    height: 86mm; margin-bottom: 7mm;
+    border: .3mm solid rgba(0,240,255,.35);
+    background: #0a1220;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .cover img { width: 100%; height: 100%; object-fit: cover; }
+  .ph {
+    width: 16mm; height: 16mm; border: .3mm dashed #46688a;
+  }
+  .ph-label {
+    position: absolute; bottom: 4mm; left: 0; right: 0;
+    text-align: center; font-size: 8pt; color: #46688a; letter-spacing: .2em;
+  }
+  .desc { font-size: 10.5pt; line-height: 1.85; color: #a8cee2; margin-bottom: 5mm; }
+  .sec-label { font-size: 8.5pt; letter-spacing: .22em; color: #00f0ff; margin: 4.5mm 0 2.5mm; }
+  ul.hl { list-style: none; }
+  ul.hl li {
+    font-size: 10pt; color: #a8cee2; line-height: 1.7;
+    padding-left: 5.5mm; position: relative;
+  }
+  ul.hl li::before {
+    content: ""; position: absolute; left: 0; top: 2.4mm;
+    width: 1.6mm; height: 1.6mm; background: #00f0ff;
+  }
+  table.specs { width: 100%; border-collapse: collapse; }
+  table.specs td {
+    font-size: 9.5pt; padding: 2mm 0;
+    border-bottom: .2mm dashed rgba(0,240,255,.18);
+  }
+  table.specs td:first-child { color: #46688a; width: 34mm; }
+  table.specs td:last-child { color: #d6f4ff; }
+  .tags { display: flex; flex-wrap: wrap; gap: 2.5mm; }
+  .tag {
+    font-size: 8.5pt; color: #7ba6c2;
+    border: .25mm solid rgba(0,240,255,.3); padding: 1mm 3mm;
+    border-radius: 10mm; background: rgba(0,240,255,.05);
+  }
+  .badge {
+    display: inline-block; font-size: 8.5pt; color: #00f0ff;
+    border: .25mm solid #00f0ff; padding: .8mm 3mm; border-radius: 10mm;
+  }
+  /* 封面页 */
+  .cover-page { display: flex; flex-direction: column; }
+  .cover-page .mid { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .cover-page h1 { font-size: 40pt; letter-spacing: .04em; }
+  .cover-page h1 em { font-style: normal; color: #00f0ff; }
+  .cover-tag { font-size: 14pt; color: #ff2e88; margin: 4mm 0 10mm; letter-spacing: .06em; }
+  .cover-intro { font-size: 11.5pt; line-height: 2; color: #a8cee2; max-width: 150mm; }
+  .cover-award {
+    width: fit-content; margin-top: 8mm; padding: 2.5mm 6mm;
+    border: .3mm solid rgba(245,197,66,.6); color: #ffe9ad;
+    font-size: 12pt; letter-spacing: .06em; background: rgba(245,197,66,.08);
+  }
+  .cover-award b { color: #f5c542; }
+  .cover-stats { display: flex; gap: 12mm; margin-top: 14mm; }
+  .cstat { border-left: .6mm solid #00f0ff; padding-left: 4mm; }
+  .cstat b { display: block; font-size: 22pt; color: #00f0ff; font-family: Consolas, monospace; }
+  .cstat span { font-size: 8.5pt; color: #7ba6c2; letter-spacing: .15em; }
+  .cover-foot { font-size: 9pt; color: #46688a; letter-spacing: .15em; }
+  /* 尾页 */
+  .end-links { margin-top: 10mm; display: flex; flex-direction: column; gap: 5mm; }
+  .end-links a, .end-links span {
+    font-size: 12pt; color: #d6f4ff; text-decoration: none;
+    border-bottom: .25mm solid rgba(0,240,255,.35); width: fit-content; padding-bottom: 1mm;
+  }
+</style>
+</head>
+<body>
+<div id="pages"></div>
+<script src="assets/js/data.js"></script>
+<script>
+(function () {
+  var D = window.PORTFOLIO_DATA;
+  var esc = function (s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  };
+  var pad = function (v) { return v < 10 ? "0" + v : String(v); };
+  var p = D.profile || {};
+  var works = D.works || [];
+
+  function foot(i) {
+    return '<div class="pfoot"><span>' + esc(p.name || "") + ' · PORTFOLIO</span><span>' +
+      pad(i) + ' / ' + pad(works.length + 2) + '</span></div>';
+  }
+
+  var html = "";
+
+  /* ---------- 封面 ---------- */
+  html += '<div class="page cover-page">' +
+    '<div class="kicker">PORTFOLIO / ' + esc(p.title || "") + '</div>' +
+    '<div class="mid">' +
+      '<h1>' + esc(p.name || "") + '<br><em>' + esc(p.tagline || "") + '</em></h1>' +
+      '<div class="cover-tag">' + esc(p.location || "") + '</div>' +
+      '<p class="cover-intro">' + esc(p.intro || "") + '</p>' +
+      (p.award ? '<div class="cover-award">&#9733; ' + esc(p.award) + '</div>' : '') +
+      '<div class="cover-stats">' +
+        '<div class="cstat"><b>' + pad(works.length) + '</b><span>WORKS</span></div>' +
+        '<div class="cstat"><b>' + works.filter(function (w) { return w.type === "游戏"; }).length + '</b><span>GAMES</span></div>' +
+        '<div class="cstat"><b>4</b><span>FIELDS</span></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="cover-foot">' + esc(p.enName || "").toUpperCase() + ' · 2026 · GENERATED FROM PORTFOLIO DATA</div>' +
+    foot(1) + '</div>';
+
+  /* ---------- 作品页 ---------- */
+  works.forEach(function (w, idx) {
+    var play = w.play || {};
+    var specs = (w.specs || []).map(function (s) {
+      return '<tr><td>' + esc(s.k) + '</td><td>' + esc(s.v) + '</td></tr>';
+    }).join("");
+    var hls = (w.highlights || []).map(function (h) {
+      return "<li>" + esc(h) + "</li>";
+    }).join("");
+    var tags = (w.stack || []).map(function (t) {
+      return '<span class="tag">' + esc(t) + "</span>";
+    }).join("");
+
+    html += '<div class="page">' +
+      '<div class="ghost-num">' + pad(idx + 1) + '</div>' +
+      '<div class="wtype">WORK ' + pad(idx + 1) + ' // ' + esc(w.type || "") + '</div>' +
+      '<h1>' + esc(w.title) + '</h1>' +
+      '<div class="sub">' + esc(w.subtitle || "") + '</div>' +
+      '<div class="meta">' +
+        (w.year ? '<span>年份 <b>' + esc(w.year) + '</b></span>' : "") +
+        (w.role ? '<span>角色 <b>' + esc(w.role) + '</b></span>' : "") +
+        (w.status ? '<span>状态 <b>' + esc(w.status) + '</b></span>' : "") +
+      '</div>' +
+      '<div class="cover">' +
+        (w.cover ? '<img src="' + esc(w.cover) + '">' : '<div class="ph"></div><div class="ph-label">COVER PENDING</div>') +
+      '</div>' +
+      '<p class="desc">' + esc(w.desc) + '</p>' +
+      (hls ? '<div class="sec-label">HIGHLIGHTS</div><ul class="hl">' + hls + '</ul>' : "") +
+      (specs ? '<div class="sec-label">SPEC</div><table class="specs">' + specs + '</table>' : "") +
+      (tags ? '<div style="margin-top:5mm;" class="tags">' + tags + '</div>' : "") +
+      foot(idx + 2) +
+      '</div>';
+  });
+
+  /* ---------- 尾页 ---------- */
+  var links = (p.links || []).map(function (l) {
+    return l.url
+      ? '<a href="' + esc(l.url) + '">' + esc(l.label) + ' · ' + esc(l.url) + '</a>'
+      : '<span>' + esc(l.label) + ' · （待补充）</span>';
+  }).join("");
+
+  html += '<div class="page">' +
+    '<div class="kicker">CONTACT / LINKS</div>' +
+    '<h1>联系方式</h1>' +
+    '<div class="end-links">' + links + '</div>' +
+    '<p class="desc" style="margin-top:12mm;">以上作品均可提供演示。游戏类作品支持现场试玩或远程演示，硬件设备可实地查看，小说与视频可提供完整稿与成片。</p>' +
+    foot(works.length + 2) +
+    '</div>';
+
+  document.getElementById("pages").innerHTML = html;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+/* ============================================
+ * ending.css — 自 index.html 行 1400-1453 拆分
+ * 生长档案 GROWTH ARCHIVE
+ * ============================================ */
+/* ================= 第六章：伪胜利与五重结局 ================= */
+.end-wrap { max-width: 640px; margin: 0 auto; padding: 34px 18px 50px; font-family: Consolas, "Microsoft YaHei", monospace; }
+.end-box { background: #0c0e0c; border: 1px solid #2a3a2a; border-radius: 8px; padding: 26px 26px 30px; box-shadow: 0 0 30px rgba(0,0,0,.55); }
+.end-box-good { border-color: #2e6b3a; box-shadow: 0 0 34px rgba(60,140,80,.18); }
+.end-box-plant { border-color: #5a4a2a; box-shadow: 0 0 30px rgba(140,110,50,.14); }
+.end-box-bad { border-color: #5a1f1f; box-shadow: 0 0 40px rgba(150,30,30,.22); }
+.end-box-loop { border-color: #3a3a3a; }
+.end-box-free { border-color: #2a4a6a; box-shadow: 0 0 40px rgba(60,120,180,.2); }
+.end-h { font-size: 19px; letter-spacing: 7px; color: #7ac97a; text-align: center; margin-bottom: 10px; }
+.end-box-bad .end-h { color: #c96a5a; }
+.end-box-free .end-h { color: #7ab8d8; }
+.end-sub { font-size: 12px; color: #4a6a4a; text-align: center; letter-spacing: 2px; margin-bottom: 20px; }
+.end-news { margin: 16px 0; padding: 14px 16px; background: #10130e; border: 1px solid #2a3a2a; border-radius: 6px; font-size: 13px; color: #9aa89a; line-height: 1.9; }
+.end-news b { color: #c8d8c8; }
+.end-grow { margin: 12px 0; font-size: 12px; color: #6a8a6a; }
+.end-grow b { color: #7ac97a; }
+.end-ly { margin: 12px 0; font-size: 13px; color: #6fae6f; line-height: 1.9; white-space: pre-line; }
+.end-ly-red { color: #b5563e; }
+.end-hint { margin-top: 14px; font-size: 11px; color: #5a5a5a; text-align: center; }
+.end-pos { margin: 12px 0; padding: 12px 14px; background: #0d1210; border: 1px dashed #3a5a4a; border-radius: 6px; font-size: 13px; color: #9ac99a; line-height: 1.9; }
+.end-ops { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.end-btn { display: inline-block; padding: 10px 16px; background: #10241a; border: 1px solid #2a5a3a; border-radius: 5px; color: #8ad48a; font-size: 13px; cursor: pointer; font-family: Consolas, "Microsoft YaHei", monospace; letter-spacing: 1px; transition: background .15s; }
+.end-btn:hover { background: #17331f; }
+.end-btn-dim { background: #141414; border-color: #3a3a3a; color: #777; }
+.end-doubtlog { margin-top: 12px; font-size: 11px; color: #5a7a5a; white-space: pre-line; }
+.end-cmp { margin: 12px 0; padding: 12px 14px; background: #0f120d; border: 1px solid #3a3a2a; border-radius: 6px; font-size: 12px; color: #8a9a8a; line-height: 1.8; }
+.end-chain { margin: 14px 0; text-align: center; font-size: 12px; color: #5a8a5a; line-height: 2.2; }
+.end-chain .ch-off { color: #2a3a2a; text-decoration: line-through; }
+.end-stamp { margin-top: 20px; text-align: center; font-size: 13px; letter-spacing: 4px; color: #7ac97a; border-top: 1px dashed #2a3a2a; padding-top: 14px; }
+.end-box-bad .end-stamp { color: #c96a5a; }
+.end-box-plant .end-stamp { color: #c9a05a; }
+.end-box-loop .end-stamp { color: #8a8a8a; }
+.end-box-free .end-stamp { color: #7ab8d8; }
+.end-again { margin-top: 12px; text-align: center; font-size: 11px; color: #4a6a4a; }
+.end-split { display: flex; gap: 12px; margin: 14px 0; }
+.end-pane { flex: 1; background: #0d100d; border: 1px solid #2a3a2a; border-radius: 6px; padding: 10px 12px; }
+.end-pane-t { font-size: 11px; color: #4a6a4a; margin-bottom: 8px; letter-spacing: 2px; }
+.end-mono { font-size: 12px; color: #7ac97a; font-family: Consolas, monospace; white-space: pre; line-height: 1.6; min-height: 120px; }
+.end-trap { margin: 16px 0; padding: 14px; background: #120a0a; border: 1px solid #5a1f1f; border-radius: 6px; }
+.end-trap-t { font-size: 13px; color: #c96a5a; letter-spacing: 2px; margin-bottom: 10px; }
+.end-trap-log { font-size: 12px; color: #8a5a4a; white-space: pre-line; line-height: 1.9; min-height: 80px; }
+.end-trap-timer { margin-top: 10px; font-size: 12px; color: #5a3a3a; }
+.end-absorb-num { margin: 10px 0; font-size: 26px; color: #c96a5a; letter-spacing: 2px; text-align: center; }
+.end-free-wilt { height: 60px; margin: 14px 0; position: relative; border-bottom: 1px solid #2a3a2a; overflow: hidden; }
+.end-free-wilt::before { content: '╱╱╱╱╱'; position: absolute; left: 0; bottom: 6px; font-size: 14px; color: #4a5a2a; letter-spacing: 6px; animation: endWilt 4s ease-in-out forwards; }
+@keyframes endWilt { 0% { transform: rotate(0deg); opacity: 1; } 60% { opacity: .7; } 100% { transform: rotate(-18deg); opacity: 0; } }
+.end-free-lights { min-height: 80px; position: relative; margin: 8px 0; }
+.end-free-lights i { position: absolute; bottom: 0; width: 4px; height: 4px; border-radius: 50%; background: #7ab8d8; animation: endLight 3.2s ease-out infinite; }
+@keyframes endLight { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-70px); opacity: 0; } }
+.end-loop-post { margin: 14px 0; padding: 14px 16px; background: #dbe9f5; border: 1px solid #9ab8d0; border-radius: 6px; font-size: 13px; color: #2a3a4a; line-height: 1.9; }
+.end-loop-post .lp-h { font-weight: bold; color: #2a5a8a; }
+.end-mono-beep { animation: endBeep 1.6s steps(2) infinite; }
+@keyframes endBeep { 50% { opacity: .35; } }
+
+
+  /* 新周目重置（优化批次 P2-12） */
+  .end-reset { margin-left: 8px; color: #a06868 !important; border-color: #6a3a3a !important; }
+  .end-reset:hover { background: rgba(160,60,60,0.12) !important; }

@@ -1,0 +1,5 @@
+.workbuddy/
+node_modules/
+print-pdf.js
+PROPOSAL.md
+*.log

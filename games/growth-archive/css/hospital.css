@@ -1,0 +1,86 @@
+/* ============================================
+ * hospital.css — 自 index.html 行 1031-1113 拆分
+ * 生长档案 GROWTH ARCHIVE
+ * ============================================ */
+  /* ============================================================
+     第三章 · 射阳县儿童保健所 · 学龄前生长发育监测归档（离线老系统）
+     ============================================================ */
+  #view-hospital.hp { background:#c9cdbd; padding:0; font-family:'SimSun','宋体',serif; }
+  .hp-wrap { max-width:1080px; margin:0 auto; padding:10px 12px 26px; box-sizing:border-box; }
+  .hp-titlebar { background:linear-gradient(180deg,#46604a,#374e3b); color:#eef3e6; padding:7px 12px; font-size:13px; letter-spacing:1px; display:flex; justify-content:space-between; align-items:center; gap:10px; border:2px outset #7d8f74; box-sizing:border-box; flex-wrap:wrap; }
+  .hp-titlebar .hp-tb-l { font-weight:bold; }
+  .hp-titlebar .hp-tb-r { font-size:11px; color:#cdd8c2; font-family:Arial; }
+  .hp-unsafe { background:#efe6cf; border:1px solid #c9b98a; border-top:none; color:#7a5a1e; font-size:11px; padding:5px 12px; line-height:1.6; }
+  .hp-unsafe b { color:#a0311f; }
+  .hp-crumb { font-size:11px; color:#55604c; padding:6px 2px; font-family:Arial; }
+  .hp-crumb a, .hp-crumb span.hp-link { color:#2a4d8f; text-decoration:underline; cursor:pointer; }
+  .hp-body { display:flex; gap:10px; align-items:flex-start; flex-wrap:wrap; }
+  .hp-left { flex:0 0 168px; max-width:168px; box-sizing:border-box; }
+  .hp-main { flex:1 1 460px; min-width:0; box-sizing:border-box; }
+  .hp-right { flex:0 0 196px; max-width:196px; box-sizing:border-box; }
+  .hp-card { background:#f1f0e4; border:2px outset #e0ddc8; margin-bottom:10px; }
+  .hp-card-h { background:linear-gradient(180deg,#e3e1cf,#d2d0ba); color:#33402c; font-size:12px; font-weight:bold; padding:5px 8px; border-bottom:1px solid #b7b49a; }
+  .hp-card-b { padding:8px; font-size:12px; color:#3a3a32; line-height:1.7; }
+  .hp-nav-item { padding:6px 10px; font-size:12px; cursor:pointer; border-bottom:1px solid #dcd9c4; color:#2a3a26; user-select:none; }
+  .hp-nav-item:hover { background:#e6e4d0; }
+  .hp-nav-item.on { background:#dfe7d2; color:#1e3a1a; font-weight:bold; border-left:3px solid #5a7a44; padding-left:7px; }
+  .hp-nav-item .hp-ni-dot { width:6px;height:6px;border-radius:50%;background:#a0311f;display:none;margin-left:5px;vertical-align:middle; }
+  .hp-nav-item.new .hp-ni-dot { display:inline-block; }
+  .hp-module { background:#f6f5ec; border:2px outset #e0ddc8; padding:12px 14px; min-height:420px; }
+  .hp-mtip { font-size:11px; color:#6a6a58; background:#e9e7d6; border-left:3px solid #8a9a72; padding:6px 9px; margin-bottom:12px; line-height:1.7; }
+  .hp-h2 { font-size:14px; font-weight:bold; color:#2f3d2a; margin:4px 0 10px; }
+  .hp-h3 { font-size:12px; font-weight:bold; color:#3a4a34; margin:14px 0 6px; }
+  table.hp-table { width:100%; border-collapse:collapse; font-size:12px; background:#fbfaf3; }
+  table.hp-table th, table.hp-table td { border:1px solid #b9b8a4; padding:5px 7px; text-align:left; vertical-align:top; }
+  table.hp-table th { background:#e1dfcb; color:#33402c; font-weight:bold; }
+  table.hp-table tr:nth-child(even) td { background:#f1f0e2; }
+  .hp-row-click { cursor:pointer; }
+  .hp-row-click:hover td { background:#e7ecd8 !important; }
+  .hp-detail { display:none; }
+  .hp-detail.show { display:table-row; }
+  .hp-detail td { background:#ece9d6 !important; font-size:11px; color:#555; line-height:1.7; }
+  .hp-warn { color:#a0311f; }
+  .hp-warn-row td { background:#f3e4dd !important; }
+  .hp-stamp { display:inline-block; border:1.5px solid #a0311f; color:#a0311f; padding:2px 8px; font-size:11px; transform:rotate(-4deg); border-radius:3px; opacity:0.8; margin-left:8px; letter-spacing:2px; }
+  .hp-btn { background:linear-gradient(180deg,#f6f5ee,#d8d6c4); border:2px outset #efece0; padding:4px 14px; font-size:12px; font-family:'SimSun','宋体'; cursor:pointer; color:#222; border-radius:0; }
+  .hp-btn:active { border-style:inset; }
+  .hp-btn:disabled { color:#999; cursor:not-allowed; }
+  .hp-input { border:2px inset #c9c6b0; background:#fff; padding:3px 6px; font-size:12px; font-family:'SimSun','宋体'; }
+  .hp-gate { background:#ece9d6; border:1px dashed #a8a588; padding:10px 12px; margin:10px 0; font-size:12px; line-height:1.9; }
+  .hp-gate-ok { color:#3a6a2a; }
+  .hp-gate-err { color:#a0311f; }
+  .hp-audio { border:1px solid #c3c0a8; background:#efeddf; padding:8px 10px; margin:8px 0; font-size:12px; }
+  .hp-audio-head { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .hp-aplay { width:34px;height:24px;flex:0 0 auto;border:2px outset #efece0;background:linear-gradient(180deg,#f6f5ee,#d8d6c4); cursor:pointer; font-size:12px; display:inline-flex;align-items:center;justify-content:center; }
+  .hp-aplay:active { border-style:inset; }
+  .hp-awave { flex:1 1 120px; min-width:90px; height:26px; background:repeating-linear-gradient(90deg,#c9c6ae 0 2px,transparent 2px 5px); border:1px solid #c3c0a8; position:relative; overflow:hidden; }
+  .hp-awave i { position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(90,122,68,0.28); transition:width 0.2s linear; }
+  .hp-audio-meta { font-size:11px; color:#6a6a58; margin-top:5px; line-height:1.7; }
+  .hp-curve-wrap { background:#fbfaf3; border:1px solid #c3c0a8; padding:8px; }
+  .hp-curve-legend { font-size:11px; color:#6a6a58; margin-top:6px; line-height:1.7; }
+  .hp-compare { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .hp-compare figure { flex:1 1 200px; min-width:0; margin:0; border:1px solid #c3c0a8; background:#fbfaf3; }
+  .hp-compare img { width:100%; display:block; cursor:zoom-in; }
+  .hp-compare figcaption { font-size:11px; color:#5a5a4a; padding:5px 7px; line-height:1.6; }
+  .hp-log { font-family:Consolas,'Courier New',monospace; font-size:11px; background:#2c332a; color:#cfe0c0; padding:10px 12px; line-height:1.9; max-height:300px; overflow:auto; }
+  .hp-log .ll { display:block; }
+  .hp-log .lw { color:#e6b48a; }
+  .hp-log .lr { color:#e58a7a; }
+  .hp-log .ls { color:#9fb88a; }
+  .hp-log-frag { background:#ece9d6; border:1px dashed #a8a588; padding:8px 10px; margin-top:10px; font-size:11px; line-height:1.8; }
+  .hp-kv { font-size:12px; line-height:2; }
+  .hp-kv b { color:#2f3d2a; }
+  .hp-trans-card { margin-top:14px; background:#f4f1e2; border:1px solid #c9b98a; border-left:4px solid #b08a3a; padding:12px 14px; font-size:12px; line-height:1.9; }
+  .hp-mail-from { font-size:11px; color:#8a7a4a; margin-bottom:8px; }
+  .hp-mail-link { color:#2a4d8f; text-decoration:underline; cursor:pointer; display:inline-block; margin-top:8px; }
+  .hp-sync-num { font-family:Arial; font-size:20px; color:#3a5a32; }
+  .hp-sync-bar { height:10px; background:#dcd9c6; border:1px solid #b7b49a; margin:6px 0; }
+  .hp-sync-bar i { display:block; height:100%; width:0; background:linear-gradient(180deg,#6a8a4a,#4a6a32); transition:width 0.5s; }
+  .hp-flicker { animation:hpFlicker 9s infinite; }
+  @keyframes hpFlicker { 0%,96.5%,100%{opacity:1;} 97%{opacity:0.55;} 97.5%{opacity:1;} 98%{opacity:0.7;} }
+  @media (max-width:860px) {
+    .hp-left, .hp-right { flex:1 1 100%; max-width:none; }
+    .hp-main { flex:1 1 100%; }
+  }
+.hp-crawl { animation: hpCrawl 7s ease-in-out infinite; }
+@keyframes hpCrawl { 0%,100% { opacity: .8; } 50% { opacity: 1; } }
