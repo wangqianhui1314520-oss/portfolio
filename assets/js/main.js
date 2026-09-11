@@ -146,6 +146,9 @@
             (w.subtitle ? "<span>" + esc(w.subtitle) + "</span>" : "") +
           "</div>" +
           '<p class="detail-desc">' + esc(w.desc) + "</p>" +
+          (w.video
+            ? '<div class="detail-video"><video src="' + esc(w.video) + '" controls preload="metadata" playsinline></video></div>'
+            : "") +
           highlightsHTML(w.highlights) +
           (w.excerpt ? '<div class="excerpt">' + esc(w.excerpt) + "</div>" : "") +
           tagsHTML(w.stack) +

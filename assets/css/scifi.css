@@ -517,6 +517,22 @@
 
 .detail-desc { font-size: 14px; color: var(--text-dim); line-height: 1.85; }
 
+/* 详情面板内嵌视频 */
+.detail-video {
+  position: relative;
+  border: 1px solid var(--border-strong);
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  background: #05070d;
+}
+
+.detail-video video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #05070d;
+}
+
 .detail-side { display: flex; flex-direction: column; gap: 12px; }
 
 /* ---------- 其余作品列表 ---------- */

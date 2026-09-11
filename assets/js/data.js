@@ -17,7 +17,8 @@ window.PORTFOLIO_DATA = {
     links: [
       { label: "邮箱", url: "mailto:3171678809@qq.com" },
       { label: "抖音 · 1779807797", url: "https://www.douyin.com/search/1779807797?type=user" },
-      { label: "手机 · 18361620821", url: "tel:18361620821" }
+      { label: "手机 · 18361620821", url: "tel:18361620821" },
+      { label: "PDF 作品集", url: "assets/portfolio.pdf" }
     ]
   },
 
@@ -61,14 +62,16 @@ window.PORTFOLIO_DATA = {
       role: "主创 / 全栈",
       status: "已完成 · 腾讯云黑客松华东赛区优胜奖",
       stack: ["Vue 3", "Canvas2D", "Three.js", "FastAPI"],
-      desc: "多派系博弈的元末乱世策略游戏，含局势推演引擎、双结局与三条自定义势力国策路径。",
+      desc: "多派系博弈的元末乱世策略游戏，含局势推演引擎、双结局与三条自定义势力国策路径。自然语言即操控，活的乱世沙盘。",
       highlights: [
         "腾讯云黑客松大赛 · 华东赛区优胜奖",
+        "自然语言即操控 · 活的乱世沙盘",
         "多派系博弈系统",
         "局势推演引擎",
         "双结局 + 3 条国策路径"
       ],
       specs: [],
+      video: "assets/videos/yuanmo.mp4",
       play: { type: "external", url: "https://qiankuntokenyun.cn" },
       links: []
     },
@@ -90,6 +93,7 @@ window.PORTFOLIO_DATA = {
         "AI 全链路出片"
       ],
       specs: [],
+      video: "assets/videos/epoch.mp4",
       play: { type: "none", url: "" },
       links: []
     },
@@ -98,24 +102,26 @@ window.PORTFOLIO_DATA = {
       type: "游戏",
       title: "生长档案",
       subtitle: "Global Game Jam 2026 · 网页叙事解谜",
-      cover: "assets/covers/growth-album.jpg",
+      cover: "assets/covers/growth-kv.jpg",
       ratio: "16 / 9",
       year: "2026",
       role: "独立开发",
       status: "已完成",
       stack: ["原生 HTML / CSS / JS", "无引擎 · 无依赖"],
-      desc: "以「现实时间 == 游戏时间」为核心的叙事解谜网页游戏。玩家扮演整理旧物的人，在一台旧电脑的浏览器里逐步拼合档案碎片，穿过 QQ 空间、旧博客、医院档案、信号监听等章节，还原一段跨越多年的人生叙事，并在多重结局中作出最终选择。",
+      desc: "「有些事，不说出来，就永远没人知道了。」以 2009 年 QQ 空间为入口的叙事互动游戏。玩家扮演「拾光客」，在复古界面的六章中翻相册、听录音、查档案，拼回一位失忆者被偷走的成长，直面五重结局。",
       highlights: [
+        "腾讯游戏创作大赛 2026 · 自由创作赛道（TENCENT GAME AWARDS）",
         "GGJ 2026 · 翌光计划（武汉全球高校游戏创作挑战赛）",
         "核心机制：现实时间 == 游戏时间",
-        "QQ 空间 / 医院档案 / 信号监听等多章节叙事",
-        "多重结局 · 全程离线可运行"
+        "六章主线 · 五重结局 · 约 60–90 分钟",
+        "QQ 空间 / 医院档案 / 信号监听等多章节叙事"
       ],
       specs: [
         { k: "平台", v: "Web 浏览器直接运行" },
         { k: "技术栈", v: "原生 HTML / CSS / JS" },
         { k: "素材", v: "28 图 / 8 音频 / 8 视频" }
       ],
+      video: "assets/videos/growth.mp4",
       play: { type: "iframe", url: "games/growth-archive/index.html", ratio: "816 / 624" },
       links: []
     },
