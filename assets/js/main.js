@@ -74,6 +74,12 @@
 
   $("stat-works").textContent = pad2(works.length);
 
+  /* 触屏设备：街机提示文案换成手指操控 */
+  var hintEl = document.querySelector(".arcade-hint");
+  if (hintEl && window.matchMedia && window.matchMedia("(pointer: coarse)").matches) {
+    hintEl.innerHTML = "<i></i>手指拖动操控飞船 · 自动开火 · 击碎数据碎片";
+  }
+
   /* ---------- 片段 ---------- */
   function tagsHTML(stack) {
     if (!stack || !stack.length) return "";

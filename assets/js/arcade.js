@@ -6,8 +6,6 @@
 
 window.initArcade = function (canvas, opts) {
   if (!canvas) return null;
-  /* 触摸设备没有鼠标指针，直接不启用，避免飞船卡住被打爆 */
-  if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) return null;
   opts = opts || {};
 
   var ctx = canvas.getContext("2d");
@@ -57,6 +55,14 @@ window.initArcade = function (canvas, opts) {
   function onMove(e) {
     ship.tx = e.clientX;
     ship.ty = e.clientY;
+  }
+
+  /* 触屏：手指拖到哪，飞船追到哪（不拦截默认行为，页面照常滚动） */
+  function onTouch(e) {
+    var t = e.touches && e.touches[0];
+    if (!t) return;
+    ship.tx = t.clientX;
+    ship.ty = t.clientY;
   }
 
   /* ---------- 逻辑 ---------- */
@@ -325,6 +331,8 @@ window.initArcade = function (canvas, opts) {
 
   window.addEventListener("resize", function () { if (running) resize(); });
   window.addEventListener("mousemove", onMove);
+  window.addEventListener("touchstart", onTouch, { passive: true });
+  window.addEventListener("touchmove", onTouch, { passive: true });
   document.addEventListener("visibilitychange", function () {
     if (document.hidden) { cancelAnimationFrame(raf); }
     else if (running) { last = performance.now(); raf = requestAnimationFrame(loop); }
