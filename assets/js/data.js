@@ -76,14 +76,19 @@ window.PORTFOLIO_DATA = {
       id: "epoch",
       type: "游戏",
       title: "机械纪元：人类余烬",
-      subtitle: "Unreal 5 · 影视 Demo",
+      subtitle: "Unreal 5 · AI 短剧",
       cover: "assets/covers/epoch-cover.jpg",
       year: "2026",
       role: "主创 / 导演",
-      status: "Demo 完成",
+      status: "已参赛 · Demo 完成",
       stack: ["Unreal 5", "AI 生成管线"],
-      desc: "12 分钟影视化 Demo，60 个片段 × 12 秒，全程 AI 生成图像与视频素材。",
-      highlights: ["12 分钟成片", "60 segments × 12s", "AI 全链路出片"],
+      desc: "12 分钟影视化 AI 短剧，60 个片段 × 12 秒，全程 AI 生成图像与视频素材。参赛 PAVO 0 成本 AI 短剧创作大赛。",
+      highlights: [
+        "PAVO 0 成本 AI 短剧创作大赛 · AI 融合创新赛道",
+        "12 分钟成片",
+        "60 segments × 12s",
+        "AI 全链路出片"
+      ],
       specs: [],
       play: { type: "none", url: "" },
       links: []
