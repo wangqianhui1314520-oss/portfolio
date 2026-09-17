@@ -1,82 +1,97 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="scifi">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>王乾辉 · 个人简历</title>
+<!-- 复用作品集同一套主题变量（与 index.html 同源，画风切换 100% 一致） -->
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/scifi.css">
+<!-- 提前按 localStorage 设定画风，避免首屏闪烁 -->
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("portfolio-theme");
+      if (t) document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
 <style>
-  :root{
-    --bg:#06090a; --panel:rgba(13,20,18,.74); --panel-2:rgba(17,24,22,.86);
-    --text:#e6f2ee; --dim:#8fa8a1; --mute:#5c726c;
-    --green:#00e5a0; --cyan:#4cc9f0; --border:rgba(0,229,160,.22);
-    --border-strong:rgba(0,229,160,.45);
-    --mono:"JetBrains Mono","Consolas","Microsoft YaHei",monospace;
-  }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
   body{
-    background:var(--bg); color:var(--text); font-family:var(--mono);
+    background:var(--bg); color:var(--text);
+    font-family:var(--font-body);
     font-size:14px; line-height:1.65; min-height:100vh; overflow-x:hidden;
     -webkit-font-smoothing:antialiased;
+    transition:background .3s, color .3s;
   }
-  /* 代码流背景 */
-  #matrix{position:fixed; inset:0; width:100%; height:100%; z-index:0; opacity:.45;}
+
+  /* 代码流背景（终端主题专用，平时隐藏，与作品集一致） */
+  #matrix{position:fixed; inset:0; width:100%; height:100%; z-index:-1; opacity:0; pointer-events:none; transition:opacity .35s;}
+  html[data-theme="terminal"] #matrix{opacity:.5;}
+
+  /* CRT 扫描线：仅终端主题显示 */
   .scanlines{position:fixed; inset:0; z-index:1; pointer-events:none;
     background:repeating-linear-gradient(0deg, rgba(0,0,0,0) 0 2px, rgba(0,0,0,.18) 2px 3px);
-    mix-blend-mode:multiply; opacity:.5;}
+    mix-blend-mode:multiply; opacity:0; transition:opacity .35s;}
+  html[data-theme="terminal"] .scanlines{opacity:.5;}
+
+  /* 边缘暗角：主题无关，弱化聚焦 */
   .vignette{position:fixed; inset:0; z-index:1; pointer-events:none;
-    background:radial-gradient(120% 120% at 50% 0%, transparent 55%, rgba(0,0,0,.55) 100%);}
+    background:radial-gradient(120% 120% at 50% 0%, transparent 55%, rgba(0,0,0,.5) 100%); opacity:.7;}
 
   .r-shell{position:relative; z-index:2; max-width:1040px; margin:0 auto; padding:22px 18px 60px;}
 
   /* 顶栏 */
   .r-topbar{display:flex; align-items:center; gap:14px; flex-wrap:wrap;
-    padding:12px 16px; margin-bottom:20px; background:var(--panel);
-    border:1px solid var(--border); border-radius:8px; backdrop-filter:blur(6px);}
-  .r-topbar .brand{font-weight:700; letter-spacing:.18em; color:var(--green);
-    text-shadow:0 0 12px rgba(0,229,160,.5);}
-  .r-topbar .brand b{color:var(--cyan);}
+    padding:12px 16px; margin-bottom:20px; background:var(--surface);
+    border:1px solid var(--border); border-radius:var(--radius-lg); backdrop-filter:blur(6px);}
+  .r-topbar .brand{font-weight:700; letter-spacing:.18em; color:var(--accent);
+    text-shadow:0 0 12px color-mix(in srgb, var(--accent) 50%, transparent);}
+  .r-topbar .brand b{color:var(--accent-2);}
   .r-topbar .spacer{flex:1}
-  .r-btn{font-family:var(--mono); font-size:13px; letter-spacing:.05em;
-    color:var(--green); background:transparent; border:1px solid var(--border-strong);
+
+  .r-btn{font-family:var(--font-body); font-size:13px; letter-spacing:.05em;
+    color:var(--accent); background:transparent; border:1px solid var(--border-strong);
     padding:7px 16px; border-radius:40px; text-decoration:none; cursor:pointer;
     transition:.18s;}
-  .r-btn:hover{background:var(--green); color:#04110c; box-shadow:0 0 18px rgba(0,229,160,.45);}
+  .r-btn:hover{background:var(--accent); color:var(--bg); box-shadow:0 0 18px color-mix(in srgb, var(--accent) 45%, transparent);}
 
   /* 双栏 */
   .r-page{display:grid; grid-template-columns:300px 1fr; gap:18px;}
-  .r-side,.r-main{background:var(--panel); border:1px solid var(--border);
-    border-radius:10px; padding:18px 18px; backdrop-filter:blur(4px);}
-  .r-side{box-shadow:inset 0 0 40px rgba(0,229,160,.05);}
+  .r-side,.r-main{background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius-lg); padding:18px 18px; backdrop-filter:blur(4px);}
+  .r-side{box-shadow:inset 0 0 40px color-mix(in srgb, var(--accent) 5%, transparent);}
 
-  .r-h{font-size:12px; font-weight:700; letter-spacing:.12em; color:var(--green);
+  .r-h{font-size:12px; font-weight:700; letter-spacing:.12em; color:var(--accent);
     margin:18px 0 8px; padding-bottom:5px; border-bottom:1px solid var(--border);
     text-transform:uppercase;}
   .r-h:first-child{margin-top:2px;}
-  .r-side p,.r-side li{font-size:12.5px; margin:3px 0; color:#cfe6e0;}
+  .r-side p,.r-side li{font-size:12.5px; margin:3px 0; color:var(--text-dim);}
   .r-side ul{margin:3px 0; padding-left:16px;}
   .r-side li{margin:4px 0;}
 
-  .r-head .name{font-size:30px; font-weight:800; letter-spacing:3px; color:#eafff8;
-    text-shadow:0 0 18px rgba(76,201,240,.4);}
-  .r-head .obj{font-size:14px; color:var(--green); font-weight:700; margin-top:4px;}
-  .r-head .contact{font-size:12px; color:var(--dim); margin-top:10px; line-height:1.9;
+  .r-head .name{font-size:30px; font-weight:800; letter-spacing:3px; color:var(--text);
+    text-shadow:0 0 18px color-mix(in srgb, var(--accent-2) 40%, transparent);}
+  .r-head .obj{font-size:14px; color:var(--accent); font-weight:700; margin-top:4px;}
+  .r-head .contact{font-size:12px; color:var(--text-dim); margin-top:10px; line-height:1.9;
     display:flex; flex-wrap:wrap; gap:4px 18px;}
-  .r-head .tag{color:var(--cyan);}
+  .r-head .tag{color:var(--accent-2);}
 
   .r-sec{margin:16px 0;}
-  .r-sec-t{font-size:14px; font-weight:800; color:#eafff8; border-left:4px solid var(--green);
+  .r-sec-t{font-size:14px; font-weight:800; color:var(--text); border-left:4px solid var(--accent);
     padding-left:9px; margin-bottom:8px; letter-spacing:.04em;}
   .r-item{margin:10px 0;}
   .r-item-top{display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap;}
-  .r-tt{font-weight:700; font-size:13.5px; color:#dff7f0;}
-  .r-tt b{color:var(--green);}
-  .r-tm{font-size:11.5px; color:var(--mute); white-space:nowrap;}
-  .r-role{font-size:12px; color:#7fa79f; margin:2px 0 4px;}
+  .r-tt{font-weight:700; font-size:13.5px; color:var(--text);}
+  .r-tt b{color:var(--accent);}
+  .r-tm{font-size:11.5px; color:var(--text-mute); white-space:nowrap;}
+  .r-role{font-size:12px; color:var(--text-dim); margin:2px 0 4px;}
   .r-item ul{margin:3px 0; padding-left:16px;}
-  .r-item li{font-size:12.5px; margin:3px 0; color:#cfe6e0;}
+  .r-item li{font-size:12.5px; margin:3px 0; color:var(--text-dim);}
 
-  .r-foot{margin-top:22px; text-align:center; font-size:11px; color:var(--mute);
+  .r-foot{margin-top:22px; text-align:center; font-size:11px; color:var(--text-mute);
     letter-spacing:.1em;}
 
   @media (max-width:760px){
@@ -104,6 +119,13 @@
     <a class="r-btn" href="index.html">&larr; 返回作品集</a>
     <div class="brand">王乾辉<b> // RESUME</b></div>
     <div class="spacer"></div>
+    <div class="switcher" id="switcher">
+      <button class="sw-btn" data-theme="scifi">科幻</button>
+      <button class="sw-btn" data-theme="terminal">终端</button>
+      <button class="sw-btn" data-theme="ink">国风</button>
+      <button class="sw-btn" data-theme="swiss">极简</button>
+      <button class="sw-btn" data-theme="aurora">极光</button>
+    </div>
     <button class="r-btn" onclick="window.print()">打印 / 导出 PDF</button>
   </div>
 
@@ -308,33 +330,35 @@
   <div class="r-foot">// END OF RESUME · 王乾辉 · GENERATED WITH VIBECODING</div>
 </div>
 
+<!-- 共享代码流组件（作品集与简历同源） -->
+<script src="assets/js/matrix.js"></script>
 <script>
-(function(){
-  var cv=document.getElementById('matrix'), ctx=cv.getContext('2d');
-  var fontSize=14, cols, drops;
-  var chars=('アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFｱｲｳｴｵ@#$%&*+=<>/\\|').split('');
-  function resize(){
-    cv.width=innerWidth; cv.height=innerHeight;
-    cols=Math.ceil(cv.width/fontSize);
-    drops=new Array(cols).fill(0).map(function(){return Math.random()*-60;});
-  }
-  function draw(){
-    ctx.fillStyle='rgba(6,9,10,0.10)';
-    ctx.fillRect(0,0,cv.width,cv.height);
-    ctx.font=fontSize+'px monospace';
-    for(var i=0;i<cols;i++){
-      var ch=chars[(Math.random()*chars.length)|0];
-      var x=i*fontSize, y=drops[i]*fontSize;
-      ctx.fillStyle='rgba(0,229,160,0.85)';
-      ctx.fillText(ch,x,y);
-      if(y>cv.height && Math.random()>0.975) drops[i]=0;
-      drops[i]++;
+(function () {
+  var THEME_KEY = "portfolio-theme";
+  var themes = ["scifi", "terminal", "ink", "swiss", "aurora"];
+
+  function applyTheme(name) {
+    if (themes.indexOf(name) === -1) name = "scifi";
+    var root = document.documentElement;
+    root.setAttribute("data-theme", name);
+    if (window.MatrixRain) window.MatrixRain.setColor(getComputedStyle(root).getPropertyValue("--accent"));
+    try { localStorage.setItem(THEME_KEY, name); } catch (e) {}
+    var btns = document.querySelectorAll(".sw-btn");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].classList.toggle("active", btns[i].getAttribute("data-theme") === name);
     }
-    requestAnimationFrame(draw);
   }
-  resize();
-  addEventListener('resize',resize);
-  draw();
+
+  var saved = "scifi";
+  try { saved = localStorage.getItem(THEME_KEY) || "scifi"; } catch (e) {}
+  applyTheme(saved);
+  if (window.MatrixRain) window.MatrixRain.init(document.getElementById("matrix"));
+
+  var sw = document.getElementById("switcher");
+  if (sw) sw.addEventListener("click", function (e) {
+    var b = e.target.closest(".sw-btn");
+    if (b) applyTheme(b.getAttribute("data-theme"));
+  });
 })();
 </script>
 </body>

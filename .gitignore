@@ -2,4 +2,6 @@
 node_modules/
 print-pdf.js
 PROPOSAL.md
+*.pdf
+*.pptx
 *.log

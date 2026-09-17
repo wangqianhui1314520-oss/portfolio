@@ -98,6 +98,14 @@ body {
   transition: background .3s, color .3s;
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
+
+  /* 代码流背景（终端主题专用，平时隐藏） */
+  #matrix {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    z-index: -1; opacity: 0; pointer-events: none;
+    transition: opacity .35s;
+  }
+  html[data-theme="terminal"] #matrix { opacity: .5; }
 }
 
 [data-theme="aurora"] body::before {

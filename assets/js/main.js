@@ -29,6 +29,7 @@
     /* 切换瞬间关掉过渡，避免大面积重绘造成的闪频 */
     root.classList.add("no-trans");
     root.setAttribute("data-theme", name);
+    if (window.MatrixRain) window.MatrixRain.setColor(getComputedStyle(root).getPropertyValue("--accent"));
     try { localStorage.setItem(THEME_KEY, name); } catch (e) {}
     var btns = document.querySelectorAll(".sw-btn");
     for (var i = 0; i < btns.length; i++) {
@@ -46,6 +47,7 @@
   var saved = "scifi";
   try { saved = localStorage.getItem(THEME_KEY) || "scifi"; } catch (e) {}
   applyTheme(saved);
+  if (window.MatrixRain) window.MatrixRain.init(document.getElementById("matrix"));
 
   $("switcher").addEventListener("click", function (e) {
     var btn = e.target.closest(".sw-btn");

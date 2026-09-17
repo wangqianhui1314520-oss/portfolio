@@ -16,6 +16,7 @@ window.PORTFOLIO_DATA = {
     award: "腾讯云黑客松大赛 · 华东赛区优胜奖",
     links: [
       { label: "邮箱", url: "mailto:3171678809@qq.com" },
+      { label: "Gmail", url: "mailto:wangqianhui1314520@gmail.com" },
       { label: "抖音 · 1779807797", url: "https://www.douyin.com/search/1779807797?type=user" },
       { label: "手机 · 18361620821", url: "tel:18361620821" }
     ]
