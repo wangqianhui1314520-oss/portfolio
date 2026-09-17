@@ -134,10 +134,12 @@
   var detail = $("detail");
   var opened = 0;
 
+  var ringApi1 = null, ringApi2 = null;
   function closeDetail() {
     detail.classList.remove("open");
     detail.innerHTML = "";
-    if (ringApi) ringApi.popOut();
+    if (ringApi1) ringApi1.popOut();
+    if (ringApi2) ringApi2.popOut();
   }
 
   function renderDetail(w) {
@@ -184,15 +186,32 @@
   }
 
   /* ---------- 3D 卡片流轮播 ---------- */
-  var ringApi = window.initRing({
+  var gameWorks = works.filter(function (w) { return (w.section || "game") === "game"; });
+  var workWorks = works.filter(function (w) { return (w.section || "game") === "work"; });
+
+  ringApi1 = window.initRing({
     stage: $("ring-stage"),
     ring: $("ring"),
-    items: ringWorks,
+    items: gameWorks,
     counter: $("ring-counter"),
     prev: $("ring-prev"),
     next: $("ring-next"),
     onSelect: function (w, i) {
-      ringApi.popIn(i);
+      ringApi1.popIn(i);
+      renderDetail(w);
+    },
+    onRotate: closeDetail
+  });
+
+  ringApi2 = window.initRing({
+    stage: $("ring-stage-2"),
+    ring: $("ring-2"),
+    items: workWorks,
+    counter: $("ring-counter-2"),
+    prev: $("ring-prev-2"),
+    next: $("ring-next-2"),
+    onSelect: function (w, i) {
+      ringApi2.popIn(i);
       renderDetail(w);
     },
     onRotate: closeDetail

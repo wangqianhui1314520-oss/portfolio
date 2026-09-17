@@ -212,6 +212,7 @@ window.PORTFOLIO_DATA = {
     {
       id: "yiguang-cert",
       type: "作品证书",
+      section: "work",
       title: "2026 翌光计划通关证书",
       subtitle: "武汉全球高校游戏创作挑战赛",
       cover: "assets/certificates/cert-growth.jpg",
