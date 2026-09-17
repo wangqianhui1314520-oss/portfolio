@@ -236,5 +236,28 @@ window.PORTFOLIO_DATA = {
       play: { type: "none", url: "" },
       links: []
     },
+    {
+      id: "tencent-hackathon-ec",
+      type: "作品证书",
+      section: "work",
+      title: "腾讯云黑客松华东赛区优胜奖",
+      subtitle: "游戏开发挑战赛 · 华东区",
+      cover: "assets/certificates/tencent-hackathon-ec.jpg",
+      year: "2026",
+      role: "获奖团队",
+      status: "优胜奖",
+      stack: ["腾讯云黑客松", "元末逐鹿"],
+      desc: "腾讯云黑客松游戏开发挑战赛（华东区）优胜奖。参赛作品《元末逐鹿》在华东赛区评选中荣获优胜奖。",
+      highlights: ["参赛作品《元末逐鹿》", "华东赛区优胜奖"],
+      specs: [
+        { k: "赛事", v: "腾讯云黑客松游戏开发挑战赛（华东区）" },
+        { k: "奖项", v: "优胜奖" }
+      ],
+      images: [
+        { src: "assets/certificates/tencent-hackathon-ec.jpg", caption: "腾讯云黑客松华东赛区优胜奖" }
+      ],
+      play: { type: "none", url: "" },
+      links: []
+    }
   ]
 };
