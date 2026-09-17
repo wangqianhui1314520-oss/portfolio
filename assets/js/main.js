@@ -103,6 +103,18 @@
     }).join("") + "</div>";
   }
 
+  function imagesHTML(images) {
+    if (!images || !images.length) return "";
+    return '<div class="detail-gallery">' +
+      images.map(function (img) {
+        return '<figure>' +
+          '<img src="' + esc(img.src) + '" alt="' + esc(img.caption || "") + '" loading="lazy">' +
+          (img.caption ? '<figcaption>' + esc(img.caption) + '</figcaption>' : '') +
+        '</figure>';
+      }).join("") +
+    '</div>';
+  }
+
   function highlightsHTML(hl) {
     if (!hl || !hl.length) return "";
     return '<ul class="hl">' + hl.map(function (h) {
@@ -149,6 +161,7 @@
           (w.video
             ? '<div class="detail-video"><video src="' + esc(w.video) + '" controls preload="metadata" playsinline></video></div>'
             : "") +
+          (w.images ? imagesHTML(w.images) : "") +
           highlightsHTML(w.highlights) +
           (w.excerpt ? '<div class="excerpt">' + esc(w.excerpt) + "</div>" : "") +
           tagsHTML(w.stack) +

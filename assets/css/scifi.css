@@ -533,6 +533,19 @@
   background: #05070d;
 }
 
+/* 详情面板图集 */
+[data-theme="scifi"] .detail-gallery figure {
+  border-color: var(--border-strong);
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+[data-theme="scifi"] .detail-gallery img { background: #05070d; }
+[data-theme="scifi"] .detail-gallery figcaption {
+  background: rgba(0, 240, 255, .04);
+  border-top-color: var(--border-strong);
+  font-family: var(--font-display);
+  letter-spacing: .04em;
+}
+
 .detail-side { display: flex; flex-direction: column; gap: 12px; }
 
 /* ---------- 其余作品列表 ---------- */

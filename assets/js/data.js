@@ -209,5 +209,31 @@ window.PORTFOLIO_DATA = {
       play: { type: "none", url: "" },
       links: []
     },
+    {
+      id: "yiguang-cert",
+      type: "荣誉",
+      title: "2026 翌光计划通关证书",
+      subtitle: "武汉全球高校游戏创作挑战赛",
+      cover: "assets/certificates/cert-growth.jpg",
+      year: "2026",
+      role: "参赛者 / 开发者",
+      status: "已完赛",
+      stack: ["Global Game Jam", "翌光计划"],
+      desc: "2026 翌光计划（武汉全球高校游戏创作挑战赛）通关证书。两张证书分别对应《Rebirth 重生》Yaozi'team 队伍与《生长档案》腾魄斯特 / 王乾辉队伍。",
+      highlights: [
+        "Rebirth 重生 · Yaozi'team",
+        "生长档案 · 腾魄斯特 / 王乾辉"
+      ],
+      specs: [
+        { k: "赛事", v: "2026 翌光计划 · 武汉全球高校游戏创作挑战赛" },
+        { k: "证书", v: "2 张通关证书" }
+      ],
+      images: [
+        { src: "assets/certificates/cert-rebirth.jpg", caption: "Rebirth 重生 · Yaozi'team" },
+        { src: "assets/certificates/cert-growth.jpg", caption: "生长档案 · 腾魄斯特 / 王乾辉" }
+      ],
+      play: { type: "none", url: "" },
+      links: []
+    },
   ]
 };
