@@ -183,5 +183,31 @@ window.PORTFOLIO_DATA = {
       play: { type: "none", url: "" },
       links: []
     },
+    {
+      id: "zhihu",
+      type: "游戏",
+      title: "求真档案局·看山失踪夜",
+      subtitle: "AI 网页剧本杀 · 知乎黑客松参赛作品",
+      cover: "assets/covers/zhihu-cover.jpg",
+      ratio: "16 / 9",
+      year: "2026",
+      role: "主创 / AI 叙事",
+      status: "知乎黑客松参赛作品",
+      stack: ["原生 Web", "LLM 驱动", "自然语言推理"],
+      desc: "AI 驱动的网页剧本杀推理游戏。玩家化身「求真档案局」调查员，在「看山失踪夜」事件中通过自由对话与线索推演，逐步还原一桩被掩埋的失踪真相。叙事由 LLM 动态生成，每次推理走向都可能不同。",
+      highlights: [
+        "知乎黑客松参赛作品",
+        "LLM 动态叙事 · 自由对话推理",
+        "网页即开即玩 · 零安装",
+        "多结局分支 · 线索驱动"
+      ],
+      specs: [
+        { k: "平台", v: "Web 浏览器直接运行" },
+        { k: "类型", v: "AI 剧本杀 / 互动推理" }
+      ],
+      video: "assets/videos/zhihu.mp4",
+      play: { type: "none", url: "" },
+      links: []
+    },
   ]
 };
