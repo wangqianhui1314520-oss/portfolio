@@ -134,6 +134,12 @@
   var detail = $("detail");
   var opened = 0;
 
+  var worksWrap = $("works-wrap");
+  var certsWrap = $("certs-wrap");
+  function moveDetailTo(wrap) {
+    if (wrap && detail.parentNode !== wrap) wrap.appendChild(detail);
+  }
+
   var ringApi1 = null, ringApi2 = null;
   function closeDetail() {
     detail.classList.remove("open");
@@ -197,6 +203,7 @@
     prev: $("ring-prev"),
     next: $("ring-next"),
     onSelect: function (w, i) {
+      moveDetailTo(worksWrap);
       ringApi1.popIn(i);
       renderDetail(w);
     },
@@ -211,6 +218,7 @@
     prev: $("ring-prev-2"),
     next: $("ring-next-2"),
     onSelect: function (w, i) {
+      moveDetailTo(certsWrap);
       ringApi2.popIn(i);
       renderDetail(w);
     },
