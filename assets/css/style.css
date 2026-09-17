@@ -193,6 +193,19 @@ img { max-width: 100%; display: block; }
   font-weight: 600;
 }
 
+.hud-resume {
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 40px;
+  text-decoration: none;
+  align-self: center;
+  letter-spacing: .08em;
+}
+.hud-resume:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
 /* ---------- Hero ---------- */
 .hero { padding: 100px 0 80px; }
 

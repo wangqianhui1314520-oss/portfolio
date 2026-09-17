@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>王乾辉 · 个人简历</title>
+<style>
+  :root{
+    --bg:#06090a; --panel:rgba(13,20,18,.74); --panel-2:rgba(17,24,22,.86);
+    --text:#e6f2ee; --dim:#8fa8a1; --mute:#5c726c;
+    --green:#00e5a0; --cyan:#4cc9f0; --border:rgba(0,229,160,.22);
+    --border-strong:rgba(0,229,160,.45);
+    --mono:"JetBrains Mono","Consolas","Microsoft YaHei",monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--mono);
+    font-size:14px; line-height:1.65; min-height:100vh; overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* 代码流背景 */
+  #matrix{position:fixed; inset:0; width:100%; height:100%; z-index:0; opacity:.45;}
+  .scanlines{position:fixed; inset:0; z-index:1; pointer-events:none;
+    background:repeating-linear-gradient(0deg, rgba(0,0,0,0) 0 2px, rgba(0,0,0,.18) 2px 3px);
+    mix-blend-mode:multiply; opacity:.5;}
+  .vignette{position:fixed; inset:0; z-index:1; pointer-events:none;
+    background:radial-gradient(120% 120% at 50% 0%, transparent 55%, rgba(0,0,0,.55) 100%);}
+
+  .r-shell{position:relative; z-index:2; max-width:1040px; margin:0 auto; padding:22px 18px 60px;}
+
+  /* 顶栏 */
+  .r-topbar{display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+    padding:12px 16px; margin-bottom:20px; background:var(--panel);
+    border:1px solid var(--border); border-radius:8px; backdrop-filter:blur(6px);}
+  .r-topbar .brand{font-weight:700; letter-spacing:.18em; color:var(--green);
+    text-shadow:0 0 12px rgba(0,229,160,.5);}
+  .r-topbar .brand b{color:var(--cyan);}
+  .r-topbar .spacer{flex:1}
+  .r-btn{font-family:var(--mono); font-size:13px; letter-spacing:.05em;
+    color:var(--green); background:transparent; border:1px solid var(--border-strong);
+    padding:7px 16px; border-radius:40px; text-decoration:none; cursor:pointer;
+    transition:.18s;}
+  .r-btn:hover{background:var(--green); color:#04110c; box-shadow:0 0 18px rgba(0,229,160,.45);}
+
+  /* 双栏 */
+  .r-page{display:grid; grid-template-columns:300px 1fr; gap:18px;}
+  .r-side,.r-main{background:var(--panel); border:1px solid var(--border);
+    border-radius:10px; padding:18px 18px; backdrop-filter:blur(4px);}
+  .r-side{box-shadow:inset 0 0 40px rgba(0,229,160,.05);}
+
+  .r-h{font-size:12px; font-weight:700; letter-spacing:.12em; color:var(--green);
+    margin:18px 0 8px; padding-bottom:5px; border-bottom:1px solid var(--border);
+    text-transform:uppercase;}
+  .r-h:first-child{margin-top:2px;}
+  .r-side p,.r-side li{font-size:12.5px; margin:3px 0; color:#cfe6e0;}
+  .r-side ul{margin:3px 0; padding-left:16px;}
+  .r-side li{margin:4px 0;}
+
+  .r-head .name{font-size:30px; font-weight:800; letter-spacing:3px; color:#eafff8;
+    text-shadow:0 0 18px rgba(76,201,240,.4);}
+  .r-head .obj{font-size:14px; color:var(--green); font-weight:700; margin-top:4px;}
+  .r-head .contact{font-size:12px; color:var(--dim); margin-top:10px; line-height:1.9;
+    display:flex; flex-wrap:wrap; gap:4px 18px;}
+  .r-head .tag{color:var(--cyan);}
+
+  .r-sec{margin:16px 0;}
+  .r-sec-t{font-size:14px; font-weight:800; color:#eafff8; border-left:4px solid var(--green);
+    padding-left:9px; margin-bottom:8px; letter-spacing:.04em;}
+  .r-item{margin:10px 0;}
+  .r-item-top{display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap;}
+  .r-tt{font-weight:700; font-size:13.5px; color:#dff7f0;}
+  .r-tt b{color:var(--green);}
+  .r-tm{font-size:11.5px; color:var(--mute); white-space:nowrap;}
+  .r-role{font-size:12px; color:#7fa79f; margin:2px 0 4px;}
+  .r-item ul{margin:3px 0; padding-left:16px;}
+  .r-item li{font-size:12.5px; margin:3px 0; color:#cfe6e0;}
+
+  .r-foot{margin-top:22px; text-align:center; font-size:11px; color:var(--mute);
+    letter-spacing:.1em;}
+
+  @media (max-width:760px){
+    .r-page{grid-template-columns:1fr;}
+  }
+  @media print{
+    #matrix,.scanlines,.vignette{display:none!important}
+    body{background:#fff; color:#111}
+    .r-shell{max-width:100%; padding:0}
+    .r-topbar,.r-foot{display:none}
+    .r-side,.r-main{background:#fff; border:1px solid #ccc; color:#111; box-shadow:none}
+    .r-h,.r-sec-t,.r-tt b,.r-head .obj,.r-head .tag,.brand{color:#003a2a!important; text-shadow:none}
+    .r-side p,.r-side li,.r-item li,.r-tt,.r-head .name{color:#111!important}
+    .r-role,.r-tm,.r-head .contact{color:#444!important}
+  }
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div class="scanlines"></div>
+<div class="vignette"></div>
+
+<div class="r-shell">
+  <div class="r-topbar">
+    <a class="r-btn" href="index.html">&larr; 返回作品集</a>
+    <div class="brand">王乾辉<b> // RESUME</b></div>
+    <div class="spacer"></div>
+    <button class="r-btn" onclick="window.print()">打印 / 导出 PDF</button>
+  </div>
+
+  <div class="r-page">
+    <!-- 左栏 -->
+    <div class="r-side">
+      <div class="r-h">教育背景</div>
+      <p><b>江苏商贸职业学院</b><br>物联网应用技术（专科·在读）<br>2024.09 – 2027.06</p>
+      <p><b>核心课程：</b>物联网组网技术 · 传感器原理 · 嵌入式系统 · C 语言程序设计 · 数据库原理 · Python 程序设计</p>
+
+      <div class="r-h">荣誉 / 资质</div>
+      <ul>
+        <li>腾讯云黑客松 · 华东赛区第 5 名（2026）</li>
+        <li>2026 翌光计划 · 武汉全球高校游戏创作挑战赛（Global Game Jam）通关证书 · 团队 + 独立开发双证（2026）</li>
+        <li>知乎黑客松 2026《求真档案局·看山失踪夜》参赛作品</li>
+        <li>AdventureX 2026 全球青年黑客松 · 参与（杭州，无获奖）</li>
+        <li>CET-4 · 全国计算机一级</li>
+        <li>SYB 创业培训</li>
+        <li>CAAC 轻型无人机安全操控资质</li>
+      </ul>
+
+      <div class="r-h">技能（AI 工具链 + 工程）</div>
+      <ul>
+        <li><b>精通 ·</b> AI 开发工作流 VibeCoding（Codex / Claude Code / Copilot / CodeBuddy / WorkBuddy）；Dify / AnyThingLLM 本地大模型私有化部署，构建 RAG 知识库，落地 Prompt 工程 / 模型微调（SFT）/ 推理优化，垂直智能体开发与 API 聚合编排、公网部署运营。</li>
+        <li><b>模型 ·</b> DeepSeek / Kimi（Moonshot）/ 豆包 / 通义 / 文心 等主流大模型；NPC 对话层 Moonshot Kimi（全局并发锁保障单实例一致性）。</li>
+        <li><b>AI 资产生成 ·</b> 图像 / 视频 agnes-ai（agnes-image / video-2.5-flash）、ComfyUI、腾讯云 Miora、GVoice；语音 本地 IndexTTS 2.5、edge-tts、CosyVoice；AIGC 多模态 Midjourney；视频 ChatCut / ffmpeg / PR / AE / 剪映 / 必剪。</li>
+        <li><b>游戏开发 ·</b> Unity / 团结引擎 / Godot / RPG Maker MV；Docker 容器化与反向代理；阿里云 / 腾讯云部署运维；MySQL / Supabase；Excel 高阶自动化。</li>
+        <li><b>了解 / 资质 ·</b> 物联网组网与硬件集成、CAD / SolidWorks 结构制图、CAAC 无人机安全操控、连接器辅助设计、桌面系统部署与软硬件故障排查；算力接单 UUMit。</li>
+        <li><b>语言 / 工具 ·</b> C 语言、Python（基础前后端）、Git、VS Code。</li>
+      </ul>
+
+      <div class="r-h">个人特质</div>
+      <ul>
+        <li>情绪稳定、明辨是非、积极向上，自驱力强且做事有原则底线。</li>
+        <li>沟通协调能力突出，已在《万国觉醒》千人级联盟管理、客户对接与黑客松路演中验证。</li>
+      </ul>
+
+      <div class="r-h">兴趣与思辨</div>
+      <ul>
+        <li>游戏 / 电竞 · 资深玩家视角，长期深耕策略与国风品类，对玩法循环、数值节奏与玩家心理有切身体会。</li>
+        <li>哲学 / 逻辑学 / 历史 · 偏好系统性与思辨式阅读，逻辑训练支撑系统设计严谨，历史积淀滋养国风世界观与叙事。</li>
+        <li>马克思主义与《毛选》方法论 · 以矛盾论、实践论指导产品与系统思考，习惯从「主要矛盾」拆解复杂问题。</li>
+        <li>篮球 / 台球 · 团队对抗与专注博弈，锻炼协作意识与抗压心态。</li>
+      </ul>
+
+      <div class="r-h">作品集 / 链接</div>
+      <ul>
+        <li>游戏 Demo：qiankuntokenyun.cn</li>
+        <li>机核《ReBirth》：gcores.com/games/181588</li>
+        <li>GitHub：wangqianhui1314520-oss</li>
+        <li>小说《斗修天诀》· 番茄小说</li>
+        <li>诗集《乾元诗集》</li>
+        <li>抖音 / B站 宣传视频</li>
+      </ul>
+    </div>
+
+    <!-- 右栏 -->
+    <div class="r-main">
+      <div class="r-head">
+        <div class="name">王乾辉</div>
+        <div class="obj">求职意向：游戏策划 / 产品策划 / AI 应用开发</div>
+        <div class="contact">
+          <span>📱 183-6162-0821</span><span>✉ 3171678809@qq.com</span><span>✉ wangqianhui1314520@gmail.com</span>
+          <span>📍 江苏</span><span class="tag">🧠 ENTP</span><span>🎂 2005.08.21</span><span>🏷 政治面貌：群众</span>
+        </div>
+      </div>
+
+      <div class="r-sec">
+        <div class="r-sec-t">个人优势</div>
+        <div class="r-item">
+          <ul>
+            <li><b>AI 原生游戏策划：</b>精通本地大模型部署与垂直智能体定制（自研降本 72%），能从「策划 → demo 自落地」闭环，具备懂 AI 工程的策划视角。</li>
+            <li><b>国风策略玩法设计：</b>主创《元末逐鹿》完成 0→1，独立负责核心玩法、数值框架与商业化变现逻辑设计。</li>
+            <li><b>玩家视角与运营洞察：</b>SLG 千人级联盟管理 + 电竞服务 300+ 客户，深谙游戏数值、用户心理与付费习惯。</li>
+            <li><b>全周期闭环能力：</b>覆盖策划 / 开发 / 部署 / 变现全流程；已参加腾讯游戏创作大赛、知乎黑客松与腾讯云黑客松（华东第 5），具备从 0→1 落地经验。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="r-sec">
+        <div class="r-sec-t">项目经历</div>
+
+        <div class="r-item">
+          <div class="r-item-top"><span class="r-tt"><b>《元末逐鹿》</b> 国风 AI 回合制军事策略游戏</span><span class="r-tm">2026.06 – 至今</span></div>
+          <div class="r-role">团队主创 · 产品策划 / 核心玩法设计</div>
+          <ul>
+            <li>独立负责产品策划：AI 驱动回合制军事策略<b>核心玩法设计、数值框架与商业化变现逻辑</b>，主导从立项到内测 0→1 全流程；多模态 AI 生成剧情 / 国风画面 / 配乐，Docker 反向代理一键部署首屏 &lt;2s。</li>
+            <li>Demo 已于 <b>2026 年 7 月</b>完成并上线公网试玩（qiankuntokenyun.cn）；以本作品参赛腾讯云黑客松，团队斩获<b>华东赛区第 5 名</b>，全程参与架构打磨、商业逻辑梳理、PPT 制作与现场路演。</li>
+          </ul>
+        </div>
+
+        <div class="r-item">
+          <div class="r-item-top"><span class="r-tt"><b>《求真档案局·看山失踪夜》</b> AI 原生阵营推理游戏 · 知乎黑客松 2026</span><span class="r-tm">2026.09</span></div>
+          <div class="r-role">主创 · 玩法 / 系统 / AI 架构</div>
+          <ul>
+            <li>主创并开发知乎黑客松参赛的 AI 原生推理游戏：以「信息操纵」为核心可玩机制，设计污染对照 / 回声证据链 / AI 法官辩论 / 阵营暗置策反四套创新玩法，落地 10 档结局矩阵与 8 角色生态拟人叙事。</li>
+            <li>三种游玩形态：单人（AI 实时扮演 8 席位）/ 房间联机（2–5 人 + AI 补位、WebSocket 实时同步、私聊策反）/ 剧本杀生产工作台「创一本」（一句话生成可开局剧本，8 类确定性质量闸门把关 UGC）。</li>
+            <li>技术架构：Python / FastAPI + WebSocket，确定性规则引擎 100% 裁决、AI 只演不裁（DM/NPC/Judge/一致性守卫四 Agent + 双 LLM Provider 降级兜底）；单容器 Docker 部署阿里云 ECS，前端零出站、凭证零暴露；pytest 406+ 用例 + 变异/回归守护保障可复现。</li>
+          </ul>
+        </div>
+
+        <div class="r-item">
+          <div class="r-item-top"><span class="r-tt"><b>《大明王朝1566》</b> 国风 AI 驱动 RPG 博弈游戏</span><span class="r-tm">2026.08 – 至今</span></div>
+          <div class="r-role">主创 · 剧情 / 系统策划</div>
+          <ul>
+            <li>以历史权谋博弈为内核，设计 <b>AI 驱动剧情分支与角色交互</b>，构建多结局叙事框架；作为<b>腾讯游戏创作大赛</b>参赛作品持续迭代，沉淀系统策划与世界观构建能力。</li>
+          </ul>
+        </div>
+
+        <div class="r-item">
+          <div class="r-item-top"><span class="r-tt"><b>《ReBirth》</b> 科幻解谜游戏 · 武汉翌光计划 Game Jam</span><span class="r-tm">2026.09</span></div>
+          <div class="r-role">游戏策划 / 测试</div>
+          <ul>
+            <li>于 <b>武汉翌光计划 Game Jam</b>（Global Game Jam × 腾讯游戏学堂·48 小时·主题"生长"·582 名选手）参与团队开发科幻解谜《ReBirth》，使用 <b>RPG Maker MV</b> 限时搭建可玩原型，担任 <b>游戏策划与测试</b>：策划侧负责玩法/关卡与"异化设施 + 编号实验体"叙事落地，测试侧建 playtest 清单闭环体验与缺陷，作品已发布机核 GCORES 社区可公开试玩。</li>
+          </ul>
+        </div>
+
+        <div class="r-item">
+          <div class="r-item-top"><span class="r-tt"><b>《生长档案》</b> 独立开发作品 · 武汉翌光计划 Game Jam</span><span class="r-tm">2026.09</span></div>
+          <div class="r-role">独立开发者（策划 / 设计 / 实现）</div>
+          <ul>
+            <li>于同届武汉翌光计划 Game Jam <b>独立开发</b> ARG（替代现实）游戏《生长档案》，围绕"生长"主题从策划、叙事到实现全流程把控，48 小时内单人跑通"线索→解谜→揭示"的 ARG 核心 loop，交付 <b>纯网页可游玩</b>版本。</li>
+          </ul>
+        </div>
+
+        <div class="r-item">
+          <div class="r-item-top"><span class="r-tt"><b>《困》</b> 罕见病教育视觉小说</span><span class="r-tm">2026</span></div>
+          <div class="r-role">主创 · 剧情 / 系统策划 / 音频（已完成）</div>
+          <ul>
+            <li>主创并开发罕见病教育主题视觉小说《困》，16 角色完整设定构建多线叙事，聚焦嗜睡症等罕见病科普与人文关怀；音频采用本地 IndexTTS 2.5 按角色 / 句切片生成配音；作品已作为<b>腾讯游戏创作大赛「小红花作品」</b>参展（wqh-tempest.cn）。</li>
+          </ul>
+        </div>
+
+        <div class="r-item">
+          <div class="r-item-top"><span class="r-tt"><b>《机械纪元：人类余烬》</b> AI 短剧 · pavo0 低成本 AI 短剧创作大赛</span><span class="r-tm">2026</span></div>
+          <div class="r-role">主创 · 编剧 / AI 视频生成 / 剪辑</div>
+          <ul>
+            <li>以自研科幻 IP《机械纪元：人类余烬》参赛 pavo0 低成本 AI 短剧创作大赛，担任<b>编剧 / AI 视频生成 / 剪辑</b>，用 AI 全流程低成本产出科幻短剧；发布两期作品《开局睡了一百年，AI 让我起来打工人》《军事基地密码是多少？AI：你自己猜》，上线抖音"太虚白的作品"，验证 AI 短剧从脚本到成片的快速落地。</li>
+          </ul>
+        </div>
+
+        <div class="r-item">
+          <div class="r-item-top"><span class="r-tt"><b>《秘境引擎》</b> 情感智能体框架 · AdventureX 2026 黑客松作品</span><span class="r-tm">2026.07</span></div>
+          <div class="r-role">主创 · AI 工程 / 交互设计</div>
+          <ul>
+            <li>于 <b>AdventureX 2026 全球青年黑客松</b>（杭州·800+ 创造者·120 小时极限开发）自研情感智能体框架，为对话智能体配套「情感大脑」；5 天封闭开发与跨领域团队从 0→1 落地原型，验证 AI 角色情感化交互可行性（参与，未获奖）。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="r-sec">
+        <div class="r-sec-t">工作经历</div>
+        <div class="r-item">
+          <div class="r-item-top"><span class="r-tt"><b>腾魄斯特软件开发工作室</b></span><span class="r-tm">2026.05 – 至今</span></div>
+          <div class="r-role">负责人 · AI 工程 / 产品落地</div>
+          <ul>
+            <li>基于 Dify 完成本地大模型私有化部署；自研 IT 设备故障诊断垂直智能体，<b>人工咨询成本降低 72%</b>。</li>
+          </ul>
+        </div>
+        <div class="r-item">
+          <div class="r-item-top"><span class="r-tt"><b>网络电竞工作室</b>（自主创业）</span><span class="r-tm">2024.07 – 2025.08</span></div>
+          <div class="r-role">创始人 · 玩家运营 / 社群策划</div>
+          <ul>
+            <li>早期以《万国觉醒》SLG 王国管理切入——统筹联盟、跨盟协同与<b>千人级大型活动组织</b>，沉淀较强的组织能力与玩家沟通经验；后期拓展 FPS 品类游戏服务，搭建跨平台获客渠道（内容社区 / 短视频平台等）与客户对接体系，完成从策略运营到多品类玩家服务的运营能力迁移。</li>
+            <li>从 0 搭建并运营游戏电竞服务（玩家社群运营 / 电竞内容服务），深度贴近一线玩家，沉淀对游戏数值、用户心理与付费习惯的直观认知。</li>
+            <li>确立市场定位、搭建服务体系，<b>累计服务 300+ 客户</b>，形成稳定复购；用 ChatGPT / Midjourney 量产文案与视觉物料，<b>获客成本下降约 35%</b>。</li>
+          </ul>
+        </div>
+        <div class="r-item">
+          <div class="r-item-top"><span class="r-tt"><b>线上 IT 技术服务接单</b>（自由职业）</span><span class="r-tm">2024.07 – 2025.08</span></div>
+          <div class="r-role">独立技术服务 · 客户运营</div>
+          <ul>
+            <li>自主承接线上技术服务订单，独立完成客户对接、需求确认、工期规划与交付并跟进售后；服务涵盖 PC 整机故障排查、Windows 部署与驱动 / 软件冲突修复、系统环境优化，形成「获客 → 交付 → 复购」线上服务闭环。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="r-sec">
+        <div class="r-sec-t">实习经历</div>
+        <div class="r-item">
+          <div class="r-item-top"><span class="r-tt">长盈精密 · 高速连接器研发助理工程师（AI 服务器方向）</span><span class="r-tm">2025.07 – 2025.12</span></div>
+          <ul>
+            <li>搭建标准化技术资料库，归类 MiniSAS / Slimline SAS / GENZ 等高速连接器规格、专利、测试规范 <b>200+ 份</b>，检索效率提升约 <b>40%</b>。</li>
+            <li>跟进 5+ 新品研发全流程，里程碑节点 <b>100% 按期达成</b>；主导模治具验证与样品性能测试，采集清洗 1,000+ 实测原始数据支撑量产检讨优化。</li>
+            <li>用 CAD / SolidWorks 绘制并校对工程图纸、BOM 清单、包装规范等全套技术文件，图纸差错率降至 <b>&lt;2%</b>。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="r-sec">
+        <div class="r-sec-t">社会实践</div>
+        <div class="r-item">
+          <div class="r-item-top"><span class="r-tt">仓库管理员 · 暑期社会实践 · 江苏省盐城市射阳县城中商贸</span><span class="r-tm">2024.07 – 2024.08</span></div>
+          <ul>
+            <li>负责货品出入库登记与台账整理，在高频流转场景中锻炼了细致度与抗压执行能力。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="r-foot">// END OF RESUME · 王乾辉 · GENERATED WITH VIBECODING</div>
+</div>
+
+<script>
+(function(){
+  var cv=document.getElementById('matrix'), ctx=cv.getContext('2d');
+  var fontSize=14, cols, drops;
+  var chars=('アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFｱｲｳｴｵ@#$%&*+=<>/\\|').split('');
+  function resize(){
+    cv.width=innerWidth; cv.height=innerHeight;
+    cols=Math.ceil(cv.width/fontSize);
+    drops=new Array(cols).fill(0).map(function(){return Math.random()*-60;});
+  }
+  function draw(){
+    ctx.fillStyle='rgba(6,9,10,0.10)';
+    ctx.fillRect(0,0,cv.width,cv.height);
+    ctx.font=fontSize+'px monospace';
+    for(var i=0;i<cols;i++){
+      var ch=chars[(Math.random()*chars.length)|0];
+      var x=i*fontSize, y=drops[i]*fontSize;
+      ctx.fillStyle='rgba(0,229,160,0.85)';
+      ctx.fillText(ch,x,y);
+      if(y>cv.height && Math.random()>0.975) drops[i]=0;
+      drops[i]++;
+    }
+    requestAnimationFrame(draw);
+  }
+  resize();
+  addEventListener('resize',resize);
+  draw();
+})();
+</script>
+</body>
+</html>
