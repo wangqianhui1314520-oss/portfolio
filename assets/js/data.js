@@ -152,7 +152,7 @@ window.PORTFOLIO_DATA = {
       type: "游戏",
       title: "困",
       subtitle: "视觉小说 · 罕见病教育",
-      cover: "assets/covers/kun-paralysis.jpg",
+      cover: "assets/covers/kun-cover.jpg",
       year: "2026",
       role: "制作",
       status: "已完成",
