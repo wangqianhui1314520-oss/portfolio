@@ -4,6 +4,12 @@ node_modules/
 _shots/
 reference_frames/
 reference-contact.jpg
+# 本地在研的沉浸式新版（半成品，暂不上线）
+immersive.html
+cinematic.html
+assets/js/immersive-*.js
+assets/css/immersive-cosmos.css
+assets/images/
 print-pdf.js
 PROPOSAL.md
 *.pdf
