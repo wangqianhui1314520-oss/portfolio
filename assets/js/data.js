@@ -122,7 +122,7 @@ window.PORTFOLIO_DATA = {
         { k: "素材", v: "28 图 / 8 音频 / 8 视频" }
       ],
       video: "assets/videos/growth.mp4",
-      play: { type: "iframe", url: "games/growth-archive/index.html", ratio: "816 / 624" },
+      play: { type: "external", url: "https://tempestwang.itch.io/growth-archive" },
       links: [{ label: "itch.io 页面", url: "https://tempestwang.itch.io/growth-archive" }]
     },
     {

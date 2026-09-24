@@ -35,7 +35,6 @@ assets/covers/          作品封面图
 assets/certificates/    证书图
 assets/videos/          作品演示视频
 assets/images/          （注意：此目录当前被在研版占用，正式站未使用）
-games/growth-archive/   《生长档案》本地可玩 iframe
 CNAME                   自定义域名 wqh-tempest.cn
 SITE.md                 本文件
 ```
@@ -74,6 +73,7 @@ window.PORTFOLIO_DATA = {
 
 - 加新作品：在 `works` 末尾追加一个对象即可，`section: "work"` 归作品区、`"cert"` 归证书区。
 - `play.type`：`iframe`（本地可玩）/ `external`（外链试玩）/ `none`。
+  现全部作品均用 `external`：《生长档案》itch.io、《Rebirth 重生》机核（本地 `games/` 已于 2026-09-25 删除，仓库减 72MB）。
 - `links[]`：`{ label, url }`，如 itch.io、机核主页。
 - 改名同步点：`profile.name`（Tem）、`profile.cnName`（王乾辉） → 页脚；各页面 `<title>`。
 
