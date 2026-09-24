@@ -296,6 +296,32 @@ window.PORTFOLIO_DATA = {
       ],
       play: { type: "none", url: "" },
       links: []
+    },
+    {
+      id: "esp32-learn",
+      type: "教学 / 实训平台",
+      title: "ESP32 嵌入式实训平台",
+      subtitle: "零硬件也能学的交互式教程",
+      cover: "assets/covers/esp32-learn-cover.jpg",
+      year: "2026",
+      role: "独立开发",
+      status: "已上线 · 知乎 AIWorks",
+      stack: ["Vue 3", "Wokwi", "ESP32", "PlatformIO"],
+      desc: "面向物联网 / 电子专业学生的交互式 ESP32 学习平台。把开发板装进浏览器——内置 Wokwi 在线模拟器、可交互接线图与实验室模拟台，零硬件、零后端、离线可用，从点亮一颗 LED 一路学到把 ESP32 接上 AI。",
+      highlights: [
+        "13 模块 / 47 章节 · 约 10.6 小时渐进式学习路线",
+        "内置 Wokwi 模拟器 + 交互接线图 · 改代码即时看现象",
+        "实验室模拟台 · 24 种元件 + AI 语音控灯",
+        "闯关自测 + 结业证书 · 进度本地保存",
+        "纯静态 Vue 3 · 零后端 · 离线可用"
+      ],
+      specs: [
+        { k: "平台", v: "Web 浏览器直接运行" },
+        { k: "技术栈", v: "Vue 3 / Wokwi / ESP32" },
+        { k: "内容", v: "13 模块 · 47 章节 · 24 元件" }
+      ],
+      play: { type: "external", url: "https://ybqru2c8ouvs.preview.aiworks.site/" },
+      links: [{ label: "知乎 AIWorks 预览", url: "https://ybqru2c8ouvs.preview.aiworks.site/" }]
     }
   ]
 };
