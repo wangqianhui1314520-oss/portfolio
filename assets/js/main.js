@@ -64,7 +64,7 @@
   $("hero-title").innerHTML = esc(p.name || "作品集") +
     (p.tagline ? " <em>· " + esc(p.tagline) + "</em>" : "");
   $("hero-desc").textContent = p.intro || "";
-  $("footer-name").textContent = (p.name || "") + (p.location ? " · " + p.location : "");
+  $("footer-name").textContent = (p.name || "") + (p.cnName ? " · " + p.cnName : "") + (p.location ? " · " + p.location : "");
   if (p.enName) $("brand").textContent = p.enName.toUpperCase();
 
   $("hero-links").innerHTML = (p.links || [])

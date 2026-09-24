@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>王乾辉 · A PORTFOLIO FILM</title>
+<meta name="description" content="游戏开发、物联网、AI 原生创作 —— 王乾辉作品集电影版">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='10' width='56' height='44' rx='6' fill='%2307080e' stroke='%23d9b36c' stroke-width='3'/%3E%3Crect x='4' y='24' width='56' height='6' fill='%23d9b36c'/%3E%3Ctext x='32' y='55' font-family='Georgia,serif' font-size='26' font-weight='bold' fill='%23e8e4d8' text-anchor='middle'%3EW%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://miaoda.feishu.cn">
+<link href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   王乾辉 · A PORTFOLIO FILM
+   电影级作品集：深色胶片 + 金调放映美学
+   ============================================ */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07080e;
+  --bg-2:#0b0e16;
+  --panel:rgba(255,255,255,.028);
+  --panel-2:rgba(255,255,255,.05);
+  --line:rgba(233,226,206,.12);
+  --line-2:rgba(233,226,206,.22);
+  --text:#e8e4d8;
+  --text-dim:rgba(232,228,216,.64);
+  --text-mute:rgba(232,228,216,.4);
+  --gold:#d9b36c;
+  --gold-deep:#a97e4c;
+  --gold-soft:rgba(217,179,108,.16);
+  --red:#b3583f;
+  --serif:"Noto Serif SC","Songti SC","SimSun",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:15px;line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--gold);color:#07080e}
+a{color:inherit;text-decoration:none}
+img,video{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* ---------- 胶片颗粒 ---------- */
+.grain{
+  position:fixed;inset:-100px;z-index:60;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 8s steps(10) infinite;
+}
+@keyframes grain{
+  0%,100%{transform:translate(0,0)}
+  20%{transform:translate(-30px,20px)}
+  40%{transform:translate(20px,-30px)}
+  60%{transform:translate(-20px,-15px)}
+  80%{transform:translate(30px,25px)}
+}
+
+/* ---------- 电影黑边（letterbox） ---------- */
+.bars{position:fixed;left:0;right:0;height:0;background:#000;z-index:70;transition:height .9s var(--ease);pointer-events:none}
+.bars-top{top:0}
+.bars-bottom{bottom:0}
+body.cinema .bars-top{height:7vh}
+body.cinema .bars-bottom{height:7vh}
+
+/* ---------- 顶部导航 ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;gap:22px;
+  padding:18px 4vw;
+  transition:background .4s,border-color .4s,padding .4s;
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{background:rgba(7,8,14,.85);backdrop-filter:blur(8px);padding:11px 4vw;border-color:var(--line)}
+.nav-brand{font-family:var(--serif);font-weight:700;letter-spacing:.28em;font-size:14px;color:var(--gold)}
+.nav-brand b{color:var(--text);font-weight:400;letter-spacing:.12em}
+.nav-links{display:flex;gap:20px;margin-left:auto;list-style:none}
+.nav-links a{font-size:12px;letter-spacing:.18em;color:var(--text-dim);transition:color .25s;position:relative}
+.nav-links a:hover,.nav-links a.active{color:var(--gold)}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:1px;background:var(--gold);transition:width .3s var(--ease)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+@media(max-width:860px){
+  .nav{padding:14px 5vw}
+  .nav-links{display:none}
+}
+
+/* ---------- 章节通用 ---------- */
+.section{position:relative;padding:110px 4vw;max-width:1240px;margin:0 auto}
+.ch-head{margin-bottom:52px;display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.ch-label{font-family:var(--mono);font-size:11px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase}
+.ch-title{font-family:var(--serif);font-weight:900;font-size:clamp(30px,5vw,46px);letter-spacing:.06em;color:var(--text)}
+.ch-en{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--text-mute);text-transform:uppercase;margin-left:auto}
+.ch-line{height:1px;flex-basis:100%;background:linear-gradient(90deg,var(--gold-soft),transparent);margin-top:16px}
+
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.on{opacity:1;transform:none}
+
+/* ---------- 开场 Hero ---------- */
+.hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;text-align:center;
+}
+.hero-bg{
+  position:absolute;inset:-4% 0 0;background-size:cover;background-position:center 30%;
+  transform:scale(1.06);animation:heroZoom 22s var(--ease) forwards;
+}
+@keyframes heroZoom{to{transform:scale(1.12)}}
+.hero-veil{position:absolute;inset:0;
+  background:
+    radial-gradient(120% 90% at 50% 0%,rgba(7,8,14,.2) 0%,rgba(7,8,14,.72) 58%,#07080e 100%),
+    linear-gradient(180deg,rgba(7,8,14,.55),rgba(7,8,14,.2) 40%,#07080e 92%);
+}
+.hero-inner{position:relative;z-index:2;padding:18vh 5vw 12vh}
+.hero .vanity{
+  font-family:var(--mono);font-size:12px;letter-spacing:.5em;color:var(--text-dim);
+  opacity:0;animation:rise .9s var(--ease) .2s forwards;
+}
+.hero-name{
+  font-family:var(--serif);font-weight:900;
+  font-size:clamp(56px,12vw,128px);line-height:1.06;letter-spacing:.1em;
+  margin:26px 0 6px;
+  color:transparent;-webkit-background-clip:text;background-clip:text;
+  background-image:linear-gradient(180deg,#f5efdd 10%,#d9b36c 62%,#8f6a3a);
+  opacity:0;animation:titleIn 1.3s var(--ease) .8s forwards;
+}
+@keyframes titleIn{from{opacity:0;transform:translateY(34px);letter-spacing:.32em}to{opacity:1;transform:none;letter-spacing:.1em}}
+.hero-name .en{
+  display:block;font-family:var(--mono);font-weight:300;
+  font-size:clamp(13px,1.8vw,18px);letter-spacing:.58em;text-transform:uppercase;
+  color:var(--text-mute);-webkit-background-clip:initial;background-clip:initial;background-image:none;
+  margin-top:14px;
+}
+.hero-roles{
+  font-size:clamp(13px,1.6vw,16px);letter-spacing:.3em;color:var(--text-dim);
+  opacity:0;animation:rise .9s var(--ease) 1.5s forwards;
+}
+.hero-tag{
+  font-family:var(--serif);font-size:clamp(17px,2.4vw,24px);letter-spacing:.14em;color:var(--gold);
+  margin:22px 0 30px;
+  opacity:0;animation:rise .9s var(--ease) 2s forwards;
+}
+.hero-award{
+  display:inline-flex;align-items:center;gap:10px;
+  border:1px solid var(--line-2);border-radius:40px;
+  padding:8px 20px;font-size:12.5px;letter-spacing:.14em;color:var(--text-dim);
+  opacity:0;animation:rise .9s var(--ease) 2.5s forwards;
+}
+.hero-award::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.scroll-cue{
+  position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+  z-index:2;font-family:var(--mono);font-size:11px;letter-spacing:.4em;color:var(--text-mute);
+  opacity:0;animation:rise .9s var(--ease) 3.2s forwards,cuePulse 2.6s ease 3.6s infinite;
+}
+@keyframes cuePulse{50%{opacity:.35}}
+
+/* ---------- 第一章 人物档案 ---------- */
+.profile-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:start}
+.p-name{font-family:var(--serif);font-weight:900;font-size:clamp(38px,6vw,64px);letter-spacing:.12em;line-height:1.15}
+.p-name .en{display:block;font-family:var(--mono);font-weight:300;font-size:14px;letter-spacing:.5em;color:var(--text-mute);margin-top:10px}
+.p-tag{margin:22px 0 18px;font-family:var(--serif);font-size:19px;letter-spacing:.12em;color:var(--gold)}
+.p-intro{color:var(--text-dim);max-width:56ch;font-weight:300}
+.p-meta{margin-top:30px;display:flex;flex-wrap:wrap;gap:10px}
+.p-chip{
+  border:1px solid var(--line);border-radius:4px;padding:6px 14px;
+  font-size:12px;letter-spacing:.1em;color:var(--text-dim);background:var(--panel);
+}
+.p-panel{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:28px 26px}
+.p-panel h3{font-family:var(--serif);font-size:15px;letter-spacing:.2em;color:var(--gold);margin-bottom:18px;font-weight:700}
+.p-line{display:flex;justify-content:space-between;gap:14px;padding:13px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+.p-line:last-child{border-bottom:none}
+.p-line .k{color:var(--text-mute);letter-spacing:.06em;white-space:nowrap}
+.p-line .v{color:var(--text-dim);text-align:right;word-break:break-all}
+.p-line .v a:hover{color:var(--gold)}
+@media(max-width:860px){.profile-grid{grid-template-columns:1fr;gap:34px}}
+
+/* ---------- 第二章 获奖 ---------- */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:56px;border-radius:8px;overflow:hidden}
+.stat{background:var(--bg-2);padding:22px 16px;text-align:center}
+.stat b{display:block;font-family:var(--serif);font-size:clamp(22px,2.6vw,30px);font-weight:900;color:var(--gold);letter-spacing:.04em}
+.stat span{font-size:11.5px;letter-spacing:.1em;color:var(--text-mute);display:block;margin-top:6px}
+@media(max-width:900px){.stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){.stats{grid-template-columns:repeat(2,1fr)}}
+.certs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.cert{border:1px solid var(--line);background:var(--panel);border-radius:8px;overflow:hidden;transition:transform .4s var(--ease),border-color .4s,box-shadow .4s}
+.cert:hover{transform:translateY(-6px);border-color:var(--line-2);box-shadow:0 18px 50px rgba(0,0,0,.5)}
+.cert-img{position:relative;aspect-ratio:16/11;overflow:hidden}
+.cert-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.85) contrast(1.05);transition:transform .7s var(--ease)}
+.cert:hover .cert-img img{transform:scale(1.06)}
+.cert-body{padding:18px 20px}
+.cert-body h3{font-family:var(--serif);font-size:16px;letter-spacing:.05em;font-weight:700}
+.cert-body p{font-size:12px;color:var(--text-mute);letter-spacing:.08em;margin-top:5px}
+.cert-tag{display:inline-block;margin-top:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--gold);border:1px solid var(--gold-soft);padding:3px 10px;border-radius:3px}
+@media(max-width:960px){.certs{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.certs{grid-template-columns:1fr}}
+
+/* ---------- 第三章 作品海报墙 ---------- */
+.posters{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+.poster{border:1px solid var(--line);background:var(--panel);border-radius:8px;overflow:hidden;cursor:pointer;position:relative;transition:transform .45s var(--ease),border-color .45s,box-shadow .45s}
+.poster:hover{transform:translateY(-8px);border-color:var(--line-2);box-shadow:0 22px 60px rgba(0,0,0,.55)}
+.poster-cover{position:relative;aspect-ratio:16/11;overflow:hidden;background:#0c0f17}
+.poster-cover img{width:100%;height:100%;object-fit:cover;filter:saturate(.82) contrast(1.06);transition:transform .7s var(--ease),filter .7s}
+.poster:hover .poster-cover img{transform:scale(1.07);filter:saturate(1) contrast(1.05)}
+.poster video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;pointer-events:none;transition:opacity .4s}
+.poster.play video{opacity:1}
+.poster .play-tag{
+  position:absolute;left:12px;top:12px;z-index:2;
+  font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--gold);
+  background:rgba(7,8,14,.72);border:1px solid var(--gold-soft);padding:4px 10px;border-radius:3px;
+  display:none;
+}
+.poster.has-video .play-tag{display:block}
+.poster .year-badge{
+  position:absolute;right:12px;top:12px;z-index:2;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--text-dim);
+  background:rgba(7,8,14,.72);border:1px solid var(--line);padding:4px 10px;border-radius:3px;
+}
+.poster-body{padding:16px 18px 18px}
+.poster-type{font-family:var(--mono);font-size:10px;letter-spacing:.28em;color:var(--gold-deep);text-transform:uppercase}
+.poster-title{font-family:var(--serif);font-weight:700;font-size:18px;letter-spacing:.04em;margin:7px 0 4px;line-height:1.4}
+.poster-sub{font-size:12px;color:var(--text-mute);letter-spacing:.05em}
+.poster-role{font-size:11.5px;color:var(--text-dim);margin-top:10px;letter-spacing:.05em;display:flex;align-items:center;gap:8px}
+.poster-role::before{content:"";width:18px;height:1px;background:var(--gold)}
+@media(max-width:1080px){.posters{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:820px){.posters{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.posters{grid-template-columns:1fr}}
+
+/* ---------- 第四章 幕后能力 ---------- */
+.crew{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.crew-item{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:24px 26px;transition:border-color .35s}
+.crew-item:hover{border-color:var(--line-2)}
+.crew-dept{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+.crew-dept .no{font-family:var(--mono);font-size:11px;color:var(--gold-deep);letter-spacing:.2em}
+.crew-dept h3{font-family:var(--serif);font-size:17px;font-weight:700;letter-spacing:.06em}
+.crew-role{font-size:12.5px;color:var(--text-dim);font-weight:300}
+.crew-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.crew-tags span{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--text-dim);border:1px solid var(--line);padding:3px 10px;border-radius:3px;background:rgba(255,255,255,.02)}
+@media(max-width:860px){.crew{grid-template-columns:1fr}}
+
+/* ---------- 第五章 创作历程 ---------- */
+.timeline{display:grid;grid-template-columns:130px 46px 1fr;row-gap:0}
+.tl-row{display:contents}
+.tl-time{
+  padding:26px 0;text-align:right;padding-right:22px;
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;color:var(--gold);
+  border-top:1px solid var(--line);
+  align-self:stretch;
+}
+.tl-axis{position:relative;border-top:1px solid var(--line)}
+.tl-dot{
+  position:absolute;top:-5px;left:50%;transform:translateX(-50%);
+  width:9px;height:9px;border-radius:50%;background:var(--bg);border:2px solid var(--gold);
+}
+.tl-content{padding:26px 0 26px 30px;border-top:1px solid var(--line)}
+.tl-title{font-family:var(--serif);font-size:17px;font-weight:700;letter-spacing:.05em}
+.tl-title em{font-style:normal;color:var(--gold);font-weight:600}
+.tl-sub{font-size:12.5px;color:var(--text-mute);letter-spacing:.06em;margin-top:4px}
+.tl-desc{font-size:13.5px;color:var(--text-dim);margin-top:8px;max-width:58ch;font-weight:300}
+.tl-first .tl-time,.tl-first .tl-axis,.tl-first .tl-content{border-top:none}
+@media(max-width:760px){
+  .timeline{grid-template-columns:86px 30px 1fr}
+  .tl-content{padding-left:18px}
+  .tl-time{padding-right:12px}
+}
+
+/* ---------- 终章 联系 ---------- */
+.ending{position:relative;text-align:center;padding:120px 4vw 60px;max-width:none}
+.end-bg{position:absolute;inset:0;background:
+  radial-gradient(90% 70% at 50% 30%,rgba(217,179,108,.07),transparent 70%),#05060a;z-index:-1}
+.end-title{font-family:var(--serif);font-weight:900;font-size:clamp(34px,6vw,64px);letter-spacing:.2em;color:var(--text)}
+.end-sub{font-family:var(--mono);font-size:12px;letter-spacing:.5em;color:var(--gold);margin-top:14px;text-transform:uppercase}
+.end-links{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin:44px 0 20px}
+.end-link{
+  border:1px solid var(--line-2);border-radius:40px;padding:11px 26px;
+  font-size:13.5px;letter-spacing:.1em;color:var(--text-dim);transition:.3s var(--ease);
+}
+.end-link:hover{background:var(--gold);color:#07080e;border-color:var(--gold);box-shadow:0 0 26px rgba(217,179,108,.35)}
+.end-note{font-size:12px;color:var(--text-mute);letter-spacing:.14em;margin-top:18px}
+
+/* 结尾演职员表 */
+.credits{position:relative;max-width:760px;margin:70px auto 0;height:300px;overflow:hidden;
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 22%,#000 78%,transparent);
+  mask-image:linear-gradient(180deg,transparent,#000 22%,#000 78%,transparent)}
+.credits-roll{padding:8px 0;animation:roll 38s linear infinite}
+@keyframes roll{from{transform:translateY(320px)}to{transform:translateY(-100%)}}
+.credits-roll .cr-line{display:flex;justify-content:space-between;gap:26px;padding:7px 0;font-size:13px}
+.credits-roll .cr-role{font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;color:var(--gold-deep);text-transform:uppercase;white-space:nowrap}
+.credits-roll .cr-name{color:var(--text-dim);text-align:right}
+.credits-roll .cr-title{
+  font-family:var(--serif);font-size:17px;letter-spacing:.22em;text-align:center;color:var(--text);
+  padding:18px 0 6px;
+}
+
+.foot{max-width:1240px;margin:0 auto;padding:34px 4vw;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--text-mute);letter-spacing:.14em}
+.foot a:hover{color:var(--gold)}
+
+/* ---------- 灯箱 ---------- */
+.lightbox{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;padding:4vh 4vw;background:rgba(3,4,7,.92);backdrop-filter:blur(6px)}
+.lightbox.open{display:flex}
+.lb-box{max-width:880px;width:100%;border:1px solid var(--line-2);background:#0a0c13;border-radius:10px;overflow:hidden;animation:lbIn .45s var(--ease)}
+@keyframes lbIn{from{opacity:0;transform:translateY(26px) scale(.98)}to{opacity:1;transform:none}}
+.lb-media{position:relative;aspect-ratio:16/9;background:#05060a}
+.lb-media video,.lb-media iframe{width:100%;height:100%;border:none;object-fit:contain}
+.lb-media .lb-cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.lb-body{padding:24px 28px 28px}
+.lb-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.lb-title{font-family:var(--serif);font-size:24px;font-weight:700;letter-spacing:.05em}
+.lb-sub{font-size:13px;color:var(--text-mute);letter-spacing:.06em}
+.lb-meta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.lb-meta span{font-family:var(--mono);font-size:11px;color:var(--gold);border:1px solid var(--gold-soft);padding:3px 10px;border-radius:3px;letter-spacing:.06em}
+.lb-desc{font-size:14px;color:var(--text-dim);font-weight:300;max-width:66ch}
+.lb-highlights{margin:16px 0 0;list-style:none}
+.lb-highlights li{font-size:13px;color:var(--text-dim);padding:5px 0 5px 20px;position:relative}
+.lb-highlights li::before{content:"";position:absolute;left:0;top:12px;width:9px;height:1px;background:var(--gold)}
+.lb-actions{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
+.lb-btn{border:1px solid var(--line-2);border-radius:40px;padding:9px 22px;font-size:13px;letter-spacing:.1em;color:var(--text-dim);transition:.28s var(--ease);cursor:pointer;background:none;font-family:var(--sans)}
+.lb-btn:hover{background:var(--gold);color:#07080e;border-color:var(--gold)}
+.lb-btn.primary{background:var(--gold);color:#07080e;border-color:var(--gold)}
+.lb-close{position:absolute;top:14px;right:16px;z-index:3;width:38px;height:38px;border-radius:50%;border:1px solid var(--line-2);background:rgba(7,8,14,.7);color:var(--text);font-size:19px;cursor:pointer;line-height:1;transition:.25s}
+.lb-close:hover{background:var(--gold);color:#07080e;border-color:var(--gold)}
+
+/* ---------- 无障碍 ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+  .grain{display:none}
+  .credits-roll{animation:none;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="bars bars-top" aria-hidden="true"></div>
+<div class="bars bars-bottom" aria-hidden="true"></div>
+
+<nav class="nav" id="nav" aria-label="章节导航">
+  <div class="nav-brand">王乾辉<b> · FILM</b></div>
+  <ul class="nav-links">
+    <li><a href="#film-info">档案</a></li>
+    <li><a href="#film-awards">获奖</a></li>
+    <li><a href="#film-works">作品</a></li>
+    <li><a href="#film-crew">能力</a></li>
+    <li><a href="#film-journey">历程</a></li>
+    <li><a href="#film-end">联系</a></li>
+  </ul>
+</nav>
+
+<!-- ===== 开场 · 片头字幕 ===== -->
+<header class="hero" id="film-hero">
+  <div class="hero-bg" style="background-image:url('assets/images/cosmos-nebula-v1.png')" role="img" aria-label="宇宙星云背景"></div>
+  <div class="hero-veil"></div>
+  <div class="hero-inner">
+    <div class="vanity">腾魄斯特工作室 出品 · A PORTFOLIO FILM</div>
+    <h1 class="hero-name">王乾辉<span class="en">WANG QIANHUI · EST. 2005</span></h1>
+    <p class="hero-roles">游戏开发 · 物联网应用技术 · 内容创作者</p>
+    <p class="hero-tag">「做能跑起来的东西」</p>
+    <div class="hero-award">腾讯云黑客松大赛 · 华东赛区优胜奖</div>
+  </div>
+  <a class="scroll-cue" href="#film-info">开始放映</a>
+</header>
+
+<!-- ===== 第一章 · 人物档案 ===== -->
+<section class="section" id="film-info">
+  <div class="ch-head reveal">
+    <div class="ch-label">CHAPTER 01</div>
+    <h2 class="ch-title">人物档案</h2>
+    <div class="ch-en">PROFILE</div>
+    <div class="ch-line"></div>
+  </div>
+  <div class="profile-grid">
+    <div class="reveal">
+      <div class="p-name">王乾辉<span class="en">TEM · WANG QIANHUI</span></div>
+      <p class="p-tag">「做能跑起来的东西」</p>
+      <p class="p-intro">独立开发与团队协作并行。主攻 Godot / Unreal / Web 全栈游戏开发，同时做嵌入式硬件与小说创作。习惯把想法做成能真正运行的东西——游戏、设备、故事，都算。</p>
+      <div class="p-meta">
+        <span class="p-chip">独立游戏开发者</span>
+        <span class="p-chip">物联网应用技术在读</span>
+        <span class="p-chip">AI 原生创作者</span>
+        <span class="p-chip">工作室负责人</span>
+      </div>
+    </div>
+    <div class="p-panel reveal">
+      <h3>演职员表 · CAST &amp; CREW</h3>
+      <div class="p-line"><span class="k">姓名</span><span class="v">王乾辉（Tem）</span></div>
+      <div class="p-line"><span class="k">身份</span><span class="v">游戏开发 / 物联网应用技术</span></div>
+      <div class="p-line"><span class="k">坐标</span><span class="v">江苏 · 南通</span></div>
+      <div class="p-line"><span class="k">院校</span><span class="v">江苏商贸职业学院 · 物联网应用技术（2024–2027）</span></div>
+      <div class="p-line"><span class="k">邮箱</span><span class="v"><a href="mailto:3171678809@qq.com">3171678809@qq.com</a></span></div>
+      <div class="p-line"><span class="k">Gmail</span><span class="v"><a href="mailto:wangqianhui1314520@gmail.com">wangqianhui1314520@gmail.com</a></span></div>
+      <div class="p-line"><span class="k">抖音</span><span class="v"><a href="https://www.douyin.com/search/1779807797?type=user" target="_blank" rel="noopener">1779807797</a></span></div>
+      <div class="p-line"><span class="k">在线作品</span><span class="v"><a href="https://wqh-tempest.cn" target="_blank" rel="noopener">wqh-tempest.cn</a></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 第二章 · 获奖记录 ===== -->
+<section class="section" id="film-awards">
+  <div class="ch-head reveal">
+    <div class="ch-label">CHAPTER 02</div>
+    <h2 class="ch-title">获奖记录</h2>
+    <div class="ch-en">HONORS &amp; LAURELS</div>
+    <div class="ch-line"></div>
+  </div>
+
+  <div class="stats reveal">
+    <div class="stat"><b>第 5 名</b><span>腾讯云黑客松 · 华东赛区</span></div>
+    <div class="stat"><b>×2 证</b><span>GGJ 翌光计划 · 通关证书</span></div>
+    <div class="stat"><b>48h</b><span>知乎黑客松 · 极限开发</span></div>
+    <div class="stat"><b>300+</b><span>累计服务客户</span></div>
+    <div class="stat"><b>↓72%</b><span>智能体咨询成本降幅</span></div>
+    <div class="stat"><b>406+</b><span>pytest 自动化用例</span></div>
+  </div>
+
+  <div class="certs">
+    <div class="cert reveal">
+      <div class="cert-img"><img src="assets/certificates/tencent-hackathon-ec.jpg" alt="腾讯云黑客松华东赛区优胜奖证书"></div>
+      <div class="cert-body">
+        <h3>腾讯云黑客松 · 华东赛区优胜奖</h3>
+        <p>游戏开发挑战赛 · 参赛作品《元末逐鹿》</p>
+        <span class="cert-tag">2026 · 优胜奖</span>
+      </div>
+    </div>
+    <div class="cert reveal">
+      <div class="cert-img"><img src="assets/certificates/cert-growth.jpg" alt="翌光计划通关证书"></div>
+      <div class="cert-body">
+        <h3>2026 翌光计划 · 通关证书 ×2</h3>
+        <p>武汉全球高校游戏创作挑战赛 · 团队 + 独立双证</p>
+        <span class="cert-tag">2026 · 已完赛</span>
+      </div>
+    </div>
+    <div class="cert reveal">
+      <div class="cert-img"><img src="assets/certificates/zhihu-hackathon-cert.jpg" alt="知乎黑客松参赛凭证"></div>
+      <div class="cert-body">
+        <h3>知乎黑客松 · 校园新锐季</h3>
+        <p>48 小时极限开发 · 参赛作品《求真档案局·看山失踪夜》</p>
+        <span class="cert-tag">2026.09 · 参赛凭证</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-meta reveal" style="margin-top:34px;justify-content:center">
+    <span class="p-chip">AdventureX 2026 全球青年黑客松</span>
+    <span class="p-chip">腾讯游戏创作大赛 · 小红花作品</span>
+    <span class="p-chip">CET-4</span>
+    <span class="p-chip">全国计算机一级</span>
+    <span class="p-chip">SYB 创业培训</span>
+    <span class="p-chip">CAAC 轻型无人机安全操控资质</span>
+  </div>
+</section>
+
+<!-- ===== 第三章 · 代表作品 ===== -->
+<section class="section" id="film-works">
+  <div class="ch-head reveal">
+    <div class="ch-label">CHAPTER 03</div>
+    <h2 class="ch-title">代表作品</h2>
+    <div class="ch-en">FILMOGRAPHY</div>
+    <div class="ch-line"></div>
+  </div>
+  <p class="p-intro reveal" style="margin:-18px 0 40px;max-width:60ch">八部作品，四种形态——游戏、短剧、小说、交互叙事。悬停可预览预告片，点击打开详情。</p>
+
+  <div class="posters">
+    <!-- 大明王朝 -->
+    <article class="poster reveal" tabindex="0" role="button" aria-label="查看《大明王朝 1566：天下棋局》详情" data-id="ming">
+      <div class="poster-cover">
+        <span class="year-badge">2026</span>
+        <img src="assets/covers/ming-kv.jpg" alt="大明王朝 1566：天下棋局 封面">
+      </div>
+      <div class="poster-body">
+        <div class="poster-type">游戏 · 单机叙事策略</div>
+        <h3 class="poster-title">大明王朝 1566：天下棋局</h3>
+        <div class="poster-sub">Godot 4 · 第 1 章已发布</div>
+        <div class="poster-role">主创 · 剧情 / 系统策划</div>
+      </div>
+    </article>
+    <!-- 元末逐鹿 -->
+    <article class="poster reveal has-video" tabindex="0" role="button" aria-label="查看《元末逐鹿》详情" data-id="yuanmo">
+      <div class="poster-cover">
+        <span class="play-tag">预告片</span>
+        <span class="year-badge">2026</span>
+        <img src="assets/covers/yuanmo-factions.jpg" alt="元末逐鹿 封面">
+        <video muted loop playsinline preload="none"><source src="assets/videos/yuanmo.mp4" type="video/mp4"></video>
+      </div>
+      <div class="poster-body">
+        <div class="poster-type">游戏 · 网页策略 v3.0</div>
+        <h3 class="poster-title">元末逐鹿</h3>
+        <div class="poster-sub">Vue 3 · Three.js · FastAPI</div>
+        <div class="poster-role">主创 / 全栈 · 腾讯云黑客松优胜奖</div>
+      </div>
+    </article>
+    <!-- 机械纪元 -->
+    <article class="poster reveal" tabindex="0" role="button" aria-label="查看《机械纪元：人类余烬》详情" data-id="epoch">
+      <div class="poster-cover">
+        <span class="play-tag">预告片</span>
+        <span class="year-badge">2026</span>
+        <img src="assets/covers/epoch-cover.jpg" alt="机械纪元：人类余烬 封面">
+      </div>
+      <div class="poster-body">
+        <div class="poster-type">游戏 · Unreal 5 · AI 短剧</div>
+        <h3 class="poster-title">机械纪元：人类余烬</h3>
+        <div class="poster-sub">12 分钟 · 60 片段 × 12s</div>
+        <div class="poster-role">主创 / 导演 · PAVO 大赛参赛</div>
+      </div>
+    </article>
+    <!-- 生长档案 -->
+    <article class="poster reveal has-video" tabindex="0" role="button" aria-label="查看《生长档案》详情" data-id="growth">
+      <div class="poster-cover">
+        <span class="play-tag">预告片</span>
+        <span class="year-badge">2026</span>
+        <img src="assets/covers/growth-kv.jpg" alt="生长档案 封面">
+        <video muted loop playsinline preload="none"><source src="assets/videos/growth.mp4" type="video/mp4"></video>
+      </div>
+      <div class="poster-body">
+        <div class="poster-type">游戏 · 网页叙事解谜</div>
+        <h3 class="poster-title">生长档案</h3>
+        <div class="poster-sub">GGJ 2026 · 六章 · 五重结局</div>
+        <div class="poster-role">独立开发 · 策划 / 设计 / 实现</div>
+      </div>
+    </article>
+    <!-- Rebirth -->
+    <article class="poster reveal has-video" tabindex="0" role="button" aria-label="查看《Rebirth 重生》详情" data-id="rebirth">
+      <div class="poster-cover">
+        <span class="play-tag">预告片</span>
+        <span class="year-badge">2026</span>
+        <img src="assets/covers/rebirth-cg.jpg" alt="Rebirth 重生 封面">
+        <video muted loop playsinline preload="none"><source src="assets/videos/rebirth.mp4" type="video/mp4"></video>
+      </div>
+      <div class="poster-body">
+        <div class="poster-type">游戏 · RPG Maker MV · 科幻解谜</div>
+        <h3 class="poster-title">Rebirth 重生</h3>
+        <div class="poster-sub">实验室逃亡 · 编号实验体</div>
+        <div class="poster-role">主创 · 已发布机核社区</div>
+      </div>
+    </article>
+    <!-- 困 -->
+    <article class="poster reveal" tabindex="0" role="button" aria-label="查看《困》详情" data-id="kun">
+      <div class="poster-cover">
+        <span class="year-badge">2026</span>
+        <img src="assets/covers/kun-cover.jpg" alt="困 封面">
+      </div>
+      <div class="poster-body">
+        <div class="poster-type">游戏 · 视觉小说 · 罕见病教育</div>
+        <h3 class="poster-title">困</h3>
+        <div class="poster-sub">16 角色 · 多线叙事 · 嗜睡症科普</div>
+        <div class="poster-role">团队创作 · 剧情 / 系统 / 音频</div>
+      </div>
+    </article>
+    <!-- 斗修天诀 -->
+    <article class="poster reveal" tabindex="0" role="button" aria-label="查看《斗修天诀》详情" data-id="novel">
+      <div class="poster-cover">
+        <span class="year-badge">连载中</span>
+        <img src="assets/covers/douxiu-cover.jpg" alt="斗修天诀 封面">
+      </div>
+      <div class="poster-body">
+        <div class="poster-type">小说 · 玄幻修炼</div>
+        <h3 class="poster-title">斗修天诀</h3>
+        <div class="poster-sub">星石品阶 · 白黄青蓝紫金红</div>
+        <div class="poster-role">作者 · 番茄小说连载</div>
+      </div>
+    </article>
+    <!-- 求真档案局 -->
+    <article class="poster reveal has-video" tabindex="0" role="button" aria-label="查看《求真档案局·看山失踪夜》详情" data-id="zhihu">
+      <div class="poster-cover">
+        <span class="play-tag">预告片</span>
+        <span class="year-badge">2026</span>
+        <img src="assets/covers/zhihu-cover.jpg" alt="求真档案局·看山失踪夜 封面">
+        <video muted loop playsinline preload="none"><source src="assets/videos/zhihu.mp4" type="video/mp4"></video>
+      </div>
+      <div class="poster-body">
+        <div class="poster-type">游戏 · AI 网页剧本杀</div>
+        <h3 class="poster-title">求真档案局·看山失踪夜</h3>
+        <div class="poster-sub">LLM 驱动 · 自由对话推理</div>
+        <div class="poster-role">主创 / AI 叙事 · 知乎黑客松</div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ===== 第四章 · 幕后能力 ===== -->
+<section class="section" id="film-crew">
+  <div class="ch-head reveal">
+    <div class="ch-label">CHAPTER 04</div>
+    <h2 class="ch-title">幕后能力</h2>
+    <div class="ch-en">CREW &amp; CAPABILITIES</div>
+    <div class="ch-line"></div>
+  </div>
+  <div class="crew">
+    <div class="crew-item reveal">
+      <div class="crew-dept"><span class="no">D-01</span><h3>导演与叙事</h3></div>
+      <p class="crew-role">游戏策划与系统方法论 —— 系统 / 数值 / 关卡 / 剧情结构，多分支叙事与多结局矩阵。</p>
+      <div class="crew-tags"><span>系统设计</span><span>数值框架</span><span>剧情结构</span><span>多结局矩阵</span><span>playtest 闭环</span></div>
+    </div>
+    <div class="crew-item reveal">
+      <div class="crew-dept"><span class="no">D-02</span><h3>摄影与美术</h3></div>
+      <p class="crew-role">AI 资产生成 —— 图像 / 视频 / 语音全链路，剪辑后期一条龙。</p>
+      <div class="crew-tags"><span>agnes-ai</span><span>ComfyUI</span><span>腾讯云 Miora</span><span>IndexTTS 2.5</span><span>ffmpeg / PR / AE</span></div>
+    </div>
+    <div class="crew-item reveal">
+      <div class="crew-dept"><span class="no">D-03</span><h3>技术与工程</h3></div>
+      <p class="crew-role">游戏与全栈工程 —— 引擎、后端、前端、部署运维全栈覆盖。</p>
+      <div class="crew-tags"><span>Unity</span><span>Godot</span><span>RPG Maker MV</span><span>Python / FastAPI</span><span>TypeScript</span><span>Three.js / React</span><span>Docker / MySQL</span></div>
+    </div>
+    <div class="crew-item reveal">
+      <div class="crew-dept"><span class="no">D-04</span><h3>AI 引擎</h3></div>
+      <p class="crew-role">大模型与智能体 —— 本地推理、知识库、微调与聚合网关，AI 应用落地全流程。</p>
+      <div class="crew-tags"><span>Ollama</span><span>Dify</span><span>AnythingLLM</span><span>RAG</span><span>Prompt 工程</span><span>SFT 微调</span><span>API 中转网关</span><span>多 Agent 编排</span></div>
+    </div>
+    <div class="crew-item reveal">
+      <div class="crew-dept"><span class="no">D-05</span><h3>硬件部门</h3></div>
+      <p class="crew-role">物联网与嵌入式 —— 从传感器组网到整机装配调试的硬件全链路。</p>
+      <div class="crew-tags"><span>STM32</span><span>ESP32-S3</span><span>ESP-IDF</span><span>FreeRTOS</span><span>Proteus</span><span>3D 打印</span><span>CAD / SolidWorks</span></div>
+    </div>
+    <div class="crew-item reveal">
+      <div class="crew-dept"><span class="no">D-06</span><h3>制片与运营</h3></div>
+      <p class="crew-role">产品运营与商业化 —— 变现设计、获客渠道与客户运营，千人级联盟管理经验。</p>
+      <div class="crew-tags"><span>变现与付费点设计</span><span>获客渠道</span><span>复购运营</span><span>AIGC 量产降本</span><span>千人联盟管理</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 第五章 · 创作历程 ===== -->
+<section class="section" id="film-journey">
+  <div class="ch-head reveal">
+    <div class="ch-label">CHAPTER 05</div>
+    <h2 class="ch-title">创作历程</h2>
+    <div class="ch-en">THE JOURNEY</div>
+    <div class="ch-line"></div>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-row tl-first reveal">
+      <div class="tl-time">2024.07</div>
+      <div class="tl-axis"><span class="tl-dot"></span></div>
+      <div class="tl-content">
+        <div class="tl-title">阳明电竞工作室 · <em>创始人</em></div>
+        <div class="tl-sub">玩家运营 / 社群策划 · 自主创业</div>
+        <p class="tl-desc">从《万国觉醒》千人级联盟管理切入，累计服务 300+ 客户，AI 量产物料令获客成本下降约 35%。</p>
+      </div>
+    </div>
+    <div class="tl-row reveal">
+      <div class="tl-time">2024.09</div>
+      <div class="tl-axis"><span class="tl-dot"></span></div>
+      <div class="tl-content">
+        <div class="tl-title">江苏商贸职业学院 · <em>物联网应用技术</em></div>
+        <div class="tl-sub">专科在读 · 2024–2027</div>
+        <p class="tl-desc">主修物联网组网、传感器原理、嵌入式系统、C 语言与 Python 程序设计。</p>
+      </div>
+    </div>
+    <div class="tl-row reveal">
+      <div class="tl-time">2025.07</div>
+      <div class="tl-axis"><span class="tl-dot"></span></div>
+      <div class="tl-content">
+        <div class="tl-title">长盈精密 · <em>研发助理工程师（实习）</em></div>
+        <div class="tl-sub">高速连接器 · AI 服务器方向</div>
+        <p class="tl-desc">搭建标准化资料库 200+ 份，跟进 5+ 新品研发全流程，图纸差错率降至 &lt;2%。</p>
+      </div>
+    </div>
+    <div class="tl-row reveal">
+      <div class="tl-time">2026.05</div>
+      <div class="tl-axis"><span class="tl-dot"></span></div>
+      <div class="tl-content">
+        <div class="tl-title">腾魄斯特软件开发工作室 · <em>负责人</em></div>
+        <div class="tl-sub">AI 工程 / 产品落地</div>
+        <p class="tl-desc">本地大模型私有化部署；自研 IT 设备故障诊断智能体，咨询成本降低 72%；搭建 API 中转平台「乾坤 token 云」。</p>
+      </div>
+    </div>
+    <div class="tl-row reveal">
+      <div class="tl-time">2026.06</div>
+      <div class="tl-axis"><span class="tl-dot"></span></div>
+      <div class="tl-content">
+        <div class="tl-title">《元末逐鹿》上线 · <em>腾讯云黑客松</em></div>
+        <div class="tl-sub">国风 AI 回合制军事策略 · 网页即玩</div>
+        <p class="tl-desc">团队主创，斩获华东赛区第 5 名，Demo 上线公网试玩（qiankuntokenyun.cn）。</p>
+      </div>
+    </div>
+    <div class="tl-row reveal">
+      <div class="tl-time">2026.07</div>
+      <div class="tl-axis"><span class="tl-dot"></span></div>
+      <div class="tl-content">
+        <div class="tl-title">AdventureX 2026 · <em>《秘境引擎》</em></div>
+        <div class="tl-sub">全球青年黑客松 · 120 小时极限开发</div>
+        <p class="tl-desc">独立开发情感智能体框架，为对话智能体配套「情感大脑」，验证 AI 角色情感化交互。</p>
+      </div>
+    </div>
+    <div class="tl-row reveal">
+      <div class="tl-time">2026.08</div>
+      <div class="tl-axis"><span class="tl-dot"></span></div>
+      <div class="tl-content">
+        <div class="tl-title">《大明王朝 1566》立项 · <em>腾讯游戏创作大赛</em></div>
+        <div class="tl-sub">Godot 4 · 权谋博弈叙事</div>
+        <p class="tl-desc">10 角色 × 5 步骤交互框架，21 人物 / 48 物品 / 33 地点，自研 NPCAgent + 一致性守卫对话架构。</p>
+      </div>
+    </div>
+    <div class="tl-row reveal">
+      <div class="tl-time">2026.09</div>
+      <div class="tl-axis"><span class="tl-dot"></span></div>
+      <div class="tl-content">
+        <div class="tl-title">高光之月 · <em>四线并进</em></div>
+        <div class="tl-sub">GGJ × 知乎 × 腾讯 × PAVO</div>
+        <p class="tl-desc">《Rebirth》《生长档案》GGJ 双证；《求真档案局》知乎黑客松参赛；《困》小红花作品参展；《机械纪元》AI 短剧参赛。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 终章 · 联系与演职员表 ===== -->
+<section class="ending" id="film-end">
+  <div class="end-bg"></div>
+  <div class="reveal">
+    <div class="end-title">感谢观看</div>
+    <div class="end-sub">THANKS FOR WATCHING</div>
+    <p class="p-intro" style="margin:22px auto 0;max-width:46ch;color:var(--text-dim)">如果你有一个「能跑起来」的想法，或者想一起做点东西，欢迎随时联系。</p>
+    <div class="end-links">
+      <a class="end-link" href="mailto:3171678809@qq.com">邮箱 · QQ</a>
+      <a class="end-link" href="mailto:wangqianhui1314520@gmail.com">Gmail</a>
+      <a class="end-link" href="https://www.douyin.com/search/1779807797?type=user" target="_blank" rel="noopener">抖音 · 1779807797</a>
+      <a class="end-link" href="tel:18361620821">电话 · 18361620821</a>
+      <a class="end-link" href="https://wqh-tempest.cn" target="_blank" rel="noopener">在线作品集</a>
+    </div>
+    <div class="end-note">江苏 · 南通 · EST. 2005 · ENTP</div>
+  </div>
+
+  <div class="credits reveal" aria-label="演职员表">
+    <div class="credits-roll">
+      <div class="cr-title">出品</div>
+      <div class="cr-line"><span class="cr-role">PRODUCED BY</span><span class="cr-name">腾魄斯特软件开发工作室</span></div>
+      <div class="cr-title">导演</div>
+      <div class="cr-line"><span class="cr-role">DIRECTED BY</span><span class="cr-name">王乾辉</span></div>
+      <div class="cr-title">编剧 / 策划</div>
+      <div class="cr-line"><span class="cr-role">WRITTEN BY</span><span class="cr-name">王乾辉</span></div>
+      <div class="cr-title">摄影与美术</div>
+      <div class="cr-line"><span class="cr-role">CINEMATOGRAPHY</span><span class="cr-name">AI 生成管线</span></div>
+      <div class="cr-title">配音</div>
+      <div class="cr-line"><span class="cr-role">VOICE</span><span class="cr-name">IndexTTS 2.5</span></div>
+      <div class="cr-title">主演</div>
+      <div class="cr-line"><span class="cr-role">STARRING</span><span class="cr-name">《元末逐鹿》</span></div>
+      <div class="cr-line"><span class="cr-role"></span><span class="cr-name">《大明王朝 1566：天下棋局》</span></div>
+      <div class="cr-line"><span class="cr-role"></span><span class="cr-name">《机械纪元：人类余烬》</span></div>
+      <div class="cr-line"><span class="cr-role"></span><span class="cr-name">《生长档案》</span></div>
+      <div class="cr-line"><span class="cr-role"></span><span class="cr-name">《Rebirth 重生》</span></div>
+      <div class="cr-line"><span class="cr-role"></span><span class="cr-name">《困》</span></div>
+      <div class="cr-line"><span class="cr-role"></span><span class="cr-name">《求真档案局·看山失踪夜》</span></div>
+      <div class="cr-line"><span class="cr-role"></span><span class="cr-name">《斗修天诀》</span></div>
+      <div class="cr-title">特别鸣谢</div>
+      <div class="cr-line"><span class="cr-role">THANKS TO</span><span class="cr-name">腾讯云黑客松 · GGJ 翌光计划</span></div>
+      <div class="cr-line"><span class="cr-role"></span><span class="cr-name">知乎黑客松 · AdventureX · 腾讯游戏创作大赛</span></div>
+      <div class="cr-title">THE END</div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div>© 2026 王乾辉 · WANG QIANHUI · 做能跑起来的东西</div>
+  <div><a href="#film-hero">返回片头 ↑</a></div>
+</footer>
+
+<!-- ===== 灯箱 ===== -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="作品详情">
+  <div class="lb-box">
+    <button class="lb-close" id="lb-close" aria-label="关闭">&times;</button>
+    <div class="lb-media" id="lb-media"></div>
+    <div class="lb-body">
+      <div class="lb-head">
+        <h3 class="lb-title" id="lb-title"></h3>
+        <span class="lb-sub" id="lb-sub"></span>
+      </div>
+      <div class="lb-meta" id="lb-meta"></div>
+      <p class="lb-desc" id="lb-desc"></p>
+      <ul class="lb-highlights" id="lb-highlights"></ul>
+      <div class="lb-actions" id="lb-actions"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================
+   王乾辉 · A PORTFOLIO FILM — 交互脚本
+   ============================================ */
+(function () {
+  "use strict";
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+
+  /* ---------- 作品数据（与现有站点数据同源） ---------- */
+  var WORKS = {
+    ming: {
+      title: "大明王朝 1566：天下棋局", sub: "Godot 4 · 单机叙事策略",
+      meta: ["2026", "主创", "第 1 章已发布"],
+      desc: "以政治抉择驱动的明代叙事策略游戏。核心承诺：每个选择都产生可理解、角色特有、可持续的后果。",
+      highlights: ["10 角色 × 5 步骤 = 50 route steps", "21 人物 / 48 物品 / 33 地点", "11 段教程引导"],
+      cover: "assets/covers/ming-kv.jpg"
+    },
+    yuanmo: {
+      title: "元末逐鹿", sub: "v3.0 · 网页策略",
+      meta: ["2026", "主创 / 全栈", "腾讯云黑客松 · 华东赛区优胜奖"],
+      desc: "多派系博弈的元末乱世策略游戏，含局势推演引擎、双结局与三条自定义势力国策路径。自然语言即操控，活的乱世沙盘。",
+      highlights: ["自然语言即操控 · 活的乱世沙盘", "多派系博弈系统", "局势推演引擎", "双结局 + 3 条国策路径"],
+      cover: "assets/covers/yuanmo-factions.jpg",
+      video: "assets/videos/yuanmo.mp4",
+      play: { type: "external", url: "https://qiankuntokenyun.cn", label: "在线试玩" }
+    },
+    epoch: {
+      title: "机械纪元：人类余烬", sub: "Unreal 5 · AI 短剧",
+      meta: ["2026", "主创 / 导演", "已参赛 · Demo 完成"],
+      desc: "12 分钟影视化 AI 短剧，60 个片段 × 12 秒，全程 AI 生成图像与视频素材。参赛 PAVO 0 成本 AI 短剧创作大赛。",
+      highlights: ["PAVO 0 成本 AI 短剧创作大赛 · AI 融合创新赛道", "12 分钟成片", "60 segments × 12s", "AI 全链路出片"],
+      cover: "assets/covers/epoch-cover.jpg",
+      video: "assets/videos/epoch.mp4"
+    },
+    growth: {
+      title: "生长档案", sub: "Global Game Jam 2026 · 网页叙事解谜",
+      meta: ["2026", "独立开发", "已完成"],
+      desc: "「有些事，不说出来，就永远没人知道了。」以 2009 年 QQ 空间为入口的叙事互动游戏。玩家扮演「拾光客」，在复古界面的六章中翻相册、听录音、查档案，拼回一位失忆者被偷走的成长，直面五重结局。",
+      highlights: ["GGJ 2026 · 翌光计划（武汉全球高校游戏创作挑战赛）", "核心机制：现实时间 == 游戏时间", "六章主线 · 五重结局 · 约 60–90 分钟", "QQ 空间 / 医院档案 / 信号监听等多章节叙事"],
+      cover: "assets/covers/growth-kv.jpg",
+      video: "assets/videos/growth.mp4",
+      play: { type: "iframe", url: "games/growth-archive/index.html", label: "网页试玩" },
+      links: [{ label: "itch.io 页面", url: "https://tempestwang.itch.io/growth-archive" }]
+    },
+    rebirth: {
+      title: "Rebirth 重生", sub: "RPG Maker MV · 科幻解谜",
+      meta: ["2026", "主创", "已发布"],
+      desc: "你从实验室培养皿中苏醒（系统提示「已唤醒实验对象」），在逐渐异化的设施中探索逃亡：墙壁血字、监控红灯、积液与血管组织逐渐蔓延。沿途遭遇编号实验体——03号（视觉敏锐）、07号、13号（无眼，靠嗅觉）、42号，最终面对模仿你一切的 99号母体。",
+      highlights: ["实验室逃亡 × 逐步异化的设施叙事", "五种编号实验体遭遇战，各具感知特性", "最终决战：模仿你一切的 99号母体"],
+      cover: "assets/covers/rebirth-cg.jpg",
+      video: "assets/videos/rebirth.mp4",
+      play: { type: "external", url: "https://www.gcores.com/games/181588", label: "机核试玩" },
+      links: [{ label: "机核主页", url: "https://www.gcores.com/games/181588" }]
+    },
+    kun: {
+      title: "困", sub: "视觉小说游戏 · 罕见病教育",
+      meta: ["2026", "团队创作 · 剧情 / 系统策划 / 音频", "已完成"],
+      desc: "罕见病教育主题视觉小说游戏《困》，聚焦嗜睡症科普与人文关怀。构建 16 个角色完整设定驱动多线叙事，配音由本地 IndexTTS 2.5 按角色 / 按句切片生成；已作为腾讯游戏创作大赛「小红花作品」参展。",
+      highlights: ["16 角色完整设定 · 多线叙事", "嗜睡症等罕见病科普与人文关怀", "本地 IndexTTS 2.5 按角色 / 句切片配音", "腾讯游戏创作大赛「小红花作品」参展"],
+      cover: "assets/covers/kun-cover.jpg"
+    },
+    novel: {
+      title: "斗修天诀", sub: "玄幻 · 修炼",
+      meta: ["连载中", "作者", "番茄小说"],
+      desc: "玄幻修炼长篇，配套完整的世界观、人物与修炼体系设定。夜色如墨，星辉垂落。少年立于断崖之巅，掌心那枚黯淡的白色星石忽然一颤——一缕比发丝更细的青芒，正沿着石纹缓缓爬升。品阶之别，天壤之分，白阶之上是黄，黄阶之上是青。而传闻中的黑，从来不入谱录。他攥紧星石，听见了体内第一声剑鸣。",
+      highlights: ["章节长度 2800–3200 字", "星石品阶：白 黄 青 蓝 紫 金 红"],
+      cover: "assets/covers/douxiu-cover.jpg"
+    },
+    zhihu: {
+      title: "求真档案局·看山失踪夜", sub: "AI 网页剧本杀 · 知乎黑客松参赛作品",
+      meta: ["2026", "主创 / AI 叙事", "知乎黑客松参赛作品"],
+      desc: "AI 驱动的网页剧本杀推理游戏。玩家化身「求真档案局」调查员，在「看山失踪夜」事件中通过自由对话与线索推演，逐步还原一桩被掩埋的失踪真相。叙事由 LLM 动态生成，每次推理走向都可能不同。",
+      highlights: ["LLM 动态叙事 · 自由对话推理", "网页即开即玩 · 零安装", "多结局分支 · 线索驱动"],
+      cover: "assets/covers/zhihu-cover.jpg",
+      video: "assets/videos/zhihu.mp4"
+    }
+  };
+
+  /* ---------- 滚动揭示 ---------- */
+  var revealObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add("on"); revealObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  $$(".reveal").forEach(function (el) { revealObs.observe(el); });
+
+  /* ---------- 导航：滚动态 + 章节高亮 ---------- */
+  var nav = $("#nav");
+  var navLinks = $$(".nav-links a");
+  function onScrollNav() { nav.classList.toggle("scrolled", window.scrollY > 40); }
+  window.addEventListener("scroll", onScrollNav, { passive: true });
+  onScrollNav();
+
+  var secObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        var id = e.target.id;
+        navLinks.forEach(function (a) {
+          a.classList.toggle("active", a.getAttribute("href") === "#" + id);
+        });
+      }
+    });
+  }, { rootMargin: "-38% 0px -55% 0px" });
+  ["film-info", "film-awards", "film-works", "film-crew", "film-journey", "film-end"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) secObs.observe(el);
+  });
+
+  /* ---------- 电影黑边（片头 + 终章可见时出现） ---------- */
+  function checkCinema() {
+    var hero = $("#film-hero").getBoundingClientRect();
+    var end = $("#film-end").getBoundingClientRect();
+    var on = hero.bottom > 0 || (end.top < window.innerHeight && end.bottom > 0);
+    document.body.classList.toggle("cinema", on);
+  }
+  window.addEventListener("scroll", checkCinema, { passive: true });
+  window.addEventListener("resize", checkCinema);
+  checkCinema();
+
+  /* ---------- 海报悬停预告片 ---------- */
+  var canHover = window.matchMedia("(hover: hover)").matches;
+  $$(".poster.has-video").forEach(function (p) {
+    var v = $("video", p);
+    if (!v || !canHover) return;
+    p.addEventListener("mouseenter", function () {
+      p.classList.add("play");
+      var pr = v.play();
+      if (pr && pr.catch) pr.catch(function () { p.classList.remove("play"); });
+    });
+    p.addEventListener("mouseleave", function () {
+      v.pause(); v.currentTime = 0; p.classList.remove("play");
+    });
+  });
+
+  /* ---------- 灯箱 ---------- */
+  var lb = $("#lightbox");
+  var lbMedia = $("#lb-media"), lbTitle = $("#lb-title"), lbSub = $("#lb-sub"),
+      lbMeta = $("#lb-meta"), lbDesc = $("#lb-desc"), lbHi = $("#lb-highlights"), lbActions = $("#lb-actions");
+  var activeVideo = null;
+
+  function stopActiveVideo() {
+    if (activeVideo) { activeVideo.pause(); activeVideo = null; }
+  }
+  function closeLb() {
+    stopActiveVideo();
+    lb.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+  function openLb(id) {
+    var w = WORKS[id];
+    if (!w) return;
+    stopActiveVideo();
+    $$(".poster video").forEach(function (v) { v.pause(); v.currentTime = 0; v.closest(".poster").classList.remove("play"); });
+    lbTitle.textContent = w.title;
+    lbSub.textContent = w.sub;
+    lbMeta.innerHTML = "";
+    w.meta.forEach(function (m) {
+      var s = document.createElement("span");
+      s.textContent = m;
+      lbMeta.appendChild(s);
+    });
+    lbDesc.textContent = w.desc;
+    lbHi.innerHTML = "";
+    w.highlights.forEach(function (h) {
+      var li = document.createElement("li");
+      li.textContent = h;
+      lbHi.appendChild(li);
+    });
+    lbMedia.innerHTML = "";
+    if (w.video) {
+      var v = document.createElement("video");
+      v.controls = true;
+      v.autoplay = true;
+      v.playsInline = true;
+      v.setAttribute("preload", "auto");
+      v.src = w.video;
+      lbMedia.appendChild(v);
+      activeVideo = v;
+    } else if (w.play && w.play.type === "iframe") {
+      var f = document.createElement("iframe");
+      f.src = w.play.url;
+      f.setAttribute("allow", "fullscreen");
+      lbMedia.appendChild(f);
+    } else {
+      var im = document.createElement("img");
+      im.className = "lb-cover";
+      im.src = w.cover;
+      im.alt = w.title + " 封面";
+      lbMedia.appendChild(im);
+    }
+    lbActions.innerHTML = "";
+    function addBtn(label, url, primary) {
+      var a = document.createElement("a");
+      a.className = "lb-btn" + (primary ? " primary" : "");
+      a.textContent = label;
+      a.href = url;
+      if (url.indexOf("http") === 0) { a.target = "_blank"; a.rel = "noopener"; }
+      lbActions.appendChild(a);
+    }
+    if (w.play) {
+      if (w.play.type === "external") addBtn(w.play.label || "前往试玩", w.play.url, true);
+    }
+    if (w.links) w.links.forEach(function (l) { addBtn(l.label, l.url, false); });
+    if (!w.play && !w.links) {
+      var note = document.createElement("span");
+      note.className = "lb-btn";
+      note.style.cursor = "default";
+      note.textContent = "仅展示";
+      lbActions.appendChild(note);
+    }
+    lb.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+
+  $$(".poster").forEach(function (p) {
+    p.addEventListener("click", function () { openLb(p.getAttribute("data-id")); });
+    p.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLb(p.getAttribute("data-id")); }
+    });
+  });
+  $("#lb-close").addEventListener("click", closeLb);
+  lb.addEventListener("click", function (e) { if (e.target === lb) closeLb(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && lb.classList.contains("open")) closeLb(); });
+})();
+</script>
+
+</body>
+</html>

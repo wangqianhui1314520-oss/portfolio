@@ -1,5 +1,9 @@
 .workbuddy/
 node_modules/
+.verify/
+_shots/
+reference_frames/
+reference-contact.jpg
 print-pdf.js
 PROPOSAL.md
 *.pdf

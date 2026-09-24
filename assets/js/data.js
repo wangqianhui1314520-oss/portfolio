@@ -7,6 +7,7 @@ window.PORTFOLIO_DATA = {
   profile: {
     name: "Tem",
     enName: "Wang Qianhui",
+    cnName: "王乾辉",
     title: "游戏开发 / 物联网应用技术",
     tagline: "做能跑起来的东西",
     location: "江苏",
@@ -122,7 +123,7 @@ window.PORTFOLIO_DATA = {
       ],
       video: "assets/videos/growth.mp4",
       play: { type: "iframe", url: "games/growth-archive/index.html", ratio: "816 / 624" },
-      links: []
+      links: [{ label: "itch.io 页面", url: "https://tempestwang.itch.io/growth-archive" }]
     },
     {
       id: "rebirth",
@@ -152,15 +153,24 @@ window.PORTFOLIO_DATA = {
       id: "kun",
       type: "游戏",
       title: "困",
-      subtitle: "视觉小说 · 罕见病教育",
+      subtitle: "视觉小说游戏 · 罕见病教育",
       cover: "assets/covers/kun-cover.jpg",
       year: "2026",
-      role: "制作",
+      role: "团队创作 · 剧情 / 系统策划 / 音频",
       status: "已完成",
-      stack: ["视觉小说", "IndexTTS 2.5"],
-      desc: "嗜睡症主题的罕见病教育视觉小说，16 个角色设定，本地语音模型生成配音。",
-      highlights: ["16 角色设定", "嗜睡症科普主题"],
-      specs: [],
+      stack: ["视觉小说", "IndexTTS 2.5", "罕见病科普"],
+      desc: "罕见病教育主题视觉小说游戏《困》，聚焦嗜睡症科普与人文关怀。构建 16 个角色完整设定驱动多线叙事，配音由本地 IndexTTS 2.5 按角色 / 按句切片生成；已作为腾讯游戏创作大赛「小红花作品」参展。",
+      highlights: [
+        "16 角色完整设定 · 多线叙事",
+        "嗜睡症等罕见病科普与人文关怀",
+        "本地 IndexTTS 2.5 按角色 / 句切片配音",
+        "腾讯游戏创作大赛「小红花作品」参展"
+      ],
+      specs: [
+        { k: "类型", v: "视觉小说 / 教育游戏" },
+        { k: "角色", v: "16 角色设定" },
+        { k: "音频", v: "本地 IndexTTS 2.5 零成本配音" }
+      ],
       play: { type: "none", url: "" },
       links: []
     },
@@ -256,6 +266,33 @@ window.PORTFOLIO_DATA = {
       ],
       images: [
         { src: "assets/certificates/tencent-hackathon-ec.jpg", caption: "腾讯云黑客松华东赛区优胜奖" }
+      ],
+      play: { type: "none", url: "" },
+      links: []
+    },
+    {
+      id: "zhihu-hackathon-cert",
+      type: "作品证书",
+      section: "work",
+      title: "知乎黑客松·校园新锐季 参赛凭证",
+      subtitle: "ZHIHU HACKATHON · Campus Rising Stars",
+      cover: "assets/certificates/zhihu-hackathon-cert.jpg",
+      year: "2026",
+      role: "参赛者",
+      status: "参赛凭证",
+      stack: ["知乎黑客松", "求真档案局·看山失踪夜"],
+      desc: "知乎黑客松「校园新锐季」参赛凭证（2026/9/19 颁发）。表彰在 48 小时极限开发中以 AI 共创知识社区新可能，参赛作品为 AI 网页剧本杀《求真档案局·看山失踪夜》。",
+      highlights: [
+        "48 小时极限开发",
+        "以 AI 共创知识社区新可能",
+        "参赛作品《求真档案局·看山失踪夜》"
+      ],
+      specs: [
+        { k: "赛事", v: "知乎黑客松 · 校园新锐季" },
+        { k: "证书", v: "参赛凭证（2026/9/19）" }
+      ],
+      images: [
+        { src: "assets/certificates/zhihu-hackathon-cert.jpg", caption: "知乎黑客松·校园新锐季 参赛凭证 · 王乾辉" }
       ],
       play: { type: "none", url: "" },
       links: []
