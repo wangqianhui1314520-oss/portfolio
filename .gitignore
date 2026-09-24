@@ -1,17 +1,15 @@
 .workbuddy/
 node_modules/
-.verify/
-_shots/
-reference_frames/
-reference-contact.jpg
-# 本地在研的沉浸式新版（半成品，暂不上线）
+
+# ── 本地归档（设计参考 / 校验产物 / 旧导出，均不上线）──
+_archive/
+
+# ── 本地在研的沉浸式新版（半成品，禁止 push 上线）──
 immersive.html
 cinematic.html
 assets/js/immersive-*.js
 assets/css/immersive-cosmos.css
 assets/images/
-print-pdf.js
-PROPOSAL.md
-*.pdf
+
 *.pptx
 *.log
