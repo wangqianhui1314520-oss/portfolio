@@ -5,11 +5,11 @@ node_modules/
 _archive/
 
 # ── 本地在研的沉浸式新版（半成品，禁止 push 上线）──
-immersive.html
-cinematic.html
-assets/js/immersive-*.js
-assets/css/immersive-cosmos.css
-assets/images/
+site/immersive.html
+site/cinematic.html
+site/assets/js/immersive-*.js
+site/assets/css/immersive-cosmos.css
+site/assets/images/
 
 *.pptx
 *.log
