@@ -54,9 +54,9 @@
   "assets": {
     "full": {
       "file": "tem-refined-observatory-v21.glb",
-      "bytes": 2829084,
-      "triangles": 140894,
-      "meshes": 22,
+      "bytes": 3364060,
+      "triangles": 156390,
+      "meshes": 23,
       "roots": [
         "CABIN_V19",
         "T_IDENTITY_V19",
@@ -67,9 +67,9 @@
     },
     "lod": {
       "file": "tem-refined-observatory-v21-lod.glb",
-      "bytes": 1031732,
-      "triangles": 48106,
-      "meshes": 22,
+      "bytes": 1223496,
+      "triangles": 53338,
+      "meshes": 23,
       "roots": [
         "CABIN_V19",
         "T_IDENTITY_V19",
@@ -83,31 +83,39 @@
   "environmentImageDependencies": 0,
   "materialGuide": {
     "crystal": {
-      "transmission": 0.91,
-      "roughness": 0.052,
-      "ior": 1.472,
+      "transmission": 0.94,
+      "roughness": 0.043,
+      "ior": 1.468,
       "attenuationColor": [
-        0.39,
-        0.66,
-        0.88
+        0.67,
+        0.83,
+        0.99
       ],
-      "attenuationDistance": 5
+      "attenuationDistance": 16
     },
     "floor": {
-      "metalness": 0.3,
-      "roughness": 0.31,
-      "clearcoat": 0.17,
-      "specularIntensity": 0.23
+      "metalness": 0.29,
+      "roughness": 0.245,
+      "clearcoat": 0.28,
+      "specularIntensity": 0.36
     },
     "ceramic": {
-      "metalness": 0.14,
-      "roughness": 0.265,
-      "clearcoat": 0.34
+      "metalness": 0.12,
+      "roughness": 0.23,
+      "clearcoat": 0.4
     }
   },
   "reviews": [
     "User concept identity-target and creation-atlas target viewed directly",
     "Actual v20 Cycles rendering reviewed before modelling"
   ],
-  "runtimeNote": "Four absolute-coordinate semantic roots preserve DOM/identity projection; only one deck floor. Existing v20 external world loads independently."
+  "runtimeNote": "Four absolute-coordinate semantic roots preserve DOM/identity projection; only one deck floor. Existing v20 external world loads independently.",
+  "revision": "21.2",
+  "polish": {
+    "source": "accepted saved v21 engineering project",
+    "displayFrontPosePreserved": true,
+    "addedDisplayRearDepth": 0.06,
+    "closedCrystalContactRails": true,
+    "imageTextures": 0
+  }
 }
