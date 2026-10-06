@@ -1,5 +1,16 @@
 /* V11: world projections retain their intrinsic scene-scale type and bounds.
    Material and feedback only; camera projection owns position and perspective. */
+:root{
+ --tem-font-interface:'Segoe UI Variable','Noto Sans SC','Segoe UI','Microsoft YaHei UI',sans-serif;
+ --tem-font-display:'Noto Serif SC','Source Han Serif SC','Songti SC','SimSun',serif;
+ --tem-font-instrument:'Bahnschrift','Consolas',ui-monospace,monospace;
+}
+body.expedition{font-family:var(--tem-font-interface);font-kerning:normal}
+.opening-launch h1,.arrival-glass-panel .arrival-copy h2,.archive-glass-panel .profile-panel-title h3,.contact-dialog h2{font-family:var(--tem-font-display);font-weight:400}
+.archive-glass-panel .archive-person h3,.arrival-glass-panel .arrival-copy h1{font-family:var(--tem-font-interface);font-variant-numeric:lining-nums}
+.archive-glass-panel .optical-registration,.archive-glass-panel .profile-panel-title>span,.arrival-glass-panel .arrival-copy .eyebrow{font-family:var(--tem-font-instrument);font-weight:400}
+html[lang='en'] :is(.opening-launch h1,.arrival-glass-panel .arrival-copy h2,.archive-glass-panel .profile-panel-title h3,.contact-dialog h2){font-family:var(--tem-font-interface);font-weight:350;letter-spacing:0;text-wrap:pretty}
+.world-anchored .archive-glass-panel :is(p,h3,h4,strong,summary){overflow-wrap:break-word}
 body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel{
  background:linear-gradient(112deg,#06111cba 0%,#0b1928a8 43%,#19304780 82%,#809dc31a)!important;
  border:1px solid #bcd8fa24;
@@ -63,6 +74,18 @@ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-p
  box-shadow:inset 0 1px #f4fbff60,inset 1px 0 #d4e8f531,0 0 18px #accef71c!important;
 }
 .world-anchored .arrival-glass-panel .hero-actions .primary span{color:#d0e7f7}
+.world-anchored .arrival-glass-panel .hero-actions .primary[data-action='start']{
+ border-color:#b6e5f8a3!important;
+ background:linear-gradient(115deg,#92dff929,#b2c8ee1b 64%,#b5a1df12)!important;
+ box-shadow:inset 0 1px #effbff59,inset 0 -2px #a2dcee79,0 0 17px #8ccee51a!important;
+}
+.world-anchored .arrival-glass-panel .hero-actions .primary[data-action='captain']{
+ border-color:#bed4e845!important;
+ background:linear-gradient(115deg,#96bbdc06,#0713201a)!important;
+ color:#d2dfea!important;
+ box-shadow:inset 0 1px #e8f4fc1b!important;
+}
+.world-anchored .arrival-glass-panel .hero-actions .primary[data-action]:is(:hover,:focus-visible){border-color:#d4eefac9!important;box-shadow:inset 0 1px #f5fbff7a,inset 0 -2px #b8e5f5a1,0 0 24px #a3d2ed24!important}
 .world-anchored .archive-chapters button[aria-pressed='true']:before{background:#c4e4f5;box-shadow:0 0 10px #b4d5f05c}
 
 .world-anchored .orbital-map .sector-node{
@@ -153,7 +176,7 @@ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-p
  color:#d6e0ec;
 }
 body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .profile-panel-title h3{font-size:43px;line-height:1.55;letter-spacing:.015em}
-body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel :is(.profile-panel-title>span,.archive-person .eyebrow,.name-origin .eyebrow,.capability-entry .eyebrow){font-size:18px;line-height:1.8;letter-spacing:.12em;color:#b4cce0}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel :is(.profile-panel-title>span,.archive-person .eyebrow,.name-origin .eyebrow,.capability-entry .eyebrow){font-size:22px;line-height:1.7;letter-spacing:.085em;color:#b8cee2}
 body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .profile-overview-details>summary{font-size:27px;min-height:72px;align-items:center}
 body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .reading-entry summary{padding:24px 0;gap:18px}
 body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .reading-entry strong{font-size:32px;line-height:1.55}
@@ -169,6 +192,16 @@ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-p
 body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .content-button span{font-size:30px}
 body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .capability-proof{padding:20px 15px;min-height:90px;border-radius:8px;border:1px solid #c0d7ea23}
 body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .profile-contact .detail-links a{font-size:25px;line-height:1.7;min-height:72px;display:inline-flex;align-items:center}
+/* These inscriptions use the same intrinsic pixels as the paragraph above.
+   Ordinary viewport labels must never inherit this optical surface scale. */
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .archive-process{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));font-size:26px;line-height:1.5;gap:18px;padding:20px 0;margin:24px 0}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .archive-process span{gap:10px;align-items:baseline;min-width:0}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .archive-process small{font-size:22px;line-height:1.5;color:#acc9e0;flex-shrink:0}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel :is(.personal-motto>span,.practice-section>summary small,.profile-contact .eyebrow,.poetry-invitation .eyebrow){font-size:22px;line-height:1.7;letter-spacing:.045em}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel :is(.certificates summary,.certificates p){font-size:28px;line-height:1.75}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .poetry-invitation h4{font-size:42px;line-height:1.5;margin:18px 0}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .reading-entry summary i{font-size:32px;min-width:36px;text-align:center;flex-shrink:0}
+.world-anchored .archive-glass-panel .profile-panel{scrollbar-gutter:stable;scroll-padding-block:32px}
 .world-anchored .archive-glass-panel [data-device-active='true']{
  border-color:#c2e0f86b;
  box-shadow:inset 2px 0 #c6e4f9a8;
@@ -177,14 +210,15 @@ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-p
 .world-anchored .archive-glass-panel [data-device-committed='true']{border-color:#d0e6f87d}
 .world-anchored .archive-glass-panel [data-device-active='true'] :is(.reading-number,.career-date time){color:#e5f3fb}
 .world-anchored .archive-chapters button{min-height:44px}
-@media(min-width:701px){.world-anchored .archive-chapters button{font-size:13px}.world-anchored .archive-chapters button small{font-size:11px}}
+@media(min-width:701px){.world-anchored .archive-chapters button{font-size:14px;letter-spacing:.025em}.world-anchored .archive-chapters button small{font-size:12px}}
 @media(max-width:700px){
  body.world-anchored:not(.scene-fallback):not(.graphics-standby)[data-step='captain'] .archive-glass-panel{background:linear-gradient(112deg,#06101bdf,#102436cf 83%,#48678073)!important}
  body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel :is(.profile-summary,.name-origin p,.profile-curiosity,.reading-entry>p,.capability-entry p,.career-timeline p,.profile-focus p,.poetry-invitation p){font-size:32px;line-height:1.75}
  body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel :is(.archive-actions button,.content-button,.profile-overview-details>summary){min-height:110px}
  body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .archive-actions button{font-size:30px}
- .world-anchored .archive-chapters button{font-size:10px;min-height:44px;gap:4px}
- .world-anchored .archive-chapters button small{font-size:9px}
+ .world-anchored .archive-chapters button{font-size:12px;line-height:1.45;min-height:48px;gap:4px;letter-spacing:0;white-space:normal}
+ .world-anchored .archive-chapters button small{font-size:10px}
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .archive-process{grid-template-columns:1fr;gap:12px;font-size:28px}
 }
 
 /* The bright mounting points are geometry. Keep the readable optical face
@@ -211,7 +245,7 @@ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-p
   box-shadow:inset 0 1px #e7f4fa30,inset -1px 0 #b8d6e51d;
  }
  body.world-anchored:not(.scene-fallback):not(.graphics-standby)[data-step='captain'] .archive-glass-panel .profile-panel{padding:25px 49px 28px}
- .world-anchored .archive-glass-panel .optical-registration{margin:23px 49px 0}
+ .world-anchored .archive-glass-panel .optical-registration{margin:23px 49px 0;font-size:20px;line-height:1.5;letter-spacing:.075em}
  .world-anchored .archive-glass-panel .archive-person{margin-bottom:20px}
  .world-anchored .archive-glass-panel .archive-person h3{font-size:112px;line-height:1.06;font-weight:250;letter-spacing:.12em;margin:17px 0 15px}
  .world-anchored .archive-glass-panel .archive-person>p{font-size:26px;letter-spacing:.065em;color:#cfdeea}
@@ -222,11 +256,16 @@ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-p
  .world-anchored .archive-glass-panel .archive-actions{padding:17px 49px 21px;background:linear-gradient(90deg,#04101b45,#1831471a)}
  .world-anchored .archive-glass-panel .archive-actions button{font-size:30px;min-height:82px;padding:18px 25px}
  .world-anchored .arrival-glass-panel .arrival-copy{padding:38px 49px;justify-content:center}
- .world-anchored .arrival-glass-panel .arrival-copy .eyebrow{font-size:17px;margin-bottom:23px}
+ .world-anchored .arrival-glass-panel .arrival-copy .eyebrow{font-size:22px;line-height:1.5;letter-spacing:.065em;margin-bottom:22px}
  .world-anchored .arrival-glass-panel .arrival-copy h1{font-size:108px;line-height:1.2}
- .world-anchored .arrival-glass-panel .arrival-copy .arrival-role{font-size:29px;margin:13px 0}
- .world-anchored .arrival-glass-panel .arrival-copy h2{font-size:29px;line-height:1.7;margin:17px 0}
- .world-anchored .arrival-glass-panel .arrival-copy p{font-size:28px;line-height:1.8;margin-bottom:30px}
+ .world-anchored .arrival-glass-panel .arrival-copy .arrival-role{font-size:30px;line-height:1.55;font-weight:500;letter-spacing:.015em;margin:12px 0}
+ .world-anchored .arrival-glass-panel .arrival-copy h2{font-size:33px;line-height:1.65;letter-spacing:.015em;margin:15px 0}
+ .world-anchored .arrival-glass-panel .arrival-copy p{font-size:31px;line-height:1.7;letter-spacing:.005em;margin-bottom:26px}
  .world-anchored .arrival-glass-panel .hero-actions{flex-direction:row;gap:18px}
  .world-anchored .arrival-glass-panel .hero-actions .primary{flex:1;font-size:29px;min-height:93px;padding:20px 22px}
+}
+@media(max-width:700px){
+ .world-anchored .arrival-glass-panel .arrival-copy .eyebrow{font-size:22px;line-height:1.5;letter-spacing:.06em}
+ .world-anchored .arrival-glass-panel .arrival-copy .arrival-role{font-weight:500;letter-spacing:.01em}
+ .world-anchored .archive-glass-panel .optical-registration{font-size:20px;line-height:1.5;letter-spacing:.06em}
 }
