@@ -28,10 +28,10 @@ def head(path):
 
 
 def main():
-    targets = ['/', '/immersive.html', '/zh/', '/zh/work/', '/en/about/', '/poetry.html',
+    targets = ['/', '/zh/', '/zh/work/', '/en/about/', '/poetry.html',
                '/resume.html', '/sitemap.xml', '/robots.txt']
 
-    html = read('immersive.html')
+    html = read('index.html')
     for match in re.findall(r'(?:href|src)="(/[^"]+)"', html):
         targets.append(match.split('?')[0])
 

@@ -30,5 +30,5 @@ const server=createServer((req,res)=>{
  }catch{if(!res.headersSent)res.writeHead(404,{'Content-Type':'text/plain; charset=utf-8'});res.end('Not found');}
 });
 server.on('error',error=>{console.error(error.message);process.exitCode=1;});
-server.listen(port,'127.0.0.1',()=>console.log(`Tem preview: http://127.0.0.1:${port}/immersive.html\nRoot: ${root}`));
+server.listen(port,'127.0.0.1',()=>console.log(`Tem preview: http://127.0.0.1:${port}/\nRoot: ${root}`));
 for(const signal of ['SIGINT','SIGTERM'])process.on(signal,()=>server.close());

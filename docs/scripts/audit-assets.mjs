@@ -80,7 +80,7 @@ for (const f of checklist) {
   console.log((by ? '  [危险·有引用] ' : '  [安全·无引用] ') + f + (by ? '  ← ' + [...by].join(', ') : ''));
 }
 
-console.log('\n--- 主站 immersive.html 直接依赖 ---');
-let html = fs.readFileSync('immersive.html', 'utf8');
+console.log('\n--- 主站 index.html 直接依赖 ---');
+let html = fs.readFileSync('index.html', 'utf8');
 const direct = [...html.matchAll(/(?:href|src)="([^"]+)"/g)].map((m) => m[1]).filter((u) => !/^(https?:|mailto:|#)/.test(u));
 console.log(direct.join('\n'));

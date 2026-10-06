@@ -14,7 +14,7 @@ const exists = relative => fs.existsSync(path.join(root, relative));
 const stripQuery = value => value.split(/[?#]/)[0];
 
 test('the main site entry and every asset it references exists', () => {
-  const entry = read('immersive.html');
+  const entry = read('index.html');
   const local = [...entry.matchAll(/(?:href|src)="([^"]+)"/g)]
     .map(match => match[1])
     .filter(url => !/^(?:https?:|mailto:|tel:|#)/.test(url))
@@ -56,7 +56,7 @@ test('every local import inside the immersive module graph resolves', () => {
 });
 
 test('every local stylesheet imported by the main site resolves, including nested assets', () => {
-  const entry = read('immersive.html');
+  const entry = read('index.html');
   const sheets = [...entry.matchAll(/href="([^"]+?\.css[^"]*)"/g)].map(match => stripQuery(match[1]));
   assert.ok(sheets.length >= 13, 'Expected the full main-site stylesheet stack.');
   for (const sheet of sheets) {

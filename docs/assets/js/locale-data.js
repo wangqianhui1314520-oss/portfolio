@@ -26,3 +26,11 @@ export function localePath(locale, suffix = '', basePath = '/') {
   return (base === '/' ? '' : base) + '/' + normalizeLocale(locale) + '/' + suffix.replace(/^\//, '');
 }
 export function projectPath(locale, id, basePath = '/') { return localePath(locale, 'work/' + encodeURIComponent(id) + '/', basePath); }
+// Static case studies, filters and poem anchors remain in the same context.
+export function languageDestination(destination, currentURL) {
+  const current = new URL(currentURL);
+  const target = new URL(destination, current);
+  target.search = current.search;
+  target.hash = current.hash;
+  return target.href;
+}

@@ -38,14 +38,7 @@ window.PORTFOLIO_DATA = {
     // 提炼自《王乾辉简历.pdf》（2026-09-27 版本），用于沉浸式创作者档案。
     resume: {
       focus: "AI 原生游戏策划 / 产品策划 / AI 应用开发",
-      education: {
-        institution: "江苏商贸职业学院",
-        program: "物联网应用技术",
-        qualification: "专科 · 在读",
-        period: "2024.09 — 预计 2027.06",
-        expectedGraduation: "2027-06",
-        courses: ["物联网组网技术", "传感器原理", "嵌入式系统", "C 语言", "数据库原理", "Python 程序设计"]
-      },
+
       headline: "让创意拥有机制，让世界真正运行。",
       summary: "我以游戏策划为起点，把玩法、叙事与 AI 系统连接起来。从需求分析、原型设计到开发部署，亲手推进一个想法成为可以被体验的作品。物联网与嵌入式技术，是我关注实现细节与交付质量的技术基础。",
       capabilities: [
@@ -449,6 +442,36 @@ window.PORTFOLIO_DATA.international = {
   featured: ['growth', 'yuanmo', 'zhihu'],
   languages: {ming:'zh',yuanmo:'zh',epoch:'zh',growth:'zh',rebirth:'zh',kun:'zh',novel:'zh',zhihu:'zh',poetry:'zh', 'esp32-learn':'zh'},
   caseStudies: {
+    ming: {
+      zh: {challenge:'让政治选择产生有规则、有记忆的后果，而不仅是一段生成的对话。',context:'以明代政治叙事为背景，连接人物、物品与地点。项目基于 Godot 持续迭代，参加腾讯游戏创作大赛。',
+        decisions:[{title:'先搭建可推演的世界',text:'用 10 角色 × 5 步骤组织交互框架；21 人物、48 物品与 33 地点构成叙事所依赖的世界结构。'},{title:'让 AI 表演，让规则裁定',text:'NPCAgent、MemorySystem、Timeline 与 ConsistencyGuard 配合约束角色对话；多分支叙事与九档结局让选择延续到后续体验。'}],facts:['独立开发 / 叙事与系统策划','10 角色 × 5 步骤','持续迭代中的 Godot 项目']},
+      en: {challenge:'Give political decisions consequences that follow rules and remember the player’s choices.',context:'Set in Ming-era China, the project connects characters, objects, and places. Development continues in Godot; the project entered a Tencent game-creation competition.',
+        decisions:[{title:'Build a world that can respond',text:'Ten characters and five interaction steps organize the framework. Twenty-one people, forty-eight items, and thirty-three locations form the world behind the narrative.'},{title:'Let AI perform; let rules decide',text:'NPCAgent, MemorySystem, Timeline, and ConsistencyGuard constrain character dialogue. Branching narrative and nine ending tiers carry decisions into later play.'}],facts:['Solo development / Narrative & systems','10 characters × 5 steps','Godot project in active development']}
+    },
+    rebirth: {
+      zh: {challenge:'在限时开发中，把设施异化与实验体遭遇组织成可游玩的科幻解谜。',context:'武汉翌光计划 Game Jam 团队作品，使用 RPG Maker MV 制作可玩原型，已发布机核。我的职责为游戏策划与测试。',
+        decisions:[{title:'以环境推进叙事',text:'玩法和关卡围绕异化设施与编号实验体展开，让探索中的环境变化承载故事。'},{title:'在限时创作中保留测试',text:'建立 Playtest 清单，记录并跟进体验缺陷，在 48 小时团队协作中推进可游玩版本交付。'}],facts:['团队作品 / 游戏策划与测试','48 小时 Game Jam','已发布机核'],proof:'assets/certificates/cert-rebirth.jpg'},
+      en: {challenge:'Turn a transforming facility and experimental subjects into a playable science-fiction mystery within a game jam.',context:'A team project for the Wuhan Yiguang Game Jam, prototyped in RPG Maker MV and released on GCORES. My role was game design and testing.',
+        decisions:[{title:'Tell the story through the environment',text:'Gameplay and levels revolve around the changing facility and numbered experimental subjects, allowing exploration to carry the story.'},{title:'Make time for testing',text:'A playtest checklist tracked experience defects and follow-up work during the 48-hour team development process.'}],facts:['Team project / Game design & testing','48-hour game jam','Released on GCORES'],proof:'assets/certificates/cert-rebirth.jpg'}
+    },
+    kun: {
+      zh: {challenge:'通过角色与声音，把嗜睡症主题转化为可以体验的叙事。',context:'团队创作的罕见病教育视觉小说。我的工作包括剧情、系统策划与音频，作品已完成并作为腾讯游戏创作大赛「小红花作品」参展。',
+        decisions:[{title:'用多条人物线索组织故事',text:'构建十六个角色与多线叙事，把科普主题放进人物经历与叙事结构中。'},{title:'让音频跟随角色与台词',text:'使用本地 IndexTTS 2.5，按角色与句子生成配音片段，形成可用于视觉小说的叙事音频。'}],facts:['团队创作 / 剧情、系统与音频','16 角色 / 多线叙事','已完成 / 腾讯游戏创作大赛参展']},
+      en: {challenge:'Bring a story about hypersomnia to life through characters and voice.',context:'A team-created educational visual novel. My work covered narrative, systems design, and audio. The completed project appeared in Tencent’s “Little Red Flower” game-creation showcase.',
+        decisions:[{title:'Organize the story around people',text:'Sixteen character profiles and multiple storylines connect the educational theme to individual experiences and the narrative structure.'},{title:'Build voice around characters and lines',text:'Local IndexTTS 2.5 generated voice clips by character and sentence, providing narrative audio for the visual novel.'}],facts:['Team project / Narrative, systems & audio','16 characters / Multiple storylines','Completed / Tencent showcase participant']}
+    },
+    epoch: {
+      zh: {challenge:'把独立编写的科幻故事，转化为可发布的 AI 短剧。',context:'独立完成编剧、AI 图像与视频生成、镜头组织和剪辑。两期作品已发布抖音，并参赛 pavo0 低成本 AI 短剧创作大赛。',
+        decisions:[{title:'让脚本指导素材生产',text:'围绕科幻脚本生成图像与视频素材，再组织镜头，使素材服务于故事的呈现。'},{title:'完成从生成到发布的链路',text:'将生成素材剪辑成片并发布，探索低成本 AI 创作流程。本站提供作品影像及项目介绍。'}],facts:['独立创作 / 编剧、AI 生成与剪辑','两期作品已发布抖音','pavo0 AI 短剧创作大赛参赛作品']},
+      en: {challenge:'Turn an independently written science-fiction story into a publishable AI short drama.',context:'I handled writing, AI image and video generation, shot arrangement, and editing. Two episodes were published on Douyin; the work entered the PAVO low-cost AI short-drama competition.',
+        decisions:[{title:'Use the script to guide generation',text:'Images and video were generated around the science-fiction script, then arranged into shots that serve the story.'},{title:'Complete the path to publication',text:'The generated material was edited and published, exploring a low-cost AI workflow. This site presents project footage alongside the project description.'}],facts:['Solo creation / Writing, AI generation & editing','Two episodes published on Douyin','PAVO AI short-drama competition entry']}
+    },
+    'esp32-learn': {
+      zh: {challenge:'让没有实体开发板的学习者，也能操作并理解 ESP32 实验。',context:'独立开发的 Vue 3 交互式教学站，已上线知乎 AIWorks。课程与前端实现一同设计，连接知识、操作与自测。',
+        decisions:[{title:'将知识组织成学习路径',text:'规划十三个模块、四十七个章节，循序展开课程内容，并设置自测与结业证书。'},{title:'把实验带进浏览器',text:'接入 Wokwi 模拟器与实验室，配合交互接线图，让学习者在零硬件条件下进行操作。'}],facts:['独立开发 / 前端与课程设计','13 模块 / 47 章节','已上线知乎 AIWorks']},
+      en: {challenge:'Let learners operate and understand ESP32 experiments without a physical development board.',context:'An independently developed Vue 3 learning site, published on Zhihu AIWorks. Curriculum and frontend implementation connect concepts, interaction, and self-assessment.',
+        decisions:[{title:'Give learning a path',text:'Thirteen modules and forty-seven chapters structure the content, accompanied by self-tests and completion certificates.'},{title:'Bring experiments into the browser',text:'Wokwi simulation and a virtual lab work alongside interactive wiring diagrams, allowing practical exploration without hardware.'}],facts:['Solo development / Frontend & curriculum','13 modules / 47 chapters','Published on Zhihu AIWorks']}
+    },
     growth: {
       zh: {challenge:'让一段被遗忘的成长，通过玩家亲手寻找证据重新浮现。', context:'QQ 空间是中国的个人社交主页。《生长档案》以 2009 年的界面和生活片段构建叙事入口，让相册、录音与医院档案成为可调查的证据。',
         decisions:[{title:'从碎片组织叙事',text:'六章主线围绕线索、解谜和揭示推进；玩家通过翻阅相册、听录音与查看档案，拼回人物的成长经历。'},{title:'让时间参与机制',text:'游戏将现实时间与游戏时间连接；五种结局让不同探索路径产生不同结果。'}],
@@ -503,13 +526,7 @@ window.PORTFOLIO_DATA.locales = {en:{
     ],
     resume:{
       focus:'AI-native game design / Product design / AI application development',
-      education:{
-        institution:'Jiangsu Vocational College of Business',
-        program:'Internet of Things Application Technology',
-        qualification:'Vocational diploma · Currently enrolled',
-        period:'Sep 2024 — Expected Jun 2027',
-        courses:['IoT networking','Sensor fundamentals','Embedded systems','C programming','Database fundamentals','Python programming']
-      },
+
       headline:'Give ideas rules. Give worlds a way to work.',
       summary:'Starting with game design, I connect play, narrative, and AI systems. I take ideas from requirements and prototypes through development and deployment. IoT and embedded systems give me a practical foundation for implementation and delivery.',
       capabilities:[

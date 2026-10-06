@@ -1,6 +1,12 @@
+import {languageDestination} from './locale-data.js';
+
 const filters = [...document.querySelectorAll('[data-filter]')];
 const cards = [...document.querySelectorAll('[data-project-category]')];
 const status = document.getElementById('filterStatus');
+const languageLinks = [...document.querySelectorAll('[data-language-switch]')];
+function syncLanguageLinks() {
+  for (const link of languageLinks) link.href = languageDestination(link.href, location.href);
+}
 function selectFilter(category) {
   if (!filters.some(button => button.dataset.filter === category)) category = 'all';
   for (const button of filters) button.setAttribute('aria-pressed', String(button.dataset.filter === category));
@@ -14,11 +20,14 @@ for (const button of filters) button.addEventListener('click', () => {
   selectFilter(button.dataset.filter);
   const url = new URL(location.href); if (button.dataset.filter === 'all') url.searchParams.delete('category'); else url.searchParams.set('category', button.dataset.filter);
   history.pushState(null, '', url);
+  syncLanguageLinks();
 });
-addEventListener('popstate', () => selectFilter(new URL(location.href).searchParams.get('category') || 'all'));
+addEventListener('popstate', () => {selectFilter(new URL(location.href).searchParams.get('category') || 'all');syncLanguageLinks();});
+addEventListener('hashchange', syncLanguageLinks);
 if (filters.length) selectFilter(new URL(location.href).searchParams.get('category') || 'all');
-for (const link of document.querySelectorAll('[data-language-switch]')) link.addEventListener('click', () => {
-  const target = new URL(link.href); target.search = location.search; target.hash = location.hash; link.href = target.href;
+syncLanguageLinks();
+for (const link of languageLinks) link.addEventListener('click', () => {
+  syncLanguageLinks();
   try {localStorage.setItem('tem-locale', link.hreflang === 'en' ? 'en' : 'zh');} catch {}
 });
 document.querySelector('[data-print]')?.addEventListener('click', () => window.print());
