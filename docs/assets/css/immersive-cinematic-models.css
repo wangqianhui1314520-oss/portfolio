@@ -1,0 +1,17 @@
+/* The world contains four persistent chapter surfaces. Only the selected one
+   accepts input; all stay visible in perspective while the camera passes. */
+body.world-anchored .archive-glass-panel[data-archive-panel]{transition:none!important;animation:none!important;will-change:transform;backface-visibility:hidden}
+body.scene-fallback .archive-glass-panel[data-archive-panel][aria-hidden='true'],body.graphics-standby .archive-glass-panel[data-archive-panel][aria-hidden='true']{display:none!important}
+@media(min-width:701px){
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel{background:linear-gradient(116deg,#07112096,#14283c57 68%,#94a9e814)!important;box-shadow:inset 0 1px #d5e6ff24,inset 1px 0 #acc4df18!important;border:1px solid #bacff72c!important}
+ body.world-anchored .archive-glass-panel:before{background:linear-gradient(130deg,#dcefff06,transparent 26%,transparent 81%,#b2c5fd0b)!important}
+}
+
+/* Portrait typography sits on the authored pressure glass. Its physical edge,
+   reflected world and optical seals are supplied by the Blender geometry. */
+@media(min-width:701px){
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby)[data-step='captain'] .archive-glass-panel[data-archive-panel='overview']{background:linear-gradient(116deg,#07121c9c,#10273951 74%,#91b9d916)!important;border-color:transparent!important;box-shadow:inset 0 1px #e1f2ff19!important}
+ body.world-anchored .archive-glass-panel[data-archive-panel='overview'] .archive-tagline{font-family:'Noto Serif SC','Source Han Serif SC','Songti SC','SimSun',serif;font-size:44px!important;font-weight:400;line-height:1.8;letter-spacing:.015em;text-shadow:0 1px 12px #07111ebb}
+ body.world-anchored .archive-glass-panel[data-archive-panel='overview'] .profile-summary{font-weight:300;line-height:1.8;color:#dce6ec}
+ body.world-anchored .archive-glass-panel[data-archive-panel='overview'] .archive-actions button{background:transparent;border:0;border-bottom:1px solid #a9dceb6b;border-radius:0;box-shadow:none;font-weight:400;letter-spacing:.045em}
+}

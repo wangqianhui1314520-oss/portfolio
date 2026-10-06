@@ -1,0 +1,101 @@
+/* Cinematic concept V3: transparent optical devices, cold titanium and light. */
+:root{--orbit-ivory:#ecedff;--orbit-amber:#a8beed;--orbit-ice:#a4d9ff;--accent:#a1c9ff}
+body.expedition{background:#040611;color:#e6ebff}
+.space-vignette{opacity:.36}.space-noise{opacity:.035}
+.bridge-header .brand{font-weight:300;letter-spacing:.23em}.bridge-header .brand-mark{display:none}.bridge-header .brand small{color:#a3b2ce}.bridge-header .quiet-button:hover{color:#c5dbff}
+body[data-step='captain'] .bridge-header{padding:0 3.5%;height:9%}
+.bridge-header .header-tools{gap:25px}.archive-return{color:#c8d4ed}.experience-settings>div{background:#0b1423df;border-color:#829ccc55}
+.world-anchored .archive-glass-panel{background:linear-gradient(116deg,#060c1d88,#101b2e51 66%,#54719817)!important;clip-path:inset(0 round 14px);border:1px solid #abc9ff35;box-shadow:inset 0 1px #e5eeff2b,inset -22px 0 50px #94b2ff09,0 0 24px #608cff08}
+.archive-glass-panel:before{inset:9px;border:1px solid #b9d0ff1b;border-radius:8px;clip-path:none;box-shadow:none}
+.archive-glass-panel:after{background:#b3dcff;box-shadow:0 0 14px #afbeff;left:7%;right:7%}
+.optical-registration{color:#aebddd;font-size:11px;letter-spacing:.18em;margin:28px 38px 0;opacity:.75}.optical-registration i{background:linear-gradient(90deg,#a8c8ff66,transparent)}
+.archive-glass-panel .profile-panel{padding:36px 44px 34px;scrollbar-color:#abc6ff50 transparent}
+.archive-glass-panel .archive-person h3{font-size:116px;font-weight:230;letter-spacing:.12em;line-height:1.05;margin:12px 0 24px;color:#f0efff;text-shadow:0 0 30px #9dadff30}
+.archive-glass-panel .archive-person>p{font-size:24px;font-weight:350;letter-spacing:.13em;color:#d4d9f0}
+.archive-glass-panel .profile-panel-title h3{font-size:39px;font-weight:350;line-height:1.6;letter-spacing:.025em;color:#eff0ff;margin:26px 0}
+.archive-glass-panel .profile-panel-title>span,.archive-glass-panel .archive-person .eyebrow{color:#b1c3e2;font-size:12px}
+.archive-glass-panel .profile-summary,.archive-glass-panel .name-origin p,.archive-glass-panel .profile-curiosity{font-size:25px;color:#cdd5eb;line-height:1.9}
+.archive-glass-panel .archive-process{display:none}
+.archive-glass-panel .profile-overview-details{border-color:#abc7ff36;margin-top:28px}.archive-glass-panel .profile-overview-details>summary{font-size:23px;color:#b8cdec;padding:22px 0}
+.archive-glass-panel .personal-motto{border-color:#a2bfff66}.archive-glass-panel .personal-motto p{color:#d6dcf6}
+.archive-glass-panel .archive-actions{padding:24px 42px 29px;background:linear-gradient(#0a132625,#0b152c45);border-color:#acbfff28}
+.archive-glass-panel .archive-actions button,.archive-glass-panel .content-button,.atlas-launch button,.ship-projection .detail-links a,.ship-projection .content-button{border:1px solid #b9caff75!important;border-radius:32px;clip-path:none;background:linear-gradient(105deg,#6675b822,#75a6c515)!important;color:#e1e9ff!important;box-shadow:inset 0 1px #edf6ff2b,0 0 19px #799cff16!important;letter-spacing:.04em;font-weight:400}
+.archive-glass-panel .archive-actions button{font-size:25px;min-height:70px;padding:17px 25px}
+.archive-glass-panel .archive-actions button:after,.atlas-launch button:after,.ship-projection .detail-links a:after,.ship-projection .content-button:after{background:linear-gradient(100deg,transparent 20%,#9a8fff18 46%,#c0e5ff32 50%,transparent 65%)}
+.archive-glass-panel .archive-actions button:hover,.archive-glass-panel .content-button:hover,.atlas-launch button:hover,.ship-projection .detail-links a:hover{border-color:#dce4ff!important;box-shadow:inset 0 1px #fff6,0 0 30px #809aff40!important;background:linear-gradient(110deg,#8296dd40,#64c8ff26)!important}
+.archive-glass-panel [data-archive-item]:hover,.archive-glass-panel [data-archive-item]:focus-within{border-color:#b1d2ff9c;box-shadow:inset 2px 0 #b6ddff;background:linear-gradient(90deg,#78a4ff17,transparent)}
+.archive-glass-panel .reading-entry summary>span small,.archive-glass-panel .capability-proof small,.archive-glass-panel .career-date time,.archive-glass-panel .record-type,.archive-glass-panel .credential-tags span{color:#b3c3eb}
+.archive-glass-panel .poetry-invitation{border-color:#97b7ef30;background:linear-gradient(120deg,#99b8ff0c,transparent)}
+.archive-glass-panel .tag-list span{border-color:#95b1e52d;background:#8595bb09;color:#b9c5dd}
+.archive-chapters{left:32%;top:auto;bottom:3%;width:61%;height:48px;flex-direction:row;gap:12px;align-items:flex-end;justify-content:space-between}
+.archive-chapters button{font-size:12px;min-height:40px;padding:9px 10px;flex-direction:row;gap:10px;align-items:center;white-space:nowrap;color:#a3abc1}
+.archive-chapters button small{font-size:10px;color:#9dabca}.archive-chapters button:before{left:9px;right:9px;top:auto;bottom:0;height:1px;width:auto;background:#b2d7ff;box-shadow:0 0 14px #9acaff}
+.archive-chapters button[aria-pressed='true']{color:#d4e9ff}.archive-chapters button[aria-pressed='true']:before{background:#c2dbff;box-shadow:0 0 12px #9bcaff}.archive-object-caption{display:none}
+.archive-scroll-hint{left:4%;width:auto;right:auto;bottom:3.8%;font-size:10px;color:#a6b5d4;opacity:.7}
+.atlas-heading{left:5%;top:23%;width:31%}.atlas-heading h2{font-size:clamp(28px,3.6vw,56px);font-weight:300;letter-spacing:.12em;color:#e6e6ff}.atlas-heading .eyebrow{color:#a5b9de}.atlas-heading p{color:#b7c5df;font-size:13px;line-height:1.9}
+.orbital-map .sector-node{background:#1421383d!important;border-color:#a2bcf356!important;border-radius:11px;clip-path:none;backdrop-filter:blur(3px);padding:7px 12px;width:170px}
+.orbital-map .sector-node .coordinate,.orbital-map .sector-node small{display:none}.orbital-map .sector-node strong{font-size:14px;font-weight:400;margin:0;letter-spacing:.08em}
+.orbital-map .sector-node[aria-pressed='true']{background:#856ba72e!important;border-color:#d3ceffaa!important;box-shadow:0 0 22px #a094ff28!important}.orbital-map .sector-node:hover{border-color:#dbe5ff!important}
+.world-anchored .atlas-control{background:linear-gradient(115deg,#0b163579,#23436537)!important;border:1px solid #a9c7ff38;clip-path:inset(0 round 16px);padding:34px 40px;gap:18px;flex-direction:column;align-items:stretch;color:#e9ecff;box-shadow:inset 0 1px #dcf1ff2b}
+.atlas-control h3{font-size:37px;font-weight:400;margin:17px 0 12px}.atlas-control .eyebrow{color:#bbcfef;font-size:12px}.atlas-control p{font-size:18px;color:#bbc8e6;line-height:1.7}
+.atlas-launch{width:100%;display:flex;justify-content:space-between;gap:22px;align-items:center}.atlas-launch>span{font-size:10px;line-height:1.8;max-width:130px;margin:0;color:#adbadd}.atlas-launch button{width:320px;min-height:68px;padding:17px 23px;font-size:25px}
+.world-anchored #expeditionUI .ship-projection .project-detail{border:1px solid #bdd2ff40!important;clip-path:inset(0 round 15px);border-radius:15px!important;background:linear-gradient(125deg,#081226a6,#15243b66 65%,#45608627)!important;box-shadow:inset 0 1px #e2eaff3b,inset -15px 0 40px #a1b6ff10!important}
+.world-anchored .ship-projection .project-detail .screen-heading{border-color:#b4caff32;padding:30px 37px 25px}.world-anchored .ship-projection .project-detail .screen-heading .eyebrow{color:#bacced}
+.ship-projection .project-detail .screen-heading h2{font-weight:350!important;letter-spacing:.05em;color:#eeecff}.ship-projection .detail-copy p,.ship-projection .detail-copy li{color:#d0daef;font-size:27px}
+.ship-projection .responsibility span,.ship-projection .mission-outcome>span,.ship-projection .detail-copy .reading-kicker{color:#b4c7ed}.ship-projection .tag-list span{border-color:#aec4e844;background:#aac0ff10}.ship-projection .screen-footer{border-color:#9bb5ef33;color:#9fb2d6}
+.contact-dialog{background:linear-gradient(135deg,#0b1427f2,#16213be8);border:1px solid #b6c4ef55;border-radius:18px;box-shadow:inset 0 1px #ccd8ff33,0 0 60px #6e92f02a}.contact-dialog h2{font-weight:350;color:#e4e6ff}
+.opening-launch{padding-left:7%;background:linear-gradient(90deg,#04061165,transparent 70%)}.launch-index{left:7%;right:6%;color:#b8c9ee}.launch-index i{opacity:.3}.launch-eyebrow{color:#b2c5ef}.opening-launch h1{font-weight:300;letter-spacing:.075em;font-size:clamp(39px,4.5vw,74px);text-shadow:0 2px 28px #0007}
+.opening-launch p{color:#c1cce3;line-height:2;letter-spacing:.12em}.launch-button{border-radius:40px;min-width:250px;background:#24375422;border-color:#c5d3f8a8;box-shadow:inset 0 1px #eaf4ff42,0 0 24px #819fff14;color:#e5eaff}.launch-route{left:7%;bottom:11%;color:#c0cbea;opacity:.55}.launch-readiness{color:#a2b7d7}
+body[data-opening='waiting'] .opening-letterbox,body[data-opening='loading'] .opening-letterbox{display:none}body[data-opening='waiting']:after{opacity:0}
+.world-coordinate,.stage-line,.flight-readout{color:#aabfe4}.journey-dock .nav-button{border-color:#b0c5ef50;color:#c5d6ef;background:#11203948;border-radius:25px}
+.scene-fallback .archive-glass-panel{left:5%!important;top:13%!important;width:52%!important;height:73%!important;background:#0c1832e8!important}.scene-fallback .atlas-control{background:#10223bea!important}.scene-fallback .ship-projection .project-detail{background:#0a1833eb!important}
+@media(max-width:700px){
+ .bridge-header .header-tools{gap:14px}.archive-return{font-size:10px}.archive-chapters{left:3%;width:94%;top:9%;bottom:auto;height:42px;gap:1px;justify-content:space-between}.archive-chapters button{font-size:9px;gap:4px;padding:7px 3px;min-height:38px}.archive-chapters button small{font-size:8px}.archive-chapters button:before{left:5%;right:5%}
+ .archive-scroll-hint{display:none}.archive-glass-panel .profile-panel{padding:30px 38px}.archive-glass-panel .archive-person h3{font-size:106px}.archive-glass-panel .profile-panel-title h3{font-size:43px}.archive-glass-panel .profile-summary{font-size:30px}.archive-glass-panel .archive-actions{padding:20px 34px 26px}.archive-glass-panel .archive-actions button{font-size:28px;min-height:76px}
+ .atlas-heading{left:6%;top:11%;width:88%;text-align:center}.atlas-heading h2{font-size:27px;margin:10px 0;letter-spacing:.10em}.atlas-heading p{font-size:10px}.orbital-map .sector-node{width:125px;padding:10px 8px;min-height:44px}.orbital-map .sector-node strong{font-size:11px}
+ .world-anchored .atlas-control{padding:25px 40px!important;gap:16px!important}.atlas-control h3{font-size:40px;margin:13px 0 10px}.atlas-control .eyebrow{font-size:17px}.atlas-control p{font-size:24px}.atlas-launch>span{font-size:13px;max-width:200px}.atlas-launch button{font-size:34px;min-height:110px;padding:18px 25px}
+ .ship-projection .detail-copy p,.ship-projection .detail-copy li{font-size:34px;line-height:1.85}
+ .opening-launch{padding:14vh 8%;background:linear-gradient(90deg,#04061165,#04061115)}.launch-index,.launch-route{left:8%}.opening-launch h1{font-size:clamp(36px,10vw,50px)}.opening-launch p{font-size:12px}.launch-button{min-width:240px}
+ .scene-fallback .archive-glass-panel{left:5%!important;top:18%!important;width:90%!important;height:74%!important}
+}
+@media(prefers-reduced-motion:reduce){.archive-glass-panel:after{display:none}.archive-glass-panel button:after,.atlas-launch button:after,.ship-projection a:after{animation:none;display:none}.orbital-map .sector-node{backdrop-filter:none}}
+
+/* The final title is a readable optical surface in the arrival world. */
+body[data-step='bridge'] #expeditionUI{position:fixed;inset:0;width:100%;height:100%;max-width:none;transform:none;pointer-events:none}
+.surface.arrival-surface{position:fixed;inset:0;width:100%;height:100%;padding:0;background:none;display:block;transform:none;animation:none;pointer-events:none}
+body[data-step='bridge'] .world-coordinate{display:none}
+.arrival-glass-panel{display:flex;flex-direction:column;text-shadow:none}
+.arrival-glass-panel .arrival-copy{position:relative;width:100%;flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;padding:35px 48px 42px;transform:none!important;opacity:1!important}
+.arrival-glass-panel .arrival-copy .eyebrow{font:13px/1.8 Consolas,monospace;letter-spacing:.16em;margin:0 0 36px;color:#b9c9ed}
+.arrival-glass-panel .arrival-copy h1{font-family:'Segoe UI',Arial,sans-serif;font-size:94px;font-weight:280;letter-spacing:-.035em;line-height:1.2;width:auto;margin:0;color:#eeefff;text-shadow:0 0 35px #aaa9ff27}
+.arrival-glass-panel .arrival-copy h1 span{font:inherit;letter-spacing:inherit;vertical-align:baseline;display:inline;margin:0;padding:0;border:0;color:inherit}
+.arrival-glass-panel .arrival-copy h2{font-size:29px;font-weight:350;letter-spacing:.055em;line-height:1.7;margin:24px 0;color:#d6def5}
+.arrival-glass-panel .arrival-copy p{font-size:25px;font-weight:350;letter-spacing:.01em;line-height:1.9;color:#cad4ee;margin:0 0 40px}
+.arrival-glass-panel .hero-actions{display:flex;flex-direction:column;align-items:stretch;gap:18px;margin:0;transform:none;opacity:var(--opening-actions,1)}
+.arrival-glass-panel .hero-actions .primary{min-height:78px;padding:20px 28px;border:1px solid #b5cdff80;border-radius:45px;clip-path:none;background:linear-gradient(108deg,#9194d927,#76b4d31c);box-shadow:inset 0 1px #edeeff36,0 0 28px #899dff0d;color:#e0e9ff;font-size:27px;letter-spacing:.05em;font-weight:400;transition:background .25s,box-shadow .25s,border-color .25s}
+.arrival-glass-panel .hero-actions .primary span{font-size:30px;color:#b5d4ff}
+.arrival-glass-panel .hero-actions .primary:hover{border-color:#e0e8ff;background:linear-gradient(110deg,#aba0f03b,#6cc9df28);box-shadow:inset 0 1px #fff5,0 0 32px #899dff38}
+.arrival-glass-panel .arrival-invitation{font-size:17px;color:#a4b7d6;letter-spacing:.10em;line-height:1.8;margin-top:25px}
+body[data-opening='waiting'] .arrival-surface,body[data-opening='loading'] .arrival-surface{visibility:hidden;opacity:0}
+body[data-opening='playing'] .arrival-glass-panel .arrival-copy{opacity:var(--opening-identity,0)!important}
+body[data-opening='playing'] .arrival-surface{opacity:var(--opening-panel,0)}
+body[data-opening='complete'] .arrival-glass-panel .hero-actions{opacity:1}
+.scene-fallback .arrival-glass-panel .arrival-copy{padding:25px;font-size:14px;overflow-y:auto}
+.scene-fallback .arrival-glass-panel .arrival-copy h1{font-size:48px}.scene-fallback .arrival-glass-panel .arrival-copy h2{font-size:19px;margin:15px 0}.scene-fallback .arrival-glass-panel .arrival-copy p{font-size:14px;margin-bottom:20px}.scene-fallback .arrival-glass-panel .hero-actions .primary{font-size:16px;min-height:48px;padding:13px 18px}.scene-fallback .arrival-glass-panel .arrival-invitation{font-size:11px}
+.optical-poetry-entry{position:absolute;transform-origin:0 0;display:flex;align-items:center;justify-content:space-between;padding:10px 28px;border:1px solid #b8c8f664;border-radius:45px;background:linear-gradient(105deg,#99b7d720,#7884ae12);color:#e3edff;font-size:34px;font-weight:350;letter-spacing:.12em;box-shadow:inset 0 1px #eff4ff29;pointer-events:auto}.optical-poetry-entry:hover{background:#9fb7dc30;border-color:#e5efff;box-shadow:0 0 30px #9eacdd27}.optical-poetry-entry:focus-visible{outline:3px solid #d7e7ff;outline-offset:5px}
+@media(max-width:700px){.arrival-glass-panel .arrival-copy{padding:25px 38px 30px}.arrival-glass-panel .arrival-copy .eyebrow{font-size:15px;margin-bottom:24px}.arrival-glass-panel .arrival-copy h1{font-size:91px}.arrival-glass-panel .arrival-copy h2{font-size:30px;margin:18px 0}.arrival-glass-panel .arrival-copy p{font-size:29px;line-height:1.75;margin-bottom:29px}.arrival-glass-panel .hero-actions{gap:14px}.arrival-glass-panel .hero-actions .primary{font-size:30px;min-height:100px}.arrival-glass-panel .arrival-invitation{font-size:19px;margin-top:20px}}
+
+/* The controls are inscriptions on the optical instruments. Their world
+   transform still comes from the physical glass, never a CSS hover tilt. */
+.atlas-heading h2{font-family:Georgia,'Noto Serif SC','Songti SC',SimSun,serif;font-size:clamp(36px,4.7vw,72px);font-weight:400;letter-spacing:.10em;text-shadow:0 0 30px #a6c9ff38}
+.atlas-heading h2:focus,.atlas-heading h2:focus-visible{outline:none!important}
+body.world-anchored .atlas-heading .atlas-quick-browse{font:12px/1.8 'Segoe UI','Microsoft YaHei',sans-serif;letter-spacing:.04em;display:inline-flex;align-items:center;min-height:35px;margin-top:6px;color:#b9cfe5;border-bottom:1px solid #b7d6ed38}
+.orbital-map .sector-node{border-radius:3px 13px 3px 13px;background:linear-gradient(115deg,#a2c6e50c,#0a132840 70%)!important;box-shadow:inset 0 1px #ecf4ff27,inset 0 -1px #a0c8f510;transition:border-color .35s,box-shadow .35s,background .35s,color .35s}
+.orbital-map .sector-node[aria-pressed='true']{background:linear-gradient(110deg,#c0d8ff22,#856aca16 60%,#a7def70c)!important;box-shadow:inset 0 1px #edf6ff70,inset 2px 0 #c4deff90,0 0 24px #aaa4fb24!important}
+.orbital-map .sector-node:hover,.orbital-map .sector-node:focus-visible{background:linear-gradient(115deg,#d1e5ff22,#749ad715)!important;box-shadow:inset 0 1px #fff9,0 0 24px #bbd7ff27;outline:1px solid #d5e5ff90;outline-offset:3px}
+.arrival-glass-panel .hero-actions .primary,.archive-glass-panel .archive-actions button,.atlas-launch button{position:relative;isolation:isolate;overflow:hidden;border-radius:8px 23px 8px 23px;background:linear-gradient(108deg,#d5b58b15,#9dbedc17 35%,#8c80bd0f)!important;border-color:#cadcff70!important;box-shadow:inset 0 1px #fff4,inset 1px 0 #efd7b744,0 0 20px #a1c5fa10!important}
+.arrival-glass-panel .hero-actions .primary:after{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(105deg,transparent 30%,#d4e8ff20 49%,transparent 65%);transform:translateX(-130%);transition:transform .9s cubic-bezier(.18,.66,.2,1)}
+.arrival-glass-panel .hero-actions .primary:hover:after,.arrival-glass-panel .hero-actions .primary:focus-visible:after{transform:translateX(130%)}
+.arrival-glass-panel .hero-actions .primary:hover,.archive-glass-panel .archive-actions button:hover,.atlas-launch button:hover{background:linear-gradient(108deg,#efcdae26,#c0dcff28 40%,#aca0ee18)!important;border-color:#f2f1ffa8!important;box-shadow:inset 0 1px #fff8,inset 1px 0 #ffe5c777,0 0 32px #b9ceff30!important}
+@media(max-width:700px){.atlas-heading h2{font-size:32px;letter-spacing:.11em}.arrival-glass-panel .hero-actions .primary,.archive-glass-panel .archive-actions button,.atlas-launch button{border-radius:8px 20px 8px 20px}}
+@media(prefers-reduced-motion:reduce){.arrival-glass-panel .hero-actions .primary:after{display:none}.orbital-map .sector-node{transition:none}}

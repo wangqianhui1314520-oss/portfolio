@@ -1,0 +1,232 @@
+/* V11: world projections retain their intrinsic scene-scale type and bounds.
+   Material and feedback only; camera projection owns position and perspective. */
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel{
+ background:linear-gradient(112deg,#06111cba 0%,#0b1928a8 43%,#19304780 82%,#809dc31a)!important;
+ border:1px solid #bcd8fa24;
+ border-radius:14px;
+ box-shadow:inset 0 1px #e9f3ff2b,inset -1px 0 #c6dfff18,inset 18px 0 36px #8cbbe006,0 0 22px #789ecd06;
+ clip-path:inset(0 round 14px);
+}
+.world-anchored .archive-glass-panel:before{
+ inset:0;
+ border:0;
+ border-radius:14px;
+ background:linear-gradient(105deg,#c4e1ff10,transparent 13%,transparent 86%,#d7d3fb07);
+ box-shadow:none;
+}
+.world-anchored .archive-glass-panel:after{
+ left:5%;right:5%;height:1px;
+ background:linear-gradient(90deg,transparent,#b3dbff88 18%,#eaf4ffb3 48%,#c3bce59c 72%,transparent);
+ box-shadow:0 0 9px #93b9ed44;
+}
+.world-anchored .archive-glass-panel .profile-panel{animation:none!important}
+.world-anchored .optical-registration{color:#adc6df;opacity:.72}
+.world-anchored .optical-registration i{background:linear-gradient(90deg,#b7d7eb3d,#c2c5e50d 65%,transparent)}
+.world-anchored .archive-glass-panel .archive-actions{
+ background:linear-gradient(90deg,#07121b24,#1633471a);
+ border-color:#b5d5f123;
+}
+.world-anchored .archive-glass-panel .profile-overview-details,
+.world-anchored .archive-glass-panel .reading-entry,
+.world-anchored .archive-glass-panel .capability-entry,
+.world-anchored .archive-glass-panel .practice-section{border-color:#b5cbe32b}
+.world-anchored .archive-glass-panel [data-archive-item]:hover,
+.world-anchored .archive-glass-panel [data-archive-item]:focus-within{
+ background:linear-gradient(90deg,#9bc5ed10,transparent 84%);
+ box-shadow:inset 1px 0 #c0ddf7a3;
+ border-color:#b9d7ed58;
+}
+
+/* Glints occur after deliberate interaction. No repeating DOM light sweep. */
+.world-anchored :is(.arrival-glass-panel .hero-actions .primary,.archive-glass-panel .archive-actions button,.archive-glass-panel .content-button,.atlas-launch button,.optical-poetry-entry,.ship-projection .detail-links a,.ship-projection .content-button){
+ isolation:isolate;
+ overflow:hidden;
+ border:1px solid #c2d7ef4f!important;
+ border-radius:5px 16px 5px 16px;
+ background:linear-gradient(110deg,#b6d4ee0d,#adc6e812 53%,#ac99c908)!important;
+ color:#e0ecf8!important;
+ box-shadow:inset 0 1px #edf6ff26,inset 1px 0 #d4e6fa12!important;
+ clip-path:none;
+ transition:border-color .25s,background .3s,box-shadow .3s;
+}
+.world-anchored :is(.arrival-glass-panel .hero-actions .primary,.archive-glass-panel .archive-actions button,.archive-glass-panel .content-button,.atlas-launch button,.ship-projection .detail-links a,.ship-projection .content-button):after{
+ content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+ background:linear-gradient(105deg,transparent 33%,#d2e6f822 49%,#b8b4eb13 53%,transparent 65%);
+ transform:translateX(-140%);
+ animation:none!important;
+ transition:transform .85s cubic-bezier(.18,.66,.2,1);
+}
+.world-anchored :is(.arrival-glass-panel .hero-actions .primary,.archive-glass-panel .archive-actions button,.archive-glass-panel .content-button,.atlas-launch button,.ship-projection .detail-links a,.ship-projection .content-button):is(:hover,:focus-visible):after{transform:translateX(140%)}
+.world-anchored :is(.arrival-glass-panel .hero-actions .primary,.archive-glass-panel .archive-actions button,.archive-glass-panel .content-button,.atlas-launch button,.optical-poetry-entry,.ship-projection .detail-links a,.ship-projection .content-button):is(:hover,:focus-visible){
+ border-color:#def0faad!important;
+ background:linear-gradient(110deg,#d0e9fa1b,#a7cdeb1f 57%,#b5a7e216)!important;
+ box-shadow:inset 0 1px #f4fbff60,inset 1px 0 #d4e8f531,0 0 18px #accef71c!important;
+}
+.world-anchored .arrival-glass-panel .hero-actions .primary span{color:#d0e7f7}
+.world-anchored .archive-chapters button[aria-pressed='true']:before{background:#c4e4f5;box-shadow:0 0 10px #b4d5f05c}
+
+.world-anchored .orbital-map .sector-node{
+ backdrop-filter:none;
+ background:linear-gradient(110deg,#101f344b,#24486322)!important;
+ border:1px solid #bfd8ef38!important;
+ border-radius:3px 11px 3px 11px;
+ box-shadow:inset 0 1px #e5f3ff20;
+ transition:border-color .3s,background .3s,box-shadow .3s;
+}
+.world-anchored .orbital-map .sector-node:is(:hover,:focus-visible){
+ background:linear-gradient(110deg,#8eb6de21,#384f762b)!important;
+ border-color:#d3e8ff80!important;
+ box-shadow:inset 0 1px #ecf5ff57,0 0 17px #b8d8f21a;
+}
+.world-anchored .orbital-map .sector-node[aria-pressed='true']{
+ background:linear-gradient(112deg,#b7cdea1c,#80729c20 70%,#8ab8e411)!important;
+ border-color:#d6deed8a!important;
+ box-shadow:inset 0 1px #edf5ff61,inset 1px 0 #cfdeec87,0 0 18px #bdc8ed1a!important;
+}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .atlas-control{
+ background:linear-gradient(115deg,#081623ad,#1c344b74 73%,#90b3d319)!important;
+ border:1px solid #b9d5ed2b;
+ box-shadow:inset 0 1px #e0f1ff2a,inset -1px 0 #c4daeb12;
+}
+@media(min-width:701px){
+ .world-anchored .orbital-map .sector-node[data-world-mounted='true']{padding:12px 16px;display:flex;align-items:center;justify-content:center;transform-origin:0 0;contain:layout style;will-change:transform}
+ .world-anchored .orbital-map .sector-node[data-world-mounted='true'] strong{font-size:30px;line-height:1.3;letter-spacing:.04em}
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .atlas-control{padding:25px 34px;gap:12px}
+ .world-anchored .atlas-control h3{font-size:52px;margin:10px 0}
+ .world-anchored .atlas-control .eyebrow{font-size:18px}
+ .world-anchored .atlas-control p{font-size:36px;line-height:1.45}
+ .world-anchored .atlas-launch>span{font-size:18px;max-width:180px}
+ .world-anchored .atlas-launch button{font-size:38px;min-height:128px}
+}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .approach-copy[data-world-mounted='true']{
+ position:fixed;left:0;top:0;width:560px;height:420px;max-width:none;transform-origin:0 0;margin:0;padding:22px 26px;box-sizing:border-box;
+ display:flex;flex-direction:column;justify-content:center;gap:10px;background:linear-gradient(115deg,#0715228c,#122d4026);border:0;border-radius:18px;backdrop-filter:none;
+}
+.world-anchored .approach-copy[data-world-mounted='true'] h3{font-size:46px;line-height:1.15;margin:4px 0 9px}
+.world-anchored .approach-copy[data-world-mounted='true'] p{font-size:24px;line-height:1.5;margin:0}
+.world-anchored .approach-copy[data-world-mounted='true'] :is(.eyebrow,small){font-size:18px;line-height:1.5}
+.world-anchored .approach-copy[data-world-mounted='true'] button{font-size:24px;min-height:68px;padding:14px 20px;flex-shrink:0}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) #expeditionUI .ship-projection .project-detail{
+ background:linear-gradient(115deg,#06131dbf,#0c1d2caf 72%,#3a536b68)!important;
+ border-color:#b7d8ef2e!important;
+ box-shadow:inset 0 1px #e7f3ff26,inset -1px 0 #c7dbef15!important;
+}
+.world-anchored .signal-copy:before{background:linear-gradient(90deg,transparent,#bddcf3aa,transparent);box-shadow:none}
+.world-anchored .signal-node:is(:hover,[aria-pressed='true']) .signal-copy:before{background:linear-gradient(90deg,transparent,#d6efffe0,transparent);box-shadow:0 0 10px #add4ec40}
+
+/* Freeze is shared with the WebGL world. Mobile text sizes remain untouched. */
+body[data-reading] .world-anchored button:after,
+body.world-anchored[data-reading] :is(.archive-glass-panel,.atlas-launch,.ship-projection) :is(button,a):after,
+body[data-motion='reduce'] .world-anchored button:after,
+body.world-anchored[data-motion='reduce'] :is(.archive-glass-panel,.atlas-launch,.ship-projection) :is(button,a):after{display:none!important}
+body.world-anchored[data-reading] :is(.archive-glass-panel,.atlas-control,.sector-node,.signal-copy):before,
+body.world-anchored[data-reading] :is(.archive-glass-panel,.atlas-control,.sector-node,.signal-copy) :is(button,a){transition:none!important}
+@media(max-width:700px){
+ .world-anchored .atlas-launch button{min-height:126px}
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel{background:linear-gradient(112deg,#06121cd2,#0e2131b9 77%,#43617e6b)!important}
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby) #expeditionUI .ship-projection .project-detail{background:linear-gradient(115deg,#06131de0,#0d2032cf)!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .world-anchored :is(.archive-glass-panel,.atlas-control,.sector-node,.signal-copy,.optical-poetry-entry),
+ .world-anchored :is(.archive-glass-panel,.atlas-control,.sector-node,.signal-copy,.optical-poetry-entry):before,
+ .world-anchored :is(.archive-glass-panel,.atlas-control,.sector-node,.signal-copy,.optical-poetry-entry) :is(button,a){transition:none!important}
+ .world-anchored :is(.archive-glass-panel,.atlas-launch,.ship-projection) :is(button,a):after{display:none!important}
+}
+
+/* Observatory v13: type is measured before world projection (640 × 850).
+   Keep the matrix owned by the camera and the text independently scrollable. */
+body.world-anchored:not(.scene-fallback):not(.graphics-standby)[data-step='captain'] .archive-glass-panel{
+ background:linear-gradient(112deg,#06101bc4,#0c1c2cae 55%,#28435970 90%,#bed9eb16)!important;
+ border-color:#c5ddeb30;
+ box-shadow:inset 0 1px #ecf6fc3a,inset -1px 0 #bad8e928,0 0 18px #8cb9d108;
+}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby)[data-step='captain'] .archive-glass-panel .profile-panel{
+ padding:32px 42px 38px;
+ overscroll-behavior:contain;
+ scrollbar-width:thin;
+ scrollbar-color:#adcbe552 transparent;
+}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel :is(.profile-summary,.name-origin p,.profile-curiosity,.reading-entry>p,.capability-entry p,.career-timeline p,.profile-focus p,.poetry-invitation p){
+ font-size:32px;
+ line-height:1.75;
+ letter-spacing:.005em;
+ color:#d6e0ec;
+}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .profile-panel-title h3{font-size:43px;line-height:1.55;letter-spacing:.015em}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel :is(.profile-panel-title>span,.archive-person .eyebrow,.name-origin .eyebrow,.capability-entry .eyebrow){font-size:18px;line-height:1.8;letter-spacing:.12em;color:#b4cce0}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .profile-overview-details>summary{font-size:27px;min-height:72px;align-items:center}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .reading-entry summary{padding:24px 0;gap:18px}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .reading-entry strong{font-size:32px;line-height:1.55}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .reading-entry summary>span span{font-size:27px;line-height:1.75}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .reading-entry summary small{font-size:22px;line-height:1.65}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel :is(.reading-number,.career-date time,.career-date>span,.record-type){font-size:20px;line-height:1.7}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel :is(.capability-entry h4,.career-timeline h4){font-size:34px;line-height:1.65}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel :is(.capability-proof strong,.career-timeline strong){font-size:26px;line-height:1.7}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel :is(.tag-list span,.capability-proof small,.profile-focus>span){font-size:20px;line-height:1.7}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel :is(.personal-motto small,.interest-grid p,.recognition-list p,.poetry-invitation>small,.career-timeline summary:after,.archive-credits){font-size:24px;line-height:1.8}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel :is(.personal-motto p,.interest-grid h4,.recognition-list h4,.profile-subheading,.practice-section>summary){font-size:30px;line-height:1.65}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .content-button{font-size:27px;min-height:82px;padding:18px 22px;gap:24px}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .content-button span{font-size:30px}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .capability-proof{padding:20px 15px;min-height:90px;border-radius:8px;border:1px solid #c0d7ea23}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .profile-contact .detail-links a{font-size:25px;line-height:1.7;min-height:72px;display:inline-flex;align-items:center}
+.world-anchored .archive-glass-panel [data-device-active='true']{
+ border-color:#c2e0f86b;
+ box-shadow:inset 2px 0 #c6e4f9a8;
+ background:linear-gradient(90deg,#a9d3ec16,transparent 80%);
+}
+.world-anchored .archive-glass-panel [data-device-committed='true']{border-color:#d0e6f87d}
+.world-anchored .archive-glass-panel [data-device-active='true'] :is(.reading-number,.career-date time){color:#e5f3fb}
+.world-anchored .archive-chapters button{min-height:44px}
+@media(min-width:701px){.world-anchored .archive-chapters button{font-size:13px}.world-anchored .archive-chapters button small{font-size:11px}}
+@media(max-width:700px){
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby)[data-step='captain'] .archive-glass-panel{background:linear-gradient(112deg,#06101bdf,#102436cf 83%,#48678073)!important}
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel :is(.profile-summary,.name-origin p,.profile-curiosity,.reading-entry>p,.capability-entry p,.career-timeline p,.profile-focus p,.poetry-invitation p){font-size:32px;line-height:1.75}
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel :is(.archive-actions button,.content-button,.profile-overview-details>summary){min-height:110px}
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .archive-actions button{font-size:30px}
+ .world-anchored .archive-chapters button{font-size:10px;min-height:44px;gap:4px}
+ .world-anchored .archive-chapters button small{font-size:9px}
+}
+
+/* The bright mounting points are geometry. Keep the readable optical face
+   quiet, with one coated edge instead of stacked luminous rectangles. */
+@media(min-width:701px){
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel{
+  background:linear-gradient(112deg,#040d18a6,#09192895 60%,#1d354d59 94%,#b4d1df0d)!important;
+  border-color:#b6d5e61b;
+  box-shadow:inset 0 1px #e9f5fb24,inset -1px 0 #b6d4e41c;
+ }
+ .world-anchored .archive-glass-panel:before{background:linear-gradient(110deg,#c7e5f608,transparent 14%,transparent 92%,#dac3b909)}
+ .world-anchored .archive-glass-panel:after{opacity:.42;box-shadow:none}
+ .world-anchored .arrival-glass-panel .arrival-copy h1{text-shadow:none}
+}
+
+/* Wide optical face: 800 × 690 before the camera projects the real panel.
+   The phone's independent 640 × 850 surface keeps its readable touch layout. */
+@media(min-width:701px){
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby)[data-step='captain'] .archive-glass-panel,
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .arrival-glass-panel{
+  background:linear-gradient(110deg,#040c18b3,#08172495 63%,#213a5043 94%,#b8d6e80a)!important;
+  border-color:#bfdbea26;
+  border-radius:18px;
+  box-shadow:inset 0 1px #e7f4fa30,inset -1px 0 #b8d6e51d;
+ }
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby)[data-step='captain'] .archive-glass-panel .profile-panel{padding:25px 49px 28px}
+ .world-anchored .archive-glass-panel .optical-registration{margin:23px 49px 0}
+ .world-anchored .archive-glass-panel .archive-person{margin-bottom:20px}
+ .world-anchored .archive-glass-panel .archive-person h3{font-size:112px;line-height:1.06;font-weight:250;letter-spacing:.12em;margin:17px 0 15px}
+ .world-anchored .archive-glass-panel .archive-person>p{font-size:26px;letter-spacing:.065em;color:#cfdeea}
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel .archive-tagline{font-size:35px;line-height:1.7;letter-spacing:.02em;margin:26px 0 17px;text-wrap:pretty}
+ .world-anchored .archive-tagline span{display:inline}
+ .world-anchored .archive-person~.profile-summary{margin:0 0 20px}
+ .world-anchored .archive-person~.profile-summary br{display:none}
+ .world-anchored .archive-glass-panel .archive-actions{padding:17px 49px 21px;background:linear-gradient(90deg,#04101b45,#1831471a)}
+ .world-anchored .archive-glass-panel .archive-actions button{font-size:30px;min-height:82px;padding:18px 25px}
+ .world-anchored .arrival-glass-panel .arrival-copy{padding:38px 49px;justify-content:center}
+ .world-anchored .arrival-glass-panel .arrival-copy .eyebrow{font-size:17px;margin-bottom:23px}
+ .world-anchored .arrival-glass-panel .arrival-copy h1{font-size:108px;line-height:1.2}
+ .world-anchored .arrival-glass-panel .arrival-copy .arrival-role{font-size:29px;margin:13px 0}
+ .world-anchored .arrival-glass-panel .arrival-copy h2{font-size:29px;line-height:1.7;margin:17px 0}
+ .world-anchored .arrival-glass-panel .arrival-copy p{font-size:28px;line-height:1.8;margin-bottom:30px}
+ .world-anchored .arrival-glass-panel .hero-actions{flex-direction:row;gap:18px}
+ .world-anchored .arrival-glass-panel .hero-actions .primary{flex:1;font-size:29px;min-height:93px;padding:20px 22px}
+}
