@@ -1,0 +1,17 @@
+.workbuddy/
+node_modules/
+
+# ── 本地归档（设计参考 / 校验产物 / 旧导出，均不上线）──
+_archive/
+blender/
+docs/source/
+docs/migration-job-history/
+
+# ── 2026-10-07 起 immersive.html 为主站，以下资源已解禁，随主站发布 ──
+#   immersive.html / assets/js/immersive-*.js / assets/css/immersive-*.css / assets/images/
+#   注意：assets/models/ 约 48MB，push 前留意仓库体积
+cinematic.html
+
+*.pptx
+*.log
+*.pid
