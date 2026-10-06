@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080e18"><title>Tem — Game Designer &amp; Creative Technologist</title><meta name="description" content="I’m Tem. I create games, interactive stories, and AI-powered experiences. Explore my creative universe or browse selected projects."><link rel="canonical" href="https://wqh-tempest.cn/en/"><link rel="alternate" hreflang="zh-CN" href="https://wqh-tempest.cn/zh/"><link rel="alternate" hreflang="en" href="https://wqh-tempest.cn/en/"><link rel="alternate" hreflang="x-default" href="https://wqh-tempest.cn/"><meta property="og:type" content="website"><meta property="og:url" content="https://wqh-tempest.cn/en/"><meta property="og:title" content="Tem — Game Designer &amp; Creative Technologist"><meta property="og:description" content="I’m Tem. I create games, interactive stories, and AI-powered experiences. Explore my creative universe or browse selected projects."><meta property="og:image" content="https://wqh-tempest.cn/assets/covers/growth-kv.jpg"><meta property="og:locale" content="en_US"><meta property="og:site_name" content="Tem — The Worlds Within"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/assets/covers/tem-mark.svg" type="image/svg+xml"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Tem","alternateName":"Wang Qianhui","jobTitle":"Game Designer & Creative Technologist","url":"https://wqh-tempest.cn/en/"}</script>
+  <base href="/">
+  <link rel="stylesheet" href="assets/css/immersive-expedition.css?v=cinematic-v21.1">
+  <link rel="stylesheet" href="assets/css/immersive-cinema.css?v=cinematic-v21.1">
+  <link rel="stylesheet" href="assets/css/immersive-worlds.css?v=cinematic-v21.1">
+  <link rel="stylesheet" href="assets/css/immersive-universe.css?v=cinematic-v21.1">
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js"}}</script>
+  <link rel="stylesheet" href="assets/css/immersive-odyssey.css?v=cinematic-v21.1">
+  <link rel="stylesheet" href="assets/css/immersive-bridge.css?v=cinematic-v21.1">
+  <link rel="stylesheet" href="assets/css/immersive-opening.css?v=cinematic-v21.1">
+  <link rel="stylesheet" href="assets/css/immersive-content.css?v=cinematic-v21.1">
+  <link rel="stylesheet" href="assets/css/immersive-archive.css?v=cinematic-v21.1">
+  <link rel="stylesheet" href="assets/css/immersive-orbital.css?v=cinematic-v21.1">
+  <link rel="stylesheet" href="assets/css/immersive-optical.css?v=cinematic-v21.1">
+  <link rel="stylesheet" href="assets/css/international-universe.css?v=cinematic-v21.1">
+  <link rel="stylesheet" href="assets/css/immersive-refinement.css?v=cinematic-v21.1">
+  <link rel="stylesheet" href="assets/css/immersive-cinematic-models.css?v=cinematic-v21.1">
+</head>
+<body class="expedition graphics-standby" data-step="bridge" data-opening="loading">
+  <a class="global-skip" href="/en/work/">Browse projects ↗</a>
+  <a class="global-language" data-language-switch href="/zh/" hreflang="zh-CN" lang="zh-CN">中文</a>
+  <div class="launch-backdrop" aria-hidden="true"><span>T</span></div>
+  <canvas id="space" aria-hidden="true"></canvas>
+  <div class="space-noise" aria-hidden="true"></div>
+  <div class="space-vignette" aria-hidden="true"></div>
+  <div class="opening-letterbox" aria-hidden="true"></div>
+  <header class="bridge-header">
+    <button type="button" class="brand" data-action="home" aria-label="Return to Tem"><span class="brand-mark" aria-hidden="true">T</span> TEM <small>THE WORLDS WITHIN</small></button>
+    <div class="header-readout"><i></i><span id="connectionState">BRIDGE / STANDBY</span></div>
+    <div class="header-tools"><button type="button" class="archive-return" data-action="start">Creative Atlas</button><button class="quiet-button" data-action="captain" type="button" id="captainButton">About</button><button class="quiet-button" data-explore type="button">Explore</button><button class="quiet-button" id="contactButton" type="button">Contact</button><details class="experience-settings"><summary aria-label="Experience settings">◉</summary><div class="global-settings"><label><span>Reduce motion</span><select id="motionSetting"><option value="system">Device preference</option><option value="reduce">On</option><option value="full">Off</option></select></label><label><span>Quality</span><select id="qualitySetting"><option value="auto">Adaptive quality</option><option value="low">Lightweight quality</option><option value="full">Full quality</option></select></label><label><span>Sound</span><select id="soundSetting"><option value="on">On</option><option value="off">Off</option></select></label><label><span>Volume</span><input type="range" id="volumeSetting" min="0" max="1" step="0.05" value="0.8" style="width:110px;accent-color:#96dbed;cursor:pointer;"></label><button class="quiet-button" id="grainToggle" type="button" aria-pressed="true">Film grain · On</button><button class="quiet-button" id="replayOpening" type="button">Replay intro ↗</button><a class="quiet-button" href="/en/work/">Lightweight reading ↗</a></div></details></div>
+  </header>
+  <dialog id="contactDialog" class="contact-dialog" aria-labelledby="contactTitle"><button class="contact-close" type="button" aria-label="Close contact details">×</button><span class="eyebrow">OPEN A CHANNEL / TEM—01</span><h2 id="contactTitle">A new world begins<br>with a conversation.</h2><p>Talk about a project, collaborate, or simply say hello.</p><p class="contact-location">Jiangsu, China · UTC+8</p><div id="contactLinks"></div></dialog>
+  <div id="world-ui"></div>
+  <section id="openingLaunch" class="opening-launch" aria-labelledby="launchTitle">
+    <div class="launch-index" aria-hidden="true"><span>TEM—01</span><i></i><span>DEEP SPACE DEPARTURE</span></div>
+    <span class="launch-eyebrow">A PERSONAL UNIVERSE BY TEM</span>
+    <h1 id="launchTitle">Beyond the stars.<br>Into my world.</h1>
+    <p class="launch-positioning">Game Designer & Creative Technologist</p>
+    <p id="launchDescription">Your journey starts here.<br>Then explore my work, or get to know me.</p>
+    <button id="startOpening" class="launch-button" type="button" disabled aria-describedby="launchDescription"><span id="launchButtonText">Begin the journey</span><span aria-hidden="true">↗</span></button>
+    <div id="launchReadiness" class="launch-readiness" role="status">Ready whenever you are.</div>
+    <div class="launch-shortcuts"><a href="/en/work/">Browse projects ↗</a><a href="/en/about/">About ↗</a></div>
+    <div class="launch-route" aria-hidden="true"><span>EARTH ORBIT</span><i></i><span>THE WORLDS WITHIN</span></div>
+  </section>
+  <div class="opening-caption" aria-live="polite"><span>TEM—01 / ORBITAL EXPLORER</span><p id="openingStatus">Connecting to the creative universe</p></div>
+  <button id="skipOpening" class="skip-opening" type="button" aria-label="Skip the journey and meet Tem">Meet Tem directly ↗</button>
+  <button id="resetView" class="reset-view" type="button" hidden>Reset view ⟲</button>
+  <div class="world-coordinate" aria-hidden="true"><i></i><span id="worldLocation">EARTH ORBIT / TEM—01</span><small id="worldInstruction">Stay curious about the unknown.</small></div>
+  <main id="expeditionUI" class="world-surface" aria-label="Tem’s creative universe"><section class="surface welcome"><div class="intro-copy"><span class="eyebrow">PERSONAL UNIVERSE / TEM</span><h1>TEM</h1><h2>Game Designer & Creative Technologist</h2><p>I create games, interactive stories, and AI-powered experiences.</p><a href="/en/work/">Browse projects ↗</a><a href="/en/about/">About ↗</a></div></section></main>
+  <div id="statusAnnouncement" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  <nav class="journey-dock" aria-label="Journey controls"><button type="button" data-action="back" class="nav-button" id="backButton" hidden>← Back</button><div class="stage-line"><span id="stageLabel">01 / MEET TEM</span><i></i><span id="sectorLabel">THE WORLDS WITHIN</span></div><button type="button" data-action="map" class="nav-button" id="mapButton" hidden>Back to the atlas ↗</button></nav>
+  <div class="flight-readout" aria-hidden="true"><span>EXPLORATION LOG</span><b id="visitedCount">00</b></div>
+  <noscript><style>.opening-launch,#expeditionUI,.bridge-header,.journey-dock,.skip-opening{display:none!important}.no-script{inset:18% 8%;overflow:auto;max-width:700px;margin:auto}.no-script a{font-size:18px}</style><main class="no-script"><h1>Tem</h1><p>Game Designer & Creative Technologist</p><a href="/en/work/">View all projects ↗</a><a href="/en/about/">About ↗</a><a href="/en/poetry/">Read the poetry ↗</a></main></noscript>
+  <script src="assets/js/data.js?v=cinematic-v21.1"></script>
+  <script type="module" src="assets/js/international-boot.js?v=cinematic-v21.1"></script>
+</body>
+</html>
