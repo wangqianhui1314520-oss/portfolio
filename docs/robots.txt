@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /_archive/
+Sitemap: https://wqh-tempest.cn/sitemap.xml

@@ -3,13 +3,18 @@ node_modules/
 
 # ── 本地归档（设计参考 / 校验产物 / 旧导出，均不上线）──
 _archive/
+docs/blender/
+docs/docs/source/
+docs/docs/migration-job-history/
 
-# ── 本地在研的沉浸式新版（半成品，禁止 push 上线）──
-immersive.html
+# ── 2026-10-07 起 immersive.html 为主站，以下资源已解禁，随主站发布 ──
+#   immersive.html / assets/js/immersive-*.js / assets/css/immersive-*.css / assets/images/
+#   注意：assets/models/ 约 48MB，push 前留意仓库体积
 cinematic.html
-assets/js/immersive-*.js
-assets/css/immersive-cosmos.css
-assets/images/
 
 *.pptx
 *.log
+
+# ── 资料依据：原始简历 PDF 仅作内容来源，不随站发布 ──
+王乾辉简历.pdf
+*.pid
