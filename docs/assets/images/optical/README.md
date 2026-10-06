@@ -1,0 +1,7 @@
+# Tem 远景星海材质
+
+`tem-galactic-panorama.png`：2026-10-05 使用内置 image_gen 生成的 360° 经纬全景纹理。原生图像完整保存，用于远景天空球；动态体积星云、真实行星、近景粒子、光流和交互均由独立 WebGL 对象负责。
+
+生成提示词：
+
+Use case: stylized-concept. Asset: an ultra-detailed cinematic deep-space sky texture, equirectangular 360-degree longitude/latitude projection, landscape 2:1 panorama. Create only the distant astronomical environment for Tem's sophisticated optical sci-fi personal universe. No UI, typography, logo, spacecraft, architecture, planets, horizon, lens flare or foreground objects. Deep midnight black-indigo space occupies at least 65% of the panorama. A delicate immense diagonal galactic band made of thousands of crisp tiny realistically varied stars, softly layered filamentary violet/cyan nebula, several distant lavender reflection clouds, restrained pearl peach luminous cores, complex natural dark dust lanes, fine organic glowing wisps and microscopic star clusters. Visually cinematic, physically inspired astrophotography, subtle cool tonal depth, exquisitely detailed, high dynamic range, calm and luminous without covering the whole sky with haze. Concentrate the most detailed violet/blue nebulous formations on the right-center third and upper band; elsewhere keep sparse crisp stars and open deep black space. The nebula must appear billions of kilometers away, never like close purple smoke or broad smooth painted blobs. Seamless left/right panoramic edges, polar areas quiet and dark, no obvious repeated patterns. A professional skybox texture, full bleed, sharp details, no watermark.
