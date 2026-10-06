@@ -253,6 +253,8 @@ else:
                     mark(box('V21.2 Lab hatch recessed service catch',(side*.80,.32,-.18+j*.39),(.068,.030,.055),warm,root,.008))
     # Export with genuine local craft origins; staging transforms restored below.
     poses=[(r.location.copy(),r.rotation_euler.copy()) for r in roots]
+    for obj in author.objects:
+        if obj.type=='CURVE':obj.data.use_fill_caps=True
     for r in roots:r.location=(0,0,0);r.rotation_euler=(0,0,0)
     bpy.context.view_layer.update()
     for obj in list(exports.objects):bpy.data.objects.remove(obj,do_unlink=True)

@@ -38,6 +38,14 @@ window.PORTFOLIO_DATA = {
     // 提炼自《王乾辉简历.pdf》（2026-09-27 版本），用于沉浸式创作者档案。
     resume: {
       focus: "AI 原生游戏策划 / 产品策划 / AI 应用开发",
+      education: {
+        institution: "江苏商贸职业学院",
+        program: "物联网应用技术",
+        qualification: "专科 · 在读",
+        period: "2024.09 — 预计 2027.06",
+        expectedGraduation: "2027-06",
+        courses: ["物联网组网技术", "传感器原理", "嵌入式系统", "C 语言", "数据库原理", "Python 程序设计"]
+      },
       headline: "让创意拥有机制，让世界真正运行。",
       summary: "我以游戏策划为起点，把玩法、叙事与 AI 系统连接起来。从需求分析、原型设计到开发部署，亲手推进一个想法成为可以被体验的作品。物联网与嵌入式技术，是我关注实现细节与交付质量的技术基础。",
       capabilities: [
@@ -162,17 +170,17 @@ window.PORTFOLIO_DATA = {
       sector: "lumen",
       type: "AI 影像",
       title: "机械纪元：人类余烬",
-      subtitle: "Unreal 5 · AI 短剧",
+      subtitle: "AI 科幻短剧 · 编剧与剪辑",
       cover: "assets/covers/epoch-cover.jpg",
       year: "2026",
       role: "主创 / 导演",
       status: "已参赛 · Demo 完成",
-      stack: ["Unreal 5", "AI 生成管线"],
-      desc: "12 分钟影视化 AI 短剧，60 个片段 × 12 秒，全程 AI 生成图像与视频素材。参赛 PAVO 0 成本 AI 短剧创作大赛。",
+      stack: ["AI 图像 / 视频生成", "视频剪辑"],
+      desc: "以 AI 图像与视频生成、镜头组织和剪辑完成的科幻短剧。两期作品已发布于抖音，探索从脚本到成片的低成本创作流程；参赛 pavo0 AI 短剧创作大赛。",
       highlights: [
         "PAVO 0 成本 AI 短剧创作大赛 · AI 融合创新赛道",
-        "12 分钟成片",
-        "60 segments × 12s",
+        "两期作品已发布于抖音",
+        "独立完成编剧、AI 生成与剪辑",
         "AI 全链路出片"
       ],
       specs: [],
@@ -218,7 +226,7 @@ window.PORTFOLIO_DATA = {
       subtitle: "RPG Maker MV · 科幻解谜",
       cover: "assets/covers/rebirth-cg.jpg",
       year: "2026",
-      role: "主创",
+      role: "团队开发 · 游戏策划 / 测试",
       status: "已发布",
       stack: ["RPG Maker MV", "JavaScript", "nw.js"],
       desc: "你从实验室培养皿中苏醒（系统提示「已唤醒实验对象」），在逐渐异化的设施中探索逃亡：墙壁血字、监控红灯、积液与血管组织逐渐蔓延。沿途遭遇编号实验体——03号（视觉敏锐）、07号、13号（无眼，靠嗅觉）、42号，最终面对模仿你一切的 99号母体。",
@@ -495,6 +503,13 @@ window.PORTFOLIO_DATA.locales = {en:{
     ],
     resume:{
       focus:'AI-native game design / Product design / AI application development',
+      education:{
+        institution:'Jiangsu Vocational College of Business',
+        program:'Internet of Things Application Technology',
+        qualification:'Vocational diploma · Currently enrolled',
+        period:'Sep 2024 — Expected Jun 2027',
+        courses:['IoT networking','Sensor fundamentals','Embedded systems','C programming','Database fundamentals','Python programming']
+      },
       headline:'Give ideas rules. Give worlds a way to work.',
       summary:'Starting with game design, I connect play, narrative, and AI systems. I take ideas from requirements and prototypes through development and deployment. IoT and embedded systems give me a practical foundation for implementation and delivery.',
       capabilities:[

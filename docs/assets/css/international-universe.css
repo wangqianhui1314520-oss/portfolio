@@ -4,22 +4,22 @@
 .launch-backdrop:after{width:58vw;height:58vw;top:24vh;right:-4vw;background:radial-gradient(circle at 25% 20%,#52718855,#0a192699 55%,#030a1399);border-color:#abdff044;box-shadow:inset 30px 20px 80px #b4e4ee15}
 .launch-backdrop span{position:absolute;font-family:Georgia,serif;right:21%;top:23%;font-size:clamp(150px,32vw,400px);line-height:1;color:#badbe435;z-index:1;font-weight:400}
 .webgl-ready .launch-backdrop{display:none}
-.global-language{position:fixed;right:4.6%;top:24px;z-index:100;min-height:44px;padding:10px 0;font-size:13px;line-height:1.8;color:#eef3f6;border-bottom:1px solid #bed7e34d}
+.global-language{position:fixed;right:4.6%;top:24px;z-index:100;min-height:44px;min-width:44px;padding:10px 0;font-size:14px;line-height:1.7;color:#eef3f6;border-bottom:1px solid #bed7e34d;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
 .global-skip{position:fixed;left:20px;top:-100px;z-index:110;background:#142433;color:#eef6fa;padding:12px 20px;border:1px solid #aacddd}.global-skip:focus{top:20px}
-.bridge-header{padding-right:130px}.bridge-header .header-tools{gap:20px}.header-readout{display:none}.quiet-button{min-height:44px;font-size:13px}
+.bridge-header{padding-right:130px}.bridge-header .header-tools{gap:24px}.header-readout{display:none}.quiet-button{min-height:44px;min-width:44px;font-size:14px;letter-spacing:.025em}
 .experience-settings summary{min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
-.experience-settings .global-settings{min-width:240px;max-width:80vw;display:flex;flex-direction:column;gap:8px;padding:18px;right:0}
-.global-settings label{display:flex;justify-content:space-between;gap:16px;align-items:center;font-size:13px;min-height:44px;color:#e1edf3}
+.experience-settings .global-settings{min-width:260px;max-width:calc(100vw - 32px);max-height:calc(100dvh - 116px);overflow-y:auto;overscroll-behavior:contain;box-sizing:border-box;display:flex;flex-direction:column;gap:10px;padding:20px;right:0}
+.global-settings label{display:flex;justify-content:space-between;gap:16px;align-items:center;font-size:14px;line-height:1.5;min-height:44px;color:#e1edf3}
 .global-settings select{font:inherit;background:#132333;color:#eef6fa;border:1px solid #8cacbf66;padding:8px;min-height:44px;max-width:150px;border-radius:5px}.global-settings a{display:flex;align-items:center}
-.launch-positioning{font-size:16px!important;color:#dfedf3!important;letter-spacing:.02em!important;margin:18px 0 0!important}
+.launch-positioning{font-size:17px!important;color:#dfedf3!important;letter-spacing:.015em!important;margin:18px 0 0!important}
 .launch-shortcuts{display:flex;gap:28px;margin-top:18px;position:relative;z-index:3}.launch-shortcuts a{font-size:14px;min-height:44px;display:flex;align-items:center;color:#d5e9f0;border-bottom:1px solid #a8cada55}
-.launch-readiness{font-size:12px!important;color:#bdcfdc!important}.opening-launch .launch-eyebrow{font-size:11px}.opening-launch h1{font-size:clamp(42px,5vw,64px)}.opening-launch #launchDescription{font-size:16px;line-height:1.85;max-width:520px}.opening-launch .launch-route{font-size:10px}.launch-button{font-size:16px;min-height:55px}.skip-opening{font-size:13px;min-height:44px}
+.launch-readiness{font-size:13px!important;color:#bdcfdc!important}.opening-launch .launch-eyebrow{font-size:12px;line-height:1.6;letter-spacing:.12em}.opening-launch h1{font-size:clamp(44px,5vw,72px);line-height:1.35;letter-spacing:.035em;max-width:650px;text-wrap:balance}.opening-launch #launchDescription{font-size:17px;line-height:1.8;max-width:520px}.opening-launch .launch-route{font-size:11px}.launch-button{font-size:16px;min-height:56px;border-radius:6px 22px 6px 22px;letter-spacing:.04em}.skip-opening{font-size:14px;min-height:44px}
 .arrival-glass-panel .arrival-role{display:block;font-size:28px;line-height:1.6;color:#edf6fa;margin:12px 0}.arrival-copy .arrival-invitation{display:none}
 .arrival-glass-panel .quick-browse{display:inline-flex;align-items:center;min-height:70px;font-size:25px;color:#c7e4f0;margin-top:14px;border-bottom:1px solid #a8cada55;align-self:flex-start}
 .arrival-glass-panel .arrival-copy{overflow-y:auto;scrollbar-width:thin}
 .world-anchored .archive-glass-panel{background:linear-gradient(110deg,#07111fcc,#0a1924aa)!important}.world-anchored .ship-projection .project-detail{background:#091624db!important}
 .atlas-quick-browse{display:inline-flex;font-size:23px;color:#c7e4f0;min-height:55px;align-items:center;margin-top:12px;border-bottom:1px solid #a8cada55}
-.media-guide-note{font-size:22px;line-height:1.7;color:#b6cbd7}.contact-location{font-size:13px!important;color:#b7cfdf!important}.stage-line span{font-size:11px;letter-spacing:.04em}.nav-button{min-height:44px;font-size:13px}
+.media-guide-note{font-size:24px;line-height:1.7;color:#b6cbd7}.contact-location{font-size:14px!important;color:#b7cfdf!important}.stage-line span{font-size:12px;letter-spacing:.04em}.nav-button{min-height:44px;font-size:14px;letter-spacing:.025em}
 .poetry-reader .translation-note{font-size:13px;color:#c2d4de;padding:12px 15px;background:#091725;margin-bottom:24px;line-height:1.8}.poetry-reader .original-poem{border-top:1px solid #aac7d43a;padding:22px 0}.poetry-reader .original-poem summary{font-size:15px;min-height:44px;cursor:pointer}.poetry-reader .poem-text{white-space:pre-line}.poetry-reader .original-poem .poem-text{margin-top:20px}
 .graphics-standby .arrival-glass-panel,.graphics-standby .archive-glass-panel{transform:none!important;visibility:visible!important;pointer-events:auto!important;left:7%!important;top:12%!important;width:48%!important;height:78%!important;opacity:1!important;background:#091725e6!important;border:1px solid #b6d2df44!important;padding:30px!important}
 .graphics-standby .archive-chapters{opacity:1}.graphics-standby .surface{visibility:visible!important;pointer-events:auto!important}body.graphics-standby:not([data-opening=complete]) #expeditionUI{display:none!important}
@@ -27,15 +27,50 @@
 :is(.graphics-standby,.scene-fallback) .arrival-copy .hero-actions{gap:10px}:is(.graphics-standby,.scene-fallback) .arrival-copy .primary{font-size:16px!important;min-height:44px;padding:12px 18px!important}:is(.graphics-standby,.scene-fallback) .quick-browse,:is(.graphics-standby,.scene-fallback) .atlas-quick-browse{font-size:14px;min-height:44px}:is(.graphics-standby,.scene-fallback) .media-guide-note{font-size:13px}
 body[data-motion=reduce] *,body[data-motion=reduce] *:before,body[data-motion=reduce] *:after{animation:none!important;transition:none!important}
 a:focus-visible,button:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid #c0e1ed!important;outline-offset:4px!important}
-html[lang=en] .archive-tagline{letter-spacing:0!important}html[lang=en] .contact-dialog h2{font-size:32px}html[lang=en] .career-timeline summary:after{content:'Show details +'}html[lang=en] .career-timeline details[open] summary:after{content:'Hide details −'}
+html[lang=en] .archive-tagline{letter-spacing:0!important}html[lang=en] .contact-dialog h2{font-size:clamp(28px,3vw,38px);line-height:1.35}html[lang=en] .career-timeline summary:after{content:'Show details +'}html[lang=en] .career-timeline details[open] summary:after{content:'Hide details −'}
+html[lang=en] :is(.arrival-glass-panel,.archive-glass-panel,.atlas-control) :is(p,h2,h3,h4,strong){letter-spacing:0;overflow-wrap:break-word;text-wrap:pretty}
+html[lang=en] .archive-chapters button{white-space:normal;line-height:1.4;text-align:left}
+html[lang=en] .global-settings select{max-width:144px}
 @media(max-width:700px){
- .global-language{top:14px;right:5%;font-size:12px}.bridge-header{padding:0 85px 0 5%;height:76px}.bridge-header .brand{font-size:20px}.bridge-header .header-tools{gap:10px}.header-tools .quiet-button{font-size:12px;padding:5px 0}.experience-settings summary{min-width:30px}.header-tools .archive-return{display:none}
- .opening-launch{padding-top:15vh}.opening-launch h1{font-size:42px;line-height:1.4;max-width:310px}.launch-positioning{font-size:14px!important}.opening-launch #launchDescription{font-size:15px;margin-top:18px}.launch-shortcuts{gap:24px}.launch-shortcuts a{font-size:13px}.launch-readiness{max-width:270px;line-height:1.7}.stage-line span{font-size:10px;letter-spacing:0}.stage-line span:last-child{display:none}.nav-button{font-size:12px}
+ .global-language{top:14px;right:5%;font-size:13px}.bridge-header{padding:0 85px 0 5%;height:76px}.bridge-header .brand{font-size:21px}.bridge-header .header-tools{gap:12px}.header-tools .quiet-button{font-size:13px;padding:5px 0}.experience-settings summary{min-width:44px}.header-tools .archive-return{display:none}
+ .opening-launch{padding-top:15vh;overflow-y:auto;overscroll-behavior:contain;box-sizing:border-box}.opening-launch h1{font-size:clamp(38px,10vw,48px);line-height:1.4;max-width:90%;letter-spacing:.025em}.launch-positioning{font-size:16px!important}.opening-launch #launchDescription{font-size:16px;margin-top:18px}.launch-shortcuts{gap:24px;flex-wrap:wrap}.launch-shortcuts a{font-size:14px}.launch-readiness{max-width:310px;line-height:1.7}.stage-line span{font-size:11px;letter-spacing:0}.stage-line span:last-child{display:none}.nav-button{font-size:13px}
  .graphics-standby .arrival-glass-panel,.graphics-standby .archive-glass-panel{left:5%!important;top:12%!important;width:90%!important;height:78%!important;padding:12px!important;overflow:auto!important}
  .world-anchored .archive-glass-panel{background:#091624df!important}.contact-dialog h2{font-size:29px}.experience-settings .global-settings{right:-45px}.launch-backdrop span{right:7%;top:38%;font-size:220px}.arrival-glass-panel .arrival-role{font-size:30px}
- html[lang=en] .header-tools{gap:8px}html[lang=en] .quiet-button{font-size:11px}html[lang=en] .archive-chapters{gap:4px}html[lang=en] .archive-chapters button{white-space:normal;line-height:1.4;font-size:10px;min-height:44px}
+ html[lang=en] .header-tools{gap:10px}html[lang=en] .quiet-button{font-size:13px}html[lang=en] .archive-chapters{gap:4px}html[lang=en] .archive-chapters button{white-space:normal;line-height:1.4;font-size:12px;min-height:48px;text-align:center}
 }
 @media(max-height:700px) and (min-width:701px){.opening-launch #launchDescription{margin:17px 0}.launch-shortcuts{margin-top:8px}}
 .graphics-standby .launch-backdrop{z-index:3}
 body[data-step='captain'] .bridge-header{padding-right:130px}
 @media(max-width:700px){body[data-step='captain'] .bridge-header{padding-right:85px}}
+
+/* These controls are viewport UI, not the camera-projected optical panels. */
+@media(max-width:560px){
+ body.expedition .bridge-header{height:94px;min-height:0;padding:3px 5%;display:grid;grid-template-columns:1fr;grid-template-rows:44px 44px;gap:0;background:linear-gradient(#020710a6,#02071021 80%,transparent)}
+ body.expedition .bridge-header .brand{grid-row:1;justify-self:start;align-self:center}
+ body.expedition .bridge-header .header-tools{grid-row:2;display:flex;justify-content:flex-end;gap:14px;min-width:0;height:44px}
+ .global-language{top:3px}
+ .experience-settings .global-settings{right:0;top:46px;max-height:calc(100dvh - 112px)}
+ .world-anchored .archive-chapters{top:100px;height:56px;left:4%;width:92%;gap:5px}
+ .world-anchored .archive-chapters button{flex:1;justify-content:center;padding:6px 2px;min-height:48px}
+ .world-anchored .atlas-heading{top:112px}
+ .world-anchored .surface:not(.project-detail)>.screen-heading{top:112px}
+ .opening-launch .launch-route{display:none}
+ .opening-launch .launch-index{top:7%;font-size:9px}
+}
+@media(max-width:375px){body.expedition .bridge-header .header-tools{gap:8px}.header-tools .quiet-button{font-size:12px}.opening-launch .launch-eyebrow{font-size:11px;letter-spacing:.08em}}
+@media(max-height:600px){.opening-launch{padding-top:11vh;padding-bottom:72px}.opening-launch .launch-index{display:none}.opening-launch h1{font-size:clamp(30px,5vw,48px)}.opening-launch .launch-eyebrow{margin-bottom:14px}.opening-launch #launchDescription{margin:12px 0 18px}.opening-launch .launch-route{display:none}}
+
+/* A fallback has normal CSS pixels. Do not retain scene-scale body text when
+   WebGL is unavailable, or a legible archive would become an oversized sheet. */
+body:is(.graphics-standby,.scene-fallback) .archive-glass-panel[data-archive-panel] .profile-panel{padding:22px 24px;scrollbar-gutter:stable}
+body:is(.graphics-standby,.scene-fallback) .archive-glass-panel[data-archive-panel] :is(.profile-summary,.name-origin p,.profile-curiosity,.reading-entry>p,.capability-entry p,.career-timeline p,.profile-focus p,.poetry-invitation p){font-size:16px;line-height:1.8;letter-spacing:0}
+body:is(.graphics-standby,.scene-fallback) .archive-glass-panel[data-archive-panel] .archive-person h3{font-size:64px;line-height:1.1;margin:15px 0}
+body:is(.graphics-standby,.scene-fallback) .archive-glass-panel[data-archive-panel] .archive-person>p{font-size:15px}
+body:is(.graphics-standby,.scene-fallback) .archive-glass-panel[data-archive-panel] .profile-panel-title h3{font-size:25px;line-height:1.5;margin:18px 0}
+body:is(.graphics-standby,.scene-fallback) .archive-glass-panel[data-archive-panel] .archive-tagline{font-size:25px!important;line-height:1.55}
+body:is(.graphics-standby,.scene-fallback) .archive-glass-panel[data-archive-panel] :is(.eyebrow,.profile-panel-title>span,.optical-registration,.reading-number,.record-type,.tag-list span,.archive-process small,.capability-proof small,.profile-focus>span,.practice-section>summary small){font-size:12px;line-height:1.6;letter-spacing:.025em}
+body:is(.graphics-standby,.scene-fallback) .archive-glass-panel[data-archive-panel] :is(.reading-entry strong,.personal-motto p,.capability-entry h4,.career-timeline h4,.recognition-list h4,.interest-grid h4,.profile-subheading,.practice-section>summary){font-size:18px;line-height:1.6}
+body:is(.graphics-standby,.scene-fallback) .archive-glass-panel[data-archive-panel] :is(.reading-entry summary>span span,.reading-entry summary small,.interest-grid p,.personal-motto small,.recognition-list p,.capability-proof strong,.career-timeline strong,.career-date time,.career-date>span,.certificates summary,.certificates p,.poetry-invitation>small,.archive-process){font-size:14px;line-height:1.7}
+body:is(.graphics-standby,.scene-fallback) .archive-glass-panel[data-archive-panel] :is(.archive-actions button,.content-button,.profile-contact .detail-links a){font-size:16px;min-height:48px;padding:12px 15px}
+body:is(.graphics-standby,.scene-fallback) .archive-glass-panel[data-archive-panel] .content-button span{font-size:20px}
+body:is(.graphics-standby,.scene-fallback) .archive-glass-panel[data-archive-panel] .archive-actions{padding:14px 24px}

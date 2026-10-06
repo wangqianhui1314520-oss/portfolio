@@ -16,7 +16,7 @@ const definitions=[
  {name:'get_blender_info',description:'Read the installed local Blender version and project scope.',inputSchema:{type:'object',properties:{},additionalProperties:false}},
  {name:'build_tem_scene',description:'Build the editable Tem observatory and starport scene, save .blend and export website GLBs.',inputSchema:{type:'object',properties:{},additionalProperties:false}},
  {name:'render_tem_scene',description:'Render a named camera from the saved project.',inputSchema:{type:'object',properties:{camera:{type:'string',enum:['profile','atlas']},engine:{type:'string',enum:['CYCLES','BLENDER_EEVEE']},samples:{type:'integer',minimum:8,maximum:128}},required:['camera'],additionalProperties:false}},
- {name:'get_tem_job',description:'Read progress and final outputs of a project build or camera render.',inputSchema:{type:'object',properties:{job:{type:'string',enum:['build','profile','atlas','observatory-build','observatory-render','star-sea-build','star-sea-render','refined-observatory-build','refined-observatory-render','refined-fleet-build','refined-fleet-render']}},required:['job'],additionalProperties:false}},
+ {name:'get_tem_job',description:'Read progress and final outputs of a project build or camera render.',inputSchema:{type:'object',properties:{job:{type:'string',enum:['build','profile','atlas','observatory-build','observatory-render','star-sea-build','star-sea-render','refined-observatory-build','refined-observatory-render','refined-fleet-build','refined-fleet-render','refined-observatory-polish','refined-fleet-polish']}},required:['job'],additionalProperties:false}},
  {name:'build_tem_observatory',description:'Add the v19 editable portrait observatory to the preserved v18 project and export its separate web asset.',inputSchema:{type:'object',properties:{},additionalProperties:false}},
  {name:'render_tem_observatory',description:'Render the exact portrait camera from the saved v19 project with Cycles.',inputSchema:{type:'object',properties:{samples:{type:'integer',minimum:8,maximum:128}},additionalProperties:false}},
  {name:'build_tem_star_sea',description:'Preserve the accepted v19 observatory and build an editable image-free 3D star sea with full/compact external-world GLBs and a same-source cabin LOD.',inputSchema:{type:'object',properties:{},additionalProperties:false}},
@@ -24,7 +24,9 @@ const definitions=[
  {name:'build_tem_refined_observatory',description:'Create an independent v21 scene with a sculpted optical terrace, solid radiused crystal identity and fine pressure glass, preserving the v20 master project.',inputSchema:{type:'object',properties:{},additionalProperties:false}},
  {name:'render_tem_refined_observatory',description:'Render the actual refined v21 observatory with Cycles from its saved editable engineering project.',inputSchema:{type:'object',properties:{samples:{type:'integer',minimum:8,maximum:128}},additionalProperties:false}},
  {name:'build_tem_refined_fleet',description:'Create the fixed v21 refined fleet engineering project and its compatible full/compact GLBs, preserving prior fleet assets.',inputSchema:{type:'object',properties:{},additionalProperties:false}},
- {name:'render_tem_refined_fleet',description:'Render the fixed refined v21 fleet scene with Cycles from its saved engineering project.',inputSchema:{type:'object',properties:{samples:{type:'integer',minimum:8,maximum:128}},additionalProperties:false}}
+ {name:'render_tem_refined_fleet',description:'Render the fixed refined v21 fleet scene with Cycles from its saved engineering project.',inputSchema:{type:'object',properties:{samples:{type:'integer',minimum:8,maximum:128}},additionalProperties:false}},
+ {name:'polish_tem_refined_observatory',description:'Incrementally polish the saved accepted v21 observatory optical materials, contact geometry and lighting; preserve historical scenes and export compatible GLBs.',inputSchema:{type:'object',properties:{},additionalProperties:false}},
+ {name:'polish_tem_refined_fleet',description:'Incrementally polish the saved v21 craft with manufactured pressure petals and contact seams, preserving local category origins; save engineering and compatible GLBs.',inputSchema:{type:'object',properties:{},additionalProperties:false}}
 ];
 const jobFolder=job=>job.startsWith('refined-')?refinedOutput:job.startsWith('star-sea-')?starSeaOutput:job.startsWith('observatory-')?observatoryOutput:output;
 const jsonPath=job=>path.join(jobFolder(job),`mcp-job-${job}.json`);
@@ -38,7 +40,7 @@ function launch(job,args,expected){
  fs.writeFileSync(jsonPath(job),JSON.stringify(data,null,2));child.unref();fs.closeSync(fd);return data;
 }
 function status(job){
- if(!['build','profile','atlas','observatory-build','observatory-render','star-sea-build','star-sea-render','refined-observatory-build','refined-observatory-render','refined-fleet-build','refined-fleet-render'].includes(job))throw new Error('Unknown job.');
+ if(!definitions.find(t=>t.name==='get_tem_job').inputSchema.properties.job.enum.includes(job))throw new Error('Unknown job.');
  const data=JSON.parse(fs.readFileSync(jsonPath(job),'utf8'));let running=false;
  try{process.kill(data.pid,0);running=true;}catch{}
  const files=data.expected.map(file=>({file,ready:fs.existsSync(file)&&fs.statSync(file).mtimeMs>=data.startedAt-2000,bytes:fs.existsSync(file)?fs.statSync(file).size:0}));
@@ -57,6 +59,10 @@ async function call(name,args={}){
  }
  if(name==='build_tem_refined_observatory')return launch('refined-observatory-build',['--background',path.join(starSeaOutput,'tem-living-star-sea.blend'),'--python',path.join(root,'scripts/build-tem-refined-observatory-v21.py')],[path.join(refinedOutput,'tem-refined-optical-observatory.blend'),path.join(refinedOutput,'manifest.json'),path.join(root,'assets/models/tem-refined-observatory-v21.glb'),path.join(root,'assets/models/tem-refined-observatory-v21-lod.glb'),path.join(root,'assets/models/tem-refined-observatory-v21.json')]);
  if(name==='build_tem_refined_fleet')return launch('refined-fleet-build',['--background',path.join(starSeaOutput,'tem-living-star-sea.blend'),'--python',path.join(root,'scripts/build-tem-refined-fleet-v21.py')],[path.join(refinedOutput,'tem-refined-fleet.blend'),path.join(refinedOutput,'manifest-fleet.json'),path.join(root,'assets/models/tem-refined-fleet-v21.glb'),path.join(root,'assets/models/tem-refined-fleet-v21-lod.glb')]);
+ if(name==='polish_tem_refined_observatory'||name==='polish_tem_refined_fleet'){
+  const fleet=name==='polish_tem_refined_fleet',target=fleet?'fleet':'observatory';
+  return launch('refined-'+target+'-polish',['--background',path.join(refinedOutput,fleet?'tem-refined-fleet.blend':'tem-refined-optical-observatory.blend'),'--python',path.join(root,'scripts/polish-tem-cinematic-v21.py'),'--','--target',target],[path.join(refinedOutput,fleet?'tem-refined-fleet.blend':'tem-refined-optical-observatory.blend'),path.join(refinedOutput,'polish-'+target+'.json'),path.join(root,'assets/models/tem-refined-'+target+'-v21.glb'),path.join(root,'assets/models/tem-refined-'+target+'-v21-lod.glb')]);
+ }
  if(name==='render_tem_refined_observatory'||name==='render_tem_refined_fleet'){
   const samples=args.samples??48;if(!Number.isInteger(samples)||samples<8||samples>128)throw new Error('Samples must be 8–128.');
   const fleet=name==='render_tem_refined_fleet',job=fleet?'refined-fleet-render':'refined-observatory-render';
