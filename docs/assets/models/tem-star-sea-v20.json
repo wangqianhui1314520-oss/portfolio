@@ -1,0 +1,606 @@
+{
+  "version": 20,
+  "generator": "Blender 5.2.2 LTS",
+  "coordinateSystem": "Three.js Y-up; Blender B=(x,-z,y)",
+  "scene": "04 — TEM / Living Star Sea",
+  "camera": {
+    "position": [
+      0,
+      2.7,
+      20
+    ],
+    "look": [
+      0,
+      2,
+      -5
+    ],
+    "fovVertical": 49
+  },
+  "sunDirection": [
+    0.48,
+    0.19,
+    -0.84
+  ],
+  "volumeRegions": [
+    {
+      "id": "Azure mid-depth cloud",
+      "center": [
+        -340,
+        220,
+        -920
+      ],
+      "radius": [
+        760,
+        310,
+        440
+      ],
+      "color": [
+        0.075,
+        0.26,
+        0.56
+      ],
+      "density": 0.00135,
+      "flow": [
+        0.8,
+        0.09,
+        0.25
+      ],
+      "seed": 11,
+      "kind": "nebula"
+    },
+    {
+      "id": "Lavender far stellar nursery",
+      "center": [
+        640,
+        230,
+        -1150
+      ],
+      "radius": [
+        820,
+        450,
+        460
+      ],
+      "color": [
+        0.26,
+        0.12,
+        0.43
+      ],
+      "density": 0.00165,
+      "flow": [
+        -0.45,
+        0.04,
+        0.65
+      ],
+      "seed": 27,
+      "kind": "nebula"
+    },
+    {
+      "id": "Near blue wisps",
+      "center": [
+        -360,
+        95,
+        -390
+      ],
+      "radius": [
+        360,
+        150,
+        170
+      ],
+      "color": [
+        0.08,
+        0.33,
+        0.62
+      ],
+      "density": 0.0012,
+      "flow": [
+        0.75,
+        0.09,
+        -0.2
+      ],
+      "seed": 33,
+      "kind": "nebula"
+    },
+    {
+      "id": "Low dawn cloud sea",
+      "center": [
+        0,
+        -55,
+        -350
+      ],
+      "radius": [
+        650,
+        42,
+        450
+      ],
+      "color": [
+        0.24,
+        0.34,
+        0.49
+      ],
+      "density": 0.008,
+      "flow": [
+        0.65,
+        0,
+        0.22
+      ],
+      "seed": 19,
+      "kind": "cloud-sea"
+    },
+    {
+      "id": "Starboard depth cloud",
+      "center": [
+        680,
+        150,
+        180
+      ],
+      "radius": [
+        430,
+        240,
+        660
+      ],
+      "color": [
+        0.15,
+        0.18,
+        0.43
+      ],
+      "density": 0.00125,
+      "flow": [
+        -0.3,
+        0.08,
+        -0.55
+      ],
+      "seed": 51,
+      "kind": "nebula"
+    },
+    {
+      "id": "Aft cosmic canopy",
+      "center": [
+        -580,
+        220,
+        550
+      ],
+      "radius": [
+        850,
+        330,
+        500
+      ],
+      "color": [
+        0.06,
+        0.22,
+        0.38
+      ],
+      "density": 0.00155,
+      "flow": [
+        0.4,
+        0.04,
+        -0.6
+      ],
+      "seed": 67,
+      "kind": "nebula"
+    }
+  ],
+  "flowCurves": [
+    {
+      "id": "Main cosmic river",
+      "points": [
+        [
+          -760,
+          -15,
+          160
+        ],
+        [
+          -470,
+          28,
+          -170
+        ],
+        [
+          -180,
+          82,
+          -490
+        ],
+        [
+          130,
+          110,
+          -700
+        ],
+        [
+          590,
+          260,
+          -1120
+        ],
+        [
+          1010,
+          420,
+          -1530
+        ]
+      ],
+      "colors": [
+        [
+          0.055,
+          0.39,
+          0.9
+        ],
+        [
+          0.52,
+          0.2,
+          0.73
+        ]
+      ],
+      "width": 1.7,
+      "rate": 0.0045,
+      "color": [
+        0.055,
+        0.39,
+        0.9
+      ],
+      "emissionRate": 0.045
+    },
+    {
+      "id": "Warm sunrise relay",
+      "points": [
+        [
+          640,
+          -80,
+          -820
+        ],
+        [
+          440,
+          -40,
+          -550
+        ],
+        [
+          220,
+          -9,
+          -390
+        ],
+        [
+          -40,
+          9,
+          -330
+        ],
+        [
+          -310,
+          60,
+          -520
+        ],
+        [
+          -590,
+          130,
+          -850
+        ]
+      ],
+      "colors": [
+        [
+          0.55,
+          0.3,
+          0.15
+        ],
+        [
+          0.1,
+          0.36,
+          0.73
+        ]
+      ],
+      "width": 0.8,
+      "rate": 0.0036,
+      "color": [
+        0.55,
+        0.3,
+        0.15
+      ],
+      "emissionRate": 0.036
+    },
+    {
+      "id": "Starboard orbit ribbon",
+      "points": [
+        [
+          770,
+          -15,
+          490
+        ],
+        [
+          540,
+          65,
+          320
+        ],
+        [
+          420,
+          180,
+          -130
+        ],
+        [
+          510,
+          230,
+          -510
+        ],
+        [
+          770,
+          330,
+          -980
+        ]
+      ],
+      "colors": [
+        [
+          0.1,
+          0.4,
+          0.67
+        ],
+        [
+          0.41,
+          0.19,
+          0.67
+        ]
+      ],
+      "width": 1.2,
+      "rate": 0.004,
+      "color": [
+        0.1,
+        0.4,
+        0.67
+      ],
+      "emissionRate": 0.04
+    },
+    {
+      "id": "Aft stellar arch",
+      "points": [
+        [
+          -980,
+          35,
+          630
+        ],
+        [
+          -660,
+          80,
+          820
+        ],
+        [
+          -130,
+          170,
+          1000
+        ],
+        [
+          370,
+          230,
+          720
+        ],
+        [
+          750,
+          340,
+          230
+        ]
+      ],
+      "colors": [
+        [
+          0.16,
+          0.2,
+          0.57
+        ],
+        [
+          0.07,
+          0.41,
+          0.58
+        ]
+      ],
+      "width": 1.4,
+      "rate": 0.0027,
+      "color": [
+        0.16,
+        0.2,
+        0.57
+      ],
+      "emissionRate": 0.027
+    },
+    {
+      "id": "Near watchpoint ingress",
+      "points": [
+        [
+          -410,
+          30,
+          -160
+        ],
+        [
+          -265,
+          32,
+          -235
+        ],
+        [
+          -142,
+          23,
+          -290
+        ],
+        [
+          18,
+          34,
+          -395
+        ],
+        [
+          202,
+          38,
+          -430
+        ]
+      ],
+      "colors": [
+        [
+          0.035,
+          0.35,
+          0.8
+        ],
+        [
+          0.39,
+          0.16,
+          0.59
+        ]
+      ],
+      "width": 0.55,
+      "rate": 0.005000000000000001,
+      "color": [
+        0.035,
+        0.35,
+        0.8
+      ],
+      "emissionRate": 0.05
+    }
+  ],
+  "starField": {
+    "seed": 200610,
+    "count": 6000,
+    "radiusNear": 1500,
+    "radiusFar": 5400
+  },
+  "planets": [
+    {
+      "id": "PLANET_V20_DAWN",
+      "center": [
+        440,
+        -360,
+        -1480
+      ],
+      "radius": 510,
+      "color": [
+        0.04,
+        0.095,
+        0.19
+      ],
+      "roughness": 0.69,
+      "seed": 20,
+      "atmosphere": {
+        "width": 0.045,
+        "color": [
+          0.12,
+          0.39,
+          0.82
+        ],
+        "density": 9.5e-05
+      }
+    },
+    {
+      "id": "PLANET_V20_MOON",
+      "center": [
+        -465,
+        310,
+        -1880
+      ],
+      "radius": 139,
+      "color": [
+        0.09,
+        0.105,
+        0.15
+      ],
+      "roughness": 0.82,
+      "seed": 37,
+      "atmosphere": {
+        "width": 0.045,
+        "color": [
+          0.12,
+          0.39,
+          0.82
+        ],
+        "density": 9.5e-05
+      }
+    }
+  ],
+  "asteroidBelt": {
+    "seed": 200610,
+    "count": 430,
+    "center": [
+      -145,
+      105,
+      -950
+    ],
+    "radius": 430,
+    "thickness": 42
+  },
+  "stations": [
+    {
+      "id": "Near watchpoint",
+      "center": [
+        -142,
+        -12,
+        -290
+      ],
+      "radius": 31
+    },
+    {
+      "id": "Dawn research port",
+      "center": [
+        202,
+        -21,
+        -430
+      ],
+      "radius": 45
+    },
+    {
+      "id": "Deep orbital city",
+      "center": [
+        -360,
+        35,
+        -960
+      ],
+      "radius": 67
+    },
+    {
+      "id": "Far navigation crown",
+      "center": [
+        680,
+        70,
+        -1080
+      ],
+      "radius": 88
+    }
+  ],
+  "assets": {
+    "full": {
+      "file": "tem-star-sea-v20.glb",
+      "bytes": 1602012,
+      "triangles": 56004,
+      "meshes": 10,
+      "nodes": [
+        "STAR_SEA_V20_V20_CERAMIC — lunar pearl",
+        "STAR_SEA_V20_V20_TITANIUM — cool orbital alloy",
+        "STAR_SEA_V20_V20_EMISSION — azure navigation",
+        "STAR_SEA_V20_V20_EMISSION — occupied window light",
+        "STAR_SEA_V20_V20_CHAMPAGNE — restrained warm machining",
+        "STAR_SEA_V20_V20_BASALT_0 — procedural craters",
+        "STAR_SEA_V20_V20_BASALT_1 — procedural craters",
+        "STAR_SEA_V20_V20_BASALT_2 — procedural craters",
+        "PLANET_V20_DAWN",
+        "PLANET_V20_MOON"
+      ]
+    },
+    "lod": {
+      "file": "tem-star-sea-v20-lod.glb",
+      "bytes": 977492,
+      "triangles": 30140,
+      "meshes": 10,
+      "nodes": [
+        "STAR_SEA_V20_V20_CERAMIC — lunar pearl",
+        "STAR_SEA_V20_V20_TITANIUM — cool orbital alloy",
+        "STAR_SEA_V20_V20_EMISSION — azure navigation",
+        "STAR_SEA_V20_V20_EMISSION — occupied window light",
+        "STAR_SEA_V20_V20_CHAMPAGNE — restrained warm machining",
+        "STAR_SEA_V20_V20_BASALT_0 — procedural craters",
+        "STAR_SEA_V20_V20_BASALT_1 — procedural craters",
+        "STAR_SEA_V20_V20_BASALT_2 — procedural craters",
+        "PLANET_V20_DAWN",
+        "PLANET_V20_MOON"
+      ]
+    },
+    "observatoryLod": {
+      "file": "tem-observatory-v20-lod.glb",
+      "bytes": 1510244,
+      "triangles": 44296,
+      "meshes": 28,
+      "roots": [
+        "CABIN_V19",
+        "T_IDENTITY_V19",
+        "SURFACE_FRAME_V19",
+        "EXTERIOR_V19"
+      ],
+      "source": "tem-observatory-v19.glb",
+      "imageTextures": 0
+    }
+  },
+  "environmentImageDependencies": 0,
+  "geometryExcludesCabin": true,
+  "runtimeNote": "Use volumes/flowCurves to render live world-space shaders; never render review PNG as a backdrop."
+}
