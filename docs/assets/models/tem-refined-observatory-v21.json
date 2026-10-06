@@ -1,0 +1,113 @@
+{
+  "version": 21,
+  "generator": "Blender 5.2.2 LTS",
+  "transport": "Project-local MCP stdio",
+  "scene": "05 — TEM / Refined Optical Observatory",
+  "blend": "tem-refined-optical-observatory.blend",
+  "coordinateSystem": "Three.js Y-up; Blender B=(x,-z,y)",
+  "camera": {
+    "position": [
+      0,
+      2.7,
+      20
+    ],
+    "look": [
+      0,
+      2,
+      -5
+    ],
+    "fovVertical": 49
+  },
+  "sunDirection": [
+    0.48,
+    0.19,
+    -0.84
+  ],
+  "identity": {
+    "center": [
+      9.6,
+      6.5,
+      -17
+    ],
+    "yaw": -0.28,
+    "width": 14.2,
+    "height": 15.3,
+    "solidThickness": 2.36
+  },
+  "display": {
+    "center": [
+      -8.3,
+      1.45,
+      -2
+    ],
+    "yaw": 0.12,
+    "roll": -0.045,
+    "surfaceWidth": 12.22,
+    "surfaceHeight": 10.528
+  },
+  "floor": {
+    "y": -5.32,
+    "count": 1,
+    "closed": true,
+    "material": "FLOOR_V19 — V21 polished optical basalt"
+  },
+  "assets": {
+    "full": {
+      "file": "tem-refined-observatory-v21.glb",
+      "bytes": 2829084,
+      "triangles": 140894,
+      "meshes": 22,
+      "roots": [
+        "CABIN_V19",
+        "T_IDENTITY_V19",
+        "SURFACE_FRAME_V19",
+        "EXTERIOR_V19"
+      ],
+      "images": 0
+    },
+    "lod": {
+      "file": "tem-refined-observatory-v21-lod.glb",
+      "bytes": 1031732,
+      "triangles": 48106,
+      "meshes": 22,
+      "roots": [
+        "CABIN_V19",
+        "T_IDENTITY_V19",
+        "SURFACE_FRAME_V19",
+        "EXTERIOR_V19"
+      ],
+      "images": 0
+    }
+  },
+  "geometryExcludesExternalWorld": true,
+  "environmentImageDependencies": 0,
+  "materialGuide": {
+    "crystal": {
+      "transmission": 0.91,
+      "roughness": 0.052,
+      "ior": 1.472,
+      "attenuationColor": [
+        0.39,
+        0.66,
+        0.88
+      ],
+      "attenuationDistance": 5
+    },
+    "floor": {
+      "metalness": 0.3,
+      "roughness": 0.31,
+      "clearcoat": 0.17,
+      "specularIntensity": 0.23
+    },
+    "ceramic": {
+      "metalness": 0.14,
+      "roughness": 0.265,
+      "clearcoat": 0.34
+    }
+  },
+  "reviews": [
+    "User concept identity-target and creation-atlas target viewed directly",
+    "Actual v20 Cycles rendering reviewed before modelling"
+  ],
+  "runtimeNote": "Four absolute-coordinate semantic roots preserve DOM/identity projection; only one deck floor. Existing v20 external world loads independently."
+}
