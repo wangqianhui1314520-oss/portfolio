@@ -1,0 +1,426 @@
+{
+  "projectRoot": "D:\\Vibe coding\\作品集\\Tem",
+  "files": [
+    {
+      "file": "blender/cinematic-v17/tem-cinematic.blend",
+      "updatedPaths": 5,
+      "changes": [
+        {
+          "owner": "images:02-identity.png",
+          "attribute": "filepath",
+          "before": "//..\\..\\tem-film-concepts-v3\\02-identity.png",
+          "after": "//../../_archive/tem-film-concepts-v3/02-identity.png"
+        },
+        {
+          "owner": "images:06-atlas.png",
+          "attribute": "filepath",
+          "before": "//..\\..\\tem-film-concepts-v3\\06-atlas.png",
+          "after": "//../../_archive/tem-film-concepts-v3/06-atlas.png"
+        },
+        {
+          "owner": "images:earth-clouds.jpg",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\planet\\earth-clouds.jpg",
+          "after": "//../../assets/images/planet/earth-clouds.jpg"
+        },
+        {
+          "owner": "images:earth-daymap.jpg",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\planet\\earth-daymap.jpg",
+          "after": "//../../assets/images/planet/earth-daymap.jpg"
+        },
+        {
+          "owner": "images:tem-galactic-panorama.png",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\optical\\tem-galactic-panorama.png",
+          "after": "//../../assets/images/optical/tem-galactic-panorama.png"
+        }
+      ]
+    },
+    {
+      "file": "blender/cinematic-v18/tem-cinematic.blend",
+      "updatedPaths": 3,
+      "changes": [
+        {
+          "owner": "images:earth-clouds.jpg",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\planet\\earth-clouds.jpg",
+          "after": "//../../assets/images/planet/earth-clouds.jpg"
+        },
+        {
+          "owner": "images:earth-daymap.jpg",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\planet\\earth-daymap.jpg",
+          "after": "//../../assets/images/planet/earth-daymap.jpg"
+        },
+        {
+          "owner": "images:tem-galactic-panorama.png",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\optical\\tem-galactic-panorama.png",
+          "after": "//../../assets/images/optical/tem-galactic-panorama.png"
+        }
+      ]
+    },
+    {
+      "file": "blender/cinematic-v19/tem-dream-observatory.blend",
+      "updatedPaths": 13,
+      "changes": [
+        {
+          "owner": "images:earth-clouds.jpg",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\planet\\earth-clouds.jpg",
+          "after": "//../../assets/images/planet/earth-clouds.jpg"
+        },
+        {
+          "owner": "images:earth-daymap.jpg",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\planet\\earth-daymap.jpg",
+          "after": "//../../assets/images/planet/earth-daymap.jpg"
+        },
+        {
+          "owner": "images:identity-target.png.001",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\references-v18\\identity-target.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/references-v18/identity-target.png"
+        },
+        {
+          "owner": "images:tem-galactic-panorama.png",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\optical\\tem-galactic-panorama.png",
+          "after": "//../../assets/images/optical/tem-galactic-panorama.png"
+        },
+        {
+          "owner": "images:TEM_CABIN_V19_ao_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\cabin_v19-ao-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/cabin_v19-ao-1k.png"
+        },
+        {
+          "owner": "images:TEM_CABIN_V19_normal_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\cabin_v19-normal-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/cabin_v19-normal-1k.png"
+        },
+        {
+          "owner": "images:TEM_CABIN_V19_roughness_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\cabin_v19-roughness-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/cabin_v19-roughness-1k.png"
+        },
+        {
+          "owner": "images:TEM_SURFACE_FRAME_V19_ao_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\surface_frame_v19-ao-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/surface_frame_v19-ao-1k.png"
+        },
+        {
+          "owner": "images:TEM_SURFACE_FRAME_V19_normal_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\surface_frame_v19-normal-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/surface_frame_v19-normal-1k.png"
+        },
+        {
+          "owner": "images:TEM_SURFACE_FRAME_V19_roughness_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\surface_frame_v19-roughness-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/surface_frame_v19-roughness-1k.png"
+        },
+        {
+          "owner": "images:TEM_T_IDENTITY_V19_ao_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\t_identity_v19-ao-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/t_identity_v19-ao-1k.png"
+        },
+        {
+          "owner": "images:TEM_T_IDENTITY_V19_normal_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\t_identity_v19-normal-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/t_identity_v19-normal-1k.png"
+        },
+        {
+          "owner": "images:TEM_T_IDENTITY_V19_roughness_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\t_identity_v19-roughness-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/t_identity_v19-roughness-1k.png"
+        }
+      ]
+    },
+    {
+      "file": "blender/cinematic-v20/tem-living-star-sea.blend",
+      "updatedPaths": 13,
+      "changes": [
+        {
+          "owner": "images:earth-clouds.jpg",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\planet\\earth-clouds.jpg",
+          "after": "//../../assets/images/planet/earth-clouds.jpg"
+        },
+        {
+          "owner": "images:earth-daymap.jpg",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\planet\\earth-daymap.jpg",
+          "after": "//../../assets/images/planet/earth-daymap.jpg"
+        },
+        {
+          "owner": "images:identity-target.png.001",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\references-v18\\identity-target.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/references-v18/identity-target.png"
+        },
+        {
+          "owner": "images:tem-galactic-panorama.png",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\optical\\tem-galactic-panorama.png",
+          "after": "//../../assets/images/optical/tem-galactic-panorama.png"
+        },
+        {
+          "owner": "images:TEM_CABIN_V19_ao_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\cabin_v19-ao-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/cabin_v19-ao-1k.png"
+        },
+        {
+          "owner": "images:TEM_CABIN_V19_normal_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\cabin_v19-normal-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/cabin_v19-normal-1k.png"
+        },
+        {
+          "owner": "images:TEM_CABIN_V19_roughness_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\cabin_v19-roughness-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/cabin_v19-roughness-1k.png"
+        },
+        {
+          "owner": "images:TEM_SURFACE_FRAME_V19_ao_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\surface_frame_v19-ao-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/surface_frame_v19-ao-1k.png"
+        },
+        {
+          "owner": "images:TEM_SURFACE_FRAME_V19_normal_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\surface_frame_v19-normal-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/surface_frame_v19-normal-1k.png"
+        },
+        {
+          "owner": "images:TEM_SURFACE_FRAME_V19_roughness_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\surface_frame_v19-roughness-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/surface_frame_v19-roughness-1k.png"
+        },
+        {
+          "owner": "images:TEM_T_IDENTITY_V19_ao_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\t_identity_v19-ao-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/t_identity_v19-ao-1k.png"
+        },
+        {
+          "owner": "images:TEM_T_IDENTITY_V19_normal_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\t_identity_v19-normal-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/t_identity_v19-normal-1k.png"
+        },
+        {
+          "owner": "images:TEM_T_IDENTITY_V19_roughness_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\t_identity_v19-roughness-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/t_identity_v19-roughness-1k.png"
+        }
+      ]
+    },
+    {
+      "file": "blender/cinematic-v21/tem-refined-fleet.blend",
+      "updatedPaths": 13,
+      "changes": [
+        {
+          "owner": "images:earth-clouds.jpg",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\planet\\earth-clouds.jpg",
+          "after": "//../../assets/images/planet/earth-clouds.jpg"
+        },
+        {
+          "owner": "images:earth-daymap.jpg",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\planet\\earth-daymap.jpg",
+          "after": "//../../assets/images/planet/earth-daymap.jpg"
+        },
+        {
+          "owner": "images:identity-target.png.001",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\references-v18\\identity-target.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/references-v18/identity-target.png"
+        },
+        {
+          "owner": "images:tem-galactic-panorama.png",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\optical\\tem-galactic-panorama.png",
+          "after": "//../../assets/images/optical/tem-galactic-panorama.png"
+        },
+        {
+          "owner": "images:TEM_CABIN_V19_ao_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\cabin_v19-ao-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/cabin_v19-ao-1k.png"
+        },
+        {
+          "owner": "images:TEM_CABIN_V19_normal_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\cabin_v19-normal-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/cabin_v19-normal-1k.png"
+        },
+        {
+          "owner": "images:TEM_CABIN_V19_roughness_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\cabin_v19-roughness-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/cabin_v19-roughness-1k.png"
+        },
+        {
+          "owner": "images:TEM_SURFACE_FRAME_V19_ao_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\surface_frame_v19-ao-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/surface_frame_v19-ao-1k.png"
+        },
+        {
+          "owner": "images:TEM_SURFACE_FRAME_V19_normal_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\surface_frame_v19-normal-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/surface_frame_v19-normal-1k.png"
+        },
+        {
+          "owner": "images:TEM_SURFACE_FRAME_V19_roughness_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\surface_frame_v19-roughness-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/surface_frame_v19-roughness-1k.png"
+        },
+        {
+          "owner": "images:TEM_T_IDENTITY_V19_ao_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\t_identity_v19-ao-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/t_identity_v19-ao-1k.png"
+        },
+        {
+          "owner": "images:TEM_T_IDENTITY_V19_normal_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\t_identity_v19-normal-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/t_identity_v19-normal-1k.png"
+        },
+        {
+          "owner": "images:TEM_T_IDENTITY_V19_roughness_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\t_identity_v19-roughness-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/t_identity_v19-roughness-1k.png"
+        }
+      ]
+    },
+    {
+      "file": "blender/cinematic-v21/tem-refined-optical-observatory.blend",
+      "updatedPaths": 13,
+      "changes": [
+        {
+          "owner": "images:earth-clouds.jpg",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\planet\\earth-clouds.jpg",
+          "after": "//../../assets/images/planet/earth-clouds.jpg"
+        },
+        {
+          "owner": "images:earth-daymap.jpg",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\planet\\earth-daymap.jpg",
+          "after": "//../../assets/images/planet/earth-daymap.jpg"
+        },
+        {
+          "owner": "images:identity-target.png.001",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\references-v18\\identity-target.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/references-v18/identity-target.png"
+        },
+        {
+          "owner": "images:tem-galactic-panorama.png",
+          "attribute": "filepath",
+          "before": "//..\\..\\..\\assets\\images\\optical\\tem-galactic-panorama.png",
+          "after": "//../../assets/images/optical/tem-galactic-panorama.png"
+        },
+        {
+          "owner": "images:TEM_CABIN_V19_ao_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\cabin_v19-ao-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/cabin_v19-ao-1k.png"
+        },
+        {
+          "owner": "images:TEM_CABIN_V19_normal_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\cabin_v19-normal-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/cabin_v19-normal-1k.png"
+        },
+        {
+          "owner": "images:TEM_CABIN_V19_roughness_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\cabin_v19-roughness-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/cabin_v19-roughness-1k.png"
+        },
+        {
+          "owner": "images:TEM_SURFACE_FRAME_V19_ao_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\surface_frame_v19-ao-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/surface_frame_v19-ao-1k.png"
+        },
+        {
+          "owner": "images:TEM_SURFACE_FRAME_V19_normal_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\surface_frame_v19-normal-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/surface_frame_v19-normal-1k.png"
+        },
+        {
+          "owner": "images:TEM_SURFACE_FRAME_V19_roughness_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\surface_frame_v19-roughness-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/surface_frame_v19-roughness-1k.png"
+        },
+        {
+          "owner": "images:TEM_T_IDENTITY_V19_ao_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\t_identity_v19-ao-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/t_identity_v19-ao-1k.png"
+        },
+        {
+          "owner": "images:TEM_T_IDENTITY_V19_normal_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\t_identity_v19-normal-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/t_identity_v19-normal-1k.png"
+        },
+        {
+          "owner": "images:TEM_T_IDENTITY_V19_roughness_1k",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\cinematic-v19\\t_identity_v19-roughness-1k.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/cinematic-v19/t_identity_v19-roughness-1k.png"
+        }
+      ]
+    },
+    {
+      "file": "blender/tem-identity.blend",
+      "updatedPaths": 1,
+      "changes": [
+        {
+          "owner": "render:Scene",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\tem-identity-studio.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/tem-identity-studio.png"
+        }
+      ]
+    },
+    {
+      "file": "blender/tem-observatory.blend",
+      "updatedPaths": 1,
+      "changes": [
+        {
+          "owner": "render:Scene",
+          "attribute": "filepath",
+          "before": "D:\\Vibe coding\\作品集\\_archive\\tem-blender\\tem-observatory-inspection.png",
+          "after": "D:/Vibe coding/作品集/Tem/blender/tem-observatory-inspection.png"
+        }
+      ]
+    }
+  ],
+  "missingExternal": []
+}

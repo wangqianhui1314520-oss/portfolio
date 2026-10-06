@@ -1,0 +1,147 @@
+{
+  "passed": true,
+  "root": "D:\\Vibe coding\\作品集\\Tem",
+  "paths": [
+    {
+      "path": "/",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/immersive.html",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/zh/",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/en/",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/zh/work/",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/en/about/",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/zh/poetry/",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/zh/work/growth/",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/en/work/poetry/",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/assets/css/immersive-expedition.css?v=cinematic-v21.1",
+      "status": 200,
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/assets/css/immersive-cinema.css?v=cinematic-v21.1",
+      "status": 200,
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/assets/css/immersive-worlds.css?v=cinematic-v21.1",
+      "status": 200,
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/assets/css/immersive-universe.css?v=cinematic-v21.1",
+      "status": 200,
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/assets/css/immersive-odyssey.css?v=cinematic-v21.1",
+      "status": 200,
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/assets/css/immersive-bridge.css?v=cinematic-v21.1",
+      "status": 200,
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/assets/css/immersive-opening.css?v=cinematic-v21.1",
+      "status": 200,
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/assets/css/immersive-content.css?v=cinematic-v21.1",
+      "status": 200,
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/assets/css/immersive-archive.css?v=cinematic-v21.1",
+      "status": 200,
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/assets/css/immersive-orbital.css?v=cinematic-v21.1",
+      "status": 200,
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/assets/css/immersive-optical.css?v=cinematic-v21.1",
+      "status": 200,
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/assets/css/international-universe.css?v=cinematic-v21.1",
+      "status": 200,
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/assets/css/immersive-refinement.css?v=cinematic-v21.1",
+      "status": 200,
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/assets/css/immersive-cinematic-models.css?v=cinematic-v21.1",
+      "status": 200,
+      "type": "text/css; charset=utf-8"
+    },
+    {
+      "path": "/assets/js/data.js?v=cinematic-v21.1",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/assets/js/international-boot.js?v=cinematic-v21.1",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "path": "/assets/models/tem-refined-observatory-v21.glb",
+      "status": 200,
+      "type": "model/gltf-binary"
+    },
+    {
+      "path": "/assets/models/tem-refined-fleet-v21-lod.glb",
+      "status": 200,
+      "type": "model/gltf-binary"
+    },
+    {
+      "path": "/assets/videos/epoch.mp4",
+      "status": 200,
+      "type": "video/mp4"
+    }
+  ],
+  "videoRange": true
+}
