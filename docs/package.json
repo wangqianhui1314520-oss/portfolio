@@ -1,0 +1,14 @@
+{
+  "name": "tem-personal-universe",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=26" },
+  "scripts": {
+    "dev": "node scripts/dev-server.mjs",
+    "test": "node --test --test-isolation=none tests/*.test.mjs",
+    "build": "node scripts/build-international.mjs",
+    "audit": "node scripts/audit-assets.mjs",
+    "blender:info": "node scripts/blender-mcp/client.mjs get_blender_info"
+  }
+}

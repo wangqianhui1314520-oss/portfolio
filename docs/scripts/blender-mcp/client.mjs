@@ -1,0 +1,20 @@
+// A real MCP client for the project service; saves its protocol transcript.
+import {spawn} from 'node:child_process';
+import {createInterface} from 'node:readline';
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+const folder=path.dirname(fileURLToPath(import.meta.url));
+const server=spawn(process.execPath,[path.join(folder,'server.mjs')],{windowsHide:true,stdio:['pipe','pipe','inherit']});
+const pending=new Map(),transcript=[];let seq=0;
+createInterface({input:server.stdout}).on('line',line=>{const message=JSON.parse(line);transcript.push({direction:'server',message});pending.get(message.id)?.(message);pending.delete(message.id);});
+const send=message=>{transcript.push({direction:'client',message});server.stdin.write(JSON.stringify(message)+'\n');};
+const request=(method,params)=>new Promise(resolve=>{const id=++seq;pending.set(id,resolve);send({jsonrpc:'2.0',id,method,...(params?{params}:{})});});
+const initialized=await request('initialize',{protocolVersion:'2025-06-18',capabilities:{},clientInfo:{name:'tem-build-client',version:'1.0.0'}});
+send({jsonrpc:'2.0',method:'notifications/initialized'});
+const name=process.argv[2]||'get_blender_info';
+const args=name==='render_tem_scene'?{camera:process.argv[3],engine:process.argv[4]||'CYCLES',samples:Number(process.argv[5]||32)}:name==='get_tem_job'?{job:process.argv[3]}:JSON.parse(process.argv[3]||'{}');
+const result=name==='list'?await request('tools/list'):await request('tools/call',{name,arguments:args});
+const archive=path.resolve(folder,name.includes('refined')||String(args.job||'').startsWith('refined-')?'../../blender/cinematic-v21':name.includes('star_sea')||String(args.job||'').startsWith('star-sea-')?'../../blender/cinematic-v20':name.includes('observatory')||String(args.job||'').startsWith('observatory-')?'../../blender/cinematic-v19':'../../blender/cinematic-v18');fs.mkdirSync(archive,{recursive:true});
+fs.writeFileSync(path.join(archive,`mcp-transcript-${Date.now()}.json`),JSON.stringify(transcript,null,2));
+console.log(JSON.stringify({initialized:initialized.result,result:result.result},null,2));server.stdin.end();
