@@ -1,7 +1,7 @@
 import {getMotionPreference} from './runtime-settings.js';
-import { journey, navigate } from './immersive-session.js?v=cinematic-v21.2';
-import { OPENING_DURATION,openingTimeline } from './immersive-opening-timeline.js?v=cinematic-v21.2';
-import { createOpeningPlayback } from './immersive-opening-playback.js?v=cinematic-v21.2';
+import { journey, navigate } from './immersive-session.js?v=cinematic-v21.3';
+import { OPENING_DURATION,openingTimeline } from './immersive-opening-timeline.js?v=cinematic-v21.3';
+import { createOpeningPlayback } from './immersive-opening-playback.js?v=cinematic-v21.3';
 
 // The voyage ends at a held welcome. Only a visitor's choice opens an archive or flight.
 const playback=createOpeningPlayback(OPENING_DURATION);
@@ -70,7 +70,7 @@ function begin(){
  if(reduce.matches)finish('reduced-motion');else body.dataset.opening=opening.ready?'playing':'loading';
 }
 function skipToWelcome(){
- // Keyboard and button shortcuts use the same lazy graphics entry point.
+ // Keyboard and button shortcuts reuse the preloaded graphics entry point.
  dispatchEvent(new Event('tem:opening-skip'));
  finish('skipped');
 }
@@ -81,7 +81,11 @@ document.getElementById('replayOpening').addEventListener('click',()=>{document.
 addEventListener('keydown',event=>{if(opening.active&&event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();skipToWelcome();}},{capture:true});
 let graphicsFailed=false,graphicsRequested=false,graphicsCheckRevision=0;
 addEventListener('tem:scene-ready',ready);
-addEventListener('tem:scene-failed',()=>{graphicsFailed=true;graphicsRequested=false;finish('graphics-fallback');});
+addEventListener('tem:scene-failed',()=>{
+ graphicsFailed=true;graphicsRequested=false;
+ // A background preview failure must not dismiss the visitor's launch screen.
+ if(opening.active&&!opening.started)prepare();else finish('graphics-fallback');
+});
 // The fallback page must remain usable even when the graphics module cannot load.
 function scheduleGraphicsCheck(){
   const revision=++graphicsCheckRevision;
@@ -96,7 +100,9 @@ function checkGraphicsProgress(){
   if(!rendered){
     const canvas=document.getElementById('space');
     if(canvas?.dataset){canvas.dataset.sceneFailurePhase='first-frame';canvas.dataset.sceneFailureReason='graphics-timeout';}
-    dispatchEvent(new Event('tem:scene-failed'));finish('graphics-timeout');
+    const waiting=opening.active&&!opening.started;
+    dispatchEvent(new Event('tem:scene-failed'));
+    if(!waiting)finish('graphics-timeout');
   }
 }
 addEventListener('tem:graphics-request',()=>{graphicsFailed=false;graphicsRequested=true;scheduleGraphicsCheck();});

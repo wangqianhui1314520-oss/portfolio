@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { mergeGeometries } from '../vendor/three-0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
-import {loadTemAsset,cloneTemModel,prepareReveal} from './immersive-blender-assets.js?v=cinematic-v21.2';
+import {loadTemAsset,cloneTemModel,prepareReveal} from './immersive-blender-assets.js?v=cinematic-v21.3';
 
 // A cropped viewing deck, with a pressure shell, an optical floor and distant
 // inhabited structures. All layers have actual thickness and world parallax.

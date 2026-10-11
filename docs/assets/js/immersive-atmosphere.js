@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { normalizeStellarLayout } from './immersive-world-layout.js?v=cinematic-v21.2';
-import { sectors } from './immersive-journey.js?v=cinematic-v21.2';
-import { NebulaPass } from './immersive-nebula-pass.js?v=cinematic-v21.2';
+import { normalizeStellarLayout } from './immersive-world-layout.js?v=cinematic-v21.3';
+import { sectors } from './immersive-journey.js?v=cinematic-v21.3';
+import { NebulaPass } from './immersive-nebula-pass.js?v=cinematic-v21.3';
 import { RenderPass } from '../vendor/three-0.161.0/examples/jsm/postprocessing/RenderPass.js';
 
 // Cloud light is integrated in actual world space and clipped against the scene depth.

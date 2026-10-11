@@ -1,12 +1,12 @@
 import * as THREE from 'three';
 import {translateText} from './i18n.js';
-import {hardwareMaterials,hardwareMesh,bevelGeometry,consolidateHardware} from './immersive-hardware.js?v=cinematic-v21.2';
-import {archiveChapterOrder,archiveCenter,archiveAngle} from './immersive-archive-path.js?v=cinematic-v21.2';
-import {projectWorldSurface,clipForeground} from './immersive-world-surface.js?v=cinematic-v21.2';
-import {createLightFlow} from './immersive-light-flow.js?v=cinematic-v21.2';
-import {opticalFilm,crystalMaterial,createEnergyRibbons,createOpticalMotes,opticalEnvironment,opticalSkySample} from './immersive-optical.js?v=cinematic-v21.2';
-import {createIdentityVolume} from './immersive-identity-volume.js?v=cinematic-v21.2';
-import {loadTemAsset,prepareReveal} from './immersive-blender-assets.js?v=cinematic-v21.2';
+import {hardwareMaterials,hardwareMesh,bevelGeometry,consolidateHardware} from './immersive-hardware.js?v=cinematic-v21.3';
+import {archiveChapterOrder,archiveCenter,archiveAngle} from './immersive-archive-path.js?v=cinematic-v21.3';
+import {projectWorldSurface,clipForeground} from './immersive-world-surface.js?v=cinematic-v21.3';
+import {createLightFlow} from './immersive-light-flow.js?v=cinematic-v21.3';
+import {opticalFilm,crystalMaterial,createEnergyRibbons,createOpticalMotes,opticalEnvironment,opticalSkySample} from './immersive-optical.js?v=cinematic-v21.3';
+import {createIdentityVolume} from './immersive-identity-volume.js?v=cinematic-v21.3';
+import {loadTemAsset,prepareReveal} from './immersive-blender-assets.js?v=cinematic-v21.3';
 
 function applyArchiveReplacement({architecture,bays,authoredDisplays,compact,map,deckReady},replacement){
  architecture.visible=!map&&!deckReady&&replacement<.98;

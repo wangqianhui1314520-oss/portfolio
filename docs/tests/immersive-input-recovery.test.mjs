@@ -113,26 +113,35 @@ test('new world labels stay hidden before first projection while attached labels
  assert.equal(fallback.style.visibility,undefined);assert.equal(fallback.inert,undefined,'static fallback labels must remain operable');
 });
 
-test('the real boot starts one graphics load for controller shortcuts without starting automatically',async()=>{
- const listeners=new Map(),body={dataset:{}},events=[];let loads=0;
+test('the real boot preloads one background after its controller is ready and reuses it for every shortcut',async()=>{
+ const listeners=new Map(),body={dataset:{}},events=[],lifecycle=[];let loads=0;
  const classes=new Set(['graphics-standby']);body.classList={remove:(...names)=>names.forEach(name=>classes.delete(name)),add:name=>classes.add(name)};
  const journey=createJourney([{id:'one',title:'One',type:'游戏',sector:'forge'}]);
  const context={currentLocale:()=> 'zh',localizedData:data=>data,localizeDOM(){},initializeSettings(){},
   window:{PORTFOLIO_DATA:{works:[]}},document:{body,baseURI:'http://localhost/',querySelectorAll:()=>[],getElementById:()=>null,querySelector:()=>null},URL,location:{href:'http://localhost/',pathname:'/',search:''},
   viewFromURL:()=>({}),restoreView:()=>({restored:false}),viewSearch:()=>'',
   explorationFixture:{journey,navigate(){},subscribe(){},currentChapter(){},selectChapter(){}},
-  loadGraphics(){loads++;return Promise.resolve({});},sessionStorage:{getItem(){return null;},setItem(){},removeItem(){}},
+  loadGraphics(){lifecycle.push('graphics-requested');loads++;return Promise.resolve({});},
+  loadExploration(){return Promise.resolve().then(()=>{lifecycle.push('controller-ready');return context.explorationFixture;});},
+  sessionStorage:{getItem(){return null;},setItem(){},removeItem(){}},
   addEventListener(type,callback){if(!listeners.has(type))listeners.set(type,[]);listeners.get(type).push(callback);},
   dispatchEvent(event){events.push(event.type);for(const callback of listeners.get(event.type)||[])callback(event);},
   Event:class{constructor(type){this.type=type;}},MutationObserver:class{observe(){}},queueMicrotask,history:{pushState(){}}
  };
  const source=sourceFor('international-boot.js')
   .replace(/import\('\.\/immersive-engine\.js[^']*'\)/g,'loadGraphics()')
-  .replace(/import\('\.\/immersive-exploration\.js[^']*'\)/g,'Promise.resolve(explorationFixture)');
+  .replace(/import\('\.\/immersive-exploration\.js[^']*'\)/g,'loadExploration()');
  await runInNewContext('(async()=>{'+source+'})()',context);
- assert.equal(loads,0);
+ assert.equal(loads,1,'the waiting launch must receive its existing three-dimensional background');
+ assert.deepEqual(lifecycle,['controller-ready','graphics-requested']);
+ assert.equal(body.dataset.graphics,'loading');
+ assert.equal(journey.state.step,'bridge');
+ assert.equal(events.includes('tem:opening-start'),false,'preloading must not start the opening movie');
+ assert.equal(events.includes('tem:opening-skip'),false);
+ assert.equal(events.includes('tem:direct-entry'),false);
  context.dispatchEvent(new context.Event('tem:opening-skip'));
- assert.equal(loads,1);assert.equal(body.dataset.graphics,'loading');assert.ok(events.includes('tem:graphics-request'));
+ assert.equal(loads,1);assert.equal(body.dataset.graphics,'loading');
  context.dispatchEvent(new context.Event('tem:opening-start'));context.dispatchEvent(new context.Event('tem:opening-skip'));assert.equal(loads,1);
+ assert.equal(events.filter(type=>type==='tem:graphics-request').length,1,'button and keyboard controller events reuse the preload');
  context.dispatchEvent(new context.Event('tem:scene-ready'));assert.equal(body.dataset.graphics,'ready');assert.equal(classes.has('graphics-standby'),false);
 });

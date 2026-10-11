@@ -1,10 +1,10 @@
 import * as THREE from 'three';
-import { journey,subscribe,getRevision } from './immersive-session.js?v=cinematic-v21.2';
-import { transitionDurations } from './immersive-journey.js?v=cinematic-v21.2';
-import { createSpatialWorld } from './immersive-spatial.js?v=cinematic-v21.2';
-import { opening,updateOpening } from './immersive-intro.js?v=cinematic-v21.2';
-import { cinematicEase } from './immersive-easing.js?v=cinematic-v21.2';
-import {archivePose,archiveWelcomePose,archiveRail,archiveChapterOrder} from './immersive-archive-path.js?v=cinematic-v21.2';
+import { journey,subscribe,getRevision } from './immersive-session.js?v=cinematic-v21.3';
+import { transitionDurations } from './immersive-journey.js?v=cinematic-v21.3';
+import { createSpatialWorld } from './immersive-spatial.js?v=cinematic-v21.3';
+import { opening,updateOpening } from './immersive-intro.js?v=cinematic-v21.3';
+import { cinematicEase } from './immersive-easing.js?v=cinematic-v21.3';
+import {archivePose,archiveWelcomePose,archiveRail,archiveChapterOrder} from './immersive-archive-path.js?v=cinematic-v21.3';
 
 export function createNavigation({scene,camera,interaction}){
  const world=createSpatialWorld({scene,camera,interaction});
@@ -95,6 +95,8 @@ export function createNavigation({scene,camera,interaction}){
    if(holdReading&&!readingHeld){heldPosition.copy(camera.position);heldRotation.copy(camera.quaternion);heldFov=camera.fov;}
    readingHeld=holdReading;
    const intro=updateOpening(wallDt),introFrame=opening.frame;
+   const openingPreview=step==='bridge'&&opening.active&&!opening.started;
+   const openingPlaying=opening.active&&opening.started;
    if(wasOpening&&!opening.active&&step==='bridge'&&motion&&document.body.dataset.openingResult==='skipped'){
     state();duration=.85;
    }
@@ -126,29 +128,33 @@ export function createNavigation({scene,camera,interaction}){
    }
    if(motion)parallax.lerp(parallaxTarget,1-Math.exp(-dt*6));else if(!readingHeld)parallax.set(0,0,0);
    if(!opening.active&&!wasOpening)camera.position.add(parallax);
-   if(step==='bridge'&&opening.active&&motion){
-    if(!opening.started){camera.position.set(-40,12,270);camera.lookAt(new THREE.Vector3(105,28,-500));}
-    else if(opening.duration<=2){camera.position.add(new THREE.Vector3(-1,0,2).multiplyScalar(1-smooth(intro)));camera.lookAt(look);}
+   if(openingPreview){
+    // Show the real glass T with the established welcome composition while
+    // boarding. Starting the movie still begins at its original departure.
+    const preview=archiveWelcomePose(innerWidth<700);
+    camera.position.fromArray(preview.position);camera.lookAt(introLook.fromArray(preview.look));
+   }else if(step==='bridge'&&openingPlaying&&motion){
+    if(opening.duration<=2){camera.position.add(new THREE.Vector3(-1,0,2).multiplyScalar(1-smooth(intro)));camera.lookAt(look);}
     else{openingRoute.getPointAt(introFrame.route,introPosition);camera.position.copy(introPosition);
      introLook.fromArray(openingLookPoint(introFrame.time,archiveWelcomePose(innerWidth<700).look));camera.lookAt(introLook);
      camera.rotateZ(Math.sin(introFrame.route*Math.PI)*.012);}
    }else camera.lookAt(introLook.copy(look).add(parallax));
    const arch=Math.sin(p*Math.PI)*motion;
    if(step==='travel')camera.rotateZ(arch*.017);else if(step==='target')camera.rotateZ(-arch*.022);else if(step==='docking')camera.rotateZ(-arch*.008);
-   const lensFov=step==='bridge'&&opening.active?introFrame.fov+(targetFov-52)*smooth(introFrame.route):THREE.MathUtils.lerp(fromFov,targetFov,e)+(step==='travel'?6:step==='target'?1.8:step==='docking'?-.6:0)*arch;
-   camera.fov=motion?THREE.MathUtils.damp(camera.fov,lensFov,7,dt):targetFov;if(wasOpening&&!opening.active)camera.fov=targetFov;
+   const lensFov=step==='bridge'&&openingPlaying?introFrame.fov+(targetFov-52)*smooth(introFrame.route):THREE.MathUtils.lerp(fromFov,targetFov,e)+(step==='travel'?6:step==='target'?1.8:step==='docking'?-.6:0)*arch;
+   camera.fov=openingPreview||!motion?targetFov:THREE.MathUtils.damp(camera.fov,lensFov,7,dt);if(wasOpening&&!opening.active)camera.fov=targetFov;
    // Reading pauses the rendered shot, including its orbit and pointer offset.
    // Removing motion alone would snap the eye to the unmodified base position.
    if(readingHeld){camera.position.copy(heldPosition);camera.quaternion.copy(heldRotation);camera.fov=heldFov;}
    camera.updateProjectionMatrix();camera.updateMatrixWorld();
    const archiveMoving=step==='captain'&&(p<1||archiveRail.moving||Math.abs(renderedArchiveProgress-archiveRail.progress)>.004||Math.abs(archiveVelocity)>.025);
-   document.body.dataset.moving=p<1||archiveMoving||(opening.active&&introFrame.route<1)?'true':'false';
+   document.body.dataset.moving=p<1||archiveMoving||(openingPlaying&&introFrame.route<1)?'true':'false';
    document.getElementById('space').dataset.shotPhase=step==='docking'?(p<.34?'alignment':p<.86?'deployment':'settle'):p<1?'tracking':'hold';
    interaction?.update(dt,pointer,camera,motion,step,opening.active);
    world.update(dt,time,motion,{progress:p,age,duration});
    if(p>=1&&!finished&&enabled){finished=true;const detail={step,revision};if(['boot','travel','docking'].includes(step))queueMicrotask(()=>dispatchEvent(new CustomEvent('tem:arrived',{detail})));}
-   const introSpeed=opening.active&&opening.ready&&wasOpening?Math.min(2.5,camera.position.distanceTo(previousCamera)/Math.max(dt,.001)*.006):0;wasOpening=opening.active;
-   return {flight:25-camera.position.z,speed:Math.max(speed,introSpeed)*motion,presence:step==='bridge'?1:0,position:camera.position,step,sector:journey.state.sector,shotProgress:p,archiveProgress:step==='bridge'?0:renderedArchiveProgress,archiveMoving,intro,opening:opening.active,introFrame,fullOpening:opening.active&&opening.duration>2};
+   const introSpeed=openingPlaying&&opening.ready&&wasOpening?Math.min(2.5,camera.position.distanceTo(previousCamera)/Math.max(dt,.001)*.006):0;wasOpening=opening.active;
+   return {flight:25-camera.position.z,speed:Math.max(speed,introSpeed)*motion,presence:step==='bridge'?1:0,position:camera.position,step,sector:journey.state.sector,shotProgress:p,archiveProgress:step==='bridge'?0:renderedArchiveProgress,archiveMoving,intro,opening:openingPlaying,introFrame,fullOpening:openingPlaying&&opening.duration>2};
  },fallback(){enabled=false;resetOrbit();resetView.hidden=true;releasedSurfaces=releaseWorldSurfaces();},restore(){
    enabled=true;
    for(const element of new Set([...releasedSurfaces,...document.querySelectorAll('[data-world-anchor]')]))if(element.isConnected!==false){element.style.visibility='hidden';element.style.pointerEvents='none';element.inert=true;}

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { bevelGeometry } from './immersive-hardware.js?v=cinematic-v21.2';
-import {createProceduralPlanetMaterial,createProceduralPlanetClouds} from './immersive-procedural-planet.js?v=cinematic-v21.2';
+import { bevelGeometry } from './immersive-hardware.js?v=cinematic-v21.3';
+import {createProceduralPlanetMaterial,createProceduralPlanetClouds} from './immersive-procedural-planet.js?v=cinematic-v21.3';
 
 // Film flare visibility reads the actual interpolated Earth pose, so the
 // changing map framing and its transition cannot disagree with the lens pass.

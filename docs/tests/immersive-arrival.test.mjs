@@ -10,7 +10,7 @@ import {openingTimeline,OPENING_DURATION} from '../assets/js/immersive-opening-t
 function openingHarness({reduced=false,fallback=false}={}){
  const listeners=new Map(),elements=new Map(),timeouts=[],events=[],actions=[];
  class Target {
-  handlers=new Map();hidden=false;disabled=false;inert=false;textContent='';innerHTML='';
+  handlers=new Map();dataset={};hidden=false;disabled=false;inert=false;textContent='';innerHTML='';
   addEventListener(type,handler){if(!this.handlers.has(type))this.handlers.set(type,[]);this.handlers.get(type).push(handler);}
   emit(type,event={}){for(const handler of this.handlers.get(type)||[])handler(event);}
   setAttribute(){}
@@ -26,15 +26,20 @@ function openingHarness({reduced=false,fallback=false}={}){
   journey,navigate(action,value){actions.push(action);return journey.dispatch(action,value);},
   createOpeningPlayback,openingTimeline,OPENING_DURATION,
   matchMedia:()=>media,getMotionPreference:()=>media,
-  document:{body,getElementById:element,querySelector:selector=>element(selector)},
+  document:{body,hidden:false,getElementById:element,querySelector:selector=>element(selector)},
   addEventListener(type,handler){if(!listeners.has(type))listeners.set(type,[]);listeners.get(type).push(handler);},
-  dispatchEvent(event){events.push(event);for(const handler of listeners.get(event.type)||[])handler(event);},
+  dispatchEvent(event){
+   events.push(event);
+   if(event.type==='tem:scene-failed')classes.add('scene-fallback');
+   if(event.type==='tem:scene-ready')classes.delete('scene-fallback');
+   for(const handler of listeners.get(event.type)||[])handler(event);
+  },
   Event:class{constructor(type){this.type=type;}},
   CustomEvent:class{constructor(type,{detail}={}){this.type=type;this.detail=detail;}},
   setTimeout(callback){timeouts.push(callback);}
  };
  runInNewContext(source+'\nglobalThis.controller={opening,updateOpening,openingFlightProgress};',context);
- const emit=(type,event={})=>{for(const handler of listeners.get(type)||[])handler(event);};
+ const emit=(type,event={})=>context.dispatchEvent({type,...event});
  return {journey,body,elements,actions,events,timeouts,media,classes,emit,
   click:id=>element(id).emit('click'),...context.controller};
 }
@@ -97,20 +102,51 @@ test('the actual opening route carries nonzero continuous momentum through each 
  assert.equal(h.opening.frame.route,flight(5),'the actual controller publishes the shared route to camera and optics');
 });
 
-test('graphics failure and timeout release both choices without choosing one for the visitor',()=>{
- const failed=openingHarness();failed.emit('tem:scene-failed');
+test('a ready idle background leaves boarding visible and never consumes the movie',()=>{
+ for(const reduced of [false,true]){
+  const h=openingHarness({reduced});h.emit('tem:graphics-request');h.emit('tem:scene-ready');
+  for(let i=0;i<10;i++)h.updateOpening(60);
+  assert.equal(h.body.dataset.opening,'waiting');assert.equal(h.opening.ready,true);
+  assert.equal(h.opening.active,true);assert.equal(h.opening.started,false);assert.equal(h.opening.age,0);
+  assert.equal(h.elements.get('openingLaunch').hidden,false);assert.equal(h.elements.get('startOpening').disabled,false);
+  assert.equal(h.elements.get('expeditionUI').inert,true);assert.equal(h.elements.get('.bridge-header').inert,true);
+  assert.equal(h.events.some(event=>event.type==='tem:opening-complete'),false);
+  assert.equal(h.journey.state.step,'bridge');assert.deepEqual(h.actions,[]);
+ }
+});
+
+test('an idle preload failure or timeout keeps the launch until the visitor chooses to enter',()=>{
+ for(const cause of ['failure','timeout']){
+  const h=openingHarness();h.emit('tem:graphics-request');
+  if(cause==='failure')h.emit('tem:scene-failed');else h.timeouts[0]();
+  assert.equal(h.body.dataset.opening,'waiting',cause);assert.equal(h.opening.active,true);
+  assert.equal(h.opening.started,false);assert.equal(h.opening.age,0);
+  assert.equal(h.elements.get('openingLaunch').hidden,false);assert.equal(h.elements.get('startOpening').disabled,false);
+  assert.equal(h.elements.get('expeditionUI').inert,true);assert.equal(h.elements.get('.bridge-header').inert,true);
+  assert.equal(h.events.some(event=>event.type==='tem:opening-complete'),false);
+  assert.equal(h.journey.state.step,'bridge');assert.deepEqual(h.actions,[]);
+  h.click('startOpening');
+  assert.equal(h.body.dataset.openingResult,'graphics-fallback');assert.equal(h.elements.get('openingLaunch').hidden,true);
+  assert.equal(h.elements.get('expeditionUI').inert,false);assert.equal(h.elements.get('.bridge-header').inert,false);
+ }
+});
+
+test('graphics failure and timeout during an explicitly started movie release both choices',()=>{
+ const failed=openingHarness();failed.click('startOpening');failed.emit('tem:scene-failed');
  assert.equal(failed.body.dataset.openingResult,'graphics-fallback');assert.equal(failed.journey.state.step,'bridge');
  assert.equal(failed.elements.get('expeditionUI').inert,false);assert.equal(failed.elements.get('.bridge-header').inert,false);
- const timedOut=openingHarness();timedOut.emit('tem:graphics-request');timedOut.timeouts[0]();
+ const timedOut=openingHarness();timedOut.emit('tem:graphics-request');timedOut.click('startOpening');timedOut.timeouts[0]();
  assert.equal(timedOut.body.dataset.openingResult,'graphics-timeout');assert.equal(timedOut.journey.state.step,'bridge');
  assert.deepEqual(timedOut.actions,[]);
 });
 
-test('waiting for a visitor does not start a graphics timeout',()=>{
+test('the opening controller keeps boarding enabled when boot requests the idle background',()=>{
  const h=openingHarness();
  assert.equal(h.timeouts.length,0);
  assert.equal(h.opening.started,false);
  assert.equal(h.elements.get('startOpening').disabled,false);
+ h.emit('tem:graphics-request');assert.equal(h.timeouts.length,1);
+ assert.equal(h.body.dataset.opening,'waiting');assert.equal(h.opening.started,false);
 });
 
 test('replay returns to the opening then holds again, including when reduced motion changes during flight',()=>{

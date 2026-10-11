@@ -68,7 +68,7 @@ test('a render failure releases navigation and preserves an inspectable phase an
  assert.deepEqual(h.events,['tem:scene-failed'],'a navigation error cannot prevent the fallback event');
 });
 
-function openingHarness({request=true}={}){
+function openingHarness({request=true,started=false}={}){
  const listeners=new Map(),elements=new Map(),timeouts=[],events=[],classes=new Set(['webgl-ready']);
  class Target{
   dataset={};handlers=new Map();
@@ -87,11 +87,12 @@ function openingHarness({request=true}={}){
  runInNewContext(sourceFor('immersive-intro.js'),scope);
  const emit=type=>scope.dispatchEvent(new scope.Event(type));
  if(request)emit('tem:graphics-request');
+ if(started)element('startOpening').handlers.get('click')();
  return {body,document,elements,timeouts,events,emit};
 }
 
-test('webgl-ready without a successful frame times out and releases existing choices',()=>{
- const h=openingHarness();h.timeouts[0].callback();
+test('webgl-ready without a successful frame releases choices after the visitor has started',()=>{
+ const h=openingHarness({started:true});h.timeouts[0].callback();
  assert.ok(h.events.includes('tem:scene-failed'));assert.equal(h.body.dataset.openingResult,'graphics-timeout');
  assert.equal(h.elements.get('expeditionUI').inert,false);assert.equal(h.elements.get('.bridge-header').inert,false);
  assert.equal(h.elements.get('space').dataset.sceneFailurePhase,'first-frame');
@@ -112,7 +113,7 @@ test('hidden tabs defer the check and earlier failures retain their diagnostic r
  assert.equal(hidden.timeouts[1].delay,20000);hidden.document.hidden=false;
  hidden.document.getElementById('space').dataset.renderFrame='1';hidden.timeouts[1].callback();
  assert.equal(hidden.events.includes('tem:scene-failed'),false);
- const failed=openingHarness(),canvas=failed.document.getElementById('space');
+ const failed=openingHarness({started:true}),canvas=failed.document.getElementById('space');
  canvas.dataset.sceneFailurePhase='environment';canvas.dataset.sceneFailureReason='PMREM failed';
  failed.emit('tem:scene-failed');failed.timeouts[0].callback();
  assert.equal(failed.body.dataset.openingResult,'graphics-fallback');assert.equal(canvas.dataset.sceneFailurePhase,'environment');

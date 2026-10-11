@@ -2,7 +2,7 @@ import {currentLocale, localizedData} from './locale-data.js';
 import {localizeDOM} from './i18n.js';
 import {initializeSettings} from './runtime-settings.js';
 import {viewFromURL, restoreView, viewSearch} from './international-navigation.js';
-import {isSoundOn,getSoundVolume,setSound,setSoundVolume} from './immersive-audio.js?v=cinematic-v21.2';
+import {isSoundOn,getSoundVolume,setSound,setSoundVolume} from './immersive-audio.js?v=cinematic-v21.3';
 
 const locale=currentLocale();
 window.PORTFOLIO_BASE_DATA=window.PORTFOLIO_DATA;
@@ -17,7 +17,7 @@ function requestGraphics() {
   if(graphics)return graphics;
   document.body.dataset.graphics='loading';
   dispatchEvent(new Event('tem:graphics-request'));
-  graphics=import('./immersive-engine.js?v=cinematic-v21.2');
+  graphics=import('./immersive-engine.js?v=cinematic-v21.3');
   return graphics;
 }
 // Controller events include keyboard shortcuts and replay, not just button clicks.
@@ -25,7 +25,7 @@ addEventListener('tem:opening-start',requestGraphics);
 addEventListener('tem:opening-skip',requestGraphics);
 addEventListener('tem:scene-ready',()=>{document.body.classList.remove('graphics-standby','scene-fallback');document.body.dataset.graphics='ready';});
 addEventListener('tem:scene-failed',()=>{document.body.classList.remove('graphics-standby');document.body.classList.add('scene-fallback');document.body.dataset.graphics='fallback';});
-const exploration=await import('./immersive-exploration.js?v=cinematic-v21.2');
+const exploration=await import('./immersive-exploration.js?v=cinematic-v21.3');
 // Reuse the exact session used by the scene's UI, even when its cache version changes.
 const {journey,navigate,subscribe}=exploration;
 const progressKey='tem-journey-progress';
@@ -40,6 +40,9 @@ function applyView(view) {
   return result;
 }
 applyView(urlView);
+// Load the existing welcome scene behind the launch screen. The controller is
+// registered first, and still waits for the visitor before starting the movie.
+requestGraphics();
 try{sessionStorage.setItem(progressKey,JSON.stringify(journey.progress));}catch{}
 function updateURL() {
   if(restoring||journey.busy)return;

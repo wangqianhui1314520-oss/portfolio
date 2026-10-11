@@ -5,6 +5,8 @@ import {runInNewContext} from 'node:vm';
 import {cinematicEase} from '../assets/js/immersive-easing.js';
 import {createJourney,transitionDurations} from '../assets/js/immersive-journey.js';
 import {archivePose,archiveWelcomePose,createArchiveRail,archiveChapterOrder} from '../assets/js/immersive-archive-path.js';
+import {createOpeningPlayback} from '../assets/js/immersive-opening-playback.js';
+import {openingTimeline,OPENING_DURATION} from '../assets/js/immersive-opening-timeline.js';
 
 function moduleScope(name,extra={}){
  const source=readFileSync(new URL('../assets/js/'+name,import.meta.url),'utf8').replace(/^import .*$/gm,'').replace(/^export /gm,'');
@@ -71,7 +73,7 @@ class Vector3{
 }
 class Vector2{constructor(){this.set(0,0);}set(x,y){Object.assign(this,{x,y});return this;}lerp(v,t){return this.set(this.x+(v.x-this.x)*t,this.y+(v.y-this.y)*t);}length(){return Math.hypot(this.x,this.y);}}
 
-test('changing the real journey captures the rendered eye once without doubling orbit or pointer offsets',()=>{
+function navigationHarness({opening={active:false,frame:{route:1,fov:52,time:14}},updateOpening=()=>1,width=1280}={}){
  const listeners=new Map(),subscriptions=[],elements=new Map(),archiveRail=createArchiveRail(),journey=createJourney([{id:'one',title:'One',type:'游戏'}]);
  const element=id=>{if(!elements.has(id))elements.set(id,{dataset:{},hidden:false,addEventListener(){}});return elements.get(id);};
  const body={dataset:{archiveChapter:'overview'},classList:{remove(){},add(){}}};
@@ -82,11 +84,16 @@ test('changing the real journey captures the rendered eye once without doubling 
   }},
   journey,subscribe:callback=>subscriptions.push(callback),getRevision:()=>1,transitionDurations,archiveRail,archivePose,archiveWelcomePose,archiveChapterOrder,
   createSpatialWorld:()=>({pose(){const p=archivePose(archiveRail.progress);return {position:new Vector3(...p.position),look:new Vector3(...p.look),fov:p.fov};},update(){},layout(){},opticalAnchor(){}}),
-  opening:{active:false,frame:{route:1,fov:52,time:14}},updateOpening:()=>1,
-  document:{body,getElementById:element,querySelectorAll:()=>[]},innerWidth:1280,innerHeight:720,performance:{now:()=>1000},
+  opening,updateOpening,
+  document:{body,getElementById:element,querySelectorAll:()=>[]},innerWidth:width,innerHeight:720,performance:{now:()=>1000},
   addEventListener(type,callback){if(!listeners.has(type))listeners.set(type,[]);listeners.get(type).push(callback);},dispatchEvent(){},CustomEvent:class{},queueMicrotask
  });
  const navigation=scope.createNavigation({scene:{},camera}),pointer={x:.45,y:.18};
+ return {navigation,camera,pointer,journey,listeners,subscriptions,body};
+}
+
+test('changing the real journey captures the rendered eye once without doubling orbit or pointer offsets',()=>{
+ const {navigation,camera,pointer,journey,listeners,subscriptions}=navigationHarness();
  for(let i=0;i<90;i++)navigation.update(1/60,pointer,i/60,1);
  const target={closest:()=>null};for(const callback of listeners.get('pointerdown'))callback({button:0,clientX:100,clientY:100,target});
  for(const callback of listeners.get('pointermove'))callback({clientX:700,clientY:170,target});
@@ -96,4 +103,59 @@ test('changing the real journey captures the rendered eye once without doubling 
  const frame=navigation.update(0,pointer,4,1,0);
  assert.ok(camera.position.distanceTo(eye)<1e-9);assert.ok(camera.getWorldDirection(new Vector3()).distanceTo(direction)<1e-9);
  assert.equal(camera.fov,fov);assert.equal(frame.shotProgress,0);assert.equal(frame.step,'captain');
+});
+
+function previewHarness(width){
+ const playback=createOpeningPlayback(OPENING_DURATION),opening=playback.state;
+ opening.frame=openingTimeline(0);
+ const updateOpening=dt=>{
+  const progress=playback.advance(dt);opening.frame=openingTimeline(opening.age);return progress;
+ };
+ return {...navigationHarness({opening,updateOpening,width}),playback,opening};
+}
+
+test('the ready idle preview holds the actual welcome camera without emitting a movie scene frame',()=>{
+ for(const width of [1280,390]){
+  const h=previewHarness(width),welcome=archiveWelcomePose(width<700);h.playback.ready();
+  for(let i=0;i<20;i++){
+   const frame=h.navigation.update(1,h.pointer,i,1);
+   assert.deepEqual(h.camera.position.toArray(),welcome.position);
+   assert.deepEqual(h.camera._look.toArray(),welcome.look);
+   assert.equal(h.camera.fov,welcome.fov);assert.equal(h.body.dataset.moving,'false');
+   assert.equal(frame.opening,false);assert.equal(frame.fullOpening,false);assert.equal(frame.intro,0);
+   assert.equal(frame.introFrame.time,0);assert.equal(frame.speed,0);
+  }
+  assert.equal(h.opening.active,true);assert.equal(h.opening.started,false);assert.equal(h.opening.age,0);
+ }
+});
+
+test('manually starting after a long preview begins at the original departure and time zero',()=>{
+ for(const width of [1280,390]){
+  const h=previewHarness(width),pointer={x:0,y:0};h.playback.ready();
+  h.navigation.update(600,pointer,600,1);h.playback.start();
+  const departure=h.navigation.update(0,pointer,600,1,0);
+  assert.deepEqual(h.camera.position.toArray(),[-260,95,1650]);
+  assert.equal(departure.opening,true);assert.equal(departure.fullOpening,true);
+  assert.equal(departure.intro,0);assert.equal(departure.introFrame.time,0);assert.equal(h.opening.age,0);
+  const moving=h.navigation.update(1/60,pointer,600+1/60,1);
+  assert.ok(moving.introFrame.time>0);assert.ok(moving.intro>0);
+  assert.notDeepEqual(h.camera.position.toArray(),[-260,95,1650]);
+ }
+});
+
+test('completion and skips return the same real camera to welcome without another movie frame',()=>{
+ for(const width of [1280,390])for(const exit of ['complete','skip-idle','skip-playing']){
+  const h=previewHarness(width),pointer={x:0,y:0},welcome=archiveWelcomePose(width<700);
+  h.playback.ready();h.navigation.update(1,pointer,1,1);
+  if(exit!=='skip-idle'){
+   h.playback.start();h.navigation.update(1,pointer,2,1);
+   if(exit==='complete')h.navigation.update(OPENING_DURATION-1,pointer,15,1);
+  }
+  h.playback.finish();h.body.dataset.openingResult=exit==='complete'?'complete':'skipped';
+  const frame=h.navigation.update(1,pointer,16,1);
+  assert.ok(h.camera.position.distanceTo(new Vector3(...welcome.position))<1e-9,exit);
+  assert.ok(h.camera._look.distanceTo(new Vector3(...welcome.look))<1e-9,exit);assert.equal(h.camera.fov,welcome.fov);
+  assert.equal(frame.opening,false);assert.equal(frame.fullOpening,false);assert.equal(frame.step,'bridge');
+  assert.equal(h.opening.active,false);assert.equal(h.journey.state.step,'bridge');
+ }
 });
