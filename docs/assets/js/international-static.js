@@ -4,8 +4,37 @@ const filters = [...document.querySelectorAll('[data-filter]')];
 const cards = [...document.querySelectorAll('[data-project-category]')];
 const status = document.getElementById('filterStatus');
 const languageLinks = [...document.querySelectorAll('[data-language-switch]')];
+const categories = new Set(['forge', 'lumen', 'echo', 'nexus']);
+const categoryFrom = url => categories.has(url.searchParams.get('category')) ? url.searchParams.get('category') : null;
+function workRoute(url) {
+  const match = url.pathname.replace(/\/index\.html$/, '/').match(/^(.*\/(?:zh|en)\/work\/)(?:([^/]+)\/)?$/);
+  return match ? {archivePath: match[1], project: match[2] || null} : null;
+}
+function withCategory(url, category) {
+  if (category) url.searchParams.set('category', category);
+  else url.searchParams.delete('category');
+  return url.href;
+}
 function syncLanguageLinks() {
-  for (const link of languageLinks) link.href = languageDestination(link.href, location.href);
+  const current = new URL(location.href), route = workRoute(current);
+  for (const link of languageLinks) {
+    const target = new URL(languageDestination(link.href, current.href));
+    link.href = route && workRoute(target) ? withCategory(target, categoryFrom(current)) : target.href;
+  }
+}
+function syncBrowseLinks() {
+  const current = new URL(location.href), route = workRoute(current);
+  if (!route) return;
+  const links = route.project ? [...document.querySelectorAll('.breadcrumb a, .case-actions a')] : cards.flatMap(card => [...card.querySelectorAll('a[href]')]);
+  for (const link of links) {
+    const target = new URL(link.href, current), destination = workRoute(target);
+    if (target.origin !== current.origin || destination?.archivePath !== route.archivePath || Boolean(destination.project) === Boolean(route.project)) continue;
+    link.href = withCategory(target, categoryFrom(current));
+  }
+}
+function syncNavigationLinks() {
+  syncBrowseLinks();
+  syncLanguageLinks();
 }
 function selectFilter(category) {
   if (!filters.some(button => button.dataset.filter === category)) category = 'all';
@@ -18,14 +47,14 @@ function selectFilter(category) {
 }
 for (const button of filters) button.addEventListener('click', () => {
   selectFilter(button.dataset.filter);
-  const url = new URL(location.href); if (button.dataset.filter === 'all') url.searchParams.delete('category'); else url.searchParams.set('category', button.dataset.filter);
+  const url = new URL(location.href); if (!categories.has(button.dataset.filter)) url.searchParams.delete('category'); else url.searchParams.set('category', button.dataset.filter);
   history.pushState(null, '', url);
-  syncLanguageLinks();
+  syncNavigationLinks();
 });
-addEventListener('popstate', () => {selectFilter(new URL(location.href).searchParams.get('category') || 'all');syncLanguageLinks();});
+addEventListener('popstate', () => {selectFilter(new URL(location.href).searchParams.get('category') || 'all');syncNavigationLinks();});
 addEventListener('hashchange', syncLanguageLinks);
 if (filters.length) selectFilter(new URL(location.href).searchParams.get('category') || 'all');
-syncLanguageLinks();
+syncNavigationLinks();
 for (const link of languageLinks) link.addEventListener('click', () => {
   syncLanguageLinks();
   try {localStorage.setItem('tem-locale', link.hreflang === 'en' ? 'en' : 'zh');} catch {}
