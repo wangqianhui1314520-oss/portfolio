@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import {hardwareMaterials,hardwareMesh,consolidateHardware} from './immersive-hardware.js?v=cinematic-v21.1';
-import {crystalMaterial,createEnergyRibbons} from './immersive-optical.js?v=cinematic-v21.1';
-import {createLightFlow} from './immersive-light-flow.js?v=cinematic-v21.1';
+import {hardwareMaterials,hardwareMesh,consolidateHardware} from './immersive-hardware.js?v=cinematic-v21.2';
+import {crystalMaterial,createEnergyRibbons} from './immersive-optical.js?v=cinematic-v21.2';
+import {createLightFlow} from './immersive-light-flow.js?v=cinematic-v21.2';
 
 export function createOpeningVoyage({scene,camera,particleScene,particleUniforms,compact}){
  const root=new THREE.Group();scene.add(root);const m=hardwareMaterials(),crystal=crystalMaterial();

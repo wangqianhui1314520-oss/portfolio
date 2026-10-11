@@ -1,7 +1,7 @@
 import {getMotionPreference} from './runtime-settings.js';
-import { journey, navigate } from './immersive-session.js?v=cinematic-v21.1';
-import { OPENING_DURATION,openingTimeline } from './immersive-opening-timeline.js?v=cinematic-v21.1';
-import { createOpeningPlayback } from './immersive-opening-playback.js?v=cinematic-v21.1';
+import { journey, navigate } from './immersive-session.js?v=cinematic-v21.2';
+import { OPENING_DURATION,openingTimeline } from './immersive-opening-timeline.js?v=cinematic-v21.2';
+import { createOpeningPlayback } from './immersive-opening-playback.js?v=cinematic-v21.2';
 
 // The voyage ends at a held welcome. Only a visitor's choice opens an archive or flight.
 const playback=createOpeningPlayback(OPENING_DURATION);
@@ -79,10 +79,30 @@ start.addEventListener('click',begin);
 skip.addEventListener('click',skipToWelcome);
 document.getElementById('replayOpening').addEventListener('click',()=>{document.querySelector('.experience-settings').open=false;navigate('home');playback.reset();lastBeat='';ui.inert=true;header.inert=true;begin();});
 addEventListener('keydown',event=>{if(opening.active&&event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();skipToWelcome();}},{capture:true});
+let graphicsFailed=false,graphicsRequested=false,graphicsCheckRevision=0;
 addEventListener('tem:scene-ready',ready);
-addEventListener('tem:scene-failed',()=>finish('graphics-fallback'));
+addEventListener('tem:scene-failed',()=>{graphicsFailed=true;graphicsRequested=false;finish('graphics-fallback');});
 // The fallback page must remain usable even when the graphics module cannot load.
-let graphicsTimeout;addEventListener('tem:graphics-request',()=>{graphicsTimeout=setTimeout(()=>{if(!opening.ready&&!body.classList.contains('webgl-ready')){dispatchEvent(new Event('tem:scene-failed'));finish('graphics-timeout');}},20000);});
+function scheduleGraphicsCheck(){
+  const revision=++graphicsCheckRevision;
+  setTimeout(()=>{if(revision===graphicsCheckRevision)checkGraphicsProgress();},20000);
+}
+function checkGraphicsProgress(){
+  if(opening.ready||graphicsFailed)return;
+  // A hidden tab may pause requestAnimationFrame. Give it a visible interval
+  // before deciding that a renderer with no successful frame has stalled.
+  if(document.hidden){scheduleGraphicsCheck();return;}
+  const rendered=Number(document.getElementById('space')?.dataset?.renderFrame)>0;
+  if(!rendered){
+    const canvas=document.getElementById('space');
+    if(canvas?.dataset){canvas.dataset.sceneFailurePhase='first-frame';canvas.dataset.sceneFailureReason='graphics-timeout';}
+    dispatchEvent(new Event('tem:scene-failed'));finish('graphics-timeout');
+  }
+}
+addEventListener('tem:graphics-request',()=>{graphicsFailed=false;graphicsRequested=true;scheduleGraphicsCheck();});
+addEventListener('visibilitychange',()=>{
+  if(!document.hidden&&graphicsRequested&&!opening.ready&&!graphicsFailed&&!(Number(document.getElementById('space')?.dataset?.renderFrame)>0))scheduleGraphicsCheck();
+});
 addEventListener('tem:direct-entry',()=>finish('direct-entry'));
 reduce.addEventListener('change',()=>{if(!opening.active)return;if(opening.started&&reduce.matches)finish('reduced-motion');else if(!opening.started)prepare();});
 prepare();

@@ -10,7 +10,7 @@
 npm run dev
 ```
 
-打开 <http://127.0.0.1:4173/immersive.html>。站点是纯静态网站，没有 npm 安装步骤。本机已安装的 Node.js 26 可运行开发服务和检查工具。Three.js 当前从网页声明的 CDN 加载。
+打开 <http://127.0.0.1:4173/immersive.html>。站点是纯静态网站，没有 npm 安装步骤。本机已安装的 Node.js 26 可运行开发服务和检查工具。Three.js 0.161.0 及所需扩展随站点发布于 `assets/vendor/three-0.161.0/`，三维场景不依赖外部 CDN。
 
 服务器必须以 **docs 为网站根目录**。HTML 的 `/assets/`、`/zh/`、`/en/` 路径都相对于这个根目录；不要以父目录为服务器根再访问 `/docs/immersive.html`。
 

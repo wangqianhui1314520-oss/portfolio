@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {mergeGeometries} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
+import {mergeGeometries} from '../vendor/three-0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
 
 // All light paths in one network share two draw calls. The GPU moves the pulses.
 export function createLightFlow({parent,paths,color=0xffc77b,radius=.045,speed=.48,segments=64}){

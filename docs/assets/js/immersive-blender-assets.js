@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/loaders/GLTFLoader.js';
+import {GLTFLoader} from '../vendor/three-0.161.0/examples/jsm/loaders/GLTFLoader.js';
 
 const assets=Object.freeze({identity:'tem-identity.glb',observatory:'tem-observatory.glb',observatoryV19:'tem-refined-observatory-v21.glb',observatoryV19Lod:'tem-refined-observatory-v21-lod.glb',starSea:'tem-star-sea-v20.glb',starSeaLod:'tem-star-sea-v20-lod.glb',deck:'tem-cinematic-deck.glb',display:'tem-cinematic-display.glb',starport:'tem-cinematic-starport.glb',fleet:'tem-refined-fleet-v21.glb',fleetLod:'tem-refined-fleet-v21-lod.glb'});
 const sourceCache=new Map(),loader=new GLTFLoader();

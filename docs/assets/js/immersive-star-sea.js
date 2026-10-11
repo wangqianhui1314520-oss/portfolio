@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import {loadTemAsset} from './immersive-blender-assets.js?v=cinematic-v21.1';
-import {normalizeStellarLayout} from './immersive-world-layout.js?v=cinematic-v21.1';
-import {createProceduralPlanetMaterial,createProceduralPlanetClouds} from './immersive-procedural-planet.js?v=cinematic-v21.1';
+import {loadTemAsset} from './immersive-blender-assets.js?v=cinematic-v21.2';
+import {normalizeStellarLayout} from './immersive-world-layout.js?v=cinematic-v21.2';
+import {createProceduralPlanetMaterial,createProceduralPlanetClouds} from './immersive-procedural-planet.js?v=cinematic-v21.2';
 
 // The geometry and layout are exported from the same editable Blender scene.
 // Dynamic bands remain real world meshes, so both the main view and floor's

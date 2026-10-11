@@ -1,30 +1,65 @@
 import {getMotionPreference,getQuality} from './runtime-settings.js';
 import * as THREE from 'three';
-import { EffectComposer } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { OutputPass } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/OutputPass.js';
-import { createOrbitalWorld } from './immersive-planet.js?v=cinematic-v21.1';
-import { createShipCockpit } from './immersive-cockpit.js?v=cinematic-v21.1';
-import { createNavigation } from './immersive-navigation.js?v=cinematic-v21.1';
-import { createTemIdentity } from './immersive-identity.js?v=cinematic-v21.1';
-import { createFilmLook } from './immersive-film.js?v=cinematic-v21.1';
-import { createDeepSpaceAtmosphere } from './immersive-atmosphere.js?v=cinematic-v21.1';
-import { createOpeningVoyage } from './immersive-voyage-optical.js?v=cinematic-v21.1';
-import { createCreatorArchive } from './immersive-archive-optical.js?v=cinematic-v21.1';
-import {createCelestialSky} from './immersive-optical.js?v=cinematic-v21.1';
-import {createFrameBudget,createRenderPacer,renderPixelRatio} from './immersive-frame-budget.js?v=cinematic-v21.1';
-import {createPointerField} from './immersive-pointer-field.js?v=cinematic-v21.1';
-import {createStarportOptics} from './immersive-starport-optics.js?v=cinematic-v21.1';
-import {createObservatoryWorld} from './immersive-observatory-world.js?v=cinematic-v21.1';
-import {createCinematicEnvironment,cinematicLighting} from './immersive-lightstage.js?v=cinematic-v21.1';
-import {createPlanarReflection} from './immersive-planar-reflection.js?v=cinematic-v21.1';
-import {createStarSea} from './immersive-star-sea.js?v=cinematic-v21.1';
-import {createObservatoryV19} from './immersive-observatory-v19.js?v=cinematic-v21.1';
+import { EffectComposer } from '../vendor/three-0.161.0/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from '../vendor/three-0.161.0/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from '../vendor/three-0.161.0/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from '../vendor/three-0.161.0/examples/jsm/postprocessing/OutputPass.js';
+import { createOrbitalWorld } from './immersive-planet.js?v=cinematic-v21.2';
+import { createShipCockpit } from './immersive-cockpit.js?v=cinematic-v21.2';
+import { createNavigation } from './immersive-navigation.js?v=cinematic-v21.2';
+import { createTemIdentity } from './immersive-identity.js?v=cinematic-v21.2';
+import { createFilmLook } from './immersive-film.js?v=cinematic-v21.2';
+import { createDeepSpaceAtmosphere } from './immersive-atmosphere.js?v=cinematic-v21.2';
+import { createOpeningVoyage } from './immersive-voyage-optical.js?v=cinematic-v21.2';
+import { createCreatorArchive } from './immersive-archive-optical.js?v=cinematic-v21.2';
+import {createCelestialSky} from './immersive-optical.js?v=cinematic-v21.2';
+import {createFrameBudget,createRenderPacer,renderPixelRatio} from './immersive-frame-budget.js?v=cinematic-v21.2';
+import {createPointerField} from './immersive-pointer-field.js?v=cinematic-v21.2';
+import {createStarportOptics} from './immersive-starport-optics.js?v=cinematic-v21.2';
+import {createObservatoryWorld} from './immersive-observatory-world.js?v=cinematic-v21.2';
+import {createCinematicEnvironment,cinematicLighting} from './immersive-lightstage.js?v=cinematic-v21.2';
+import {createPlanarReflection} from './immersive-planar-reflection.js?v=cinematic-v21.2';
+import {createStarSea} from './immersive-star-sea.js?v=cinematic-v21.2';
+import {createObservatoryV19} from './immersive-observatory-v19.js?v=cinematic-v21.2';
 
 const canvas = document.getElementById('space');
 const motionPreference = getMotionPreference();
 let activeNavigation;
+
+// An animation callback runs after initialize() has returned, so it needs its
+// own failure boundary. Stop once and allow a restored WebGL context to retry.
+export function createSceneRenderBoundary(onFailure) {
+  let failed = false;
+  return {
+    get failed() { return failed; },
+    restore() { failed = false; },
+    run(render, complete) {
+      if (failed) return false;
+      try {
+        if (render() === false) return false;
+        complete?.();
+        return true;
+      } catch (error) {
+        failed = true;
+        onFailure(error);
+        return false;
+      }
+    }
+  };
+}
+
+function reportSceneFailure(error, phase) {
+  document.body.classList.remove('webgl-ready');
+  document.body.classList.add('scene-fallback');
+  canvas.style.opacity = '0';
+  canvas.dataset.scene = 'fallback';
+  canvas.dataset.sceneFailurePhase = phase;
+  canvas.dataset.sceneFailureReason = String(error?.message || error);
+  try { activeNavigation?.fallback(); }
+  catch (fallbackError) { console.error('Cosmos fallback could not release navigation:', fallbackError); }
+  dispatchEvent(new Event('tem:scene-failed'));
+  console.error('Cosmos scene could not render:', phase, error);
+}
 
 function randomSource(seed) {
   return () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
@@ -244,10 +279,24 @@ function initialize() {
   addEventListener('tem:quality-preference',()=>{quality=getQuality()==='low'?.65:getQuality()==='full'?1:budget.quality;pendingQuality=null;bloom.enabled=getQuality()!=='low'&&quality>.58;resize();atmosphere.invalidate();});
   resize();
 
-  function render(ms){
-    if(contextLost||document.hidden)return;
-    if(!pacer.shouldRender(ms)){animation=requestAnimationFrame(render);return;}
+  let renderPhase = 'initializing';
+  const renderBoundary = createSceneRenderBoundary(error => {
+    cancelAnimationFrame(animation);
+    reportSceneFailure(error, renderPhase);
+  });
+  function render(ms) {
+    renderBoundary.run(() => renderFrame(ms), () => {
+      // Asset parsing alone cannot prove that a complete render pass succeeded.
+      if(!announced && (starSea.ready&&dreamObservatory.ready || frame>480)){
+        announced=true;dispatchEvent(new Event('tem:scene-ready'));
+      }
+    });
+  }
+  function renderFrame(ms){
+    if(contextLost||document.hidden)return false;
+    if(!pacer.shouldRender(ms)){animation=requestAnimationFrame(render);return false;}
     const cpuStart=performance.now();
+    renderPhase = 'environment';
     prepareEnvironment();
     const wallDt=lastTime?Math.max(0,(ms-lastTime)*.001):1/60,dt=Math.min(wallDt,.05);lastTime=ms;
     const motion=motionPreference.matches||document.body.dataset.reading?0:1;if(motion)elapsed+=dt;time.value=elapsed;
@@ -255,7 +304,9 @@ function initialize() {
     const ease=1-Math.exp(-dt*3.4);pointer.x+=(pointer.tx-pointer.x)*ease;pointer.y+=(pointer.ty-pointer.y)*ease;
     if(Math.abs(pointer.x-pointer.tx)<.0001)pointer.x=pointer.tx;
     if(Math.abs(pointer.y-pointer.ty)<.0001)pointer.y=pointer.ty;
+    renderPhase = 'navigation';
     const navigationFrame=navigation.update(dt,pointer,elapsed,motion,wallDt);
+    renderPhase = 'world-update';
     dreamObservatory.update(dt,elapsed,navigationFrame,motion,quality);
     navigationFrame.observatoryReplacement=dreamObservatory.replacementAmount;
     atmosphere.setCloudSeaEnabled(dreamObservatory.replacementAmount);
@@ -274,7 +325,6 @@ function initialize() {
     key.intensity=THREE.MathUtils.lerp(key.intensity,1.55,sunrise);
     sky.position.copy(camera.position);
     stream.visible=!navigationFrame.sector;atmosphere.update(navigationFrame,pointer,motion,dt,quality);
-    if(!announced && (starSea.ready&&dreamObservatory.ready || frame>480)){announced=true;dispatchEvent(new Event('tem:scene-ready'));}
     flight.value=navigationFrame.flight;velocity.value=navigationFrame.speed;
     trails.visible=!navigationFrame.opening&&Boolean(motion)&&navigationFrame.speed>.12&&['travel','target','docking'].includes(navigationFrame.step);
     if(pointer.active&&motion){pointerRay.set(pointer.x*2,-pointer.y*2,.5).unproject(camera).sub(camera.position).normalize();pointerWorld.value.copy(camera.position).addScaledVector(pointerRay,90);}
@@ -296,7 +346,9 @@ function initialize() {
     const shadowInterval=navigationFrame.step==='docking'?100:shadowMoving?200:Infinity;
     if(lastShadowStep!==navigationFrame.step||lastShadowSector!==navigationFrame.sector||motion&&ms-shadowStamp>shadowInterval){renderer.shadowMap.needsUpdate=true;shadowStamp=ms;lastShadowStep=navigationFrame.step;lastShadowSector=navigationFrame.sector;}
     starportOptics.update(navigationFrame,dt,motion);
-    renderer.info.reset();reflection.update(elapsed,navigationFrame,motion);composer.render();
+    renderer.info.reset();renderPhase='reflection';reflection.update(elapsed,navigationFrame,motion);
+    renderPhase='composite';composer.render();
+    renderPhase='complete';
     cpuSum+=performance.now()-cpuStart;cpuFrames++;
     const observation=budget.sample(wallDt*1000);
     if(getQuality()==='auto'&&observation?.changed){pendingQuality=observation.quality;pendingQualityAt=ms;}
@@ -306,7 +358,7 @@ function initialize() {
       quality=pendingQuality;pendingQuality=null;bloom.enabled=getQuality()!=='low'&&quality>.58;resize();
     }
     if(frame++%90===0||observation){
-      canvas.dataset.scene='spatial-odyssey';canvas.dataset.drawCalls=String(renderer.info.render.calls);canvas.dataset.triangles=String(renderer.info.render.triangles);canvas.dataset.renderFrame=String(frame);
+      canvas.dataset.scene='spatial-odyssey';canvas.dataset.drawCalls=String(renderer.info.render.calls);canvas.dataset.triangles=String(renderer.info.render.triangles);canvas.dataset.renderFrame=String(frame);canvas.dataset.renderPhase=renderPhase;
       canvas.dataset.camera=navigationFrame.position.toArray().map(n=>n.toFixed(2)).join(',');
       if(observation)canvas.dataset.frameRate=String(Math.round(observation.fps));
       canvas.dataset.renderCpuMs=(cpuSum/Math.max(1,cpuFrames)).toFixed(2);cpuSum=0;cpuFrames=0;
@@ -314,15 +366,14 @@ function initialize() {
       canvas.dataset.quality=quality.toFixed(2);canvas.dataset.bloom=String(bloom.enabled);canvas.dataset.shadowCache='paced';canvas.dataset.pixelRatio=renderer.getPixelRatio().toFixed(2);
     }
     animation=requestAnimationFrame(render);
+    return true;
   }
-  canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();contextLost=true;cancelAnimationFrame(animation);document.body.classList.remove('webgl-ready');document.body.classList.add('scene-fallback');canvas.style.opacity='0';canvas.dataset.scene='fallback';dispatchEvent(new Event('tem:scene-failed'));navigation.fallback();});
-  canvas.addEventListener('webglcontextrestored',()=>{contextLost=false;lastTime=0;pacer.reset();budget.reset();atmosphere.invalidate();canvas.style.opacity='1';document.body.classList.add('webgl-ready');document.body.classList.remove('scene-fallback');navigation.restore();if(!document.hidden)animation=requestAnimationFrame(render);});
-  document.addEventListener('visibilitychange',()=>{cancelAnimationFrame(animation);if(!document.hidden&&!contextLost){lastTime=0;pacer.reset();budget.reset();animation=requestAnimationFrame(render);}});
+  canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();contextLost=true;cancelAnimationFrame(animation);document.body.classList.remove('webgl-ready');document.body.classList.add('scene-fallback');canvas.style.opacity='0';canvas.dataset.scene='fallback';canvas.dataset.sceneFailurePhase='context';canvas.dataset.sceneFailureReason='webglcontextlost';dispatchEvent(new Event('tem:scene-failed'));navigation.fallback();});
+  canvas.addEventListener('webglcontextrestored',()=>{contextLost=false;renderBoundary.restore();announced=false;lastTime=0;pacer.reset();budget.reset();atmosphere.invalidate();canvas.style.opacity='1';delete canvas.dataset.sceneFailurePhase;delete canvas.dataset.sceneFailureReason;document.body.classList.add('webgl-ready');document.body.classList.remove('scene-fallback');navigation.restore();if(!document.hidden)animation=requestAnimationFrame(render);});
+  document.addEventListener('visibilitychange',()=>{cancelAnimationFrame(animation);if(!document.hidden&&!contextLost&&!renderBoundary.failed){lastTime=0;pacer.reset();budget.reset();animation=requestAnimationFrame(render);}});
   document.body.classList.add('webgl-ready','world-anchored');animation=requestAnimationFrame(render);
 }
 
 try {initialize();} catch(error) {
-  document.body.classList.remove('webgl-ready');canvas.style.display='none';canvas.dataset.scene='fallback';
-  document.body.classList.add('scene-fallback');activeNavigation?.fallback();
-  dispatchEvent(new Event('tem:scene-failed'));console.error('Cosmos scene could not start:',error);
+  reportSceneFailure(error, 'initialization');
 }

@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import { EffectComposer } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { OutputPass } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/OutputPass.js';
+import { EffectComposer } from '../vendor/three-0.161.0/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from '../vendor/three-0.161.0/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from '../vendor/three-0.161.0/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from '../vendor/three-0.161.0/examples/jsm/postprocessing/OutputPass.js';
 
 const canvas = document.getElementById('space');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');

@@ -1,14 +1,14 @@
 import * as THREE from 'three';
-import { createEnvironmentResponse } from './immersive-environment.js?v=cinematic-v21.1';
-import { createProjectStarship } from './immersive-starship.js?v=cinematic-v21.1';
-import { createOrbitalDockyard,createEscortCraft } from './immersive-station.js?v=cinematic-v21.1';
-import { bevelGeometry } from './immersive-hardware.js?v=cinematic-v21.1';
-import { journey, navigate, subscribe } from './immersive-session.js?v=cinematic-v21.1';
-import {archivePose,archiveRail} from './immersive-archive-path.js?v=cinematic-v21.1';
-import {createOrbitalAtlas} from './immersive-orbital-atlas.js?v=cinematic-v21.1';
-import {projectWorldSurface} from './immersive-world-surface.js?v=cinematic-v21.1';
-import {opticalFilm,crystalMaterial} from './immersive-optical.js?v=cinematic-v21.1';
-import { sectors, sectorFor, isProject } from './immersive-journey.js?v=cinematic-v21.1';
+import { createEnvironmentResponse } from './immersive-environment.js?v=cinematic-v21.2';
+import { createProjectStarship } from './immersive-starship.js?v=cinematic-v21.2';
+import { createOrbitalDockyard,createEscortCraft } from './immersive-station.js?v=cinematic-v21.2';
+import { bevelGeometry } from './immersive-hardware.js?v=cinematic-v21.2';
+import { journey, navigate, subscribe } from './immersive-session.js?v=cinematic-v21.2';
+import {archivePose,archiveRail} from './immersive-archive-path.js?v=cinematic-v21.2';
+import {createOrbitalAtlas} from './immersive-orbital-atlas.js?v=cinematic-v21.2';
+import {projectWorldSurface} from './immersive-world-surface.js?v=cinematic-v21.2';
+import {opticalFilm,crystalMaterial} from './immersive-optical.js?v=cinematic-v21.2';
+import { sectors, sectorFor, isProject } from './immersive-journey.js?v=cinematic-v21.2';
 
 const vector=a=>new THREE.Vector3(...a);
 const smooth=x=>x*x*(3-2*x);

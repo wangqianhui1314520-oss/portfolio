@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { ShaderPass } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/ShaderPass.js';
-import { orbitalEarthOcclusion } from './immersive-planet.js?v=cinematic-v21.1';
+import { ShaderPass } from '../vendor/three-0.161.0/examples/jsm/postprocessing/ShaderPass.js';
+import { orbitalEarthOcclusion } from './immersive-planet.js?v=cinematic-v21.2';
 
 export function createFilmLook({composer,scene,camera,time,velocity,pulse,compact}) {
   const sunPosition=new THREE.Vector3(32,38,-310);

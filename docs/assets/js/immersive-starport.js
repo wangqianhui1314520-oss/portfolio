@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import {mergeGeometries} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
-import {opticalEnvironment,opticalSkySample} from './immersive-optical.js?v=cinematic-v21.1';
-import {buildDetailedFleet} from './immersive-starship-detail.js?v=cinematic-v21.1';
-import {loadTemAsset} from './immersive-blender-assets.js?v=cinematic-v21.1';
+import {mergeGeometries} from '../vendor/three-0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
+import {opticalEnvironment,opticalSkySample} from './immersive-optical.js?v=cinematic-v21.2';
+import {buildDetailedFleet} from './immersive-starship-detail.js?v=cinematic-v21.2';
+import {loadTemAsset} from './immersive-blender-assets.js?v=cinematic-v21.2';
 
 const TAU=Math.PI*2;
 function chamberFootprint(a,t=1,y=0){

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { mergeGeometries } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
+import { mergeGeometries } from '../vendor/three-0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
 
 // Shared manufacturing language: bevels, ceramic, brushed titanium and inset light.
 export function roundedShape(w,h,r=Math.min(w,h)*.12){

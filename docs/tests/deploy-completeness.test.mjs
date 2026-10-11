@@ -81,7 +81,7 @@ test('every page references only files git will publish', () => {
   assert.ok(table, 'runtime GLB table must stay parseable');
   for (const match of table[1].matchAll(/'([^']+\.glb)'/g)) check('assets/models/' + match[1], 'immersive-blender-assets.js');
 
-  for (const dir of ['assets/css', 'assets/js', 'assets/captions', 'assets/audio']) {
+  for (const dir of ['assets/css', 'assets/js', 'assets/vendor', 'assets/captions', 'assets/audio']) {
     const target = path.join(root, dir);
     if (!fs.existsSync(target)) continue;
     for (const file of fs.readdirSync(target, {recursive: true})) {
@@ -91,6 +91,8 @@ test('every page references only files git will publish', () => {
       check(relative, dir);
     }
   }
+
+  check('assets/vendor/three-0.161.0/LICENSE', 'Three.js distribution');
 
   const scope = {window:{}};
   new Function('window', fs.readFileSync(path.join(root, 'assets/js/data.js'), 'utf8'))(scope.window);

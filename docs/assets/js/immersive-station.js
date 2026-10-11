@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { hardwareMaterials,hardwareMesh,bevelGeometry,consolidateHardware } from './immersive-hardware.js?v=cinematic-v21.1';
-import {crystalMaterial,createEnergyRibbons,createOpticalMotes} from './immersive-optical.js?v=cinematic-v21.1';
-import {mergeGeometries} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
+import { hardwareMaterials,hardwareMesh,bevelGeometry,consolidateHardware } from './immersive-hardware.js?v=cinematic-v21.2';
+import {crystalMaterial,createEnergyRibbons,createOpticalMotes} from './immersive-optical.js?v=cinematic-v21.2';
+import {mergeGeometries} from '../vendor/three-0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
 
 let sharedMaterials;
 function precisionMaterials(){

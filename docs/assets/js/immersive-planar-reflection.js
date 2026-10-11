@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {Reflector} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/objects/Reflector.js';
+import {Reflector} from '../vendor/three-0.161.0/examples/jsm/objects/Reflector.js';
 
 // One low-resolution mirror shared by the continuous deck. It reflects actual
 // world geometry, never the DOM or a second copy of the polished floor.
