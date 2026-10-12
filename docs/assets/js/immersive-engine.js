@@ -1,5 +1,5 @@
 // Navigation remains usable if the GPU or external graphics dependency is unavailable.
-import('./immersive-cosmos.js?v=cinematic-v21.3').catch(error => {
+import('./immersive-cosmos.js?v=cinematic-v21.4').catch(error => {
   document.body.classList.add('scene-fallback');
   document.getElementById('space').dataset.scene='fallback';
   dispatchEvent(new Event('tem:scene-failed'));

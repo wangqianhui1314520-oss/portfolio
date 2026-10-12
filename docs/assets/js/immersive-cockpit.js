@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { hardwareMaterials,hardwareMesh,bevelGeometry,roundedShape,consolidateHardware } from './immersive-hardware.js?v=cinematic-v21.3';
+import { hardwareMaterials,hardwareMesh,bevelGeometry,roundedShape,consolidateHardware } from './immersive-hardware.js?v=cinematic-v21.4';
 
 // Physical camera-local bridge. The visitor's identity device is mounted on this console.
 export function createShipCockpit({camera}){

@@ -1,9 +1,9 @@
 import * as THREE from 'three';
-import {hardwareMaterials,hardwareMesh,bevelGeometry,consolidateHardware} from './immersive-hardware.js?v=cinematic-v21.3';
-import {archiveChapterOrder,archiveCenter,archiveAngle} from './immersive-archive-path.js?v=cinematic-v21.3';
-import {projectWorldSurface,clipForeground} from './immersive-world-surface.js?v=cinematic-v21.3';
-import {createArchiveDetails} from './immersive-archive-details.js?v=cinematic-v21.3';
-import {createLightFlow} from './immersive-light-flow.js?v=cinematic-v21.3';
+import {hardwareMaterials,hardwareMesh,bevelGeometry,consolidateHardware} from './immersive-hardware.js?v=cinematic-v21.4';
+import {archiveChapterOrder,archiveCenter,archiveAngle} from './immersive-archive-path.js?v=cinematic-v21.4';
+import {projectWorldSurface,clipForeground} from './immersive-world-surface.js?v=cinematic-v21.4';
+import {createArchiveDetails} from './immersive-archive-details.js?v=cinematic-v21.4';
+import {createLightFlow} from './immersive-light-flow.js?v=cinematic-v21.4';
 
 // One annular environment. Each reading surface belongs to a physical device.
 export function createCreatorArchive({scene,camera}){

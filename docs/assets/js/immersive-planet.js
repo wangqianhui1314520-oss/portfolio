@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { bevelGeometry } from './immersive-hardware.js?v=cinematic-v21.3';
-import {createProceduralPlanetMaterial,createProceduralPlanetClouds} from './immersive-procedural-planet.js?v=cinematic-v21.3';
+import { bevelGeometry } from './immersive-hardware.js?v=cinematic-v21.4';
+import {createProceduralPlanetMaterial,createProceduralPlanetClouds} from './immersive-procedural-planet.js?v=cinematic-v21.4';
 
 // Film flare visibility reads the actual interpolated Earth pose, so the
 // changing map framing and its transition cannot disagree with the lens pass.
@@ -17,16 +17,41 @@ const earthPoses = {
 };
 export function orbitalEarthPose(frame, narrow = false) {
   const map = frame.step === 'map' || frame.step === 'boot';
-  const home = map || frame.step === 'captain' || frame.step === 'bridge' && (!frame.opening || frame.introFrame?.time > 9);
+  // The opening moves the camera through this same world. Moving and enlarging
+  // Earth for the movie made it intersect the authored Dawn planet, then jump
+  // back as the observatory appeared. Keep its welcome pose throughout boarding.
+  const home = map || frame.step === 'captain' || frame.step === 'bridge';
   return earthPoses[(map ? 'map' : home ? 'home' : 'travel') + (narrow ? 'Narrow' : 'Wide')];
+}
+export const orbitalPanoramaPoses = [
+  // Clear the compact welcome Earth's atmosphere as well as its terrain.
+  { position: [-2880, -3060, -1510], scale: 46 },
+  { position: [-1443, -2952.5, 2553], scale: 46 },
+  { position: [2664, -2841.5, 1517], scale: 46 }
+];
+export function orbitalEarthReveal(frame) {
+  if(!frame.fullOpening||!frame.starSeaReady)return 1;
+  // Dawn is the single foreground planet during the voyage. The much larger
+  // welcome horizon returns only as the camera settles into the observatory.
+  const progress=Math.max(0,Math.min(1,(frame.introFrame?.time||0)-11.5));
+  return progress*progress*(3-2*progress);
 }
 
 // The planetary terrain, weather and night-side light are generated in 3D.
 export function createOrbitalWorld({ scene, renderer, canvas, time, compact }) {
   const radius = 34;
+  const planetReveal={value:1};
+  const withOpeningReveal=material=>{
+    material.uniforms.uOrbitalReveal=planetReveal;
+    // Keep solid depth and consistent terrain/weather occlusion while fading.
+    // Ordinary alpha blending lets the cloud shell show through the far side.
+    material.fragmentShader='uniform float uOrbitalReveal;\n'+material.fragmentShader.replace('void main(){','void main(){if(uOrbitalReveal<1.&&fract(sin(dot(floor(gl_FragCoord.xy),vec2(12.9898,78.233)))*43758.5453)>uOrbitalReveal)discard;');
+    return material;
+  };
   const sunlight = new THREE.Vector3(.48, .19, -.84).normalize();
   const group = new THREE.Group();
-  group.position.set(520,-1080,-1050);group.scale.setScalar(28);
+  const initialPose=orbitalEarthPose({step:document.body.dataset.step||'bridge'},compact());
+  group.position.fromArray(initialPose.position);group.scale.setScalar(initialPose.scale);
   scene.add(group);
 
   const vertex = `varying vec3 vNormal,vWorld;varying vec2 vUv;
@@ -34,12 +59,13 @@ export function createOrbitalWorld({ scene, renderer, canvas, time, compact }) {
       vec4 world=modelMatrix*vec4(position,1.);vWorld=world.xyz;
       gl_Position=projectionMatrix*viewMatrix*world;}`;
   const surface = new THREE.Mesh(new THREE.SphereGeometry(radius, 96, 64),
-    createProceduralPlanetMaterial({time,seed:23,sunDirection:sunlight.toArray()}));
+    withOpeningReveal(createProceduralPlanetMaterial({time,seed:23,sunDirection:sunlight.toArray()})));
   canvas.dataset.planet='procedural-terrain-live-volumetric-weather';
   surface.rotation.set(.55, .20, -.19);
   group.add(surface);
 
   const clouds=createProceduralPlanetClouds({radius,time,seed:23,sunDirection:sunlight.toArray(),compact});
+  withOpeningReveal(clouds.material);
   clouds.rotation.copy(surface.rotation);group.add(clouds);
   const atmosphere = new THREE.Mesh(new THREE.SphereGeometry(radius + .52, 128, 80), new THREE.ShaderMaterial({
     uniforms: { uSun: { value: sunlight } }, vertexShader: vertex,
@@ -50,13 +76,15 @@ export function createOrbitalWorld({ scene, renderer, canvas, time, compact }) {
         float day=smoothstep(-.24,.48,dot(n,uSun));
         gl_FragColor=vec4(.12,.40,.78,edge*day*.40);}`
   }));
+  withOpeningReveal(atmosphere.material);
   group.add(atmosphere);
   // Different windows look onto separate distant worlds in the shared 3D panorama.
   // The same continuous 3D material field is reused; nothing follows the camera.
   const panoramaWorlds=[];
-  for(const [i,p] of [[1,[-1370,-1420,-760]],[2,[-780,-1450,1380]],[3,[1440,-1390,820]]]){
-    const g=new THREE.Group();g.position.fromArray(p);g.position.multiplyScalar(1.85);g.position.y-=270;g.scale.setScalar(46);scene.add(g);
+  for(const [index,pose] of orbitalPanoramaPoses.entries()){
+    const i=index+1,g=new THREE.Group();g.position.fromArray(pose.position);g.scale.setScalar(pose.scale);scene.add(g);
     const land=surface.clone(),vapor=createProceduralPlanetClouds({radius,time,seed:23,sunDirection:sunlight.toArray(),compact}),air=atmosphere.clone();g.add(land,vapor,air);
+    withOpeningReveal(vapor.material);
     land.rotation.set(.4,i*1.5,-.16);vapor.rotation.copy(land.rotation);panoramaWorlds.push({g,land,vapor,i});
   }
 
@@ -163,14 +191,16 @@ export function createOrbitalWorld({ scene, renderer, canvas, time, compact }) {
       // Reframe the world on narrow screens without putting UI over the title.
       const archive=document.body.dataset.step==='captain';
       const pose=orbitalEarthPose(frame,compact()),homeView=pose.home,atlasView=frame.step==='map'||frame.step==='boot';
+      planetReveal.value=orbitalEarthReveal(frame);
+      canvas.dataset.orbitalEarthReveal=planetReveal.value.toFixed(3);
       group.position.x = THREE.MathUtils.damp(group.position.x,pose.position[0],2.4,dt);
       group.position.y = THREE.MathUtils.damp(group.position.y,pose.position[1],2.4,dt);
       group.position.z = THREE.MathUtils.damp(group.position.z,pose.position[2],2.4,dt);
       group.scale.setScalar(THREE.MathUtils.damp(group.scale.x,pose.scale,2.4,dt));
       orbital.visible=Boolean(document.body.dataset.sector)&&!archive;
-      group.visible = !document.body.dataset.sector || document.body.dataset.step==='travel';relay.visible=false;holo.visible=false;
+      group.visible = planetReveal.value>0&&(!document.body.dataset.sector || document.body.dataset.step==='travel');relay.visible=false;holo.visible=false;
       orbitalEarthOcclusion.center.copy(group.position);orbitalEarthOcclusion.radius=radius*group.scale.x;orbitalEarthOcclusion.visible=group.visible;
-      panoramaWorlds.forEach(({g,land,vapor,i})=>{g.visible=homeView&&!atlasView;land.rotation.y=i*1.5+t*.00020;vapor.rotation.copy(land.rotation);});
+      panoramaWorlds.forEach(({g,land,vapor,i})=>{g.visible=planetReveal.value>0&&homeView&&!atlasView;land.rotation.y=i*1.5+t*.00020;vapor.rotation.copy(land.rotation);});
       overlay.style.opacity = String(presence);
       overlay.hidden = presence < .01;
       if (presence > .01) {

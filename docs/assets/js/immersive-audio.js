@@ -4,7 +4,7 @@
 // 音频只在用户手势后解锁（浏览器自动播放策略），状态变化由
 // tem:opening-* 事件与 journey 状态机驱动。
 // ============================================================
-import { journey, subscribe } from './immersive-session.js?v=cinematic-v21.3';
+import { journey, subscribe } from './immersive-session.js?v=cinematic-v21.4';
 
 const P = 'assets/audio/';
 const URLS = {

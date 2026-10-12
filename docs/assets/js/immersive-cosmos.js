@@ -4,23 +4,23 @@ import { EffectComposer } from '../vendor/three-0.161.0/examples/jsm/postprocess
 import { RenderPass } from '../vendor/three-0.161.0/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from '../vendor/three-0.161.0/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from '../vendor/three-0.161.0/examples/jsm/postprocessing/OutputPass.js';
-import { createOrbitalWorld } from './immersive-planet.js?v=cinematic-v21.3';
-import { createShipCockpit } from './immersive-cockpit.js?v=cinematic-v21.3';
-import { createNavigation } from './immersive-navigation.js?v=cinematic-v21.3';
-import { createTemIdentity } from './immersive-identity.js?v=cinematic-v21.3';
-import { createFilmLook } from './immersive-film.js?v=cinematic-v21.3';
-import { createDeepSpaceAtmosphere } from './immersive-atmosphere.js?v=cinematic-v21.3';
-import { createOpeningVoyage } from './immersive-voyage-optical.js?v=cinematic-v21.3';
-import { createCreatorArchive } from './immersive-archive-optical.js?v=cinematic-v21.3';
-import {createCelestialSky} from './immersive-optical.js?v=cinematic-v21.3';
-import {createFrameBudget,createRenderPacer,renderPixelRatio} from './immersive-frame-budget.js?v=cinematic-v21.3';
-import {createPointerField} from './immersive-pointer-field.js?v=cinematic-v21.3';
-import {createStarportOptics} from './immersive-starport-optics.js?v=cinematic-v21.3';
-import {createObservatoryWorld} from './immersive-observatory-world.js?v=cinematic-v21.3';
-import {createCinematicEnvironment,cinematicLighting} from './immersive-lightstage.js?v=cinematic-v21.3';
-import {createPlanarReflection} from './immersive-planar-reflection.js?v=cinematic-v21.3';
-import {createStarSea} from './immersive-star-sea.js?v=cinematic-v21.3';
-import {createObservatoryV19} from './immersive-observatory-v19.js?v=cinematic-v21.3';
+import { createOrbitalWorld } from './immersive-planet.js?v=cinematic-v21.4';
+import { createShipCockpit } from './immersive-cockpit.js?v=cinematic-v21.4';
+import { createNavigation } from './immersive-navigation.js?v=cinematic-v21.4';
+import { createTemIdentity } from './immersive-identity.js?v=cinematic-v21.4';
+import { createFilmLook } from './immersive-film.js?v=cinematic-v21.4';
+import { createDeepSpaceAtmosphere } from './immersive-atmosphere.js?v=cinematic-v21.4';
+import { createOpeningVoyage } from './immersive-voyage-optical.js?v=cinematic-v21.4';
+import { createCreatorArchive } from './immersive-archive-optical.js?v=cinematic-v21.4';
+import {createCelestialSky} from './immersive-optical.js?v=cinematic-v21.4';
+import {createFrameBudget,createRenderPacer,renderPixelRatio} from './immersive-frame-budget.js?v=cinematic-v21.4';
+import {createPointerField} from './immersive-pointer-field.js?v=cinematic-v21.4';
+import {createStarportOptics} from './immersive-starport-optics.js?v=cinematic-v21.4';
+import {createObservatoryWorld} from './immersive-observatory-world.js?v=cinematic-v21.4';
+import {createCinematicEnvironment,cinematicLighting} from './immersive-lightstage.js?v=cinematic-v21.4';
+import {createPlanarReflection} from './immersive-planar-reflection.js?v=cinematic-v21.4';
+import {createStarSea} from './immersive-star-sea.js?v=cinematic-v21.4';
+import {createObservatoryV19} from './immersive-observatory-v19.js?v=cinematic-v21.4';
 
 const canvas = document.getElementById('space');
 const motionPreference = getMotionPreference();
@@ -330,6 +330,7 @@ function initialize() {
     if(pointer.active&&motion){pointerRay.set(pointer.x*2,-pointer.y*2,.5).unproject(camera).sub(camera.position).normalize();pointerWorld.value.copy(camera.position).addScaledVector(pointerRay,90);}
     else if(motion)pointerWorld.value.set(1000,1000,-55);
     const presence=navigationFrame.presence;
+    navigationFrame.starSeaReady=starSea.ready;
     identity.update(dt,elapsed,pointer,navigationFrame,motion);
     stream.rotation.z=-.035+Math.sin(elapsed*.028)*.012;
     orbitalWorld.update(camera,presence,dt,navigationFrame);orbitGroup.rotation.z=-.35+elapsed*.002;

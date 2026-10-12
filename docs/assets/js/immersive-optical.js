@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { stellarSunDirection } from './immersive-world-layout.js?v=cinematic-v21.3';
+import { stellarSunDirection } from './immersive-world-layout.js?v=cinematic-v21.4';
 
 let environment;
 export function opticalEnvironment(){

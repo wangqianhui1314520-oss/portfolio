@@ -1,7 +1,7 @@
 import {getMotionPreference} from './runtime-settings.js';
-import { journey, navigate } from './immersive-session.js?v=cinematic-v21.3';
-import { OPENING_DURATION,openingTimeline } from './immersive-opening-timeline.js?v=cinematic-v21.3';
-import { createOpeningPlayback } from './immersive-opening-playback.js?v=cinematic-v21.3';
+import { journey, navigate } from './immersive-session.js?v=cinematic-v21.4';
+import { OPENING_DURATION,openingTimeline } from './immersive-opening-timeline.js?v=cinematic-v21.4';
+import { createOpeningPlayback } from './immersive-opening-playback.js?v=cinematic-v21.4';
 
 // The voyage ends at a held welcome. Only a visitor's choice opens an archive or flight.
 const playback=createOpeningPlayback(OPENING_DURATION);

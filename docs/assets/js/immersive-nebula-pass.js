@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { normalizeStellarLayout } from './immersive-world-layout.js?v=cinematic-v21.3';
-import { createStellarDensityAtlas, stellarDensityGLSL, stellarLightSourceGLSL, stellarPointerGLSL } from './immersive-volume-field.js?v=cinematic-v21.3';
+import { normalizeStellarLayout } from './immersive-world-layout.js?v=cinematic-v21.4';
+import { createStellarDensityAtlas, stellarDensityGLSL, stellarLightSourceGLSL, stellarPointerGLSL } from './immersive-volume-field.js?v=cinematic-v21.4';
 import { Pass, FullScreenQuad } from '../vendor/three-0.161.0/examples/jsm/postprocessing/Pass.js';
 
 const screenVertex='varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}';
