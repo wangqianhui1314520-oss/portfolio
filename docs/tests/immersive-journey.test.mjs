@@ -20,10 +20,10 @@ test('exploration is voluntary from either the introduction or about view',()=>{
  assert.equal(j.dispatch('navigate','invalid'),false);j.dispatch('navigate','forge');assert.equal(j.signals.length,0);assert.equal(j.detail,undefined);
  j.dispatch('arrive');assert.equal(j.state.step,'arrival');assert.equal(j.signals.length,0);assert.equal(j.dispatch('select','ming'),false);j.dispatch('scan');assert.equal(j.signals.length,0);j.dispatch('decode');assert.equal(j.state.step,'signals');assert.equal(j.signals.length,6);assert.equal(j.detail,undefined);
 });
-test('all ten projects, including poetry, are reachable through exploration and docking',()=>{
+test('all eleven projects, including poetry, are reachable through exploration and docking',()=>{
  const j=createJourney(works);explore(j);const found=[];
  for(const sector of sectors){visit(j,sector.id);for(const work of [...j.signals]){assert.equal(j.dispatch('select',work.id),true);assert.equal(j.state.step,'target');assert.equal(j.detail,undefined);assert.equal(j.dispatch('open'),false);j.dispatch('dock');j.dispatch('open');assert.equal(j.detail.id,work.id);found.push(work.id);j.dispatch('back');assert.equal(j.state.step,'signals');}j.dispatch('map');}
- assert.equal(new Set(found).size,10);assert.equal(j.visitedCount,10);assert.equal(j.total,10);
+ assert.equal(new Set(found).size,11);assert.equal(j.visitedCount,11);assert.equal(j.total,11);
 });
 test('signal focus and scanned sectors survive reading and repeated voyages',()=>{
  const j=createJourney(works);explore(j);visit(j,'forge');j.dispatch('focus','growth');assert.equal(j.work.id,'growth');j.dispatch('captain');j.dispatch('back');assert.equal(j.work.id,'growth');
@@ -41,7 +41,7 @@ test('source media, résumé and local destinations exist',()=>{
  assert.ok(existsSync(new URL('../docs/source/王乾辉简历.pdf',import.meta.url)));
 });
 test('classification follows each work medium and certificates remain in the biography',()=>{
- const expected={forge:['ming','yuanmo','growth','rebirth','kun','zhihu'],lumen:['epoch'],echo:['novel','poetry'],nexus:['esp32-learn']};
+ const expected={forge:['ming','yuanmo','growth','rebirth','kun','zhihu'],lumen:['epoch'],echo:['novel','poetry'],nexus:['esp32-learn','eufy-petlink']};
  for(const s of sectors)assert.deepEqual(Array.from(works.filter(w=>w.type!=='作品证书'&&sectorFor(w)===s.id),w=>w.id),expected[s.id]);
  assert.equal(sectorFor({type:'游戏',subtitle:'视觉小说游戏 · 罕见病教育'}),'forge');assert.equal(sectorFor({type:'教学 / 实训平台'}),'nexus');
 });

@@ -4,16 +4,36 @@ import {readFileSync,existsSync,mkdtempSync,rmSync,readdirSync} from 'node:fs';
 import {resolve,dirname} from 'node:path';
 import {tmpdir} from 'node:os';
 import {fileURLToPath} from 'node:url';
-import {loadData,buildInternational} from '../scripts/build-international.mjs';
+import {loadData,buildInternational,assetVersion} from '../scripts/build-international.mjs';
 import {localizedData,localePath,projectPath,languageDestination} from '../assets/js/locale-data.js';
 import {translateText} from '../assets/js/i18n.js';
 import {createJourney,isProject} from '../assets/js/immersive-journey.js';
 import {restoreView,viewFromURL,viewSearch} from '../assets/js/international-navigation.js';
-import {renderProfilePanel} from '../assets/js/immersive-profile.js';
+import {renderProfilePanel,renderBookTitles} from '../assets/js/immersive-profile.js';
 import {renderPoem} from '../assets/js/poetry-reader.js';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const original=loadData(),english=localizedData(original,'en');
+test('published home entries and the legacy entry use the current asset cache revision',()=>{
+ for(const path of ['index.html','zh/index.html','en/index.html','immersive.html']){
+  const html=readFileSync(resolve(root,path),'utf8'),versions=[...html.matchAll(/\?v=(cinematic-v[\d.]+)/g)].map(match=>match[1]);
+  assert.ok(versions.length>=16,path);assert.deepEqual([...new Set(versions)],[assetVersion],path);assert.doesNotMatch(html,/\{\{ASSET_VERSION\}\}/);
+ }
+});
+test('the English personal headline retains spaces when its sentence spans flow inline',()=>{
+ const html=renderProfilePanel(english,'overview');
+ const headline=html.match(/<h3 class="archive-tagline"[^>]*>([\s\S]*?)<\/h3>/)?.[1].replace(/<[^>]*>/g,'');
+ assert.equal(headline,english.profile.tagline);
+});
+test('reading titles use English citations and retain Chinese book brackets',()=>{
+ const en=renderProfilePanel(english,'reading');
+ assert.match(en,/<cite>The Three-Body Problem<\/cite>/);
+ assert.doesNotMatch(en,/[《》]/);
+ for(const item of english.profile.readings)for(const book of item.books)assert.ok(en.includes(renderBookTitles([book],'en')),book);
+ const zh=renderProfilePanel(localizedData(original,'zh'),'reading');
+ assert.match(zh,/<strong>《三体》<\/strong>/);
+ assert.equal(renderBookTitles(['<script> & "title"'],'en'),'<cite>&lt;script&gt; &amp; &quot;title&quot;</cite>');
+});
 test('localization preserves project IDs, source media, dates, team roles, and Chinese originals',()=>{
  assert.equal(english.works.length,original.works.length);
  for(const work of original.works){const translated=english.works.find(w=>w.id===work.id);assert.equal(translated.cover,work.cover);assert.equal(translated.video,work.video);if(/\d{4}/.test(work.year))assert.equal(translated.year,work.year);assert.equal(translated.sector,work.sector);assert.equal(translated.originalTitle,work.title);}
@@ -26,9 +46,9 @@ test('localization preserves project IDs, source media, dates, team roles, and C
  for(const work of english.works.filter(w=>w.type==='Project certificate'))assert.ok(certificates.includes(work.cover));
  assert.equal(original.profile.title,localizedData(original,'zh').profile.title);
 });
-test('all ten English projects restore through the real journey and round-trip language state',()=>{
- assert.equal(createJourney(english.works).total,10);
- assert.equal(english.works.filter(isProject).length,10);
+test('all eleven English projects restore through the real journey and round-trip language state',()=>{
+ assert.equal(createJourney(english.works).total,11);
+ assert.equal(english.works.filter(isProject).length,11);
  for(const certificate of english.works.filter(w=>w.type==='Project certificate'))assert.equal(isProject(certificate),false);
  for(const work of english.works.filter(w=>w.sector)){
   const journey=createJourney(english.works);assert.ok(restoreView(journey.dispatch,english.works,{work:work.id}).restored);
@@ -54,7 +74,7 @@ test('navigation and dynamic English announcements support directory hosting',()
  assert.equal(localePath('en','work/','/portfolio/'),'/portfolio/en/work/');
  assert.equal(projectPath('zh','growth'),'/zh/work/growth/');
  assert.equal(translateText('快速浏览 ↗','en'),'Browse projects ↗');
- assert.equal(translateText('发现 3 艘','en'),'Discover 3');
+ assert.equal(translateText('发现 3 艘','en'),'3 unidentified vessels');
  assert.equal(translateText('正在停靠：Growth Archive','en'),'Docking: Growth Archive');
  assert.equal(languageDestination('/portfolio/en/work/','https://example.test/portfolio/zh/work/?category=echo#archiveTitle'),'https://example.test/portfolio/en/work/?category=echo#archiveTitle');
  assert.equal(languageDestination('/zh/poetry/','https://example.test/en/poetry/#meng-jun-ling'),'https://example.test/zh/poetry/#meng-jun-ling');
@@ -70,9 +90,9 @@ test('every generated page has reciprocal language metadata and existing local d
  const output=mkdtempSync(resolve(tmpdir(),'tem-international-test-'));
  try{
   const files=buildInternational({outDir:output,origin:'https://example.test',basePath:'/portfolio/'});
-  assert.equal(files.length,36);
+  assert.equal(files.length,38);
   const pages=files.filter(f=>f.endsWith('.html'));
-  assert.equal(pages.length,30);
+  assert.equal(pages.length,32);
   for(const path of pages){
    const html=readFileSync(resolve(output,path),'utf8');
    assert.doesNotMatch(html,/\{\{|href="[^\"]*(?:resume\.html|\.pdf)"/);
@@ -87,6 +107,11 @@ test('every generated page has reciprocal language metadata and existing local d
    }
   }
   const caseHTML=readFileSync(resolve(output,'en/work/growth/index.html'),'utf8');
+  const aboutEN=readFileSync(resolve(output,'en/about/index.html'),'utf8');
+  const aboutZH=readFileSync(resolve(output,'zh/about/index.html'),'utf8');
+  assert.match(aboutEN,/<cite>The Three-Body Problem<\/cite>/);
+  assert.doesNotMatch(aboutEN,/[《》]/);
+  assert.match(aboutZH,/<summary>《三体》<\/summary>/);
   assert.match(caseHTML,/id="contribution"/);assert.match(caseHTML,/From a question to an experience/);
   assert.match(caseHTML,/preload="none"/);assert.match(caseHTML,/English project guide/);
   assert.match(readFileSync(resolve(output,'en/poetry/index.html'),'utf8'),/AI-assisted literary translation/);
@@ -104,7 +129,7 @@ test('every generated page has reciprocal language metadata and existing local d
    const durations={growth:48.018,yuanmo:163.933,zhihu:190};
    let end=0;for(const cue of original.international.guides[id]){assert.ok(cue.start>=end);assert.ok(cue.end>cue.start);assert.ok(cue.end<=durations[id]);end=cue.end;}
   }
-  const sitemap=readFileSync(resolve(output,'sitemap.xml'),'utf8');assert.equal((sitemap.match(/<url>/g)||[]).length,29);
+  const sitemap=readFileSync(resolve(output,'sitemap.xml'),'utf8');assert.equal((sitemap.match(/<url>/g)||[]).length,31);
   assert.match(sitemap,/<loc>https:\/\/example.test\/portfolio\/<\/loc>/);
   // The root document is the main site itself: no redirect, canonical points at the root.
   const rootEntry=readFileSync(resolve(output,'index.html'),'utf8');

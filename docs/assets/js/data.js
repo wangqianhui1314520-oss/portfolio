@@ -433,6 +433,43 @@ window.PORTFOLIO_DATA = {
       ],
       play: { type: "external", url: "https://ybqru2c8ouvs.preview.aiworks.site/" },
       links: [{ label: "知乎 AIWorks 预览", url: "https://ybqru2c8ouvs.preview.aiworks.site/" }]
+    },
+    {
+      id: "eufy-petlink",
+      contribution: {
+        period: "2026.10",
+        role: "团队开发 · 端侧硬件与推理服务",
+        actions: [
+          "负责 eufy 多摄像头取流与 HomeBase 端侧推理链路，让结论卡的判断完整发生在家庭内网。",
+          "搭建决策服务与跨摄接力：单一目标在多个摄像头之间交接跟踪；结论带置信度，没把握时明确说「我不确定」。"
+        ],
+        outcome: "Anker 黑客松参赛作品；预赛信息卡已提交，智能安防 · PATH A 场景创新赛道。"
+      },
+      sector: "nexus",
+      type: "智能硬件 / 端侧 AI",
+      title: "Eufy PetLink Guardian",
+      subtitle: "Anker 黑客松 · 智能安防 · 场景创新",
+      cover: "assets/covers/eufy-petlink-cover.jpg",
+      year: "2026",
+      role: "团队开发 · 端侧硬件 / 推理",
+      status: "参赛中 · 预赛阶段",
+      stack: ["eufy 多摄像头", "HomeBase 端侧推理", "决策服务", "跨摄接力"],
+      desc: "复用家庭已有的 eufy 多摄像头与 HomeBase 端侧算力，让首页直接给出一个可核验的结论——「家里都还好」；没把握时，也允许它说「我不确定」。不做疾病标签，不做人脸识别。",
+      highlights: [
+        "Anker 黑客松 · 智能安防 PATH A 场景创新",
+        "端侧推理 · 判断发生在家庭内网",
+        "结论卡四态 · 可核验的「家里都还好」",
+        "跨摄接力 · 单一目标多摄像头交接跟踪",
+        "置信度不足时明确输出「我不确定」"
+      ],
+      specs: [
+        { k: "赛事", v: "Anker 黑客松 · 智能安防赛道" },
+        { k: "队伍", v: "草莓味（3 人团队）" },
+        { k: "硬件", v: "eufy 多摄像头 + HomeBase" },
+        { k: "我的分工", v: "取流 / 端侧推理 / Jev 决策服务 / 跨摄接力" }
+      ],
+      play: { type: "none", url: "" },
+      links: []
     }
   ]
 };
@@ -440,7 +477,7 @@ window.PORTFOLIO_DATA = {
 // International presentation is part of the same editorial source as the Chinese originals.
 window.PORTFOLIO_DATA.international = {
   featured: ['growth', 'yuanmo', 'zhihu'],
-  languages: {ming:'zh',yuanmo:'zh',epoch:'zh',growth:'zh',rebirth:'zh',kun:'zh',novel:'zh',zhihu:'zh',poetry:'zh', 'esp32-learn':'zh'},
+  languages: {ming:'zh',yuanmo:'zh',epoch:'zh',growth:'zh',rebirth:'zh',kun:'zh',novel:'zh',zhihu:'zh',poetry:'zh', 'esp32-learn':'zh','eufy-petlink':'zh'},
   caseStudies: {
     ming: {
       zh: {challenge:'让政治选择产生有规则、有记忆的后果，而不仅是一段生成的对话。',context:'以明代政治叙事为背景，连接人物、物品与地点。项目基于 Godot 持续迭代，参加腾讯游戏创作大赛。',
@@ -495,6 +532,12 @@ window.PORTFOLIO_DATA.international = {
       en: {challenge:'Give open-ended conversational deduction a working set of rules and multiple outcomes.',context:'As an archive investigator, the player examines a disappearance through evidence, character conversations, and conflicting information.',
         decisions:[{title:'Design rules for deduction',text:'Four mechanisms structure information manipulation: contamination comparison, echo evidence chains, AI-judge debates, and faction persuasion.'},{title:'Deliver a playable system',text:'The implementation includes eight characters, ten ending tiers, solo and 2–5-player modes, and a script-production workspace.'}],
         facts:['48-hour development','8 characters / 10 ending tiers','Zhihu Hackathon participation record'],proof:'assets/certificates/zhihu-hackathon-cert.jpg'}
+    },
+    'eufy-petlink': {
+      zh: {challenge:'用户要的不是「检测到运动」，而是「我知道家里没事」。要让已经装在屋里的摄像头给出一个可核验的结论，而不是又一条告警。',context:'Anker 黑客松智能安防赛道团队作品。复用家庭已有的 eufy 多摄像头与 HomeBase 端侧算力，首页直接呈现结论卡。我在团队中负责端侧硬件与推理：取流、端侧推理、Jev 决策服务与跨摄接力。',
+        decisions:[{title:'让判断发生在家庭内网',text:'取流与推理跑在 HomeBase 与摄像头一侧，结论在本地生成；不做疾病标签，不做人脸识别，减少隐私数据外流。'},{title:'给结论一个置信度',text:'结论卡分四态呈现：有把握时给出「家里都还好」，没把握时明确说「我不确定」，不把模糊的判断推回给用户。'},{title:'跨摄接力保持连续',text:'单一目标在多个摄像头之间交接跟踪，离开单个画面的宠物不会立刻丢失，结论在时间上保持连续。'}],facts:['团队作品 / 端侧硬件与推理','eufy 多摄像头 + HomeBase','预赛信息卡已提交']},
+      en: {challenge:'Users do not want “motion detected.” They want “I know everything is fine at home.” The project lets cameras already in the home deliver a verifiable conclusion instead of another alert.',context:'A team entry in the Anker Hackathon smart-security track. It reuses the eufy multi-camera system and HomeBase edge compute already in the home, presenting a conclusion card on the first screen. I owned the hardware and inference side: stream capture, on-device inference, the decision service, and cross-camera handoff.',
+        decisions:[{title:'Keep judgment inside the home network',text:'Capture and inference run on HomeBase and the cameras, and conclusions are generated locally. No disease labels, no face recognition — less private data leaves the home.'},{title:'Give conclusions a confidence level',text:'The conclusion card renders four states: when confident it says “everything is fine at home,” and when not it says “I am not sure,” rather than pushing a vague judgment back to the user.'},{title:'Stay continuous across cameras',text:'A single target is handed off between cameras, so a pet leaving one frame is not immediately lost and conclusions stay continuous over time.'}],facts:['Team project / Hardware & inference','eufy multi-camera + HomeBase','Preliminary card submitted']}
     }
   },
   // English project guides explain the visible work; they are not dialogue transcripts.
@@ -583,6 +626,7 @@ window.PORTFOLIO_DATA.locales = {en:{
     zhihu:{type:'Game',title:'Truth Archive Bureau: The Kanshan Disappearance',subtitle:'AI deduction game · Zhihu Hackathon',role:'Solo developer / AI narrative',status:'Hackathon participation',desc:'An AI-driven browser mystery. As an archive investigator, use open conversations and evidence to unravel a disappearance. LLM-generated narrative supports different paths through the investigation.',stack:['Vanilla Web','LLM-driven narrative','Natural-language deduction'],highlights:['Zhihu Hackathon participation','LLM narrative / Open conversations','Browser-based / No installation','Branching endings / Evidence-led investigation'],specs:[{k:'Platform',v:'Web browser'},{k:'Genre',v:'AI mystery / Interactive deduction'}],contribution:{period:'Sep 2026',role:'Solo development · Gameplay / Systems / AI architecture',actions:['Designed contamination comparison, echo evidence chains, AI-judge debates, and faction persuasion.','Implemented ten ending tiers, eight characters, solo and 2–5-player modes, and a script-production workspace.'],outcome:'Completed 48-hour development; received a Zhihu Hackathon Campus Rising Stars participation certificate.'}},
     poetry:{type:'Poetry',title:'Qianyuan: Collected Poems',subtitle:'Classical imagery · Original poetry',year:'Ongoing',role:'Author',status:'30+ originals / 4 selections',stack:['Poetry','Classical imagery','Personal expression'],desc:'Four selections from my original Chinese poetry: reflections on life, weather, longing, and memory. Read the complete poems alongside the original manuscripts.',highlights:['More than thirty original poems','Four complete selections with manuscripts','Affection, time, and reflections on life'],links:[{label:'Read the collection',url:'en/poetry/'}]},
     'esp32-learn':{type:'Interactive learning',title:'ESP32 Learning Lab',subtitle:'Learn embedded systems without hardware',role:'Solo developer',status:'Published on Zhihu AIWorks',desc:'An interactive ESP32 learning platform for IoT and electronics learners. A browser-based board, Wokwi simulation, wiring diagrams, and a virtual lab connect first LEDs to AI-enabled experiments.',highlights:['13 modules / 47 chapters / approximately 10.6 hours','Wokwi simulation and interactive wiring','Virtual lab with 24 components','Self-tests, completion certificates, and locally saved progress','Static Vue 3 implementation'],specs:[{k:'Platform',v:'Web browser'},{k:'Stack',v:'Vue 3 / Wokwi / ESP32'},{k:'Content',v:'13 modules / 47 chapters / 24 components'}],links:[{label:'Open the learning lab · Chinese',url:'https://ybqru2c8ouvs.preview.aiworks.site/'}],contribution:{period:'Sep 2026',role:'Solo development · Frontend / Curriculum / Learning product',actions:['Built an interactive Vue 3 site with Wokwi simulation for learning without physical hardware.','Planned thirteen modules and forty-seven chapters, interactive wiring, self-tests, and completion certificates.'],outcome:'Published on Zhihu AIWorks.'}},
+    'eufy-petlink':{type:'Smart hardware / Edge AI',title:'Eufy PetLink Guardian',subtitle:'Anker Hackathon · Smart security',role:'Team project · Edge hardware / Inference',status:'Competition entry · Preliminary stage',desc:'Reuse the eufy multi-camera system and HomeBase edge compute already in the home, and let the first screen state a verifiable conclusion — “everything is fine at home” — while allowing “I am not sure” when confidence is low. No disease labels, no face recognition.',highlights:['Anker Hackathon · Smart security, scenario innovation','On-device inference · judgment stays on the home network','Four-state conclusion card · a verifiable “all is well”','Cross-camera handoff · one target tracked across cameras','An explicit “I am not sure” when confidence is low'],specs:[{k:'Event',v:'Anker Hackathon · Smart-security track'},{k:'Team',v:'Team Strawberry (3 members)'},{k:'Hardware',v:'eufy multi-camera + HomeBase'},{k:'My role',v:'Stream capture / On-device inference / Decision service / Cross-camera handoff'}],contribution:{period:'Oct 2026',role:'Team project · Edge hardware & inference',actions:['Owned eufy multi-camera stream capture and the HomeBase on-device inference pipeline, so the conclusion card is decided entirely inside the home network.','Built the decision service and cross-camera handoff: a single target is tracked across cameras, and conclusions carry confidence — “I am not sure” when it is not sure.'],outcome:'Anker Hackathon entry; the preliminary information card has been submitted for the smart-security scenario-innovation track.'}},
     'yiguang-cert':{type:'Project certificate',title:'Yiguang Game Jam Completion Certificates',subtitle:'Wuhan global university game-creation challenge',role:'Participant / Developer',status:'Completed',stack:['Game Jam','Yiguang'],desc:'Two completion certificates for team project ReBirth and solo project Growth Archive.',highlights:['ReBirth · Team project','Growth Archive · Solo project'],specs:[{k:'Event',v:'2026 Yiguang game-creation challenge'},{k:'Record',v:'2 completion certificates'}],images:[{src:'assets/certificates/cert-rebirth.jpg',caption:'ReBirth · Team completion certificate'},{src:'assets/certificates/cert-growth.jpg',caption:'Growth Archive · Solo completion certificate'}]},
     'tencent-hackathon-ec':{type:'Project certificate',title:'Tencent Cloud Hackathon: East China Regional Award',subtitle:'Game-development challenge · East China',role:'Awarded team',status:'Regional award',stack:['Tencent Cloud Hackathon','Contenders of the Late Yuan'],desc:'Regional award for team project Contenders of the Late Yuan in the Tencent Cloud Hackathon game-development challenge.',highlights:['Team project: Contenders of the Late Yuan','East China regional award'],specs:[{k:'Event',v:'Tencent Cloud Hackathon · East China'},{k:'Record',v:'Regional award'}],images:[{src:'assets/certificates/tencent-hackathon-ec.jpg',caption:'Tencent Cloud Hackathon · East China regional award'}]},
     'zhihu-hackathon-cert':{type:'Project certificate',title:'Zhihu Hackathon Participation Certificate',subtitle:'Campus Rising Stars',role:'Participant',status:'Participation record',stack:['Zhihu Hackathon','Truth Archive Bureau'],desc:'Participation certificate dated September 19, 2026, for the AI browser mystery Truth Archive Bureau. A record of participation, distinct from an award.',highlights:['48-hour development','AI-powered interactive deduction','Project: Truth Archive Bureau'],specs:[{k:'Event',v:'Zhihu Hackathon · Campus Rising Stars'},{k:'Record',v:'Participation certificate · September 19, 2026'}],images:[{src:'assets/certificates/zhihu-hackathon-cert.jpg',caption:'Zhihu Hackathon participation certificate · Wang Qianhui'}]}
