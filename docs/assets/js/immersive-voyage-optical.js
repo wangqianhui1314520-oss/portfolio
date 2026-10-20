@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import {hardwareMaterials,hardwareMesh,consolidateHardware} from './immersive-hardware.js?v=cinematic-v21.1';
-import {crystalMaterial,createEnergyRibbons} from './immersive-optical.js?v=cinematic-v21.1';
-import {createLightFlow} from './immersive-light-flow.js?v=cinematic-v21.1';
+import {hardwareMaterials,hardwareMesh,consolidateHardware} from './immersive-hardware.js?v=cinematic-v21.19';
+import {crystalMaterial,createEnergyRibbons} from './immersive-optical.js?v=cinematic-v21.19';
+import {createLightFlow} from './immersive-light-flow.js?v=cinematic-v21.19';
 
 export function createOpeningVoyage({scene,camera,particleScene,particleUniforms,compact}){
  const root=new THREE.Group();scene.add(root);const m=hardwareMaterials(),crystal=crystalMaterial();
@@ -11,7 +11,8 @@ export function createOpeningVoyage({scene,camera,particleScene,particleUniforms
  // A monumental transparent crescent gives the approach a scale reference.
  const arcs=[];
  for(let i=0;i<3;i++){
-  const arc=hardwareMesh(gate,new THREE.TorusGeometry(290+i*12,i===0?5.4:1.6,8,160,Math.PI*1.60),i===0?crystal:m.white);
+  // Lit hoops, not HDR tubes: the navigation lamps below carry the light.
+  const arc=hardwareMesh(gate,new THREE.TorusGeometry(290+i*12,i===0?5.4:1.1,8,160,Math.PI*1.60),i===0?crystal:m.alloy);
   arc.rotation.z=-Math.PI*.26+i*.045;arcs.push(arc);
  }
  const accents=new THREE.Group();gate.add(accents);
@@ -37,6 +38,11 @@ export function createOpeningVoyage({scene,camera,particleScene,particleUniforms
  }));streaks.frustumCulled=false;particleScene.add(streaks);
  const canvas=document.getElementById('space');canvas.dataset.voyageParticles=String(count);
  return {update(frame,motion){const shot=frame.introFrame,time=motion?shot.time:0;
+  // Keep the monumental gateway to the side of the narrow reading column.
+  // Once launched, it rejoins the unchanged authored approach over 1.5 s.
+  const launchBlend=THREE.MathUtils.smoothstep(shot.time,0,1.5);
+  gate.position.x=compact()?THREE.MathUtils.lerp(660,360,launchBlend):360;
+  approach.position.x=compact()?THREE.MathUtils.lerp(92,-12,launchBlend):-12;
   const presence=1-THREE.MathUtils.smoothstep(shot.time,10.2,12.5);
   root.visible=frame.step==='bridge'&&frame.opening&&presence>.001;
   crystal.uniforms.uTime.value=time;crystal.uniforms.uVisibility.value=presence;
@@ -46,7 +52,6 @@ export function createOpeningVoyage({scene,camera,particleScene,particleUniforms
   canvas.dataset.openingTime=shot.time.toFixed(2);canvas.dataset.warp=shot.warp.toFixed(3);canvas.dataset.openingRoute=shot.route.toFixed(3);
  }};
 }
-
 
 
 

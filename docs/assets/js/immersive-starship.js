@@ -1,7 +1,9 @@
 import * as THREE from 'three';
-import {createLightFlow} from './immersive-light-flow.js?v=cinematic-v21.1';
-import {opticalFilm,crystalMaterial,createEnergyRibbons,createOpticalMotes} from './immersive-optical.js?v=cinematic-v21.1';
-import {loadTemAsset} from './immersive-blender-assets.js?v=cinematic-v21.1';
+import {instancedMesh} from './immersive-hardware.js?v=cinematic-v21.19';
+import {compileBeforeReveal} from './immersive-shader-preparation.js?v=cinematic-v21.19';
+import {createLightFlow} from './immersive-light-flow.js?v=cinematic-v21.19';
+import {opticalFilm,crystalMaterial,createEnergyRibbons,createOpticalMotes} from './immersive-optical.js?v=cinematic-v21.19';
+import {loadTemAsset} from './immersive-blender-assets.js?v=cinematic-v21.19';
 
 // Shared machined surfaces; engineering details use instances rather than one
 // draw call per screw, radiator or light. The hangar remains independently movable.
@@ -203,7 +205,7 @@ export function createProjectStarship({index,color,title='',variant}){
  const hologram=add(curvedPanel(7.55,4.72,.030),new THREE.ShaderMaterial({
   uniforms:hologramUniforms,transparent:true,depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending,
   vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
-  fragmentShader:'varying vec2 vUv;uniform float uTime,uOpen;uniform vec3 uColor;void main(){vec2 q=abs(vUv-.5)-vec2(.42);float edge=length(max(q,0.))+min(max(q.x,q.y),0.)-.08;if(edge>0.)discard;float rim=1.-smoothstep(.001,.008,abs(edge));float lines=pow(.5+.5*cos(vUv.y*1480.),16.);float sweep=exp(-pow((vUv.y-fract(uTime*.065))*42.,2.));float alpha=(rim*.075+lines*.008+sweep*.022)*uOpen;gl_FragColor=vec4(mix(uColor,vec3(.68,.9,1.),.65),alpha);}'
+  fragmentShader:'varying vec2 vUv;uniform float uTime,uOpen;uniform vec3 uColor;void main(){vec2 q=abs(vUv-.5)-vec2(.42);float edge=length(max(q,0.))+min(max(q.x,q.y),0.)-.08;if(edge>0.)discard;float rim=1.-smoothstep(.001,.008,abs(edge));float lines=pow(.5+.5*cos(vUv.y*1480.),16.);float sweepDistance=(vUv.y-fract(uTime*.065))*42.;float sweep=exp(-sweepDistance*sweepDistance);float alpha=(rim*.075+lines*.008+sweep*.022)*uOpen;gl_FragColor=vec4(mix(uColor,vec3(.68,.9,1.),.65),alpha);}'
  }),projection,[0,3.5,0]);hologram.userData.visualOnly=true;
  const corners=[];
  for(const x of [-3.775,3.775])for(const y of [1.14,5.86]){const sx=Math.sign(x),sy=y>3.5?1:-1;corners.push(x-sx*.34,y,.025,x,y,.025,x,y,.025,x,y-sy*.22,.025);}
@@ -259,7 +261,7 @@ export function createProjectStarship({index,color,title='',variant}){
  for(const child of projection.children)if(child!==cone&&child!==beam&&!rotors.includes(child))child.position.y-=1.4;
  for(const transforms of (batch.get(projection)||new Map()).values())for(const transform of transforms)transform.position.y-=1.4;
  for(const object of [cone,beam]){const position=object.geometry.getAttribute('position');for(let i=0;i<position.count;i++)if(position.getY(i)>.5)position.setY(i,position.getY(i)-1.4);position.needsUpdate=true;object.geometry.computeBoundingSphere();}
- for(const [parent,materials] of batch)for(const [material,transforms] of materials){const instanced=new THREE.InstancedMesh(cube,material,transforms.length);transforms.forEach((t,i)=>{t.updateMatrix();instanced.setMatrixAt(i,t.matrix);});instanced.computeBoundingSphere();parent.add(instanced);}
+ for(const [parent,materials] of batch)for(const [material,transforms] of materials){const instanced=instancedMesh(cube,material,transforms.length);transforms.forEach((t,i)=>{t.updateMatrix();instanced.setMatrixAt(i,t.matrix);});instanced.computeBoundingSphere();parent.add(instanced);}
  mergeStaticParts(assembly,new Set([body,beacon,port,projection,readingDevice,...doors,...rotors,...thrusters]));
  assembly.traverse(part=>{if(part.isMesh&&!part.material.isMeshBasicMaterial&&!part.material.transparent&&!part.userData.visualOnly){part.castShadow=true;part.receiveShadow=true;}});
  // Source craft are authored along +Z. This carrier transform seats the actual
@@ -271,10 +273,12 @@ export function createProjectStarship({index,color,title='',variant}){
  for(const child of [...assembly.children])if(!retained.has(child))legacyHull.add(child);
  assembly.add(legacyHull,authoredHull);
  const vesselIndex=Math.max(0,['forge','lumen','echo','nexus'].indexOf(variant));
- loadTemAsset({name:'fleetLod',canvas:document.getElementById('space'),onLoad:model=>{
+ loadTemAsset({name:'fleetLod',canvas:document.getElementById('space'),onLoad:async model=>{
   const vessel=model.find('SHIP_'+vesselIndex);if(!vessel)throw new Error('Missing refined archive vessel.');
   const kept=new Set();vessel.traverse(node=>{if(node.isMesh)for(const m of Array.isArray(node.material)?node.material:[node.material])kept.add(m);});
   const unused=new Set();model.root.traverse(node=>{if(node.isMesh)for(const m of Array.isArray(node.material)?node.material:[node.material])if(!kept.has(m))unused.add(m);});unused.forEach(m=>m.dispose());
+  // The procedural hull stays until the authored vessel can draw without linking.
+  await compileBeforeReveal(vessel);
   vessel.removeFromParent();authoredHull.add(vessel);legacyHull.visible=false;ionUniforms.uAuthored.value=1;
   for(let i=0;i<2;i++){const flame=thrusters[i];assembly.attach(flame);flame.position.set(10.10,-.453,i===0?-2.476:2.476);flame.scale.set(1.65,1,1.65);}
   const canvas=document.getElementById('space');if(canvas)canvas.dataset.archiveFleetV21='blender-four-variants';

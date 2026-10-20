@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { stellarSunDirection } from './immersive-world-layout.js?v=cinematic-v21.1';
+import { stellarSunDirection } from './immersive-world-layout.js?v=cinematic-v21.19';
 
 let environment;
 export function opticalEnvironment(){
@@ -24,24 +24,36 @@ uniform sampler2D uSpaceEnvironment;uniform float uSpaceEnvironmentReady,uSpaceM
 #define CUBEUV_MAX_MIP uSpaceMaxMip
 #include <cube_uv_reflection_fragment>
 vec3 skyReflection(vec3 direction){
- vec3 d=normalize(direction);
- if(uSpaceEnvironmentReady>.5)return textureCubeUV(uSpaceEnvironment,d,.24).rgb;
+ // Total internal reflection can produce a zero refraction vector. Keep the
+ // cube lookup finite and initialize every return path on ANGLE drivers.
+ vec3 d=dot(direction,direction)>.000001?normalize(direction):vec3(0.,1.,0.);
  // Linear source radiance, with the same sun used by Blender and the volumes.
  // This describes illumination only; it does not paint a galaxy onto glass.
  float key=max(dot(d,normalize(vec3(.48,.19,-.84))),0.);
  float rim=max(dot(d,normalize(vec3(.72,.14,-.68))),0.);
  vec3 ambient=mix(vec3(.006,.010,.026),vec3(.020,.040,.066),smoothstep(-.2,.9,d.y));
- return ambient+vec3(.84,.74,.62)*(pow(key,18.)*.10+pow(key,120.)*.64)+vec3(.18,.36,.50)*pow(rim,32.)*.12;
+ vec3 radiance=ambient+vec3(.84,.74,.62)*(pow(key,18.)*.10+pow(key,120.)*.64)+vec3(.18,.36,.50)*pow(rim,32.)*.12;
+ if(uSpaceEnvironmentReady>.5)radiance=textureCubeUV(uSpaceEnvironment,d,.24).rgb;
+ return radiance;
 }`;
 
 // Optical crystal and energy are shaded in the world, without a second scene capture.
+// A faint, depth-unwritten film. r161 draws transparent double-sided surfaces
+// twice and flags the material dirty for each side, re-deriving its whole
+// program every draw; at ~8% opacity the back/front order is not visible.
 export function opticalFilm(opacity=.08){
- return new THREE.MeshPhysicalMaterial({color:0x7195ae,metalness:.02,roughness:.09,clearcoat:.96,clearcoatRoughness:.055,iridescence:.12,iridescenceIOR:1.25,envMapIntensity:.18,transparent:true,opacity,depthWrite:false,side:THREE.DoubleSide});
+ return new THREE.MeshPhysicalMaterial({color:0x7195ae,metalness:.02,roughness:.09,clearcoat:.96,clearcoatRoughness:.055,iridescence:.12,iridescenceIOR:1.25,envMapIntensity:.18,transparent:true,opacity,depthWrite:false,side:THREE.DoubleSide,forceSinglePass:true});
 }
 export function crystalMaterial({bodyOpacity=.15,edgeOpacity=.30,bodyPower=1}={}){
  return new THREE.ShaderMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,
  uniforms:{uTime:{value:0},uEnergy:{value:0},uVisibility:{value:1},uBodyOpacity:{value:bodyOpacity},uEdgeOpacity:{value:edgeOpacity},uBodyPower:{value:bodyPower},...opticalEnvironment()},
- vertexShader:`varying vec3 vNormal,vWorld,vLocal;void main(){vLocal=position;vec3 viewNormal=normalMatrix*normal;vNormal=normalize(vec3(vec4(viewNormal,0.)*viewMatrix));vec4 world=modelMatrix*vec4(position,1.);vWorld=world.xyz;gl_Position=projectionMatrix*viewMatrix*world;}`,
+ vertexShader:`varying vec3 vNormal,vWorld,vLocal;void main(){vLocal=position;vec3 objectNormal=normal;vec4 objectPosition=vec4(position,1.);
+ #ifdef USE_INSTANCING
+ mat3 instanceNormal=mat3(instanceMatrix);
+ objectNormal/=vec3(dot(instanceNormal[0],instanceNormal[0]),dot(instanceNormal[1],instanceNormal[1]),dot(instanceNormal[2],instanceNormal[2]));
+ objectNormal=instanceNormal*objectNormal;objectPosition=instanceMatrix*objectPosition;
+ #endif
+ vec3 viewNormal=normalMatrix*objectNormal;vNormal=normalize(vec3(vec4(viewNormal,0.)*viewMatrix));vec4 world=modelMatrix*objectPosition;vWorld=world.xyz;gl_Position=projectionMatrix*viewMatrix*world;}`,
  fragmentShader:`uniform float uTime,uEnergy,uSkyReady,uVisibility,uBodyOpacity,uEdgeOpacity,uBodyPower;uniform sampler2D uSky;varying vec3 vNormal,vWorld,vLocal;${opticalSkySample}
  void main(){
   vec3 eye=normalize(cameraPosition-vWorld),n=normalize(vNormal)*(gl_FrontFacing?1.:-1.);
@@ -76,7 +88,7 @@ export function createEnergyRibbons({parent,curves,color=0x8faeff,width=.35,segm
  const uniforms={uTime:{value:0},uPower:{value:1},uTint:{value:new THREE.Color(color)}};
  const material=new THREE.ShaderMaterial({uniforms,transparent:true,depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending,toneMapped:false,
  vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
- fragmentShader:`uniform float uTime,uPower;uniform vec3 uTint;varying vec2 vUv;void main(){float side=vUv.y-.5;float halo=exp(-side*side*18.);float line=exp(-pow(side*35.,2.));float wave=.5+.5*sin(vUv.x*18.-uTime*.38+sin(vUv.x*7.)*.6);float pulse=pow(wave,14.);float fade=smoothstep(0.,.035,vUv.x)*(1.-smoothstep(.92,1.,vUv.x));vec3 c=mix(uTint,vec3(.72,.51,.92),.24+.24*sin(vUv.x*8.+uTime*.06));c=mix(c,vec3(1.,.85,.76),pulse*.28);float a=(halo*.105+line*(.26+pulse*.46))*fade*uPower;gl_FragColor=vec4(c*(.7+line*2.2+pulse*1.5),a);}`
+ fragmentShader:`uniform float uTime,uPower;uniform vec3 uTint;varying vec2 vUv;void main(){float side=vUv.y-.5;float halo=exp(-side*side*18.);float lineDistance=side*35.;float line=exp(-lineDistance*lineDistance);float wave=.5+.5*sin(vUv.x*18.-uTime*.38+sin(vUv.x*7.)*.6);float pulse=pow(wave,14.);float fade=smoothstep(0.,.035,vUv.x)*(1.-smoothstep(.92,1.,vUv.x));vec3 c=mix(uTint,vec3(.72,.51,.92),.24+.24*sin(vUv.x*8.+uTime*.06));c=mix(c,vec3(1.,.85,.76),pulse*.28);float a=(halo*.105+line*(.26+pulse*.46))*fade*uPower;gl_FragColor=vec4(c*(.7+line*2.2+pulse*1.5),a);}`
  });
  const root=new THREE.Group();parent.add(root);
  curves.forEach((curve,index)=>{

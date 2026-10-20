@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {mergeGeometries} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
+import {mergeGeometries} from '../vendor/three-0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
 
 // All light paths in one network share two draw calls. The GPU moves the pulses.
 export function createLightFlow({parent,paths,color=0xffc77b,radius=.045,speed=.48,segments=64}){
@@ -19,7 +19,7 @@ export function createLightFlow({parent,paths,color=0xffc77b,radius=.045,speed=.
  const material=new THREE.ShaderMaterial({uniforms,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,toneMapped:false,
   vertexShader,
   fragmentShader:`uniform float uTime,uPower,uSpeed;uniform vec3 uTint;varying vec2 vUv;varying float vPhase,vLength;
-   void main(){float t=fract(vUv.x*max(1.,vLength)-uTime*uSpeed+vPhase);float pulse=exp(-pow((t-.22)*18.,2.));float tail=exp(-pow((t-.38)*5.,2.))*.24;
+   void main(){float t=fract(vUv.x*max(1.,vLength)-uTime*uSpeed+vPhase);float pulseDistance=(t-.22)*18.,tailDistance=(t-.38)*5.;float pulse=exp(-pulseDistance*pulseDistance);float tail=exp(-tailDistance*tailDistance)*.24;
     float core=.15+pulse*1.65+tail;vec3 c=mix(uTint,vec3(1.,.95,.83),pulse*.38);gl_FragColor=vec4(c*core,uPower*(.52+pulse*.48));}`});
  const solid=new THREE.Mesh(geometry,material);solid.userData.dynamic=true;parent.add(solid);
  // A larger tube provides a soft halo even when costly full-screen bloom is reduced.

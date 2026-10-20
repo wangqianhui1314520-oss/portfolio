@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { journey } from './immersive-session.js?v=cinematic-v21.1';
-import { sectors } from './immersive-journey.js?v=cinematic-v21.1';
+import { journey } from './immersive-session.js?v=cinematic-v21.19';
+import { sectors } from './immersive-journey.js?v=cinematic-v21.19';
 
 // Destination geometry stays in world space as the ship travels toward it.
 export function createExplorationWorld({scene,camera}) {

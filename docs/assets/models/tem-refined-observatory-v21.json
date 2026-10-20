@@ -54,9 +54,9 @@
   "assets": {
     "full": {
       "file": "tem-refined-observatory-v21.glb",
-      "bytes": 3364060,
-      "triangles": 156390,
-      "meshes": 23,
+      "bytes": 3918756,
+      "triangles": 182166,
+      "meshes": 25,
       "roots": [
         "CABIN_V19",
         "T_IDENTITY_V19",
@@ -67,9 +67,9 @@
     },
     "lod": {
       "file": "tem-refined-observatory-v21-lod.glb",
-      "bytes": 1223496,
-      "triangles": 53338,
-      "meshes": 23,
+      "bytes": 1419576,
+      "triangles": 62086,
+      "meshes": 25,
       "roots": [
         "CABIN_V19",
         "T_IDENTITY_V19",
@@ -91,18 +91,21 @@
         0.83,
         0.99
       ],
-      "attenuationDistance": 16
+      "attenuationDistance": 125,
+      "thickness": 2.98,
+      "edgeThickness": 2.36
     },
     "floor": {
-      "metalness": 0.29,
-      "roughness": 0.245,
-      "clearcoat": 0.28,
-      "specularIntensity": 0.36
+      "metalness": 0.24,
+      "roughness": 0.31,
+      "clearcoat": 0.16,
+      "specularIntensity": 0.32
     },
     "ceramic": {
-      "metalness": 0.12,
-      "roughness": 0.23,
-      "clearcoat": 0.4
+      "metalness": 0.035,
+      "roughness": 0.3,
+      "clearcoat": 0.28,
+      "specularFactor": 0.5
     }
   },
   "reviews": [
@@ -110,12 +113,136 @@
     "Actual v20 Cycles rendering reviewed before modelling"
   ],
   "runtimeNote": "Four absolute-coordinate semantic roots preserve DOM/identity projection; only one deck floor. Existing v20 external world loads independently.",
-  "revision": "21.2",
+  "revision": "21.7",
   "polish": {
     "source": "accepted saved v21 engineering project",
+    "pass": "plinth-layer-04",
+    "previousPass": "optics-source-03",
     "displayFrontPosePreserved": true,
     "addedDisplayRearDepth": 0.06,
     "closedCrystalContactRails": true,
-    "imageTextures": 0
+    "closedSculptedPlinthShoulder": true,
+    "shoulderSectionPoints": 16,
+    "shoulderTopY": -4.58,
+    "pressureShoeFlushCeramicFaces": true,
+    "pressureShoeSize": [
+      0.18,
+      0.48,
+      1.9
+    ],
+    "pressureShoeMaterial": {
+      "metalness": 0.55,
+      "roughness": 0.31,
+      "clearcoat": 0.14,
+      "specularIntensity": 0.28
+    },
+    "cameraPathEmitterRectangles": false,
+    "externalSunDirectionPreserved": true,
+    "interiorDeckSolarReceiverExcluded": true,
+    "glossyReflectionWorldFill": {
+      "color": [
+        0.3,
+        0.46,
+        0.66
+      ],
+      "strength": 0.7,
+      "cameraAndDiffuseWorldUnchanged": true
+    },
+    "imageTextures": 0,
+    "segmentedPlinthCeramicSectors": 16,
+    "physicalGlassGuideLayer": true,
+    "continuousPressureCarrier": true,
+    "compressionKeys": 4,
+    "embeddedGuideSources": 4
+  },
+  "opticalVolumes": {
+    "GLASS_V19 — V21 thick optical crystal": {
+      "thickness": 2.98,
+      "attenuationColor": [
+        0.67,
+        0.83,
+        0.99
+      ],
+      "attenuationDistance": 125
+    },
+    "GLASS_V19 — V21 internal dichroic lamina": {
+      "thickness": 0.87086,
+      "attenuationDistance": "infinity"
+    },
+    "GLASS_V19 — V21 pressure display front": {
+      "thickness": 0.192,
+      "attenuationColor": [
+        0.67,
+        0.83,
+        0.99
+      ],
+      "attenuationDistance": 250
+    },
+    "GLASS_V19 — V21 internal display lamina": {
+      "thickness": 0.036,
+      "attenuationDistance": "infinity"
+    },
+    "GLASS_V19 — V21 platform optical lens": {
+      "thickness": 0.19,
+      "attenuationColor": [
+        0.39,
+        0.66,
+        0.88
+      ],
+      "attenuationDistance": 83.3333333333
+    }
+  },
+  "lightingIntegration": "The GLB contains geometry/materials only. Blender light-linking and reflection-path world fill are editable engineering controls; runtime must explicitly reproduce cabin lighting. Preserve shared external sun [.48,.19,-.84].",
+  "plinthAssembly": {
+    "centerXZ": [
+      9.6,
+      -17.4
+    ],
+    "originalLensPreserved": true,
+    "maximumRadialEnvelope": 8.51,
+    "deckY": -5.32,
+    "upperShoulderY": -4.58,
+    "localTopLift": 0.24,
+    "glassGuideY": [
+      -5.19,
+      -5.0
+    ],
+    "upperCeramicMetalness": 0.035,
+    "upperCeramicRoughness": 0.275,
+    "lightGuideUsesExistingPlatformVolume": true,
+    "allPartsHavePhysicalContacts": true
+  },
+  "surfaceLighting": {
+    "revision": "ceramic-light-01",
+    "sunVisibility": 0.18,
+    "finishVariation": 0.015,
+    "materials": [
+      {
+        "prefix": "V21_PEARL_CERAMIC",
+        "color": [
+          0.58,
+          0.66,
+          0.73
+        ],
+        "metalness": 0.035,
+        "roughness": 0.3,
+        "clearcoat": 0.28,
+        "clearcoatRoughness": 0.23,
+        "specularFactor": 0.5
+      },
+      {
+        "prefix": "V21_PLINTH_PEARL",
+        "color": [
+          0.62,
+          0.69,
+          0.76
+        ],
+        "metalness": 0.035,
+        "roughness": 0.31,
+        "clearcoat": 0.32,
+        "clearcoatRoughness": 0.23,
+        "specularFactor": 0.48
+      }
+    ]
   }
 }

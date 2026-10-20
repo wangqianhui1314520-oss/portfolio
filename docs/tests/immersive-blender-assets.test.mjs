@@ -42,6 +42,21 @@ test('the v19 portrait has separate semantic roots and keeps identity coordinate
  const meshIndices=new Set();for(const node of glb.nodes)if(node.mesh!==undefined)assert.ok(!meshIndices.has(node.mesh)&&(meshIndices.add(node.mesh),true),'each merged mesh appears once');
 });
 
+test('the standalone gallery can isolate the current lightweight identity from its surrounding world',()=>{
+ const glb=readGLB('tem-refined-observatory-v21-lod.glb').document;
+ const identity=glb.nodes.findIndex(node=>node.name==='T_IDENTITY_V19');
+ assert.ok(identity>=0,'The model used by the gallery must contain its identity root.');
+ const descendants=[];
+ const visit=index=>{const node=glb.nodes[index];descendants.push(node);for(const child of node.children||[])visit(child);};
+ visit(identity);
+ assert.ok(descendants.some(node=>node.mesh!==undefined),'The isolated identity must contain actual renderable geometry.');
+ assert.ok(!descendants.some(node=>['CABIN_V19','SURFACE_FRAME_V19','EXTERIOR_V19'].includes(node.name)),'The model viewer must be able to exclude the cabin and project screen.');
+ for(const node of descendants.filter(node=>node.mesh!==undefined))for(const primitive of glb.meshes[node.mesh].primitives){
+  const bounds=glb.accessors[primitive.attributes.POSITION];
+  assert.ok(bounds.min.every(Number.isFinite)&&bounds.max.every(Number.isFinite));
+ }
+});
+
 test('opaque cinematic materials embed real 1K normal and ORM atlases with unscaled roughness',()=>{
  for(const name of ['tem-cinematic-deck.glb','tem-cinematic-display.glb','tem-cinematic-starport.glb','tem-cinematic-fleet.glb']){
   const {document,binary}=readGLB(name);

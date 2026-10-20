@@ -1,11 +1,12 @@
 import * as THREE from 'three';
-import { normalizeStellarLayout } from './immersive-world-layout.js?v=cinematic-v21.1';
-import { sectors } from './immersive-journey.js?v=cinematic-v21.1';
-import { NebulaPass } from './immersive-nebula-pass.js?v=cinematic-v21.1';
-import { RenderPass } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/RenderPass.js';
+import { normalizeStellarLayout } from './immersive-world-layout.js?v=cinematic-v21.19';
+import { sectors } from './immersive-journey.js?v=cinematic-v21.19';
+import { NebulaPass } from './immersive-nebula-pass.js?v=cinematic-v21.19';
+import { RenderPass } from '../vendor/three-0.161.0/examples/jsm/postprocessing/RenderPass.js';
+import { ParticleLayerPass } from './immersive-scene-layers.js?v=cinematic-v21.19';
 
 // Cloud light is integrated in actual world space and clipped against the scene depth.
-export function createDeepSpaceAtmosphere({scene,camera,composer,time,velocity,pulse,compact,pixelHeight,interaction}){
+export function createDeepSpaceAtmosphere({scene,camera,composer,time,velocity,pulse,compact,pixelHeight,interaction,sourceTarget=null}){
  const particleScene=new THREE.Scene(),root=new THREE.Group();particleScene.add(root);let seed=3719;
  const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
  const gaussian=()=>rand()+rand()+rand()+rand()-2;
@@ -73,10 +74,11 @@ export function createDeepSpaceAtmosphere({scene,camera,composer,time,velocity,p
   positions.set(point.toArray(),i*3);seeds.set([rand(),rand(),rand()],i*3);kinds[i]=kind;
   flowRates[i]=kind===0?(.0058+seeds[i*3+1]*.0052)*(lanes[i]%2?.65:1):kind===1?.0032+seeds[i*3+1]*.0018:0;
  }
- const nebula=new NebulaPass({camera,time,velocity,pulse,compact,interaction});composer.insertPass(nebula,1);
+ const nebula=new NebulaPass({camera,time,velocity,pulse,compact,interaction,sourceTarget});composer.insertPass(nebula,1);
  const particleUniforms={uSceneDepth:nebula.uniforms.uDepth,uNebulaFog:{value:nebula.target.texture},uFrameSize:{value:new THREE.Vector2(innerWidth,innerHeight)}};
- const particlePass=new RenderPass(particleScene,camera);particlePass.clear=false;
- particlePass.setSize=(width,height)=>particleUniforms.uFrameSize.value.set(width,height);composer.insertPass(particlePass,2);
+ const particlePass=sourceTarget?new ParticleLayerPass({scene:particleScene,camera,samples:sourceTarget.samples}):new RenderPass(particleScene,camera);particlePass.clear=false;
+ const resizeParticlePass=particlePass.setSize.bind(particlePass);
+ particlePass.setSize=(width,height)=>{resizeParticlePass(width,height);particleUniforms.uFrameSize.value.set(Math.max(1,Math.floor(width)),Math.max(1,Math.floor(height)));};composer.insertPass(particlePass,2);
  const uniforms={uTime:time,uVelocity:velocity,uPulse:pulse,uHeight:pixelHeight||{value:innerHeight},uColor:{value:new THREE.Color(0x9ebccf)},uDensity:{value:1},uFocus:nebula.uniforms.uFocus,uFocusPower:nebula.uniforms.uFocusPower,...nebula.interactionUniforms};
  const flowData=new Float32Array(count*3);for(let i=0;i<count;i++)flowData.set([kinds[i],lanes[i],flowRates[i]],i*3);
  const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(positions,3));geo.setAttribute('aSeed',new THREE.BufferAttribute(seeds,3));geo.setAttribute('aFlow',new THREE.BufferAttribute(flowData,3));curvePoints.forEach((points,index)=>geo.setAttribute(`aCurve${index}`,new THREE.BufferAttribute(points,3)));

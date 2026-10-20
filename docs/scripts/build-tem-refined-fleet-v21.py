@@ -159,11 +159,32 @@ def web_copy(lod=False):
             for mod in list(copy.modifiers):
                 try:bpy.ops.object.modifier_apply(modifier=mod.name)
                 except RuntimeError:pass
-            if lod:
+            # The refined fleet uses texture-free PBR factors. Remove unused
+            # inherited bake UVs from the export copies, retaining every vertex,
+            # normal and original engineering UV map in the authoring objects.
+            while copy.data.uv_layers:copy.data.uv_layers.remove(copy.data.uv_layers[0])
+            # Original material batches can retain coincident seam vertices.
+            # Weld them before topology repair, so the existing flat cap is not
+            # mistaken for a separate open ring and given a duplicate cap.
+            bm=bmesh.new();bm.from_mesh(copy.data)
+            bmesh.ops.remove_doubles(bm,verts=list(bm.verts),dist=.000001)
+            boundary=[edge for edge in bm.edges if edge.is_boundary]
+            if boundary:bmesh.ops.holes_fill(bm,edges=boundary,sides=0)
+            bmesh.ops.recalc_face_normals(bm,faces=bm.faces);bm.to_mesh(copy.data);bm.free()
+            # Curve seam caps are small n-gons; collapsing them creates pinched
+            # ends. Keep their actual manufactured profile in both quality tiers.
+            if lod and child.type!='CURVE':
                 mod=copy.modifiers.new('Same authored craft LOD','DECIMATE');mod.ratio=.48
                 bpy.ops.object.modifier_apply(modifier=mod.name)
             # Keep winding coherent through all transforms.
-            bm=bmesh.new();bm.from_mesh(copy.data);bmesh.ops.recalc_face_normals(bm,faces=bm.faces);bm.to_mesh(copy.data);bm.free()
+            bm=bmesh.new();bm.from_mesh(copy.data)
+            bmesh.ops.remove_doubles(bm,verts=list(bm.verts),dist=.00001)
+            # The original partial contact curves have open manufacturing ends.
+            # Fill their boundary loops, including loops exposed by LOD collapse,
+            # so physical pressure and canopy solids do not acquire pinholes.
+            boundary=[edge for edge in bm.edges if edge.is_boundary]
+            if boundary:bmesh.ops.holes_fill(bm,edges=boundary,sides=0)
+            bmesh.ops.recalc_face_normals(bm,faces=bm.faces);bm.to_mesh(copy.data);bm.free()
             buckets.setdefault(copy.data.materials[0].name,[]).append(copy)
         for name,parts in buckets.items():
             bpy.ops.object.select_all(action='DESELECT')
@@ -179,7 +200,7 @@ def web_copy(lod=False):
     for root in webroots:root.select_set(True)
     for obj in webmeshes:obj.select_set(True);obj.data.calc_loop_triangles()
     file=MODELS/('tem-refined-fleet-v21-lod.glb' if lod else 'tem-refined-fleet-v21.glb')
-    bpy.ops.export_scene.gltf(filepath=str(file),export_format='GLB',use_selection=True,export_yup=True,export_apply=True,export_materials='EXPORT',export_normals=True,export_extras=True)
+    bpy.ops.export_scene.gltf(filepath=str(file),export_format='GLB',use_selection=True,use_active_scene=True,export_yup=True,export_apply=True,export_materials='EXPORT',export_normals=True,export_extras=True)
     info={'file':file.name,'bytes':file.stat().st_size,'triangles':sum(len(o.data.loop_triangles) for o in webmeshes),'meshes':len(webmeshes),'shipRoots':4}
     for obj in [*webmeshes,*webroots]:obj.hide_set(True);obj.hide_render=True
     return info

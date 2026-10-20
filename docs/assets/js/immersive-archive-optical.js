@@ -1,12 +1,13 @@
 import * as THREE from 'three';
 import {translateText} from './i18n.js';
-import {hardwareMaterials,hardwareMesh,bevelGeometry,consolidateHardware} from './immersive-hardware.js?v=cinematic-v21.1';
-import {archiveChapterOrder,archiveCenter,archiveAngle} from './immersive-archive-path.js?v=cinematic-v21.1';
-import {projectWorldSurface,clipForeground} from './immersive-world-surface.js?v=cinematic-v21.1';
-import {createLightFlow} from './immersive-light-flow.js?v=cinematic-v21.1';
-import {opticalFilm,crystalMaterial,createEnergyRibbons,createOpticalMotes,opticalEnvironment,opticalSkySample} from './immersive-optical.js?v=cinematic-v21.1';
-import {createIdentityVolume} from './immersive-identity-volume.js?v=cinematic-v21.1';
-import {loadTemAsset,prepareReveal} from './immersive-blender-assets.js?v=cinematic-v21.1';
+import {hardwareMaterials,hardwareMesh,bevelGeometry,consolidateHardware,instancedMesh} from './immersive-hardware.js?v=cinematic-v21.19';
+import {compileBeforeReveal} from './immersive-shader-preparation.js?v=cinematic-v21.19';
+import {archiveChapterOrder,archiveCenter,archiveAngle} from './immersive-archive-path.js?v=cinematic-v21.19';
+import {projectWorldSurface,clipForeground} from './immersive-world-surface.js?v=cinematic-v21.19';
+import {createLightFlow} from './immersive-light-flow.js?v=cinematic-v21.19';
+import {opticalFilm,crystalMaterial,createEnergyRibbons,createOpticalMotes,opticalEnvironment,opticalSkySample} from './immersive-optical.js?v=cinematic-v21.19';
+import {createIdentityVolume} from './immersive-identity-volume.js?v=cinematic-v21.19';
+import {loadTemAsset,prepareReveal} from './immersive-blender-assets.js?v=cinematic-v21.19';
 
 function applyArchiveReplacement({architecture,bays,authoredDisplays,compact,map,deckReady},replacement){
  architecture.visible=!map&&!deckReady&&replacement<.98;
@@ -14,6 +15,9 @@ function applyArchiveReplacement({architecture,bays,authoredDisplays,compact,map
   const replaced=bay.key==='overview'&&replacement>.98;
   const authored=authoredDisplays.find(display=>display.bay===bay);
   if(authored)authored.root.visible=!compact&&!replaced;
+  // This anchor still projects the DOM surface while its replaced physical
+  // descendants (including zero-power edge flows) skip every render pass.
+  bay.primary.g.visible=!replaced;
   // Compact assets may be deferred, so update all fallback screens even when
   // there are no authoredDisplays to iterate over.
   bay.primary.fixed.visible=(!authored||compact)&&!replaced;
@@ -55,7 +59,7 @@ export function createCreatorArchive({scene,camera,interaction}){
  const projectionFilm=new THREE.ShaderMaterial({uniforms:paneUniforms,transparent:true,depthWrite:false,side:THREE.DoubleSide,
   vertexShader:'attribute vec2 aPanelUv;varying vec2 vPanel;varying vec3 vWorld,vNormal;void main(){vPanel=aPanelUv;vNormal=normalize(mat3(modelMatrix)*normal);vec4 p=modelMatrix*vec4(position,1.);vWorld=p.xyz;gl_Position=projectionMatrix*viewMatrix*p;}',
   fragmentShader:`uniform float uTime,uEnergy,uSkyReady;uniform sampler2D uSky;varying vec2 vPanel;varying vec3 vWorld,vNormal;${opticalSkySample}
-  void main(){vec3 eye=normalize(cameraPosition-vWorld),n=normalize(vNormal);float fresnel=pow(1.-abs(dot(eye,n)),3.);float rim=pow(clamp(max(abs(vPanel.x),abs(vPanel.y)),0.,1.),32.);vec3 bend=vec3(vPanel.x*.020,vPanel.y*.008,0.);vec3 sky=skyReflection(reflect(-eye,normalize(n+bend)));sky=sky/(1.+sky*5.);float sweep=exp(-pow((vPanel.y*.5+.5-fract(uTime*.018))*42.,2.));float spectral=pow(.5+.5*sin(vPanel.x*2.8+vPanel.y*1.4+uTime*.020),12.);vec3 c=mix(vec3(.21,.38,.62),vec3(.56,.51,.78),spectral*.30)+sky*(.15+fresnel*.25);c+=vec3(.54,.78,1.)*rim*.10;float a=.010+fresnel*.044+rim*.015+sweep*rim*.013*(1.+uEnergy*.3);gl_FragColor=vec4(c,min(a,.10));}`});
+  void main(){vec3 eye=normalize(cameraPosition-vWorld),n=normalize(vNormal);float fresnel=pow(1.-abs(dot(eye,n)),3.);float rim=pow(clamp(max(abs(vPanel.x),abs(vPanel.y)),0.,1.),32.);vec3 bend=vec3(vPanel.x*.020,vPanel.y*.008,0.);vec3 sky=skyReflection(reflect(-eye,normalize(n+bend)));sky=sky/(1.+sky*5.);float sweepDistance=(vPanel.y*.5+.5-fract(uTime*.018))*42.;float sweep=exp(-sweepDistance*sweepDistance);float spectral=pow(.5+.5*sin(vPanel.x*2.8+vPanel.y*1.4+uTime*.020),12.);vec3 c=mix(vec3(.21,.38,.62),vec3(.56,.51,.78),spectral*.30)+sky*(.15+fresnel*.25);c+=vec3(.54,.78,1.)*rim*.10;float a=.010+fresnel*.044+rim*.015+sweep*rim*.013*(1.+uEnergy*.3);gl_FragColor=vec4(c,min(a,.10));}`});
  const lidMaterial=new THREE.ShaderMaterial({uniforms:lidUniforms,
   vertexShader:'varying vec3 vWorld,vNormal,vLocal;void main(){vLocal=position;vNormal=normalize(mat3(modelMatrix)*normal);vec4 p=modelMatrix*vec4(position,1.);vWorld=p.xyz;gl_Position=projectionMatrix*viewMatrix*p;}',
   fragmentShader:`uniform float uTime,uEnergy,uSkyReady;uniform sampler2D uSky;varying vec3 vWorld,vNormal,vLocal;${opticalSkySample}
@@ -65,7 +69,7 @@ export function createCreatorArchive({scene,camera,interaction}){
   const volumeGeometry=new THREE.CylinderGeometry(r*.20,r*.72,height,compact()?20:32,8,true);
   const volume=new THREE.Mesh(volumeGeometry,new THREE.ShaderMaterial({uniforms:u,transparent:true,depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending,toneMapped:false,
    vertexShader:'varying vec2 vUv;varying vec3 vNormal,vWorld;void main(){vUv=uv;vNormal=normalize(mat3(modelMatrix)*normal);vec4 p=modelMatrix*vec4(position,1.);vWorld=p.xyz;gl_Position=projectionMatrix*viewMatrix*p;}',
-   fragmentShader:'uniform float uTime,uPower;varying vec2 vUv;varying vec3 vNormal,vWorld;void main(){float height=1.-vUv.y;float fade=smoothstep(0.,.12,height)*(1.-smoothstep(.68,1.,height));float side=pow(clamp(1.-abs(dot(normalize(vNormal),normalize(cameraPosition-vWorld))),0.,1.),1.5);float lane=pow(.5+.5*sin(vUv.x*12.566+sin(height*3.-uTime*.08)),12.);float pass=exp(-pow((height-fract(uTime*.028))*27.,2.));float a=(.009+lane*.018+pass*.025)*fade*(.20+side*.8)*uPower;vec3 c=mix(vec3(.35,.66,1.),vec3(.78,.57,1.),height);gl_FragColor=vec4(c,a);}'
+   fragmentShader:'uniform float uTime,uPower;varying vec2 vUv;varying vec3 vNormal,vWorld;void main(){float height=1.-vUv.y;float fade=smoothstep(0.,.12,height)*(1.-smoothstep(.68,1.,height));float side=pow(clamp(1.-abs(dot(normalize(vNormal),normalize(cameraPosition-vWorld))),0.,1.),1.5);float lane=pow(.5+.5*sin(vUv.x*12.566+sin(height*3.-uTime*.08)),12.);float passDistance=(height-fract(uTime*.028))*27.;float pass=exp(-passDistance*passDistance);float a=(.009+lane*.018+pass*.025)*fade*(.20+side*.8)*uPower;vec3 c=mix(vec3(.35,.66,1.),vec3(.78,.57,1.),height);gl_FragColor=vec4(c,a);}'
   }));volume.userData.dynamic=true;volume.position.set(0,.57+height*.5,-.14);base.add(volume);
   const count=compact()?38:92,seeds=new Float32Array(count*3);let randomSeed=683+r*19;
   for(let i=0;i<count;i++){randomSeed=(randomSeed*1664525+1013904223)>>>0;seeds.set([randomSeed/4294967296,(i*.618034)%1,(i*.754877)%1],i*3);}
@@ -73,7 +77,12 @@ export function createCreatorArchive({scene,camera,interaction}){
   const dust=new THREE.Points(geometry,new THREE.ShaderMaterial({uniforms:u,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,toneMapped:false,
    vertexShader:'attribute vec3 aSeed;uniform float uTime,uPower,uHeight,uRadius,uPixelHeight;varying float vAlpha,vSeed;void main(){float age=fract(aSeed.x+uTime*(.025+aSeed.z*.013));float angle=aSeed.y*6.283+sin(age*3.+aSeed.z*6.28)*.28;float radius=uRadius*(.63-age*.43)*( .45+aSeed.z*.55);vec3 p=vec3(cos(angle)*radius,.56+age*uHeight,sin(angle)*radius-.14);vec4 mv=modelViewMatrix*vec4(p,1.);gl_Position=projectionMatrix*mv;gl_PointSize=clamp(uPixelHeight*(.025+pow(aSeed.z,9.)*.055)/max(1.,-mv.z),.85,3.1);vAlpha=smoothstep(0.,.12,age)*(1.-smoothstep(.74,1.,age))*(.24+aSeed.z*.30)*uPower;vSeed=aSeed.z;}',
    fragmentShader:'varying float vAlpha,vSeed;void main(){vec2 p=gl_PointCoord-.5;float r=length(p);if(r>.5)discard;float glint=exp(-abs(p.x)*90.)*exp(-abs(p.y)*16.)+exp(-abs(p.y)*90.)*exp(-abs(p.x)*16.);vec3 c=mix(vec3(.43,.76,1.),vec3(.98,.80,.69),pow(vSeed,3.));gl_FragColor=vec4(c,(exp(-r*r*35.)+glint*.045)*vAlpha);}'
-  }));dust.userData.dynamic=true;dust.frustumCulled=false;base.add(dust);focalControllers.push(u);base.userData.opticalFocal=u;return u;
+  }));
+  // Shader-displaced positions do not live at their zero-filled CPU vertices.
+  // Enclose every age/seed, with a generous sprite margin, in local space.
+  geometry.boundingBox=new THREE.Box3(new THREE.Vector3(-r*.63-.25,.31,-r*.63-.39),new THREE.Vector3(r*.63+.25,.81+height,r*.63+.11));
+  geometry.boundingSphere=geometry.boundingBox.getBoundingSphere(new THREE.Sphere());
+  dust.userData.dynamic=true;base.add(dust);focalControllers.push(u);base.userData.opticalFocal=u;return u;
  }
  function label(parent,text,w,h,p){
   text=translateText(text);
@@ -158,7 +167,7 @@ export function createCreatorArchive({scene,camera,interaction}){
  // Only distant station silhouettes punctuate the panorama, rather than a wall.
  const towers=new THREE.Group();root.add(towers);
  const pose=new THREE.Object3D(),windowGeo=new THREE.SphereGeometry(.21,8,6);
- const landscape=new THREE.InstancedMesh(windowGeo,m.brass,24),lamps=new THREE.InstancedMesh(windowGeo,m.white,24);towers.add(landscape,lamps);
+ const landscape=instancedMesh(windowGeo,m.brass,24),lamps=instancedMesh(windowGeo,m.white,24);towers.add(landscape,lamps);
  for(let i=0;i<24;i++){
   const a=i*.61803398875*Math.PI*2+.21,r=175+(i%3)*31;
   pose.position.set(Math.sin(a)*r,-17+(i%4)*.8,Math.cos(a)*r);pose.rotation.y=a;pose.scale.set(1.2,.6,1.2);pose.updateMatrix();landscape.setMatrixAt(i,pose.matrix);
@@ -294,7 +303,7 @@ export function createCreatorArchive({scene,camera,interaction}){
     if(i===0){for(let j=0;j<3;j++){const mesh=hardwareMesh(unit,new THREE.OctahedronGeometry(1.1+j*.18,0),crystal,[0,0,0]);mesh.rotation.set(j*.4,j*.6,j*.7);const edge=new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry),new THREE.LineBasicMaterial({color:0x90cfff,transparent:true,opacity:.34}));edge.rotation.copy(mesh.rotation);unit.add(edge);}}
     else if(i===1){hardwareMesh(unit,new THREE.IcosahedronGeometry(1.35,2),crystal);for(let j=0;j<3;j++){const o=hardwareMesh(unit,new THREE.TorusGeometry(1.65,.016,5,80),m.cyan);o.rotation.set(j*.8,.5+j*.5,j*.3);}}
     else if(i===2){for(let j=0;j<4;j++){const o=hardwareMesh(unit,bevelGeometry(.7,1.5,.025,.08,.008),film,[(j-1.5)*.5,Math.sin(j)*.5,(j-1.5)*.3]);o.rotation.y=(j-1.5)*.25;}}
-    else{const pts=[];for(let j=0;j<12;j++){const q=new THREE.Vector3(Math.sin(j*2.4)*1.6,Math.cos(j*1.7)*1.4,Math.sin(j*.8)*1.2);pts.push(new THREE.Vector3(),q);hardwareMesh(unit,new THREE.SphereGeometry(.16,10,8),crystal,q.toArray());}unit.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0xc3b1ff,transparent:true,opacity:.5})));}
+    else{const pts=[],neurons=instancedMesh(new THREE.SphereGeometry(.16,10,8),crystal,12),matrix=new THREE.Matrix4();neurons.name='Tem.observatory.capability.neurons';for(let j=0;j<12;j++){const q=new THREE.Vector3(Math.sin(j*2.4)*1.6,Math.cos(j*1.7)*1.4,Math.sin(j*.8)*1.2);pts.push(new THREE.Vector3(),q);neurons.setMatrixAt(j,matrix.makeTranslation(q.x,q.y,q.z));}unit.add(neurons,new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:0xc3b1ff,transparent:true,opacity:.5})));}
     unit.name=`Tem.observatory.capability.${i}`;unit.userData.basePosition=unit.position.clone();unit.userData.baseRotation=unit.rotation.y;unit.userData.motionRotation=0;modules.push(unit);
    });
   }else{
@@ -351,7 +360,11 @@ export function createCreatorArchive({scene,camera,interaction}){
   for(const mesh of authoredGlass)mesh.material=mobile?coreCrystal:mesh.userData.temPhysicalGlass;
   identityGlass.visible=false;coreFixed.visible=false;lamina.visible=false;
  }
- if(typeof loadTemAsset==='function')loadTemAsset({name:'identity',canvas:document.getElementById('space'),onLoad:model=>{
+ const assetCanvas=document.getElementById('space');let identityRequested=false,displaysRequested=false;
+ if(assetCanvas){assetCanvas.dataset.assetIdentity='deferred-authored-fallback';assetCanvas.dataset.assetDisplay='deferred-reading-chapter';}
+ function requestFallbackIdentity(){
+ if(identityRequested)return;identityRequested=true;
+ if(typeof loadTemAsset==='function')loadTemAsset({name:'identity',canvas:assetCanvas,onLoad:model=>{
   const glass=model.find('TEM_GLASS_T');
   if(!glass)throw new Error('Authored identity is missing its optical shell.');
   authoredIdentity=model.root;authoredIdentity.name='Tem.identity.Blender-authored';
@@ -372,14 +385,20 @@ export function createCreatorArchive({scene,camera,interaction}){
   emblem.add(authoredIdentity);identityMaterials();
   dispatchEvent(new Event('tem:scene-depth-change'));
  }});
+ }
  addEventListener('resize',identityMaterials);
  let authoredDisplays=[];
- if(typeof loadTemAsset==='function')loadTemAsset({name:'display',desktopOnly:true,canvas:document.getElementById('space'),onLoad:model=>{
+ function requestReadingDisplays(){
+ if(displaysRequested)return;displaysRequested=true;
+ if(typeof loadTemAsset==='function')loadTemAsset({name:'display',desktopOnly:true,canvas:document.getElementById('space'),onLoad:async model=>{
   if(!model.find('DISPLAY_FRAME'))throw new Error('Authored display housing is missing.');
+  // Clones share these materials; one link covers every bay before it attaches.
+  await compileBeforeReveal(model.root);
   const incoming=bays.map((bay,index)=>({bay,asset:index===0?model:model.clone()}));
   for(const {bay,asset} of incoming){bay.primary.g.add(asset.root);authoredDisplays.push({bay,root:asset.root});}
   dispatchEvent(new Event('tem:scene-depth-change'));
  }});
+ }
  dispatchEvent(new Event('tem:archive-device-request'));
  // Consolidation recreates meshes; optical glass and thin light should stay
  // transmissive in the shadow map rather than casting opaque screen blocks.
@@ -388,6 +407,12 @@ export function createCreatorArchive({scene,camera,interaction}){
   const welcome=frame.step==='bridge'&&!frame.opening,entry=frame.step==='captain',map=frame.step==='map'||frame.step==='boot',arrival=frame.opening&&frame.introFrame.time>10;
   root.visible=entry||map||arrival||welcome;if(!root.visible)return;
   const replacement=THREE.MathUtils.clamp(frame.observatoryReplacement||0,0,1);
+  // Keep all complete authored assets. Decode/upload the historic identity
+  // only for a real v21 failure, and the other reading glass when its camera
+  // journey starts, rather than hiding those texture sets behind new hardware.
+  const authoredFailed=assetCanvas?.dataset.assetObservatoryV19==='fallback';
+  if(authoredFailed&&!map){requestFallbackIdentity();requestReadingDisplays();}
+  else if(entry&&(frame.archiveProgress??chapter)>.05)requestReadingDisplays();
   const fallbackCoverage=applyArchiveReplacement({architecture,bays,authoredDisplays,compact:compact(),map,deckReady:!compact()&&document.getElementById('space').dataset.assetDeck==='ready'},replacement);
   const coreAmount=(map?0:arrival?THREE.MathUtils.smoothstep(frame.introFrame.time,10,11.7):welcome?1:1-THREE.MathUtils.smoothstep(frame.archiveProgress??chapter,.30,.72))*(1-replacement);
   authoredIdentityReveal.value=coreAmount;

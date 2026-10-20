@@ -1,0 +1,227 @@
+/* v22 interface. Chrome (navigation, readouts, buttons, step rail, lock ring,
+   cursor) is drawn as a holographic tactical HUD: cyan hairlines, chamfered
+   cuts, monospace readouts, amber only for "current / in progress". Narration
+   sits on clear glass: a light smoke tint, a specular rim and a top highlight,
+   with backdrop blur only on the cinematic tier.
+   The legacy sheets settle their conflicts with !important. Important
+   declarations inside a cascade layer outrank every unlayered declaration, so
+   this layer owns the look properties it marks important without a specificity
+   race. Layout, transforms and the scene projection stay with the legacy
+   sheets; new HUD elements use plain declarations. */
+@font-face{font-family:'Tem Instrument';src:url('../vendor/ibm-plex-mono-5.3.0/ibm-plex-mono-latin-400-normal.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Tem Instrument';src:url('../vendor/ibm-plex-mono-5.3.0/ibm-plex-mono-latin-500-normal.woff2') format('woff2');font-style:normal;font-weight:500;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+@layer hud{
+:root{
+ --hud-cyan:#7ff3ff;--hud-amber:#ffb35c;--hud-ink:#d6fbff;--hud-dim:#8cc9d2;
+ --hud-line:#7ff3ff42;--hud-line-strong:#7ff3ffa1;--hud-fill:#04161dc2;--hud-fill-soft:#7ff3ff17;
+ --hud-text-glow:0 0 9px #7ff3ff59;
+ --hud-mono:'Tem Instrument','Cascadia Mono',Consolas,'Tem Interface',ui-monospace,monospace;
+ --hud-cut:8px;--hud-chamfer:polygon(0 0,calc(100% - var(--hud-cut)) 0,100% var(--hud-cut),100% 100%,var(--hud-cut) 100%,0 calc(100% - var(--hud-cut)));
+ --glass-smoke:#040b1759;--glass-edge:#e1f6ff33;
+ --tem-font-instrument:var(--hud-mono)!important;
+}
+
+/* Curly quotes in English copy come from the Noto SC slices, whose default
+   forms are full width ("I’   m"). The fonts carry pwid alternates. A font
+   shorthand resets the variant on each element, so it is set on every element. */
+html[lang='en'] :is(body,body *){font-variant-east-asian:proportional-width!important}
+
+/* ---------- Narration on clear glass ---------- */
+:is(.world-anchored .arrival-glass-panel,.world-anchored .archive-glass-panel,.world-anchored .atlas-control,.world-anchored .approach-copy,.world-anchored #expeditionUI .ship-projection .project-detail,.world-anchored .discovery-layout .discovery-copy,.world-anchored .atlas-heading,.world-anchored .transit-copy,.opening-caption,.contact-dialog){
+ background:radial-gradient(120% 75% at 0% 0%,#ffffff1f,#ffffff00 52%),linear-gradient(162deg,#ffffff10,#ffffff03 36%,#8fd9ff0b 68%,#ffffff12),linear-gradient(var(--glass-smoke),var(--glass-smoke))!important;
+ border:1px solid var(--glass-edge)!important;border-radius:12px!important;
+ box-shadow:inset 0 1px 0 #ffffff70,inset 0 0 0 1px #ffffff08,inset 0 -1px 0 #7ff3ff33,0 34px 80px -28px #00000a8c!important;
+ clip-path:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+ text-shadow:0 1px 2px #000000b8,0 0 18px #020814a6!important;
+}
+/* Specular rim: bright where the key light grazes the glass edge, cyan where
+   the HUD light leaks in from below. */
+:is(.world-anchored .arrival-glass-panel,.world-anchored .archive-glass-panel,.world-anchored .atlas-control,.world-anchored .approach-copy,.world-anchored #expeditionUI .ship-projection .project-detail,.world-anchored .discovery-layout .discovery-copy,.world-anchored .atlas-heading,.world-anchored .transit-copy,.opening-caption)::before{
+ content:''!important;display:block!important;position:absolute!important;inset:-1px!important;width:auto!important;height:auto!important;padding:1px!important;border:0!important;border-radius:inherit!important;box-shadow:none!important;clip-path:none!important;
+ background:linear-gradient(128deg,#ffffffc2,#ffffff24 18%,#ffffff05 44%,#7ff3ff1c 70%,#bff4ff8f)!important;
+ -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0)!important;-webkit-mask-composite:xor!important;mask-composite:exclude!important;
+ pointer-events:none!important;z-index:0!important;opacity:1!important;
+}
+.world-anchored :is(.discovery-layout .discovery-copy,.atlas-heading,.transit-copy){position:relative}
+.world-anchored .discovery-layout .discovery-copy{padding:18px 20px 22px!important}
+.world-anchored .atlas-heading{padding:14px 18px 16px!important}
+@media(min-width:701px){.world-anchored .discovery-layout .discovery-copy{padding:26px 32px 30px!important}.world-anchored .atlas-heading{padding:22px 30px 24px!important;max-width:min(560px,40vw)}}
+.opening-caption{padding:14px 20px 16px!important}
+/* The scene changes every frame, so a backdrop blur is recomputed every frame.
+   Only the cinematic tier pays for it. */
+body[data-graphics-tier='cinematic'] :is(.world-anchored .arrival-glass-panel,.world-anchored .archive-glass-panel,.world-anchored .atlas-control,.world-anchored .approach-copy,.world-anchored #expeditionUI .ship-projection .project-detail,.world-anchored .discovery-layout .discovery-copy,.world-anchored .atlas-heading,.world-anchored .transit-copy){
+ backdrop-filter:blur(6px) saturate(1.25)!important;-webkit-backdrop-filter:blur(6px) saturate(1.25)!important;
+ background:radial-gradient(120% 75% at 0% 0%,#ffffff1f,#ffffff00 52%),linear-gradient(162deg,#ffffff10,#ffffff03 36%,#8fd9ff0b 68%,#ffffff12),linear-gradient(#040b173d,#040b173d)!important;
+}
+/* One scan pass across the glass as a surface comes online. */
+.world-anchored .archive-glass-panel::after{display:block!important;opacity:calc(1 - var(--archive-scan,1))!important;background:linear-gradient(90deg,transparent,var(--hud-cyan) 20%,var(--hud-cyan) 80%,transparent)!important;box-shadow:0 0 14px #7ff3ffb3!important;left:3%!important;right:3%!important}
+
+/* The HUD voice inside narration: codes and registrations. */
+:is(.arrival-glass-panel,.archive-glass-panel,.atlas-control,.approach-copy,.project-detail,.discovery-copy,.atlas-heading,.transit,.opening-caption,.contact-dialog) :is(.eyebrow,.optical-registration,.reading-kicker,.mission-record-heading){font-family:var(--hud-mono)!important;color:var(--hud-cyan)!important;letter-spacing:.18em!important;text-shadow:var(--hud-text-glow)!important}
+/* Work codes are mostly Han characters; wide tracking would break them across lines. */
+:is(.approach-copy,.project-detail,.atlas-control) .eyebrow{letter-spacing:.06em!important}
+.archive-glass-panel .optical-registration i{background:linear-gradient(90deg,var(--hud-cyan),#7ff3ff00)!important;opacity:.6}
+.archive-glass-panel .profile-panel-title>span,.opening-caption>span{font-family:var(--hud-mono)!important;color:var(--hud-cyan)!important;letter-spacing:.16em!important;text-shadow:var(--hud-text-glow)!important}
+.opening-caption p{color:#eef8ff!important}
+
+/* ---------- Tactical controls ---------- */
+:is(.world-anchored .primary,.world-anchored .archive-glass-panel .archive-actions button,.world-anchored .archive-glass-panel .content-button,.world-anchored .atlas-launch button,.world-anchored .optical-poetry-entry,.world-anchored .ship-projection .detail-links a,.world-anchored .ship-projection .content-button,.world-anchored .capability-proof,.launch-button,.journey-dock .nav-button,.skip-opening,.reset-view,.skip-transit,.contact-dialog #contactLinks a){
+ border:1px solid var(--hud-line-strong)!important;border-radius:0!important;
+ background:linear-gradient(180deg,#7ff3ff1c,#7ff3ff08)!important;
+ box-shadow:inset 0 -10px 18px -14px #7ff3ff8c!important;
+ clip-path:var(--hud-chamfer)!important;color:var(--hud-ink)!important;text-shadow:0 0 8px #7ff3ff4d!important;
+ backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+ transition:background .16s,color .16s,border-color .16s!important;
+}
+:is(.world-anchored .primary,.world-anchored .archive-glass-panel .archive-actions button,.world-anchored .archive-glass-panel .content-button,.world-anchored .atlas-launch button,.world-anchored .optical-poetry-entry,.world-anchored .ship-projection .detail-links a,.world-anchored .ship-projection .content-button,.world-anchored .capability-proof,.launch-button,.journey-dock .nav-button,.skip-opening,.reset-view,.skip-transit,.contact-dialog #contactLinks a):is(:hover,:focus-visible){
+ background:var(--hud-cyan)!important;border-color:var(--hud-cyan)!important;color:#02151b!important;text-shadow:none!important;
+}
+:is(.world-anchored .primary,.world-anchored .archive-glass-panel .archive-actions button,.world-anchored .atlas-launch button,.world-anchored .ship-projection .detail-links a,.world-anchored .capability-proof,.launch-button,.journey-dock .nav-button,.skip-opening,.reset-view,.skip-transit,.contact-dialog #contactLinks a):is(:hover,:focus-visible) *{color:inherit!important;text-shadow:none!important}
+/* Clip paths also clip outlines, so the keyboard ring is drawn inside the cut. */
+:is(.world-anchored .primary,.world-anchored .archive-glass-panel .archive-actions button,.world-anchored .atlas-launch button,.world-anchored .ship-projection .detail-links a,.world-anchored .capability-proof,.launch-button,.launch-browse,.journey-dock .nav-button,.skip-opening,.reset-view,.skip-transit):focus-visible{outline:2px solid var(--hud-amber)!important;outline-offset:-5px!important}
+.world-anchored :is(.primary,.archive-actions button,.atlas-launch button)::before,.world-anchored :is(.primary,.archive-actions button,.atlas-launch button)::after{display:none!important}
+/* The primary call to action is a lit plate. */
+.launch-browse{background:linear-gradient(180deg,#9ff7ff,#6ee6f6)!important;border:0!important;border-radius:0!important;clip-path:var(--hud-chamfer)!important;color:#03161c!important;box-shadow:inset 0 -10px 18px -12px #0a6a7a!important;text-shadow:none!important}
+.launch-browse:hover{background:#c9fbff!important}
+.launch-browse *{color:inherit!important}
+
+/* ---------- Bridge header ---------- */
+.bridge-header{background:linear-gradient(180deg,#010509a6,#01050900)!important;text-shadow:none!important}
+.bridge-header::after{content:'';position:absolute;left:5.5%;right:5.5%;bottom:0;height:1px;background:linear-gradient(90deg,#7ff3ff00,#7ff3ff33 18%,#7ff3ff33 82%,#7ff3ff00);pointer-events:none}
+.brand{font-family:var(--hud-mono)!important;font-weight:500!important;letter-spacing:.32em!important;font-size:15px!important;color:var(--hud-ink)!important;padding:8px 14px 8px 16px!important;border:1px solid var(--hud-line-strong)!important;background:var(--hud-fill-soft)!important;clip-path:var(--hud-chamfer)!important;text-shadow:var(--hud-text-glow)!important}
+.brand::after{content:none!important}
+@media(min-width:1001px){.brand small{display:inline!important;font-family:var(--hud-mono)!important;font-size:10px!important;letter-spacing:.2em!important;color:var(--hud-dim)!important;margin-left:14px!important}.brand small::before{content:'// '}}
+@media(min-width:1001px){.header-readout{display:flex!important;align-items:center;gap:10px!important;font-family:var(--hud-mono)!important;font-size:11px!important;letter-spacing:.16em!important;color:var(--hud-ink)!important;text-shadow:var(--hud-text-glow)}}
+.header-readout i{width:6px!important;height:6px!important;border-radius:50%!important;background:var(--hud-amber)!important;box-shadow:0 0 10px var(--hud-amber)!important;transition:opacity .2s}
+.header-readout .hud-clock{color:var(--hud-dim);margin-left:8px}
+.header-tools :is(.quiet-button,.archive-return){font-size:13px!important;letter-spacing:.1em!important;color:#d6eef4!important;border:0!important;position:relative}
+.header-tools :is(.quiet-button,.archive-return)::after{content:'';position:absolute;left:0;right:0;bottom:4px;height:1px;background:var(--hud-cyan);box-shadow:0 0 8px var(--hud-cyan);transform:scaleX(0);transform-origin:left;transition:transform .22s}
+.header-tools :is(.quiet-button,.archive-return):is(:hover,:focus-visible){color:var(--hud-cyan)!important;text-shadow:var(--hud-text-glow)!important}
+.header-tools :is(.quiet-button,.archive-return):is(:hover,:focus-visible)::after{transform:none}
+.experience-settings>summary{width:36px;height:36px;display:grid!important;place-items:center;padding:0!important;font-size:14px!important;color:var(--hud-cyan)!important;border:1px solid var(--hud-line-strong);background:var(--hud-fill-soft);clip-path:var(--hud-chamfer)}
+.experience-settings>div{background:#041319f2!important;border:1px solid var(--hud-line-strong)!important;border-radius:0!important;clip-path:var(--hud-chamfer);backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:inset 0 1px 0 #7ff3ff2e!important}
+.global-language{font-family:var(--hud-mono)!important;font-size:12px!important;letter-spacing:.14em!important;color:var(--hud-dim)!important;border-bottom-color:var(--hud-line)!important}
+.global-language:hover{color:var(--hud-cyan)!important}
+
+/* ---------- Launch screen micro type ---------- */
+:is(.launch-index,.launch-eyebrow,.launch-route,.launch-readiness){font-family:var(--hud-mono)!important;color:var(--hud-dim)!important;letter-spacing:.2em!important;text-shadow:var(--hud-text-glow)!important}
+.launch-eyebrow{color:var(--hud-cyan)!important}
+.launch-readiness::before{content:'';display:inline-block;width:6px;height:6px;margin-right:10px;border-radius:50%;background:var(--hud-amber);box-shadow:0 0 10px var(--hud-amber);vertical-align:.1em;transition:opacity .2s}
+/* The status dots blink on the HUD clock: one style change a second, not a
+   main-thread animation tick every frame. */
+html[data-hud-pulse] :is(.header-readout i,.launch-readiness::before){opacity:.25!important}
+.launch-index i,.launch-route i{background:linear-gradient(90deg,#7ff3ff59,#7ff3ff0d)!important}
+.launch-shortcuts a{font-family:var(--hud-mono);letter-spacing:.12em}
+.opening-launch h1{text-shadow:0 2px 28px #000814cc}
+
+/* ---------- Screen headings and transit ---------- */
+.world-anchored .screen-heading{border-bottom:1px solid var(--hud-line)!important}
+.world-anchored .screen-heading .eyebrow,.world-anchored .transit>.eyebrow{font-family:var(--hud-mono)!important;color:var(--hud-amber)!important;letter-spacing:.22em!important;text-shadow:0 0 10px #ffb35c59!important}
+.world-anchored .screen-heading h2{text-shadow:0 2px 24px #000814e6!important}
+.world-anchored .screen-heading small,.world-anchored .screen-footer{font-family:var(--hud-mono)!important;color:var(--hud-dim)!important;letter-spacing:.2em!important}
+.world-anchored .screen-footer{border-top:1px solid var(--hud-line)!important}
+.world-anchored .transit-copy{padding:22px 34px 24px!important;margin:12px auto 0;max-width:min(640px,80vw)}
+.world-anchored .transit-copy h2{margin-top:0!important}
+.world-anchored .transit-copy p{margin-bottom:0!important;color:#d9ecf3!important}
+.world-anchored .transit-progress{width:min(320px,60vw)!important;height:7px!important;background:repeating-linear-gradient(90deg,#7ff3ff2e 0 calc(10% - 3px),transparent calc(10% - 3px) 10%)!important;border:0!important}
+.world-anchored .transit-progress i{background:repeating-linear-gradient(90deg,var(--hud-cyan) 0 calc(10% - 3px),transparent calc(10% - 3px) 10%)!important;background-size:min(320px,60vw) 100%!important;box-shadow:none!important;filter:drop-shadow(0 0 4px #7ff3ffb3)}
+.world-anchored .scan-echoes span{font-family:var(--hud-mono)!important;color:var(--hud-amber)!important;letter-spacing:.14em!important}
+
+/* ---------- Map and signal tags ---------- */
+.world-anchored .orbital-map .sector-node{background:var(--hud-fill)!important;border:1px solid var(--hud-line-strong)!important;border-radius:0!important;clip-path:var(--hud-chamfer)!important;box-shadow:inset 0 -12px 20px -16px #7ff3ffa6!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.world-anchored .orbital-map .sector-node strong{color:var(--hud-ink)!important;text-shadow:var(--hud-text-glow)!important}
+.world-anchored .orbital-map .sector-node:is(:hover,:focus-visible){background:#0a3540d9!important;border-color:var(--hud-cyan)!important}
+.world-anchored .orbital-map .sector-node[aria-pressed='true']{border-color:var(--hud-amber)!important;background:#2a1b06cc!important;box-shadow:inset 0 -12px 20px -14px #ffb35cb3,0 0 0 1px #ffb35c40!important}
+.world-anchored .orbital-map .sector-node[aria-pressed='true'] strong{color:#ffe3bf!important;text-shadow:0 0 10px #ffb35c66!important}
+.world-anchored .signal-copy small{font-family:var(--hud-mono)!important;color:var(--hud-amber)!important;letter-spacing:.14em!important}
+.world-anchored .signal-copy strong{text-shadow:0 1px 2px #000,0 0 14px #020814!important}
+.world-anchored .map-subtitle{font-family:var(--hud-mono);letter-spacing:.08em;color:var(--hud-ink)!important}
+
+/* ---------- Bottom dock, chapters and coordinates ---------- */
+.journey-dock .stage-line #stageLabel{font-family:var(--hud-mono)!important;color:var(--hud-ink)!important;letter-spacing:.14em!important;text-shadow:var(--hud-text-glow)}
+.journey-dock .stage-line #sectorLabel{font-family:var(--hud-mono)!important;color:var(--hud-dim)!important}
+.journey-dock .nav-button{font-size:12px!important;padding:9px 16px!important;letter-spacing:.06em!important}
+.world-coordinate>span{font-family:var(--hud-mono)!important;color:var(--hud-cyan)!important;letter-spacing:.18em!important;text-shadow:var(--hud-text-glow)!important}
+.world-coordinate small{font-family:var(--hud-mono);letter-spacing:.06em;color:var(--hud-ink)!important}
+.world-coordinate{padding-left:12px;border-left:1px solid var(--hud-line-strong)}
+body[data-step='bridge'] .world-coordinate{padding-left:0;padding-right:12px;border-left:0;border-right:1px solid var(--hud-line-strong)}
+.world-anchored .archive-chapters button{color:#c9e3ea!important;border:0!important;background:none!important}
+.world-anchored .archive-chapters button small{font-family:var(--hud-mono)!important;color:var(--hud-dim)!important}
+.world-anchored .archive-chapters button[aria-pressed='true']{color:var(--hud-ink)!important;text-shadow:var(--hud-text-glow)!important}
+.world-anchored .archive-chapters button[aria-pressed='true'] small{color:var(--hud-amber)!important}
+.world-anchored .archive-chapters button[aria-pressed='true']::before{background:var(--hud-amber)!important;box-shadow:0 0 10px var(--hud-amber)!important}
+.archive-scroll-hint{font-family:var(--hud-mono)!important;color:var(--hud-dim)!important;letter-spacing:.14em!important}
+
+/* Mission step rail, written by immersive-hud.js. */
+.hud-rail{display:none;list-style:none;margin:0 0 0 18px;padding:0;gap:6px;align-items:center}
+body:is([data-step='map'],[data-step='boot'],[data-step='travel'],[data-step='arrival'],[data-step='scanning'],[data-step='signals'],[data-step='target'],[data-step='docking'],[data-step='docked']) .hud-rail{display:flex}
+.hud-rail li{font:500 10px/1 var(--hud-mono)!important;letter-spacing:.14em;color:#8cc9d2b3;padding:6px 9px 6px 8px;border-left:2px solid #7ff3ff40;background:#041319e6;white-space:nowrap}
+.hud-rail li b{font-weight:500;margin-right:6px;color:inherit}
+.hud-rail li em{font-style:normal}
+.hud-rail li[data-state='done']{color:var(--hud-dim);border-left-color:var(--hud-cyan)}
+.hud-rail li[data-state='current']{color:#ffe3bf;border-left-color:var(--hud-amber);background:#2b1c08eb;text-shadow:0 0 8px #ffb35c66}
+.journey-dock .stage-line>i{display:none!important}
+/* A status strip keeps the readouts legible where the cockpit rim crosses them. */
+@media(min-width:701px){.journey-dock .stage-line{position:relative;padding:7px 16px;background:linear-gradient(90deg,#01070b00,#01070bd1 7%,#01070bd1 93%,#01070b00)}}
+/* The rail is now the strip's last child, so legacy :last-child rules no longer
+   find the sector label; compact screens keep hiding it explicitly. */
+@media(max-width:700px){.journey-dock #sectorLabel{display:none!important}}
+@media(max-width:1180px){.hud-rail li:not([data-state='current']) em{display:none}}
+@media(max-width:700px){.hud-rail{display:none!important}}
+
+/* ---------- Reticle cursor ---------- */
+@media(hover:hover) and (pointer:fine){
+ html.hud-cursor :is(body,#space,#expeditionUI,.surface,.world-surface,.opening-launch){cursor:none!important}
+ html.hud-cursor :is(.archive-glass-panel,.project-detail,.approach-copy,.atlas-control,.discovery-copy,.atlas-heading,.surface-content,.contact-dialog,.evidence-dialog,.experience-settings>div,.poetry-reader){cursor:auto!important}
+ html.hud-cursor :is(button,a[href],summary,select,label,[data-node],[role='button']){cursor:none!important}
+}
+.hud-reticle{position:fixed;left:0;top:0;width:24px;height:24px;z-index:2147483000;pointer-events:none;color:var(--hud-cyan);opacity:0;filter:drop-shadow(0 0 3px #7ff3ffb3);transition:width .16s cubic-bezier(.2,.8,.2,1),height .16s cubic-bezier(.2,.8,.2,1),opacity .18s,color .18s;will-change:transform}
+.hud-reticle[data-mode]{opacity:1}
+.hud-reticle[data-mode='hidden']{opacity:0}
+.hud-reticle i{position:absolute;width:7px;height:7px;border:0 solid currentColor;transition:opacity .16s}
+.hud-reticle i:nth-child(1){left:0;top:0;border-left-width:1.5px;border-top-width:1.5px}
+.hud-reticle i:nth-child(2){right:0;top:0;border-right-width:1.5px;border-top-width:1.5px}
+.hud-reticle i:nth-child(3){left:0;bottom:0;border-left-width:1.5px;border-bottom-width:1.5px}
+.hud-reticle i:nth-child(4){right:0;bottom:0;border-right-width:1.5px;border-bottom-width:1.5px}
+.hud-reticle b{position:absolute;left:50%;top:50%;width:3px;height:3px;margin:-1.5px 0 0 -1.5px;border-radius:50%;background:currentColor;transition:width .16s,height .16s,margin .16s,background .16s}
+.hud-reticle::before{content:'';position:absolute;inset:-9px;border:1px dashed currentColor;border-radius:50%;opacity:.55;animation:hudSpin 5s linear infinite;transition:opacity .16s,inset .16s}
+.hud-reticle[data-mode='snap']::before{opacity:0}
+.hud-reticle[data-mode='snap'] b{opacity:0}
+.hud-reticle[data-mode='aim']{color:var(--hud-amber);filter:drop-shadow(0 0 4px #ffb35cb3)}
+.hud-reticle[data-mode='aim'] i{opacity:0}
+.hud-reticle[data-mode='aim'] b{width:12px;height:12px;margin:-6px 0 0 -6px;background:transparent;border:1px solid currentColor}
+.hud-reticle[data-mode='aim']::before{inset:-16px;opacity:.9;animation-duration:1.4s}
+.hud-reticle[data-pressed]{color:#fff}
+
+/* ---------- Lock-on ring ---------- */
+.hud-lock{position:fixed;left:0;top:0;width:0;height:0;z-index:auto;pointer-events:none;opacity:0;transition:opacity .25s;color:var(--hud-cyan);will-change:transform}
+.hud-lock[data-state]:not([data-state='idle'])[data-placed]{opacity:1}
+.hud-lock svg{position:absolute;left:-100px;top:-100px;width:200px;height:200px;overflow:visible;transform:scale(var(--s,1));filter:drop-shadow(0 0 5px #7ff3ff99)}
+.hud-lock circle,.hud-lock line{fill:none;stroke:currentColor;vector-effect:non-scaling-stroke}
+.hud-lock .o{stroke-dasharray:2 6;stroke-opacity:.8;transform-origin:center;transform-box:fill-box;animation:hudSpin 16s linear infinite}
+.hud-lock .m{stroke-width:2;stroke-dasharray:22 7 5 7;stroke-opacity:.45;transform-origin:center;transform-box:fill-box;animation:hudSpin 10s linear infinite reverse}
+.hud-lock .p{stroke-width:2.5;stroke:var(--hud-amber);transform:rotate(-90deg);transform-origin:center;transform-box:fill-box;stroke-dasharray:var(--lock,0) 100}
+.hud-lock line{stroke-opacity:.75}
+.hud-lock .cv{fill:currentColor;transition:transform .45s cubic-bezier(.2,1.5,.4,1)}
+.hud-lock[data-state='track'] .p,.hud-lock[data-state='track'] .m{display:none}
+.hud-lock:is([data-state='locked'],[data-state='docking']) .p{stroke:var(--hud-cyan)}
+.hud-lock:is([data-state='locked'],[data-state='docking']) .cv{transform:translateY(9px)}
+.hud-lock[data-state='docking']{transition:opacity .9s}
+.hud-lock[data-state='docking'][data-placed]{opacity:0}
+.hud-lock-tag,.hud-lock-read{position:absolute;right:calc(var(--r,60px) + 18px);white-space:nowrap;text-align:right;font:500 11px/1.7 var(--hud-mono);letter-spacing:.16em;text-shadow:var(--hud-text-glow)}
+.hud-lock-tag{top:-30px;color:var(--hud-amber);text-shadow:0 0 9px #ffb35c66}
+.hud-lock:is([data-state='locked'],[data-state='docking']) .hud-lock-tag{color:var(--hud-cyan)}
+.hud-lock-read{top:-6px;color:var(--hud-ink);opacity:.85;font-size:10px}
+.hud-lock-tag::after{content:'';position:absolute;right:-16px;top:50%;width:12px;height:1px;background:currentColor}
+@media(max-width:700px){.hud-lock-read{display:none}.hud-lock-tag{right:auto;left:0;transform:translateX(-50%);top:calc(-1 * var(--r,60px) - 30px);text-align:center}.hud-lock-tag::after{display:none}}
+
+/* Invisible parts stop: transform animations on SVG children tick on the main
+   thread, costing a style recalc and an SVG layout every frame even at opacity 0. */
+.hud-lock:not([data-placed]) svg{display:none}
+.hud-reticle:not([data-mode='free']):not([data-mode='aim'])::before{animation:none}
+
+@keyframes hudSpin{to{transform:rotate(1turn)}}
+@media(prefers-reduced-motion:reduce){.hud-reticle::before,.hud-lock .o,.hud-lock .m{animation:none!important}.hud-reticle,.hud-lock{transition:none}}
+.scene-fallback :is(.hud-lock,.hud-reticle){display:none}
+}

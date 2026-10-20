@@ -1,7 +1,7 @@
-import {getMotionPreference} from './runtime-settings.js';
-import { journey, navigate } from './immersive-session.js?v=cinematic-v21.1';
-import { OPENING_DURATION,openingTimeline } from './immersive-opening-timeline.js?v=cinematic-v21.1';
-import { createOpeningPlayback } from './immersive-opening-playback.js?v=cinematic-v21.1';
+import {getMotionPreference} from './runtime-settings.js?v=cinematic-v21.19';
+import { journey, navigate } from './immersive-session.js?v=cinematic-v21.19';
+import { OPENING_DURATION,openingTimeline } from './immersive-opening-timeline.js?v=cinematic-v21.19';
+import { createOpeningPlayback } from './immersive-opening-playback.js?v=cinematic-v21.19';
 
 // The voyage ends at a held welcome. Only a visitor's choice opens an archive or flight.
 const playback=createOpeningPlayback(OPENING_DURATION);
@@ -47,16 +47,16 @@ function finish(reason='complete'){
  ui.inert=false;header.inert=false;launch.hidden=true;skip.hidden=true;
  if(firstArrival){
   status.textContent='我是 Tem。选择欣赏作品，或进入我的个人空间。';
-  document.getElementById('statusAnnouncement').textContent=status.textContent;
+  if(journey.state.step==='bridge')document.getElementById('statusAnnouncement').textContent=status.textContent;
   dispatchEvent(new CustomEvent('tem:opening-complete',{detail:{reason}}));
  }
 }
 function prepare(){
  launch.hidden=false;start.disabled=false;body.dataset.opening='waiting';
- launchText.textContent=reduce.matches?'抵达 Tem 的世界':'启航 · 播放宇宙序章';
- launchDescription.innerHTML=reduce.matches?'动态效果已简化。<br>抵达后，自由选择欣赏作品或了解我。':'一段宇宙旅程，从这里开始。<br>抵达后，自由选择欣赏作品或了解我。';
- readiness.textContent=opening.ready?(reduce.matches?'已按设备偏好减少动态效果':'航道已就绪 · 等待你的启航指令'):'点击启航，加载创作宇宙';
- skip.textContent='直接抵达 Tem ↗';
+ launchText.textContent='体验创作宇宙';
+ launchDescription.innerHTML=reduce.matches?'动态效果已简化。<br>先看看我的作品，或从这里认识 Tem。':'先看看我的作品，或从一段宇宙旅程开始。<br>游戏、互动故事与创意技术，在这里相遇。';
+ readiness.textContent=opening.ready?(reduce.matches?'已按设备偏好减少动态效果':'航道已就绪 · 等待你的启航指令'):'点击体验，加载创作宇宙';
+ skip.textContent='跳过序章 ↗';
  skip.setAttribute('aria-label','跳过宇宙航行，抵达 Tem 的欢迎场景');
  publish({...openingTimeline(0),black:.28});
 }
@@ -97,7 +97,6 @@ export function updateOpening(dt){
  if(opening.progress>=1)finish();
  return opening.progress;
 }
-
 
 
 

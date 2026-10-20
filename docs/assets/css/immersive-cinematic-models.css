@@ -2,16 +2,106 @@
    accepts input; all stay visible in perspective while the camera passes. */
 body.world-anchored .archive-glass-panel[data-archive-panel]{transition:none!important;animation:none!important;will-change:transform;backface-visibility:hidden}
 body.scene-fallback .archive-glass-panel[data-archive-panel][aria-hidden='true'],body.graphics-standby .archive-glass-panel[data-archive-panel][aria-hidden='true']{display:none!important}
+/* The camera widens on narrow desktop viewports. Compensate only the content
+   inside its fixed projected face; never scale the world surface or its matrix.
+   Text and click targets retain their apparent size while more world fits. */
 @media(min-width:701px){
- body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel{background:linear-gradient(116deg,#07112096,#14283c57 68%,#94a9e814)!important;box-shadow:inset 0 1px #d5e6ff24,inset 1px 0 #acc4df18!important;border:1px solid #bacff72c!important}
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel :is(.profile-panel,.archive-actions,.arrival-copy){zoom:var(--tem-screen-type-scale,1)}
+}
+/* At a tablet-like desktop ratio the glass still has a fixed physical height.
+   Keep the full identity headline above its footer; longer biography remains
+   in the established scroll area. Other chapters and wide layouts are intact. */
+@media(min-width:701px) and (max-aspect-ratio:3/2){
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel[data-archive-panel='overview'] .profile-panel{padding-top:16px;padding-bottom:20px}
+ body.world-anchored .archive-glass-panel[data-archive-panel='overview'] .archive-person{margin-bottom:10px}
+ body.world-anchored .archive-glass-panel[data-archive-panel='overview'] .archive-person .eyebrow{font-size:18px;line-height:1.3}
+ body.world-anchored .archive-glass-panel[data-archive-panel='overview'] .archive-person h3{font-size:104px;line-height:1;margin:10px 0 8px}
+ body.world-anchored .archive-glass-panel[data-archive-panel='overview'] .archive-person>p{font-size:24px;line-height:1.4}
+ body.world-anchored .archive-glass-panel[data-archive-panel='overview'] .profile-panel-title .archive-tagline{font-size:40px!important;line-height:1.3!important;margin:10px 0 12px}
+ body.world-anchored .arrival-glass-panel .arrival-copy{padding:12px 49px}
+ body.world-anchored .arrival-glass-panel .arrival-copy>.eyebrow{display:none}
+ body.world-anchored .arrival-glass-panel .arrival-copy h1{line-height:1.1}
+ body.world-anchored .arrival-glass-panel .arrival-copy .arrival-role{margin:8px 0}
+ body.world-anchored .arrival-glass-panel .arrival-copy h2{margin:8px 0}
+ body.world-anchored .arrival-glass-panel .arrival-copy p{margin-bottom:16px}
+ body.world-anchored .arrival-glass-panel .arrival-copy .quick-browse{margin-top:8px;min-height:54px}
+ html[lang='en'] body.world-anchored .arrival-glass-panel .arrival-copy h1{font-size:100px}
+ html[lang='en'] body.world-anchored .arrival-glass-panel .arrival-copy .arrival-role{font-size:28px;line-height:1.4}
+ html[lang='en'] body.world-anchored .arrival-glass-panel .arrival-copy h2{font-size:31px;line-height:1.4}
+ html[lang='en'] body.world-anchored .arrival-glass-panel .arrival-copy p{font-size:30px;line-height:1.4}
+ html[lang='en'] body.world-anchored .arrival-glass-panel .hero-actions .primary{white-space:nowrap;padding-inline:12px;gap:8px}
+ html[lang='en'] body.world-anchored .arrival-glass-panel .hero-actions .primary>span{font-size:20px}
+}
+@media(min-width:701px){
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel{background:linear-gradient(116deg,#0711208c,#14283c47 68%,#94a9e80e)!important;box-shadow:inset 0 1px #d5e6ff1c!important;border:1px solid #bacff71c!important}
  body.world-anchored .archive-glass-panel:before{background:linear-gradient(130deg,#dcefff06,transparent 26%,transparent 81%,#b2c5fd0b)!important}
 }
 
 /* Portrait typography sits on the authored pressure glass. Its physical edge,
    reflected world and optical seals are supplied by the Blender geometry. */
 @media(min-width:701px){
- body.world-anchored:not(.scene-fallback):not(.graphics-standby)[data-step='captain'] .archive-glass-panel[data-archive-panel='overview']{background:linear-gradient(116deg,#07121c9c,#10273951 74%,#91b9d916)!important;border-color:transparent!important;box-shadow:inset 0 1px #e1f2ff19!important}
- body.world-anchored .archive-glass-panel[data-archive-panel='overview'] .archive-tagline{font-family:'Noto Serif SC','Source Han Serif SC','Songti SC','SimSun',serif;font-size:44px!important;font-weight:400;line-height:1.8;letter-spacing:.015em;text-shadow:0 1px 12px #07111ebb}
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby)[data-step='captain'] .archive-glass-panel[data-archive-panel='overview']{background:linear-gradient(104deg,#09192c59 0%,#06121fb8 12%,#071522c4 57%,#0c2334a3 82%,#91b9d920 100%)!important;border-color:transparent!important;box-shadow:none!important}
+ body.world-anchored .archive-glass-panel[data-archive-panel='overview'] .archive-tagline{font-family:var(--tem-font-display);font-size:44px!important;font-weight:400;line-height:1.8;letter-spacing:.015em;text-shadow:0 1px 12px #07111ebb}
+ html[lang='en'] body.world-anchored .archive-glass-panel[data-archive-panel='overview'] .archive-tagline{font-family:var(--tem-font-interface);font-weight:350}
  body.world-anchored .archive-glass-panel[data-archive-panel='overview'] .profile-summary{font-weight:300;line-height:1.8;color:#dce6ec}
- body.world-anchored .archive-glass-panel[data-archive-panel='overview'] .archive-actions button{background:transparent;border:0;border-bottom:1px solid #a9dceb6b;border-radius:0;box-shadow:none;font-weight:400;letter-spacing:.045em}
+}
+/* English needs two narrative lines on the same physical face. Reserve room
+   for its full summary above the persistent navigation without shrinking the
+   identity or altering the Chinese composition. */
+@media(min-width:701px) and (min-aspect-ratio:3/2){
+ html[lang='en'] body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel[data-archive-panel='overview'] .profile-panel-title .archive-tagline{font-size:40px!important;line-height:1.4!important;margin:15px 0 14px}
+ html[lang='en'] body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel[data-archive-panel='overview'] .profile-summary{font-size:32px;line-height:1.55;margin-bottom:14px}
+}
+
+/* Inscriptions belong to the pressure face. Keep the established projected
+   hit areas (82px desktop / 110px compact); paint only a thin optical baseline. */
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel[data-archive-panel] .archive-actions button,
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .optical-poetry-entry{
+ width:auto;max-width:100%;justify-content:flex-start;gap:28px;
+ background:transparent!important;border:0!important;border-radius:0;box-shadow:none!important;
+ font-weight:400;letter-spacing:.035em;text-shadow:0 1px 8px #05101f;
+}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel[data-archive-panel] .archive-actions button:after,
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .optical-poetry-entry:after{
+ content:'';position:absolute;inset:auto 24px 9px;height:1px;z-index:0;
+ background:linear-gradient(90deg,#a9dceb9c,#a8c5ec55 68%,transparent)!important;
+ transform:none!important;animation:none!important;transition:opacity .25s;opacity:.65;pointer-events:none;
+}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel[data-archive-panel] .archive-actions button:is(:hover,:focus-visible),
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .optical-poetry-entry:is(:hover,:focus-visible){
+ background:transparent!important;border:0!important;box-shadow:none!important;color:#f3faff!important;
+}
+body.world-anchored .archive-glass-panel[data-archive-panel] .archive-actions button:focus-visible,
+body.world-anchored .optical-poetry-entry:focus-visible{outline:2px solid #c8e6fa;outline-offset:-3px}
+body.world-anchored .archive-glass-panel[data-archive-panel] .archive-actions button:is(:hover,:focus-visible):after,
+body.world-anchored .optical-poetry-entry:is(:hover,:focus-visible):after{opacity:1}
+html[lang='en'] body.world-anchored :is(.archive-actions button,.optical-poetry-entry){letter-spacing:.015em}
+@media(min-width:701px){
+ body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel[data-archive-panel='overview'] .archive-process{border:0;padding-top:12px;padding-bottom:12px}
+ body.world-anchored .optical-poetry-entry{padding-inline:24px;justify-content:space-between}
+}
+
+/* The reading face has a graded optical coating: the text column attenuates
+   the bright landing behind it, while the curved perimeter still transmits
+   the moving world. Paint this on the existing projected face, without a
+   second panel, backdrop blur or another GPU render pass. */
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel[data-archive-panel='reading']{
+ background:linear-gradient(102deg,#0a172686 0%,#091523d6 8%,#091523e8 48%,#0e1d2edb 86%,#1e344c61 100%)!important;
+ box-shadow:inset 0 1px #d9eaff30,inset 1px 0 #b8d7ed24,inset -1px 0 #c4d8f51c!important;
+}
+body.world-anchored .archive-glass-panel[data-archive-panel='reading']:before{
+ background:linear-gradient(105deg,#c4e1ff12,transparent 11%,transparent 90%,#d7d3fb12)!important;
+}
+body.world-anchored .archive-glass-panel[data-archive-panel='reading'] .reading-entry[open]{
+ background:linear-gradient(100deg,#a7cde90b,transparent 88%);
+ box-shadow:inset 2px 0 #c6e4f96b;
+}
+body.world-anchored:not(.scene-fallback):not(.graphics-standby) .archive-glass-panel[data-archive-panel='reading'] .reading-entry>p{
+ margin:0 0 26px;
+ padding:12px 18px 24px 42px;
+ text-shadow:0 1px 2px #07111e;
+}
+body.world-anchored .archive-glass-panel[data-archive-panel='reading'] .archive-actions{
+ background:linear-gradient(100deg,#0c1b2b70,#182c3e28);
+ border-color:#b5d5f13d;
 }

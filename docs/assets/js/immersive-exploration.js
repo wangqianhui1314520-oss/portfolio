@@ -1,13 +1,14 @@
 import {currentLocale,localePath,projectPath} from './locale-data.js';
 import {t} from './i18n.js';
-import {getMotionPreference} from './runtime-settings.js';
-import { renderProfile, renderProfilePanel, profileTabs } from './immersive-profile.js?v=cinematic-v21.1';
-import {archiveChapterOrder,archiveRail} from './immersive-archive-path.js?v=cinematic-v21.1';
-import {createArchiveDeviceInteraction} from './immersive-archive-interaction.js?v=cinematic-v21.1';
-import { initPoetryReader } from './poetry-reader.js?v=cinematic-v21.1';
-import { sectors, sectorFor, transitionDurations } from './immersive-journey.js?v=cinematic-v21.1';
-import { journey, navigate, subscribe, getRevision, completeTransition } from './immersive-session.js?v=cinematic-v21.1';
-import {opening} from './immersive-intro.js?v=cinematic-v21.1';
+import {getMotionPreference} from './runtime-settings.js?v=cinematic-v21.19';
+import { renderProfile, renderProfilePanel, profileTabs } from './immersive-profile.js?v=cinematic-v21.19';
+import {archiveChapterOrder,archiveRail} from './immersive-archive-path.js?v=cinematic-v21.19';
+import {createArchiveDeviceInteraction} from './immersive-archive-interaction.js?v=cinematic-v21.19';
+import { initPoetryReader } from './poetry-reader.js?v=cinematic-v21.19';
+import { sectors, sectorFor, transitionDurations } from './immersive-journey.js?v=cinematic-v21.19';
+import { journey, navigate, subscribe, getRevision, completeTransition } from './immersive-session.js?v=cinematic-v21.19';
+import {opening} from './immersive-intro.js?v=cinematic-v21.19';
+import './immersive-hud.js?v=cinematic-v21.19';
 const ui=document.getElementById('expeditionUI'),data=window.PORTFOLIO_DATA;
 const reduced=getMotionPreference();
 const grainToggle=document.getElementById('grainToggle');
@@ -31,7 +32,7 @@ const action=(name,text,value='')=>`<button class="primary" type="button" data-a
 const nextActions={boot:'ready',travel:'arrive',scanning:'decode',docking:'open'};
 const labels={bridge:'01 / 我是 TEM',captain:'01 / 关于 TEM',boot:'02 / 启航',map:'02 / 航行星图',travel:'03 / 星际航行',arrival:'03 / 抵达星域',scanning:'04 / 扫描深空',signals:'04 / 发现作品',target:'05 / 靠近信号',docking:'05 / 正在停靠',docked:'06 / 作品舱'};
 function screen(title,code,content,footer='A WORLD BY TEM',className=''){return `<section class="surface ${className}"><header class="screen-heading"><div><span class="eyebrow">${code}</span><h2 tabindex="-1">${title}</h2></div><small>THE WORLDS WITHIN.</small></header>${content}<footer class="screen-footer"><span>TEM / PERSONAL UNIVERSE</span><span>${footer}</span></footer></section>`;}
-function transit(title,line,code){return `<section class="surface transit" style="--duration:${reduced.matches?100:transitionDurations[journey.state.step]}ms"><span class="eyebrow">${code}</span><h2 tabindex="-1">${title}</h2><p>${line}</p><div class="transit-progress" aria-hidden="true"><i></i></div><div class="scan-echoes" aria-live="polite"></div><button type="button" class="skip-transit" data-skip-transit>跳过航行演出 ↗</button></section>`;}
+function transit(title,line,code){return `<section class="surface transit" style="--duration:${reduced.matches?100:transitionDurations[journey.state.step]}ms"><span class="eyebrow">${code}</span><div class="transit-copy"><h2 tabindex="-1">${title}</h2><p>${line}</p></div><div class="transit-progress" aria-hidden="true"><i></i></div><div class="scan-echoes" aria-live="polite"></div><button type="button" class="skip-transit" data-skip-transit>跳过航行演出 ↗</button></section>`;}
 function detail(work){
   if(work.collection==='poetry')return screen(esc(work.title),'ECHO / ORIGINAL POETRY',`<div class="surface-content poetry-work"><p>${esc(data.poetry.description)}</p><small>${esc(data.poetry.totalLabel)}</small><button class="content-button" type="button" data-read-poetry>打开诗集，开始阅读 <span aria-hidden="true">↗</span></button><ul class="poetry-work-list">${data.poetry.poems.map(p=>`<li><button type="button" data-read-poetry="${esc(p.id)}"><span>${esc(p.title)}</span><small>${esc(p.theme)} ↗</small></button></li>`).join('')}</ul></div>`,'阅读全文 · 查看原稿','project-detail');
   const links=[{label:'阅读完整案例',url:projectPath(currentLocale(),work.id,window.TEM_BASE_PATH||'/')},...(work.links||[])];if(work.play?.url&&!links.some(link=>link.url===work.play.url))links.unshift({label:'进入作品',url:work.play.url});
@@ -44,11 +45,11 @@ function captain(){
 }
 function starMap(){
   const selected=sectors.find(s=>s.id===atlasSelected)||sectors[0];
-  return `<section class="surface map-surface universe-map orbital-map"><header class="atlas-heading"><span class="eyebrow">THE WORLDS WITHIN</span><h2 tabindex="-1">创作星图</h2><p>选择一片星域，开始探索。</p><a class="atlas-quick-browse" href="${browseURL()}">查看全部作品 ↗</a></header><div class="starmap-board">${sectors.map((s,i)=>`<button type="button" class="sector-node star-destination" data-world-anchor="${s.id}" data-atlas-select="${s.id}" data-value="${s.id}" data-node="${i}" aria-pressed="${s.id===selected.id}" style="--node:${s.color}"><span class="coordinate">${s.code}</span><strong>${s.name}</strong><small>${journey.hasScanned(s.id)?'已探索 · 再次访问':'选择航向 ↗'}</small></button>`).join('')}</div><div class="atlas-projection"><div class="atlas-control"><div class="atlas-control-copy"><span class="eyebrow">当前航向 / <b data-atlas-code>${selected.code}</b></span><h3 data-atlas-name>${selected.name}</h3><p>驶入星域，寻找承载作品的星舰。</p></div><div class="atlas-launch"><span>FLIGHT VECTOR<br>READY TO EXPLORE</span><button type="button" data-action="navigate" data-value="${selected.id}">设定航线 <b>↗</b></button></div></div></div></section>`;
+  return `<section class="surface map-surface universe-map orbital-map"><header class="atlas-heading"><span class="eyebrow">THE WORLDS WITHIN</span><h2 tabindex="-1">创作星图</h2><p>选择一片星域，开始探索。</p><a class="atlas-quick-browse" href="${browseURL()}">直接浏览作品 →</a></header><div class="starmap-board">${sectors.map((s,i)=>`<button type="button" class="sector-node star-destination" data-world-anchor="${s.id}" data-atlas-select="${s.id}" data-value="${s.id}" data-node="${i}" aria-pressed="${s.id===selected.id}" style="--node:${s.color}"><span class="coordinate">${s.code}</span><strong>${s.name}</strong><small>${journey.hasScanned(s.id)?'已探索 · 再次访问':'选择航向 ↗'}</small></button>`).join('')}</div><div class="atlas-projection"><div class="atlas-control"><div class="atlas-control-copy"><span class="eyebrow">当前航向 / <b data-atlas-code>${selected.code}</b></span><h3 data-atlas-name>${selected.name}</h3><p>驶入星域，寻找承载作品的星舰。</p></div><div class="atlas-launch"><span>FLIGHT VECTOR<br>READY TO EXPLORE</span><button type="button" data-action="navigate" data-value="${selected.id}">设定航线 <b>↗</b></button></div></div></div></section>`;
 }
 function welcome(){
  const p=data.profile;
- return `<section class="surface welcome arrival-surface"><div class="archive-projection arrival-projection"><div class="archive-glass-panel arrival-glass-panel"><div class="optical-registration" aria-hidden="true"><span>A WORLD BY TEM</span><i></i><span>WELCOME / 01</span></div><div class="intro-copy arrival-copy"><span class="eyebrow">PERSONAL UNIVERSE / TEM</span><h1 tabindex="-1">我是 <span>Tem</span></h1><strong class="arrival-role">游戏设计与创意技术</strong><h2>${esc(p.tagline)}</h2><p>创作游戏、互动故事与 AI 驱动的体验。</p><div class="hero-actions" aria-label="选择你的旅程">${action('start','欣赏作品')}${action('captain','了解我')}</div><a class="quick-browse" href="${browseURL()}">快速浏览 ↗</a><small class="arrival-invitation">自由选择，从这里开始你的旅程。</small></div></div></div></section>`;
+ return `<section class="surface welcome arrival-surface"><div class="archive-projection arrival-projection"><div class="archive-glass-panel arrival-glass-panel"><div class="optical-registration" aria-hidden="true"><span>A WORLD BY TEM</span><i></i><span>WELCOME / 01</span></div><div class="intro-copy arrival-copy"><span class="eyebrow">PERSONAL UNIVERSE / TEM</span><h1 tabindex="-1">我是 <span>Tem</span></h1><dl class="arrival-role role-track"><dt>DESIGN</dt><dd>AI 原生游戏与产品策划</dd><dt>BUILD</dt><dd>硬件设计与开发 · 创意技术</dd></dl><h2>${esc(p.tagline)}</h2><p>创作游戏、互动故事与 AI 驱动的体验。</p><div class="hero-actions" aria-label="选择你的旅程">${action('start','欣赏作品')}${action('captain','了解我')}</div><a class="quick-browse" href="${browseURL()}">直接浏览作品 →</a><small class="arrival-invitation">自由选择，从这里开始你的旅程。</small></div></div></div></section>`;
 }
 function chooseAtlas(id){
  if(journey.state.step!=='map'||!sectors.some(s=>s.id===id))return;atlasSelected=id;const selected=sectors.find(s=>s.id===id);
@@ -178,7 +179,7 @@ document.getElementById('contactLinks').innerHTML=data.profile.links.map(link=>`
 document.getElementById('contactButton').addEventListener('click',()=>contactDialog.showModal());
 contactDialog.querySelector('.contact-close').addEventListener('click',()=>contactDialog.close());
 contactDialog.addEventListener('click',event=>{if(event.target!==contactDialog)return;const r=contactDialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)contactDialog.close();});
-document.querySelector('[data-explore]').addEventListener('click',()=>{if(opening.active)return;if(['bridge','captain'].includes(journey.state.step))navigate('start');else if(journey.state.step!=='map'&&journey.state.step!=='boot')navigate('map');});
+for(const button of document.querySelectorAll('[data-explore]'))button.addEventListener('click',()=>{if(opening.active)return;if(['bridge','captain'].includes(journey.state.step))navigate('start');else if(journey.state.step!=='map'&&journey.state.step!=='boot')navigate('map');});
 
 
 

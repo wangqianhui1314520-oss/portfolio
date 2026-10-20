@@ -1,5 +1,6 @@
 .workbuddy/
 node_modules/
+.tools/
 
 # ── 本地归档（设计参考 / 校验产物 / 旧导出，均不上线）──
 _archive/
@@ -15,3 +16,4 @@ cinematic.html
 *.pptx
 *.log
 *.pid
+__pycache__/

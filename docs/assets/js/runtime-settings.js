@@ -1,3 +1,5 @@
+import {copyRenderReport} from './render-report.js?v=cinematic-v21.19';
+import {t} from './i18n.js';
 const safeRead = (key, fallback) => {try {return typeof localStorage === 'undefined' ? fallback : localStorage.getItem(key) || fallback;} catch {return fallback;}};
 let motion = safeRead('tem-motion', 'system');
 let quality = safeRead('tem-quality', 'auto');
@@ -19,4 +21,11 @@ export function initializeSettings() {
   const motionSelect=document.getElementById('motionSetting'),qualitySelect=document.getElementById('qualitySetting');
   if(motionSelect){motionSelect.value=motion;motionSelect.addEventListener('change',()=>setMotion(motionSelect.value));}
   if(qualitySelect){qualitySelect.value=getQuality();qualitySelect.addEventListener('change',()=>{quality=qualitySelect.value;try{localStorage.setItem('tem-quality',quality);}catch{}dispatchEvent(new Event('tem:quality-preference'));});}
+  const reportButton=document.getElementById('performanceReportButton'),reportStatus=document.getElementById('performanceReportStatus');
+  reportButton?.addEventListener('click',async()=>{
+    reportButton.disabled=true;
+    try{const result=await copyRenderReport(document.getElementById('space'));if(reportStatus)reportStatus.textContent=t(result==='copied'?'性能信息已复制':'性能信息已下载');}
+    catch{if(reportStatus)reportStatus.textContent=t('暂时无法导出性能信息');}
+    finally{reportButton.disabled=false;}
+  });
 }

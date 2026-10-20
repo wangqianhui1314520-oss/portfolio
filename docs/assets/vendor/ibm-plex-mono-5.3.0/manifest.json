@@ -1,0 +1,24 @@
+{
+  "version": "5.3.0",
+  "source": "https://www.npmjs.com/package/@fontsource/ibm-plex-mono",
+  "license": "OFL-1.1",
+  "subset": "latin",
+  "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD",
+  "files": [
+    {
+      "file": "ibm-plex-mono-latin-400-normal.woff2",
+      "bytes": 14708,
+      "sha256": "08949f728dc52d528e69b1667d15c89a5686a4ee9a296ff90983985f99c380f7"
+    },
+    {
+      "file": "ibm-plex-mono-latin-500-normal.woff2",
+      "bytes": 14888,
+      "sha256": "01d285447409c8a588692162439a038b8cbd7871309ee20267b0d2d91c6e8e22"
+    },
+    {
+      "file": "LICENSE",
+      "bytes": 5299,
+      "sha256": "23b0a9d0c6d3f140a0b77e483c5cfa6bba574325ef5cb189ed9f2fec4884533f"
+    }
+  ]
+}

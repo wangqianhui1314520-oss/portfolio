@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { hardwareMaterials,hardwareMesh,bevelGeometry,roundedShape,consolidateHardware } from './immersive-hardware.js?v=cinematic-v21.1';
+import { hardwareMaterials,hardwareMesh,bevelGeometry,roundedShape,consolidateHardware,instancedMesh } from './immersive-hardware.js?v=cinematic-v21.19';
 
 // Physical camera-local bridge. The visitor's identity device is mounted on this console.
 export function createShipCockpit({camera}){
@@ -55,7 +55,7 @@ export function createShipCockpit({camera}){
  const glint=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(edgePoints.slice(14,35)),40,.0019,6,false),m.white);device.add(glint);
  const warmLight=new THREE.PointLight(0xffdbb2,3,20,2);warmLight.position.set(.8,.6,1.6);camera.add(warmLight);
  const instrumentLight=new THREE.PointLight(0x76cddd,1.6,12,2);instrumentLight.position.set(-3,-2,-3);camera.add(instrumentLight);
- const drive=new THREE.InstancedMesh(new THREE.BoxGeometry(.008,.023,.004),m.cyan,18),bar=new THREE.Object3D();root.add(drive);
+ const drive=instancedMesh(new THREE.BoxGeometry(.008,.023,.004),m.cyan,18),bar=new THREE.Object3D();root.add(drive);
  const particleCount=innerWidth<700?90:180,seeds=new Float32Array(particleCount*3);
  for(let i=0;i<particleCount;i++)seeds.set([((i*.61803398875)%1),((i*.754877666)%1),i%2],i*3);
  const signalGeo=new THREE.BufferGeometry();signalGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(particleCount*3),3));signalGeo.setAttribute('aSeed',new THREE.BufferAttribute(seeds,3));

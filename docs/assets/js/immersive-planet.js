@@ -1,6 +1,7 @@
 import * as THREE from 'three';
-import { bevelGeometry } from './immersive-hardware.js?v=cinematic-v21.1';
-import {createProceduralPlanetMaterial,createProceduralPlanetClouds} from './immersive-procedural-planet.js?v=cinematic-v21.1';
+import { bevelGeometry, instancedMesh } from './immersive-hardware.js?v=cinematic-v21.19';
+import {createProceduralPlanetMaterial,createProceduralPlanetClouds} from './immersive-procedural-planet.js?v=cinematic-v21.19';
+import {planetaryHorizonProfile,localizeAuthoredPlanetGeometry} from './immersive-planetary-look.js?v=cinematic-v21.19';
 
 // Film flare visibility reads the actual interpolated Earth pose, so the
 // changing map framing and its transition cannot disagree with the lens pass.
@@ -8,10 +9,9 @@ export const orbitalEarthOcclusion = { center: new THREE.Vector3(520, -1080, -10
 const earthPoses = {
   mapWide: { position: [-1180, -2050, -2460], scale: 42, home: true },
   mapNarrow: { position: [-510, -1340, -1570], scale: 25, home: true },
-  // Keep the broad planet below the optical T instead of reading as a close
-  // wall behind it. Only desktop framing moves; compact reading is unchanged.
-  homeWide: { position: [7400, -14300, -13900], scale: 410, home: true },
-  homeNarrow: { position: [360, -2350, -2850], scale: 54, home: true },
+  // One Blender-authored horizon replaces the independently positioned globe.
+  homeWide: { position: planetaryHorizonProfile.center, scale: planetaryHorizonProfile.radius/34, home: true },
+  homeNarrow: { position: [1100, -2150, -2800], scale: 54, home: true },
   travelWide: { position: [1280, -1490, -1630], scale: 45, home: false },
   travelNarrow: { position: [520, -1410, -1630], scale: 45, home: false }
 };
@@ -34,21 +34,21 @@ export function createOrbitalWorld({ scene, renderer, canvas, time, compact }) {
       vec4 world=modelMatrix*vec4(position,1.);vWorld=world.xyz;
       gl_Position=projectionMatrix*viewMatrix*world;}`;
   const surface = new THREE.Mesh(new THREE.SphereGeometry(radius, 96, 64),
-    createProceduralPlanetMaterial({time,seed:23,sunDirection:sunlight.toArray()}));
+    createProceduralPlanetMaterial({time,seed:planetaryHorizonProfile.seed,sunDirection:sunlight.toArray()}));
   canvas.dataset.planet='procedural-terrain-live-volumetric-weather';
   surface.rotation.set(.55, .20, -.19);
   group.add(surface);
 
-  const clouds=createProceduralPlanetClouds({radius,time,seed:23,sunDirection:sunlight.toArray(),compact});
+  const clouds=createProceduralPlanetClouds({radius,time,seed:planetaryHorizonProfile.seed,sunDirection:sunlight.toArray(),compact});
   clouds.rotation.copy(surface.rotation);group.add(clouds);
-  const atmosphere = new THREE.Mesh(new THREE.SphereGeometry(radius + .52, 128, 80), new THREE.ShaderMaterial({
-    uniforms: { uSun: { value: sunlight } }, vertexShader: vertex,
+  const atmosphere = new THREE.Mesh(new THREE.SphereGeometry(radius * planetaryHorizonProfile.atmosphereOuter, 128, 80), new THREE.ShaderMaterial({
+    uniforms: { uSun: { value: sunlight },uSkyFill:{value:planetaryHorizonProfile.fillStrength} }, vertexShader: vertex,
     side: THREE.BackSide, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
-    fragmentShader: `uniform vec3 uSun;varying vec3 vNormal,vWorld;
+    fragmentShader: `uniform vec3 uSun;uniform float uSkyFill;varying vec3 vNormal,vWorld;
       void main(){vec3 n=normalize(vNormal),eye=normalize(cameraPosition-vWorld);
         float edge=pow(1.-abs(dot(n,eye)),6.);
         float day=smoothstep(-.24,.48,dot(n,uSun));
-        gl_FragColor=vec4(.12,.40,.78,edge*day*.40);}`
+        gl_FragColor=vec4(.12,.40,.78,edge*(day*.40+uSkyFill*.20));}`
   }));
   group.add(atmosphere);
   // Different windows look onto separate distant worlds in the shared 3D panorama.
@@ -56,14 +56,15 @@ export function createOrbitalWorld({ scene, renderer, canvas, time, compact }) {
   const panoramaWorlds=[];
   for(const [i,p] of [[1,[-1370,-1420,-760]],[2,[-780,-1450,1380]],[3,[1440,-1390,820]]]){
     const g=new THREE.Group();g.position.fromArray(p);g.position.multiplyScalar(1.85);g.position.y-=270;g.scale.setScalar(46);scene.add(g);
-    const land=surface.clone(),vapor=createProceduralPlanetClouds({radius,time,seed:23,sunDirection:sunlight.toArray(),compact}),air=atmosphere.clone();g.add(land,vapor,air);
+    const land=surface.clone(),vapor=createProceduralPlanetClouds({radius,time,seed:planetaryHorizonProfile.seed,sunDirection:sunlight.toArray(),compact}),air=atmosphere.clone();g.add(land,vapor,air);
     land.rotation.set(.4,i*1.5,-.16);vapor.rotation.copy(land.rotation);panoramaWorlds.push({g,land,vapor,i});
   }
 
   const metal = new THREE.MeshStandardMaterial({ color: 0x425767, metalness: .65, roughness: .43 });
   const darkMetal = new THREE.MeshStandardMaterial({ color: 0x0b1828, metalness: .7, roughness: .45 });
   const cyan = new THREE.MeshBasicMaterial({ color: new THREE.Color(.12, 1.55, 2.0), toneMapped: false });
-  const magenta = new THREE.MeshBasicMaterial({ color: new THREE.Color(1.55, .09, .56), toneMapped: false });
+  // Navigation lamps: small amber points, never a coloured slab at close range.
+  const amberLamp = new THREE.MeshBasicMaterial({ color: new THREE.Color(1.6, .74, .24), toneMapped: false });
   const white = new THREE.MeshBasicMaterial({ color: new THREE.Color(1.3, 1.55, 1.7), toneMapped: false });
   // The orbital structure has real depth; the planet occludes its far side.
   const orbital = new THREE.Group();
@@ -73,7 +74,7 @@ export function createOrbitalWorld({ scene, renderer, canvas, time, compact }) {
   const rail = new THREE.LineBasicMaterial({ color: 0x629fb7, transparent: true, opacity: .28 });
   const railPoints = Array.from({ length: 257 }, (_, i) => new THREE.Vector3(Math.cos(i / 256 * Math.PI * 2) * 43, Math.sin(i / 256 * Math.PI * 2) * 43, 0));
   orbital.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(railPoints), rail));
-  const ringModules=new THREE.InstancedMesh(bevelGeometry(.46,.26,.70,.045,.012),metal,64),ringWindows=new THREE.InstancedMesh(new THREE.BoxGeometry(.18,.013,.72),white,64),ringPose=new THREE.Object3D();orbital.add(ringModules,ringWindows);
+  const ringModules=instancedMesh(bevelGeometry(.46,.26,.70,.045,.012),metal,64),ringWindows=instancedMesh(new THREE.BoxGeometry(.18,.013,.72),white,64),ringPose=new THREE.Object3D();orbital.add(ringModules,ringWindows);
   for(let i=0;i<64;i++){const a=i/64*Math.PI*2;ringPose.position.set(Math.cos(a)*42,Math.sin(a)*42,0);ringPose.rotation.set(0,0,a);ringPose.updateMatrix();ringModules.setMatrixAt(i,ringPose.matrix);ringPose.position.z=.04;ringPose.updateMatrix();ringWindows.setMatrixAt(i,ringPose.matrix);}
   for (let i = 0; i < 8; i++) {
     const angle = i / 8 * Math.PI * 2;
@@ -82,10 +83,10 @@ export function createOrbitalWorld({ scene, renderer, canvas, time, compact }) {
     dock.rotation.z = angle;
     const body = new THREE.Mesh(new THREE.BoxGeometry(1.25, .45, .60), darkMetal);
     dock.add(body);
-    const light = new THREE.Mesh(new THREE.BoxGeometry(.72, .08, .64), i % 3 === 0 ? magenta : cyan);
+    const light = new THREE.Mesh(new THREE.BoxGeometry(.24, .07, .24), i % 3 === 0 ? amberLamp : cyan);
     light.position.y = -.24; dock.add(light);
     orbital.add(dock);
-    const arc = new THREE.Mesh(new THREE.TorusGeometry(42.18, .038, 4, 28, .23), i % 3 === 0 ? magenta : cyan);
+    const arc = new THREE.Mesh(new THREE.TorusGeometry(42.18, .038, 4, 28, .23), i % 3 === 0 ? amberLamp : cyan);
     arc.rotation.z = angle + .18; orbital.add(arc);
   }
   const orbitalBeacon = new THREE.Mesh(new THREE.SphereGeometry(.14, 8, 8), white);
@@ -110,7 +111,7 @@ export function createOrbitalWorld({ scene, renderer, canvas, time, compact }) {
     spoke.position.set(Math.cos(a) * 3, Math.sin(a) * 3, 0); spoke.rotation.z = a; rotor.add(spoke);
     const module = new THREE.Mesh(new THREE.BoxGeometry(.7, 1.5, .55), darkMetal);
     module.position.set(Math.cos(a) * 5.8, Math.sin(a) * 5.8, 0); module.rotation.z = a; rotor.add(module);
-    const bar = new THREE.Mesh(new THREE.BoxGeometry(.09, 1.20, .58), i % 2 ? magenta : cyan);
+    const bar = new THREE.Mesh(new THREE.BoxGeometry(.09, 1.20, .58), i % 2 ? amberLamp : cyan);
     bar.position.copy(module.position); bar.rotation.z = a; rotor.add(bar);
   }
   for (const side of [-1, 1]) {
@@ -145,10 +146,22 @@ export function createOrbitalWorld({ scene, renderer, canvas, time, compact }) {
   document.body.append(overlay);
   const planetLabel = overlay.querySelector('.planet-label');
   const relayLabel = overlay.querySelector('.relay-label');
-  const projected = new THREE.Vector3();
+  const projected = new THREE.Vector3(),ringEye = new THREE.Vector3();
   canvas.dataset.orbital = 'relay-online';
 
   return {
+    adoptAuthoredPlanet(mesh,spec){
+      if(spec?.id!==planetaryHorizonProfile.id||spec.horizonRevision!==planetaryHorizonProfile.revision)return false;
+      const geometry=localizeAuthoredPlanetGeometry(mesh,spec,radius);if(!geometry)return false;
+      const previous=surface.geometry;surface.geometry=geometry;
+      panoramaWorlds.forEach(({land})=>{land.geometry=geometry;});previous.dispose();
+      surface.name='Tem.planet.Blender-authored-Dawn';
+      const pose=orbitalEarthPose({step:document.body.dataset.step||'captain',introFrame:{time:10}},compact());
+      group.position.fromArray(pose.position);group.scale.setScalar(pose.scale);
+      canvas.dataset.planetSource=spec.id;canvas.dataset.planetHorizon=spec.horizonRevision;
+      canvas.dataset.planetVertices=String(geometry.attributes.position.count);
+      return true;
+    },
     update(camera, presence,dt=.016,frame={}) {
       const t = time.value;
       surface.rotation.y = .20 + t * .00035;
@@ -167,8 +180,14 @@ export function createOrbitalWorld({ scene, renderer, canvas, time, compact }) {
       group.position.y = THREE.MathUtils.damp(group.position.y,pose.position[1],2.4,dt);
       group.position.z = THREE.MathUtils.damp(group.position.z,pose.position[2],2.4,dt);
       group.scale.setScalar(THREE.MathUtils.damp(group.scale.x,pose.scale,2.4,dt));
-      orbital.visible=Boolean(document.body.dataset.sector)&&!archive;
-      group.visible = !document.body.dataset.sector || document.body.dataset.step==='travel';relay.visible=false;holo.visible=false;
+      // Sector views sit at the ring's own altitude. Closer than 16 ring units a
+      // module spans more than ~40 px, so the ring reads as a bar across the lens.
+      orbital.updateWorldMatrix(true,false);orbital.worldToLocal(ringEye.copy(camera.position));
+      const ringClearance=Math.hypot(Math.hypot(ringEye.x,ringEye.y)-42,ringEye.z);
+      orbital.visible=Boolean(document.body.dataset.sector)&&!archive&&ringClearance>16;
+      // Dawn now owns the formerly separate exported horizon. Keep this same
+      // exterior body present through arrival, scanning and docking as well.
+      group.visible = true;relay.visible=false;holo.visible=false;
       orbitalEarthOcclusion.center.copy(group.position);orbitalEarthOcclusion.radius=radius*group.scale.x;orbitalEarthOcclusion.visible=group.visible;
       panoramaWorlds.forEach(({g,land,vapor,i})=>{g.visible=homeView&&!atlasView;land.rotation.y=i*1.5+t*.00020;vapor.rotation.copy(land.rotation);});
       overlay.style.opacity = String(presence);

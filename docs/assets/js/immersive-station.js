@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { hardwareMaterials,hardwareMesh,bevelGeometry,consolidateHardware } from './immersive-hardware.js?v=cinematic-v21.1';
-import {crystalMaterial,createEnergyRibbons,createOpticalMotes} from './immersive-optical.js?v=cinematic-v21.1';
-import {mergeGeometries} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
+import { hardwareMaterials,hardwareMesh,bevelGeometry,consolidateHardware,instancedMesh } from './immersive-hardware.js?v=cinematic-v21.19';
+import {crystalMaterial,createEnergyRibbons,createOpticalMotes} from './immersive-optical.js?v=cinematic-v21.19';
+import {mergeGeometries} from '../vendor/three-0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
 
 let sharedMaterials;
 function precisionMaterials(){
@@ -60,7 +60,7 @@ export function createOrbitalDockyard({variant='home',compact=false}={}){
  }
  const serviceArch=new THREE.CatmullRomCurve3([[83,-3,-98],[108,4,-125],[142,14,-149],[175,9,-171],[205,-3,-179]].map(p=>new THREE.Vector3(...p)));
  part(new THREE.TubeGeometry(serviceArch,48,2.25,8),m.armor);flowCurves.push(serviceArch);
- const windows=new THREE.InstancedMesh(new THREE.BoxGeometry(.55,.17,.18),m.white,compact?96:180),pose=new THREE.Object3D();fixed.add(windows);
+ const windows=instancedMesh(new THREE.BoxGeometry(.55,.17,.18),m.white,compact?96:180),pose=new THREE.Object3D();fixed.add(windows);
  for(let i=0;i<windows.count;i++){
   const t=a+.1+((i* .61803398875)%1)*(b-a-.2),row=i%2;
   pose.position.set(184.1*Math.cos(t),-1.9-row*.9,121.1*Math.sin(t));pose.rotation.y=-t;pose.updateMatrix();windows.setMatrixAt(i,pose.matrix);

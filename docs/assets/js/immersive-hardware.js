@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { mergeGeometries } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
+import { mergeGeometries } from '../vendor/three-0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
 
 // Shared manufacturing language: bevels, ceramic, brushed titanium and inset light.
 export function roundedShape(w,h,r=Math.min(w,h)*.12){
@@ -41,4 +41,34 @@ export function consolidateHardware(root){
  });
  for(const m of remove)m.removeFromParent();
  for(const [material,geometries] of batches){const merged=mergeGeometries(geometries,false);if(merged){const mesh=new THREE.Mesh(merged,material);mesh.castShadow=!material.isMeshBasicMaterial;mesh.receiveShadow=mesh.castShadow;root.add(mesh);}geometries.forEach(g=>g.dispose());}
+}
+
+// r161 keeps one program slot per material. A material drawn both by an
+// InstancedMesh and by ordinary meshes recomputed its program parameters on
+// every switch, many times per frame, and linked a second variant mid-scene.
+// Instanced draws get one private copy per source material. Shader uniforms
+// stay shared, and the copy mirrors the source's animated surface values just
+// before each draw, so existing colour/opacity animation keeps driving both.
+// Visibility is not mirrored: a hidden copy would never draw to sync back.
+const instancedCopies=new WeakMap(),mirroredColors=['color','emissive','specularColor','sheenColor','attenuationColor'],mirroredValues=['opacity','emissiveIntensity','roughness','metalness','envMapIntensity','transparent','depthWrite','depthTest','map','emissiveMap'];
+export function instancedMaterial(material){
+ let copy=instancedCopies.get(material);
+ if(copy)return copy;
+ copy=material.clone();
+ if(material.isShaderMaterial)copy.uniforms=material.uniforms;
+ copy.onBeforeCompile=material.onBeforeCompile;copy.customProgramCacheKey=material.customProgramCacheKey;
+ copy.userData.temInstancedSource=material;instancedCopies.set(material,copy);
+ return copy;
+}
+export function syncInstancedMaterial(copy){
+ const source=copy?.userData?.temInstancedSource;if(!source)return;
+ for(const name of mirroredColors)if(source[name]?.isColor&&copy[name]?.isColor&&!copy[name].equals(source[name]))copy[name].copy(source[name]);
+ for(const name of mirroredValues)if(name in source&&copy[name]!==source[name])copy[name]=source[name];
+ // A source flagged for a program change (transparency, maps) flags its copy.
+ if(copy.userData.temSourceVersion!==source.version){copy.userData.temSourceVersion=source.version;copy.needsUpdate=true;}
+}
+export function instancedMesh(geometry,material,count){
+ const mesh=new THREE.InstancedMesh(geometry,Array.isArray(material)?material.map(instancedMaterial):instancedMaterial(material),count);
+ mesh.onBeforeRender=function(){for(const copy of Array.isArray(this.material)?this.material:[this.material])syncInstancedMaterial(copy);};
+ return mesh;
 }

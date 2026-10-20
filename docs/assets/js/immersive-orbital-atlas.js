@@ -1,9 +1,9 @@
 import * as THREE from 'three';
-import {hardwareMaterials,hardwareMesh} from './immersive-hardware.js?v=cinematic-v21.1';
-import {projectWorldSurface} from './immersive-world-surface.js?v=cinematic-v21.1';
-import {opticalFilm,createEnergyRibbons,opticalEnvironment,opticalSkySample} from './immersive-optical.js?v=cinematic-v21.1';
-import {createOpticalStarport} from './immersive-starport.js?v=cinematic-v21.1';
-import {createStarportWorld} from './immersive-starport-world.js?v=cinematic-v21.1';
+import {hardwareMaterials,hardwareMesh} from './immersive-hardware.js?v=cinematic-v21.19';
+import {projectWorldSurface} from './immersive-world-surface.js?v=cinematic-v21.19';
+import {opticalFilm,createEnergyRibbons,opticalEnvironment,opticalSkySample} from './immersive-optical.js?v=cinematic-v21.19';
+import {createOpticalStarport} from './immersive-starport.js?v=cinematic-v21.19';
+import {createStarportWorld} from './immersive-starport-world.js?v=cinematic-v21.19';
 
 const cloudNoise=`float hash3(vec3 p){p=fract(p*.1031);p+=dot(p,p.yzx+33.33);return fract((p.x+p.y)*p.z);}
  float noise3(vec3 p){vec3 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(mix(hash3(i),hash3(i+vec3(1,0,0)),f.x),mix(hash3(i+vec3(0,1,0)),hash3(i+vec3(1,1,0)),f.x),f.y),mix(mix(hash3(i+vec3(0,0,1)),hash3(i+vec3(1,0,1)),f.x),mix(hash3(i+vec3(0,1,1)),hash3(i+vec3(1,1,1)),f.x),f.y),f.z);}
@@ -139,7 +139,7 @@ export function createOrbitalAtlas({parent,camera,sectors,interaction}){
  const emitterLight=new THREE.PointLight(0xb5d9ef,16,12,2);root.add(emitterLight);
  const glass=new THREE.ShaderMaterial({uniforms:platformUniforms,transparent:true,depthWrite:false,side:THREE.DoubleSide,
   vertexShader:'varying vec3 vWorld,vNormal;varying vec2 vUv;void main(){vUv=uv;vNormal=normalize(mat3(modelMatrix)*normal);vec4 p=modelMatrix*vec4(position,1.);vWorld=p.xyz;gl_Position=projectionMatrix*viewMatrix*p;}',
-  fragmentShader:`uniform sampler2D uSky;uniform float uSkyReady,uTime,uResponse;uniform vec3 uActiveColor;varying vec3 vWorld,vNormal;varying vec2 vUv;${opticalSkySample}void main(){vec3 n=normalize(vNormal),eye=normalize(cameraPosition-vWorld);float f=pow(1.-abs(dot(n,eye)),3.),edge=pow(1.-min(min(vUv.x,1.-vUv.x),min(vUv.y,1.-vUv.y))*2.,36.),scan=exp(-pow(vUv.x-fract(uTime*.065),2.)*1600.);vec3 c=skyReflection(reflect(-eye,n))*.38+uActiveColor*(.024+edge*.10+scan*.025*uResponse);gl_FragColor=vec4(c,.035+f*.085+edge*.12+scan*.015*uResponse);}`});
+  fragmentShader:`uniform sampler2D uSky;uniform float uSkyReady,uTime,uResponse;uniform vec3 uActiveColor;varying vec3 vWorld,vNormal;varying vec2 vUv;${opticalSkySample}void main(){float scanDistance=vUv.x-fract(uTime*.065);vec3 n=normalize(vNormal),eye=normalize(cameraPosition-vWorld);float f=pow(1.-abs(dot(n,eye)),3.),edge=pow(1.-min(min(vUv.x,1.-vUv.x),min(vUv.y,1.-vUv.y))*2.,36.),scan=exp(-scanDistance*scanDistance*1600.);vec3 c=skyReflection(reflect(-eye,n))*.38+uActiveColor*(.024+edge*.10+scan*.025*uResponse);gl_FragColor=vec4(c,.035+f*.085+edge*.12+scan*.015*uResponse);}`});
  const pane=new THREE.Group();root.add(pane);const paneGeometry=new THREE.PlaneGeometry(1,1,24,10),panePositions=paneGeometry.attributes.position;for(let i=0;i<panePositions.count;i++)panePositions.setZ(i,panePositions.getX(i)**2*.60);paneGeometry.computeVertexNormals();const paneGlass=mesh(paneGeometry,glass,[0,0,0],pane);
  const frame=new THREE.Group();pane.add(frame);for(const side of [-1,1]){block(.009,.14,.048,[side*.50,side*.36,.17],m.alloy,frame);block(.004,.055,.055,[side*.505,side*.36,.18],m.brass,frame);}
  const controlSpine=new THREE.CatmullRomCurve3([[17,-6.15,-2.2],[18,-7.05,.2],[17.1,-7.72,2.5],[15.0,-8.0,4.2]].map(p=>new THREE.Vector3(...p)));
@@ -156,7 +156,7 @@ export function createOrbitalAtlas({parent,camera,sectors,interaction}){
   const start=starport.sourcePosition.clone().multiplyScalar(instrument.scale.x).add(instrument.position),near=start.clone().lerp(a,.5).add(new THREE.Vector3(-1,1.4,2)),exit=a.clone().lerp(b,.5).add(new THREE.Vector3(0,1.5,1));
   routeFlow=createEnergyRibbons({parent:root,curves:[new THREE.CatmullRomCurve3([start,near,a,exit,b])],color:0xb1d6f0,width:.25,segments:88});emitterLight.color.set(0xb5d9ef);emitterLight.position.copy(b).add(new THREE.Vector3(0,1,0));}
  addEventListener('tem:atlas-select',e=>select(e.detail.id));addEventListener('tem:surface',()=>{control=document.querySelector('.atlas-control');});addEventListener('resize',layout);layout();
- return {layout,positions:positionsFor,pickObjects:()=>starport.picking,opticalAnchor:()=>opticalState,update(dt,time,motion,active,hovered,departure=0){if(!active)return;
+ return {layout,ensureAssets:starport.ensureAssets,positions:positionsFor,pickObjects:()=>starport.picking,opticalAnchor:()=>opticalState,update(dt,time,motion,active,hovered,departure=0){if(!active)return;
   // Shared time already stops with reading/reduced motion; preserve its phase.
   if(motion){energy*=Math.exp(-dt*1.2);cloud.rotation.y=Math.sin(time*.05)*.10;}
   const hoverIndex=sectors.findIndex(s=>s.id===hovered),activeIndex=hoverIndex>=0?hoverIndex:selected;

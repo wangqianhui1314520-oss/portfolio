@@ -69,6 +69,14 @@ test('skip, Escape and reduced motion arrive at the same held welcome',()=>{
  assert.deepEqual(reduced.actions,[]);
 });
 
+test('direct entry retains the current chapter announcement instead of announcing welcome',()=>{
+ const h=openingHarness();h.journey.dispatch('start');h.journey.dispatch('ready');
+ h.elements.set('statusAnnouncement',{textContent:'02 / CREATIVE ATLAS'});
+ h.emit('tem:direct-entry');
+ assert.equal(h.body.dataset.openingResult,'direct-entry');assert.equal(h.journey.state.step,'map');
+ assert.equal(h.elements.get('statusAnnouncement').textContent,'02 / CREATIVE ATLAS');
+});
+
 test('cold keyboard and button skips request graphics while holding the same welcome',()=>{
  for(const shortcut of ['button','keyboard']){
   const h=openingHarness();

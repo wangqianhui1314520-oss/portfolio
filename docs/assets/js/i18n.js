@@ -3,13 +3,18 @@ import {currentLocale} from './locale-data.js';
 export const englishUI = {
   '返回 Tem 个人介绍': 'Return to Tem', '关于我': 'About', '探索': 'Explore', '联系': 'Contact',
   '创作星图': 'Creative Atlas', '体验设置': 'Experience settings', '关闭联系方式': 'Close contact details',
+  '复制性能信息': 'Copy performance info', '性能信息已复制': 'Performance info copied', '性能信息已下载': 'Performance info downloaded',
+  '暂时无法导出性能信息': 'Unable to export performance info',
   '让下一个世界，': 'A new world begins', '从一次对话开始。': 'with a conversation.',
   '项目交流、创作合作，或只是打个招呼。': 'Talk about a project, collaborate, or simply say hello.',
   '越过星海，': 'Beyond the stars.', '进入我的世界。': 'Into my world.',
   '一段宇宙旅程，从这里开始。': 'Your journey starts here.',
+  '先看看我的作品，或从一段宇宙旅程开始。': 'Explore my work, or begin a journey through my universe.',
+  '游戏、互动故事与创意技术，在这里相遇。': 'Games, interactive stories, and creative technology meet here.',
+  '先看看我的作品，或从这里认识 Tem。': 'Explore my work, or get to know Tem.',
   '抵达后，自由选择欣赏作品或了解我。': 'Then explore my work, or get to know me.',
   '动态效果已简化。': 'Reduced motion is enabled.', '抵达 Tem 的世界': 'Meet Tem',
-  '启航 · 播放宇宙序章': 'Begin the journey', '正在连接星舰': 'Preparing your journey',
+  '启航 · 播放宇宙序章': 'Begin the journey', '体验创作宇宙': 'Enter my universe', '正在连接星舰': 'Preparing your journey',
   '已按设备偏好减少动态效果': 'Motion follows your device preferences.',
   '航道已就绪 · 等待你的启航指令': 'Ready whenever you are.', '正在准备航道与星云': 'Preparing the universe…',
   '直接抵达 Tem ↗': 'Meet Tem directly ↗', '跳过序章 ↗': 'Skip intro ↗',
@@ -31,7 +36,7 @@ export const englishUI = {
   '停靠星舰并进入作品': 'Dock & view project', '与星舰对接，展开创作档案与完整内容。': 'Open the project, its story, and my contribution.',
   '选择停靠 · 进入作品舱': 'Dock to open the project', 'Tem 创作者档案舱': 'About Tem',
   'Tem—01，准备启航。': 'Tem—01. Ready to depart.', '离开近地轨道，展开创作宇宙的星图。': 'Leaving Earth orbit. A creative universe awaits.',
-  '跳过航行演出 ↗': 'Skip transition ↗', '未识别星舰': 'Unidentified projects', '未识别星舰。': 'unidentified projects.',
+  '跳过航行演出 ↗': 'Skip transition ↗', '未识别星舰': 'Unidentified contact', '未识别星舰。': 'within range.',
   '星域已抵达。': 'You have arrived.', '发出扫描脉冲，识别承载作品的星舰。': 'Scan the constellation to reveal its projects.',
   '扫描这片星域': 'Discover projects', '等待你的扫描指令': 'Ready for your scan', '扫描深空回声。': 'Discovering distant signals.',
   '脉冲正在穿过星域，解码作品坐标。': 'Revealing the projects in this constellation.',
@@ -69,13 +74,14 @@ export const englishUI = {
   '查看原稿图片': 'View the original manuscript', '文字按原稿转录，标点作阅读整理；署日与笔记记录日期不同时，以文末署日为准。': 'The Chinese text follows the manuscript; punctuation is arranged for reading. A date at the end takes precedence over notebook dates.',
   '打开原图 ↗': 'Open original image ↗', '诗篇翻页': 'Poem navigation', '← 上一首': '← Previous poem', '下一首 →': 'Next poem →',
   '返回诗集目录': 'Poetry index', '← 诗集目录': '← Poetry index', '关闭阅读': 'Close reader', '返回作品集': 'Back to portfolio',
-  '正在连接创作宇宙': 'Connecting to the creative universe', '快速浏览': 'Browse projects', '查看全部作品': 'View all projects',
-  '阅读完整案例': 'Read full case study', '游戏设计与创意技术': 'Game Designer & Creative Technologist',
+  '正在连接创作宇宙': 'Connecting to the creative universe', '直接浏览作品': 'Browse my work', '直接浏览作品 →': 'Browse my work →', '快速浏览': 'Browse projects', '查看全部作品': 'View all projects',
+  '阅读完整案例': 'Read full case study', 'AI 原生游戏与产品策划': 'AI-Native Games & Products', '硬件设计与开发 · 创意技术': 'Hardware · Creative Technology',
   '创作游戏、互动故事与 AI 驱动的体验。': 'I create games, interactive stories, and AI-powered experiences.',
   '正在加载宇宙…': 'Preparing the universe…', '静态阅读': 'Lightweight reading', '减少动态': 'Reduce motion',
   '自动画质': 'Adaptive quality', '轻量画质': 'Lightweight quality', '完整画质': 'Full quality',
   '设备偏好':'Device preference', '开启':'On', '关闭':'Off', '画质':'Quality', '作品演示视频':'Project demonstration video', '阅读诗集 ↗':'Read the poetry ↗',
   '点击启航，加载创作宇宙':'Begin when you’re ready. The universe loads on demand.',
+  '点击体验，加载创作宇宙':'Enter when you’re ready. The universe loads on demand.',
   '穿过星尘航道，接近目标星域。':'Crossing stardust. Approaching the constellation.',
   '英文作品导览字幕说明项目背景，并非音频逐句翻译。':'English project-guide subtitles explain the project; they are not a dialogue transcript.',
   '选择星域 · 点亮航线 · 在控制台确认启航':'Choose a constellation · Confirm your course below',
@@ -99,8 +105,8 @@ export function translateText(source, locale = currentLocale()) {
   if (translated === undefined) {
     if (/^正在驶向/.test(text)) translated = 'Travelling to ' + text.slice(4);
     else if (/^正在停靠：/.test(text)) translated = 'Docking: ' + text.slice(5);
-    else if (/^发现 \d+ 艘$/.test(text)) translated = text.replace(/^发现 (\d+) 艘$/, 'Discover $1');
-    else if (/^\d+ 艘作品星舰已显现/.test(text)) translated = text.replace(/^(\d+) 艘作品星舰已显现。选择一艘，驾驶飞船靠近。$/, '$1 projects revealed. Choose one to explore.');
+    else if (/^发现 \d+ 艘$/.test(text)) { const count=Number(text.match(/\d+/)[0]); translated=`${count} unidentified ${count===1?'vessel':'vessels'}`; }
+    else if (/^\d+ 艘作品星舰已显现。选择一艘，驾驶飞船靠近。$/.test(text)) { const count=Number(text.match(/\d+/)[0]); translated=`${count} ${count===1?'project':'projects'} revealed. Choose one to explore.`; }
     else if (text.endsWith('封面')) translated = text.slice(0, -2) + ' — cover';
     else if (text.endsWith('的作者原稿')) translated = text.slice(0, -5) + ' — original manuscript';
     else for (const prefix of ['当前航向 /', '在作品中看看 /', '原创 /']) {

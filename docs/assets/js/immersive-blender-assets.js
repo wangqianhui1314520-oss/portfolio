@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/loaders/GLTFLoader.js';
+import {GLTFLoader} from '../vendor/three-0.161.0/examples/jsm/loaders/GLTFLoader.js';
 
 const assets=Object.freeze({identity:'tem-identity.glb',observatory:'tem-observatory.glb',observatoryV19:'tem-refined-observatory-v21.glb',observatoryV19Lod:'tem-refined-observatory-v21-lod.glb',starSea:'tem-star-sea-v20.glb',starSeaLod:'tem-star-sea-v20-lod.glb',deck:'tem-cinematic-deck.glb',display:'tem-cinematic-display.glb',starport:'tem-cinematic-starport.glb',fleet:'tem-refined-fleet-v21.glb',fleetLod:'tem-refined-fleet-v21-lod.glb'});
 const sourceCache=new Map(),loader=new GLTFLoader();
@@ -105,19 +105,24 @@ function bindReveal(material,revealUniform,complement=false){
  if(existing){existing.uniform=revealUniform;existing.complement.value=complement?1:0;if(existing.shader)existing.shader.uniforms.uTemAssetReveal=revealUniform;return;}
  const previousCompile=material.onBeforeCompile,previousKey=material.customProgramCacheKey.call(material);
  const binding={uniform:revealUniform,complement:{value:complement?1:0},shader:null};revealBindings.set(material,binding);
+ const depth=Boolean(material.isMeshDepthMaterial||material.isMeshDistanceMaterial);
+ // The main HDR targets have real multisample storage. Smooth coverage on
+ // opaque surfaces replaces the visible 2px random holes during scene entry.
+ if(!depth&&!material.transparent)material.alphaToCoverage=true;
  material.onBeforeCompile=function(shader,renderer){
   // Keep GLTF/material extensions intact before adding the common visibility.
   previousCompile.call(this,shader,renderer);
   shader.uniforms.uTemAssetReveal=binding.uniform;shader.uniforms.uTemAssetComplement=binding.complement;binding.shader=shader;
   shader.fragmentShader=`uniform float uTemAssetReveal,uTemAssetComplement;\n${shader.fragmentShader}`.replace(
-   '#include <clipping_planes_fragment>',`#include <clipping_planes_fragment>\n${arrivalFragment}`);
+   '#include <clipping_planes_fragment>',`#include <clipping_planes_fragment>\n${depth?arrivalFragment:'if(uTemAssetReveal<=0.)discard;'}`);
+  if(!depth)shader.fragmentShader=shader.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\ngl_FragColor.a*=clamp(uTemAssetReveal,0.,1.);');
  };
- material.customProgramCacheKey=()=>`${previousKey}|tem-asset-arrival-v2`;
+ material.customProgramCacheKey=()=>`${previousKey}|tem-asset-arrival-coverage-v3`;
  material.needsUpdate=true;
 }
 
-// Stable 2px coverage fades the real geometry and its depth-shadow caster with
-// the same arrival uniform. Completed models bypass the dither entirely.
+// Smooth multisample coverage fades geometry; shadow depth keeps its stable
+// coverage mask. Both are driven by the same readiness uniform.
 export function prepareReveal(root,revealUniform,{complement=false}={}){
  if(!revealUniform||!Number.isFinite(revealUniform.value))throw new Error('Tem arrival requires a finite shared reveal uniform.');
  let depth=revealDepthByRoot.get(root);

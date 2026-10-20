@@ -22,7 +22,7 @@ class Element{
  closest(){return null;}
 }
 
-function explorationHarness(){
+function explorationHarness({decode=true}={}){
  const data={profile:{tagline:'A world by Tem',links:[]},works:[
   {id:'one',title:'One',type:'游戏',sector:'forge'},
   {id:'two',title:'Two',type:'游戏',sector:'forge'}
@@ -35,6 +35,8 @@ function explorationHarness(){
  const body=element('body');body.classList={contains:()=>anchored};body.style.setProperty=()=>{};
  const document=element('document');document.body=body;document.getElementById=element;
  document.querySelector=selector=>selector==='dialog[open]'?null:element(selector);
+ const exploreButtons=[element('atlasHeader'),element('exploreHeader')];
+ document.querySelectorAll=selector=>selector==='[data-explore]'?exploreButtons:[];
  document.createElement=()=>new Element();
  element('contactDialog').querySelector=element;
  let revision=0;
@@ -52,9 +54,10 @@ function explorationHarness(){
   setTimeout:()=>1,clearTimeout(){},requestAnimationFrame:callback=>raf.push(callback)
  };
  runInNewContext(sourceFor('immersive-exploration.js'),context);
- for(const [action,value] of [['start'],['ready'],['navigate','forge'],['arrive'],['scan'],['decode']])navigate(action,value);
+ if(decode)for(const [action,value] of [['start'],['ready'],['navigate','forge'],['arrive'],['scan'],['decode']])navigate(action,value);
  nodes=journey.signals.map(work=>{const node=new Element();node.dataset.value=work.id;node.style.transform='translate3d(215px,180px,0)';node.style.visibility='visible';node.setAttribute('aria-pressed',String(work.id===journey.state.work));return node;});
- return {journey,ui,nodes,document,navigate,body,raf,
+ return {journey,ui,nodes,document,navigate,body,raf,opening:context.opening,
+  explore(index){exploreButtons[index].emit('click',{});},
   worldSurface(element){worldSurfaces=[element];anchored=true;},
   key(event){const e={key:'ArrowRight',target:new Element(),preventDefault(){this.prevented=true;},...event};document.emit('keydown',e);return e;},
   wheel(event){for(const callback of listeners.get('wheel')||[])callback({deltaY:50,target:new Element(),...event});}
@@ -79,6 +82,34 @@ test('gallery arrow keys update the actual selection without replacing projected
  assert.equal(h.nodes[0].attrs['aria-pressed'],'false');assert.equal(h.nodes[1].attrs['aria-pressed'],'true');
  for(const node of h.nodes){assert.equal(node.style.transform,'translate3d(215px,180px,0)');assert.equal(node.style.visibility,'visible');}
  while(h.raf.length)h.raf.shift()();assert.equal(h.nodes[1].focused,true);
+});
+
+test('both header atlas controls open or return to the atlas throughout the journey',()=>{
+ const template=readFileSync(new URL('../templates/universe.html',import.meta.url),'utf8');
+ assert.match(template,/<button[^>]*class="archive-return"[^>]*data-explore[^>]*>/);
+ const routes=[
+  {actions:[],expected:'boot'},
+  {actions:[['captain']],expected:'boot'},
+  {actions:[['start']],expected:'boot'},
+  {actions:[['start'],['ready']],expected:'map'},
+  ...[
+   [['navigate','forge']],
+   [['navigate','forge'],['arrive']],
+   [['navigate','forge'],['arrive'],['scan']],
+   [['navigate','forge'],['arrive'],['scan'],['decode']],
+   [['navigate','forge'],['arrive'],['scan'],['decode'],['select','one']],
+   [['navigate','forge'],['arrive'],['scan'],['decode'],['select','one'],['dock']],
+   [['navigate','forge'],['arrive'],['scan'],['decode'],['select','one'],['dock'],['open']]
+  ].map(actions=>({actions:[['start'],['ready'],...actions],expected:'map'}))
+ ];
+ for(const index of [0,1])for(const route of routes){
+  const h=explorationHarness({decode:false});
+  for(const [action,value] of route.actions)h.navigate(action,value);
+  h.explore(index);assert.equal(h.journey.state.step,route.expected,`header ${index}: ${JSON.stringify(route.actions)}`);
+ }
+ const held=explorationHarness();held.navigate('home');held.opening.active=true;
+ for(const index of [0,1])held.explore(index);
+ assert.equal(held.journey.state.step,'bridge','the opening still requires its own launch or skip choice');
 });
 
 test('navigation recovery releases moving state and all projected interaction bounds',()=>{
@@ -113,24 +144,29 @@ test('new world labels stay hidden before first projection while attached labels
  assert.equal(fallback.style.visibility,undefined);assert.equal(fallback.inert,undefined,'static fallback labels must remain operable');
 });
 
-test('the real boot starts one graphics load for controller shortcuts without starting automatically',async()=>{
+test('the real boot prewarms one graphics load and controller shortcuts reuse it',async()=>{
  const listeners=new Map(),body={dataset:{}},events=[];let loads=0;
  const classes=new Set(['graphics-standby']);body.classList={remove:(...names)=>names.forEach(name=>classes.delete(name)),add:name=>classes.add(name)};
  const journey=createJourney([{id:'one',title:'One',type:'游戏',sector:'forge'}]);
  const context={currentLocale:()=> 'zh',localizedData:data=>data,localizeDOM(){},initializeSettings(){},
+  audioFixture:{isSoundOn:()=>false,getSoundVolume:()=>0.8,setSound(){},setSoundVolume(){}},
   window:{PORTFOLIO_DATA:{works:[]}},document:{body,baseURI:'http://localhost/',querySelectorAll:()=>[],getElementById:()=>null,querySelector:()=>null},URL,location:{href:'http://localhost/',pathname:'/',search:''},
   viewFromURL:()=>({}),restoreView:()=>({restored:false}),viewSearch:()=>'',
   explorationFixture:{journey,navigate(){},subscribe(){},currentChapter(){},selectChapter(){}},
+  audioFixture:{isSoundOn:()=>false,getSoundVolume:()=>.5,setSound(){},setSoundVolume(){}},
   loadGraphics(){loads++;return Promise.resolve({});},sessionStorage:{getItem(){return null;},setItem(){},removeItem(){}},
   addEventListener(type,callback){if(!listeners.has(type))listeners.set(type,[]);listeners.get(type).push(callback);},
   dispatchEvent(event){events.push(event.type);for(const callback of listeners.get(event.type)||[])callback(event);},
   Event:class{constructor(type){this.type=type;}},MutationObserver:class{observe(){}},queueMicrotask,history:{pushState(){}}
  };
  const source=sourceFor('international-boot.js')
+  .replace(/import\('\.\/immersive-audio\.js[^']*'\)/g,'Promise.resolve(audioFixture)')
   .replace(/import\('\.\/immersive-engine\.js[^']*'\)/g,'loadGraphics()')
+  .replace(/import\('\.\/immersive-audio\.js[^']*'\)/g,'Promise.resolve(audioFixture)')
   .replace(/import\('\.\/immersive-exploration\.js[^']*'\)/g,'Promise.resolve(explorationFixture)');
  await runInNewContext('(async()=>{'+source+'})()',context);
- assert.equal(loads,0);
+ assert.equal(loads,1,'the live entrance prewarms graphics before the visitor boards');
+ assert.equal(events.includes('tem:opening-start'),false,'prewarming must not start the voyage');
  context.dispatchEvent(new context.Event('tem:opening-skip'));
  assert.equal(loads,1);assert.equal(body.dataset.graphics,'loading');assert.ok(events.includes('tem:graphics-request'));
  context.dispatchEvent(new context.Event('tem:opening-start'));context.dispatchEvent(new context.Event('tem:opening-skip'));assert.equal(loads,1);

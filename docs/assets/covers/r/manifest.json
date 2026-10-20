@@ -1,0 +1,228 @@
+{
+  "assets/covers/anyao-cover.jpg": {
+    "width": 960,
+    "height": 600,
+    "variants": [
+      {
+        "src": "assets/covers/r/anyao-cover-480.webp",
+        "width": 480,
+        "bytes": 7238
+      },
+      {
+        "src": "assets/covers/r/anyao-cover-960.webp",
+        "width": 960,
+        "bytes": 18288
+      }
+    ]
+  },
+  "assets/covers/douxiu-cover.jpg": {
+    "width": 1200,
+    "height": 799,
+    "variants": [
+      {
+        "src": "assets/covers/r/douxiu-cover-480.webp",
+        "width": 480,
+        "bytes": 22712
+      },
+      {
+        "src": "assets/covers/r/douxiu-cover-960.webp",
+        "width": 960,
+        "bytes": 80706
+      },
+      {
+        "src": "assets/covers/r/douxiu-cover-1200.webp",
+        "width": 1200,
+        "bytes": 121064
+      }
+    ]
+  },
+  "assets/covers/epoch-cover.jpg": {
+    "width": 1280,
+    "height": 853,
+    "variants": [
+      {
+        "src": "assets/covers/r/epoch-cover-480.webp",
+        "width": 480,
+        "bytes": 13686
+      },
+      {
+        "src": "assets/covers/r/epoch-cover-960.webp",
+        "width": 960,
+        "bytes": 51028
+      },
+      {
+        "src": "assets/covers/r/epoch-cover-1280.webp",
+        "width": 1280,
+        "bytes": 85734
+      }
+    ]
+  },
+  "assets/covers/esp32-learn-cover.jpg": {
+    "width": 1200,
+    "height": 600,
+    "variants": [
+      {
+        "src": "assets/covers/r/esp32-learn-cover-480.webp",
+        "width": 480,
+        "bytes": 11274
+      },
+      {
+        "src": "assets/covers/r/esp32-learn-cover-960.webp",
+        "width": 960,
+        "bytes": 25336
+      },
+      {
+        "src": "assets/covers/r/esp32-learn-cover-1200.webp",
+        "width": 1200,
+        "bytes": 34060
+      }
+    ]
+  },
+  "assets/covers/eufy-petlink-cover.jpg": {
+    "width": 1200,
+    "height": 600,
+    "variants": [
+      {
+        "src": "assets/covers/r/eufy-petlink-cover-480.webp",
+        "width": 480,
+        "bytes": 6916
+      },
+      {
+        "src": "assets/covers/r/eufy-petlink-cover-960.webp",
+        "width": 960,
+        "bytes": 15782
+      },
+      {
+        "src": "assets/covers/r/eufy-petlink-cover-1200.webp",
+        "width": 1200,
+        "bytes": 20708
+      }
+    ]
+  },
+  "assets/covers/growth-kv.jpg": {
+    "width": 1280,
+    "height": 720,
+    "variants": [
+      {
+        "src": "assets/covers/r/growth-kv-480.webp",
+        "width": 480,
+        "bytes": 12938
+      },
+      {
+        "src": "assets/covers/r/growth-kv-960.webp",
+        "width": 960,
+        "bytes": 33402
+      },
+      {
+        "src": "assets/covers/r/growth-kv-1280.webp",
+        "width": 1280,
+        "bytes": 49146
+      }
+    ]
+  },
+  "assets/covers/kun-cover.jpg": {
+    "width": 1200,
+    "height": 675,
+    "variants": [
+      {
+        "src": "assets/covers/r/kun-cover-480.webp",
+        "width": 480,
+        "bytes": 31502
+      },
+      {
+        "src": "assets/covers/r/kun-cover-960.webp",
+        "width": 960,
+        "bytes": 97484
+      },
+      {
+        "src": "assets/covers/r/kun-cover-1200.webp",
+        "width": 1200,
+        "bytes": 138702
+      }
+    ]
+  },
+  "assets/covers/ming-kv.jpg": {
+    "width": 1280,
+    "height": 720,
+    "variants": [
+      {
+        "src": "assets/covers/r/ming-kv-480.webp",
+        "width": 480,
+        "bytes": 21140
+      },
+      {
+        "src": "assets/covers/r/ming-kv-960.webp",
+        "width": 960,
+        "bytes": 69716
+      },
+      {
+        "src": "assets/covers/r/ming-kv-1280.webp",
+        "width": 1280,
+        "bytes": 105910
+      }
+    ]
+  },
+  "assets/covers/rebirth-cg.jpg": {
+    "width": 1280,
+    "height": 720,
+    "variants": [
+      {
+        "src": "assets/covers/r/rebirth-cg-480.webp",
+        "width": 480,
+        "bytes": 5352
+      },
+      {
+        "src": "assets/covers/r/rebirth-cg-960.webp",
+        "width": 960,
+        "bytes": 13648
+      },
+      {
+        "src": "assets/covers/r/rebirth-cg-1280.webp",
+        "width": 1280,
+        "bytes": 20214
+      }
+    ]
+  },
+  "assets/covers/yuanmo-factions.jpg": {
+    "width": 1280,
+    "height": 647,
+    "variants": [
+      {
+        "src": "assets/covers/r/yuanmo-factions-480.webp",
+        "width": 480,
+        "bytes": 21834
+      },
+      {
+        "src": "assets/covers/r/yuanmo-factions-960.webp",
+        "width": 960,
+        "bytes": 65186
+      },
+      {
+        "src": "assets/covers/r/yuanmo-factions-1280.webp",
+        "width": 1280,
+        "bytes": 102094
+      }
+    ]
+  },
+  "assets/covers/zhihu-cover.jpg": {
+    "width": 1200,
+    "height": 675,
+    "variants": [
+      {
+        "src": "assets/covers/r/zhihu-cover-480.webp",
+        "width": 480,
+        "bytes": 34012
+      },
+      {
+        "src": "assets/covers/r/zhihu-cover-960.webp",
+        "width": 960,
+        "bytes": 93880
+      },
+      {
+        "src": "assets/covers/r/zhihu-cover-1200.webp",
+        "width": 1200,
+        "bytes": 129362
+      }
+    ]
+  }
+}

@@ -8,7 +8,7 @@ window.PORTFOLIO_DATA = {
     name: "Tem",
     enName: "Wang Qianhui",
     cnName: "王乾辉",
-    title: "游戏开发 / 物联网应用技术",
+    title: "AI 原生游戏与产品策划 · 硬件设计与开发 · 创意技术",
     tagline: "理解过去，生活当下，畅想未来。",
     location: "江苏",
     intro:
@@ -54,8 +54,10 @@ window.PORTFOLIO_DATA = {
         { period: "2024.07 — 2025.08", kind: "自由职业 / 技术服务", title: "线上 IT 技术服务", role: "独立技术服务 · 客户交付", text: "独立完成需求确认、工期规划与交付；提供 PC 故障排查、Windows 部署、驱动与软件冲突修复。" }
       ],
       recognition: [
+        { kind: "获奖", title: "「罕见·无界」黑客松 · 全国第 5 名 / 十强赛手团队", text: "2026.10 /《安药 AnYao》团队作品 · 团队「重重迷雾」· 负责硬件设计与开发" },
         { kind: "获奖", title: "腾讯云黑客松 · 华东赛区第 5 名", text: "2026 /《元末逐鹿》团队作品 · 华东赛区优胜奖" },
-        { kind: "完赛", title: "翌光计划 Game Jam · 通关双证", text: "2026 / 团队作品 ReBirth ＋ 独立作品《生长档案》" },
+        { kind: "完赛", title: "翌光计划 Game Jam · 通关双证", text: "2026 / 团队作品 ReBirth ＋ 独立作品《生长档案》· 均已上传 Global Game Jam 官网" },
+        { kind: "社区", title: "K-Hub 罕见病开源社区 · 共建者", text: "「罕见·无界」黑客松联合主办方 · 以个人身份参与社区共建" },
         { kind: "参赛", title: "知乎黑客松 · 校园新锐季", text: "2026.09 /《求真档案局·看山失踪夜》参赛凭证" },
         { kind: "参赛", title: "AdventureX 2026", text: "2026.07 / 情感智能体框架《秘境引擎》· 5 天独立原型" },
         { kind: "认证", title: "阿里云 ACA · 大模型认证", text: "2026 / Alibaba Cloud Certified Associate · LLM" }
@@ -66,6 +68,7 @@ window.PORTFOLIO_DATA = {
       { label: "邮箱", url: "mailto:3171678809@qq.com" },
       { label: "Gmail", url: "mailto:wangqianhui1314520@gmail.com" },
       { label: "抖音 · 1779807797", url: "https://www.douyin.com/search/1779807797?type=user" },
+      { label: "GitHub · wangqianhui1314520-oss", url: "https://github.com/wangqianhui1314520-oss" },
       { label: "手机 · 18361620821", url: "tel:18361620821" }
     ]
   },
@@ -142,11 +145,11 @@ window.PORTFOLIO_DATA = {
       cover: "assets/covers/yuanmo-factions.jpg",
       year: "2026",
       role: "主创 / 全栈",
-      status: "已完成 · 腾讯云黑客松华东赛区优胜奖",
+      status: "已完成 · 腾讯云黑客松华东赛区第 5 名 / 优胜奖",
       stack: ["Vue 3", "Canvas2D", "Three.js", "FastAPI"],
       desc: "多派系博弈的元末乱世策略游戏，含局势推演引擎、双结局与三条自定义势力国策路径。自然语言即操控，活的乱世沙盘。",
       highlights: [
-        "腾讯云黑客松大赛 · 华东赛区优胜奖",
+        "腾讯云黑客松大赛 · 华东赛区第 5 名 / 优胜奖",
         "自然语言即操控 · 活的乱世沙盘",
         "多派系博弈系统",
         "局势推演引擎",
@@ -155,7 +158,10 @@ window.PORTFOLIO_DATA = {
       specs: [],
       video: "assets/videos/yuanmo.mp4",
       play: { type: "external", url: "https://qiankuntokenyun.cn" },
-      links: []
+      links: [],
+      images: [
+        { src: "assets/certificates/tencent-hackathon-ec.jpg", caption: "腾讯云黑客松游戏开发挑战赛（华东区）· 优胜奖证书 · 王乾辉（2026.08）" }
+      ]
     },
     {
       id: "epoch",
@@ -183,7 +189,7 @@ window.PORTFOLIO_DATA = {
     },
     {
       id: "growth",
-      contribution: { period: "2026.09", role: "独立开发 · 策划 / 设计 / 实现", actions: ["在 48 小时内设计并实现「线索 → 解谜 → 揭示」的 ARG 核心循环。", "独立完成网页交互、叙事设计与可游玩版本交付。"], outcome: "作品发布于 itch.io；获得翌光计划 Game Jam 通关证书。" },
+      contribution: { period: "2026.09", role: "独立开发 · 策划 / 设计 / 实现", actions: ["在 48 小时内设计并实现「线索 → 解谜 → 揭示」的 ARG 核心循环。", "独立完成网页交互、叙事设计与可游玩版本交付。"], outcome: "作品已上传 Global Game Jam 官网并发布于 itch.io；获得翌光计划 Game Jam 通关证书。" },
       sector: "forge",
       type: "游戏",
       title: "生长档案",
@@ -192,7 +198,7 @@ window.PORTFOLIO_DATA = {
       ratio: "16 / 9",
       year: "2026",
       role: "独立开发",
-      status: "已完成",
+      status: "已完成 · 已上传 Global Game Jam 官网",
       stack: ["原生 HTML / CSS / JS", "无引擎 · 无依赖"],
       desc: "「有些事，不说出来，就永远没人知道了。」以 2009 年 QQ 空间为入口的叙事互动游戏。玩家扮演「拾光客」，在复古界面的六章中翻相册、听录音、查档案，拼回一位失忆者被偷走的成长，直面五重结局。",
       highlights: [
@@ -208,11 +214,14 @@ window.PORTFOLIO_DATA = {
       ],
       video: "assets/videos/growth.mp4",
       play: { type: "external", url: "https://tempestwang.itch.io/growth-archive" },
-      links: [{ label: "itch.io 页面", url: "https://tempestwang.itch.io/growth-archive" }]
+      links: [{ label: "itch.io 页面", url: "https://tempestwang.itch.io/growth-archive" }],
+      images: [
+        { src: "assets/certificates/cert-growth.jpg", caption: "2026 翌光计划 · 武汉全球高校游戏创作挑战赛 通关证书 · 队伍「腾魄斯特」· 开发者 王乾辉" }
+      ]
     },
     {
       id: "rebirth",
-      contribution: { period: "2026.09", role: "团队开发 · 游戏策划 / 测试", actions: ["参与 48 小时 Game Jam，以 RPG Maker MV 搭建科幻解谜原型。", "负责玩法与关卡、异化设施与编号实验体的叙事落地，建立 Playtest 清单并跟进体验缺陷。"], outcome: "团队作品发布于机核 GCORES；获得翌光计划 Game Jam 通关证书。" },
+      contribution: { period: "2026.09", role: "团队开发 · 游戏策划 / 测试", actions: ["参与 48 小时 Game Jam，以 RPG Maker MV 搭建科幻解谜原型。", "负责玩法与关卡、异化设施与编号实验体的叙事落地，建立 Playtest 清单并跟进体验缺陷。"], outcome: "团队作品已上传 Global Game Jam 官网并发布于机核 GCORES；获得翌光计划 Game Jam 通关证书。" },
       sector: "forge",
       type: "游戏",
       title: "Rebirth 重生",
@@ -220,7 +229,7 @@ window.PORTFOLIO_DATA = {
       cover: "assets/covers/rebirth-cg.jpg",
       year: "2026",
       role: "团队开发 · 游戏策划 / 测试",
-      status: "已发布",
+      status: "已发布 · 已上传 Global Game Jam 官网",
       stack: ["RPG Maker MV", "JavaScript", "nw.js"],
       desc: "你从实验室培养皿中苏醒（系统提示「已唤醒实验对象」），在逐渐异化的设施中探索逃亡：墙壁血字、监控红灯、积液与血管组织逐渐蔓延。沿途遭遇编号实验体——03号（视觉敏锐）、07号、13号（无眼，靠嗅觉）、42号，最终面对模仿你一切的 99号母体。",
       highlights: [
@@ -234,7 +243,10 @@ window.PORTFOLIO_DATA = {
       ],
       video: "assets/videos/rebirth.mp4",
       play: { type: "external", url: "https://www.gcores.com/games/181588" },
-      links: [{ label: "机核主页", url: "https://www.gcores.com/games/181588" }]
+      links: [{ label: "机核主页", url: "https://www.gcores.com/games/181588" }],
+      images: [
+        { src: "assets/certificates/cert-rebirth.jpg", caption: "2026 翌光计划 · 武汉全球高校游戏创作挑战赛 通关证书 · 队伍 Yaozi'team（开发者含 Tempest / 王乾辉）" }
+      ]
     },
     {
       id: "kun",
@@ -310,7 +322,10 @@ window.PORTFOLIO_DATA = {
       ],
       video: "assets/videos/zhihu.mp4",
       play: { type: "none", url: "" },
-      links: []
+      links: [],
+      images: [
+        { src: "assets/certificates/zhihu-hackathon-cert.jpg", caption: "知乎黑客松 · 校园新锐季 参赛凭证 · 王乾辉（2026/9/19）" }
+      ]
     },
     {
       id: "yiguang-cert",
@@ -497,14 +512,152 @@ window.PORTFOLIO_DATA = {
       },
       play: { type: "none", url: "" },
       links: []
+    },
+    {
+      id: "anyao",
+      contribution: {
+        period: "2026.10",
+        role: "团队硬件设计与开发 · 工程师",
+        actions: [
+          "负责智能药盒硬件侧：四格独立内盖、提醒终端（屏幕 + 确认键）、BLE 协议对接与低电量提示，让「开盖 − 取药 − 本人确认」在硬件上形成可追溯的记录。",
+          "参与三端联动的设备侧实现：药盒端灯光、振动、铃声与屏幕提醒和手机、手表同步；并制作 three.js 三维药盒 / 手表实时镜像，让没有实物硬件时也能完整演示。"
+        ],
+        outcome: "「罕见·无界」开源创变嘉年华 · 黑客松全国第 5 名，团队入选十强赛手团队；代码以 Apache-2.0 开源。"
+      },
+      sector: "nexus",
+      type: "智能硬件 / 无障碍应用",
+      title: "安药 AnYao",
+      subtitle: "罕见·无界黑客松 · 智能药盒与三端联动",
+      cover: "assets/covers/anyao-cover.jpg",
+      ratio: "16 / 10",
+      year: "2026",
+      role: "团队硬件设计与开发 · 工程师",
+      status: "黑客松全国第 5 名 · 已开源",
+      stack: ["Android", "BLE", "Node.js / WebSocket", "three.js", "Electron"],
+      desc: "面向发作性睡病等睡眠障碍人群的智能药盒系统。核心问题不是「提醒吃药」，而是服药后短暂的记忆空白里那句「这顿药，到底吃没吃？」——安药用独立药格、本人确认与三端同步，把这个问题变成可以查证、家人也能看到的事实。",
+      highlights: [
+        "「罕见·无界」开源创变嘉年华 · 黑客松 · 全国第 5 名（十强赛手团队）",
+        "四格独立内盖 + 提醒终端 · 取药不等于服药，只有本人确认才生成记录",
+        "手机 / 药盒 / 手表三端联动 · 任意一端处理，三端一起结束",
+        "离线扫码登记 · 本地与局域网运行，数据不上云",
+        "Apache-2.0 开源 · 提供线上三端实时联动演示"
+      ],
+      specs: [
+        { k: "赛事", v: "「罕见·无界」开源创变嘉年华 · 黑客松" },
+        { k: "成绩", v: "全国第 5 名 · 十强赛手团队" },
+        { k: "主办", v: "北京病痛挑战公益基金会；联合主办：K-Hub 罕见病开源社区、CHANGE Foundation" },
+        { k: "时间地点", v: "2026.10.15—10.17 · 杭州 · 南湖未来科学园" },
+        { k: "我与社区", v: "K-Hub 罕见病开源社区共建者之一" },
+        { k: "团队", v: "重重迷雾 · 医界工作室" },
+        { k: "我的分工", v: "硬件设计与开发 / BLE 协议 / 三端联动与三维镜像" },
+        { k: "开源协议", v: "Apache-2.0" }
+      ],
+      value: {
+        features: [
+          "四格独立内盖：每一格单独开合，取药动作可被硬件识别",
+          "提醒终端：屏幕显示时间与状态，确认键完成本人服药确认",
+          "三端同步：手机通知 + 药盒灯光 / 振动 / 铃声 + 手表提醒，任意一端处理即全部结束",
+          "库存与余量：按格记录数量与单位，撤销按原单据回滚，不把「100mg」猜测成粒数",
+          "离线扫码登记：Camera2 + ZXing 本地识别，扫描图片不上传",
+          "三维实时镜像：three.js 复刻药盒与手表，没有实物也能演示完整流程"
+        ],
+        scenarios: [
+          "发作性睡病患者服药后的记忆空白：用可查证的记录替代回忆",
+          "家属远程确认：区分「未来计划」「漏服」「跳过」与「补记」，避免未到时间的误报",
+          "锁屏状态下的准时提醒：前台服务保证闹钟不被系统延迟",
+          "展台与评审演示：三维药盒镜像在无硬件条件下还原三端联动"
+        ],
+        needs: [
+          "用户需要的不是更多提醒，而是「我到底吃没吃」的确证",
+          "取药动作不等于服药，记录必须来自患者本人的显式确认",
+          "家属端的「全部正常」可能只是时间还没到，需要区分状态而非一律绿灯",
+          "罕见病人群对隐私敏感，数据应留在本地与家庭局域网"
+        ],
+        business: [
+          "开源硬件方案降低复制成本，便于公益组织与病友社群二次开发",
+          "硬件 + 软件 + 家属端的组合可延伸为长期用药管理服务",
+          "以罕见病为切入点的无障碍设计，可迁移到更广泛的慢病用药场景",
+          "本地优先的数据边界，契合医疗健康类产品对隐私的要求"
+        ]
+      },
+      images: [
+        { src: "assets/certificates/anyao-cert-player.jpg", caption: "「罕见·无界」开源创变嘉年华 · 黑客松 选手证书 · 王乾辉（2026 年 10 月）" },
+        { src: "assets/certificates/anyao-cert-top10.jpg", caption: "十强赛手团队证书 · 团队「重重迷雾」（原始翻拍右侧略有裁切）" }
+      ],
+      play: { type: "external", url: "https://anyao-link.app.workbuddy.host/" },
+      links: [
+        { label: "线上体验 · 三端实时联动", url: "https://anyao-link.app.workbuddy.host/" },
+        { label: "GitHub 开源地址", url: "https://github.com/wangqianhui1314520-oss/anyao" }
+      ]
     }
   ]
 };
 
 // International presentation is part of the same editorial source as the Chinese originals.
 window.PORTFOLIO_DATA.international = {
-  featured: ['growth', 'yuanmo', 'zhihu'],
-  languages: {ming:'zh',yuanmo:'zh',epoch:'zh',growth:'zh',rebirth:'zh',kun:'zh',novel:'zh',zhihu:'zh',poetry:'zh', 'esp32-learn':'zh','eufy-petlink':'zh'},
+  // Reading order of the work archive and of each case study's "next project": game design first,
+  // then the strongest evidence; writing comes last.
+  order: ['yuanmo', 'growth', 'anyao', 'zhihu', 'rebirth', 'kun', 'ming', 'epoch', 'eufy-petlink', 'esp32-learn', 'poetry', 'novel'],
+  // Projects whose recognition is an award (see profile.resume.recognition).
+  awards: ['yuanmo', 'anyao'],
+  // Horizontal focal point of each cover where the narrow ribbon card crops it; unset covers stay centred.
+  coverFocus: {growth: '23%', anyao: '25%', zhihu: '69%', rebirth: '37%', kun: '41%', ming: '46%', epoch: '41%', 'eufy-petlink': '21%', 'esp32-learn': '15%', novel: '31%'},
+  // The first thing the work archive says: who, what, and the evidence.
+  intro: {
+    zh: {name: 'Tem · 王乾辉', role: [{label: 'DESIGN', text: 'AI 原生游戏与产品策划'}, {label: 'BUILD', text: '硬件设计与开发 · 创意技术'}], text: '把玩法、叙事与 AI 系统连接成可以体验的作品。', proof: ['黑客松全国第 5 名 · 华东赛区第 5 名', '作品发布于 itch.io · 机核 · 抖音 · Global Game Jam', 'K-Hub 罕见病开源社区共建者之一']},
+    en: {name: 'Tem · Wang Qianhui', role: [{label: 'DESIGN', text: 'AI-Native Games & Products'}, {label: 'BUILD', text: 'Hardware · Creative Technology'}], text: 'I connect play, story, and AI systems into work people can experience.', proof: ['Hackathons: 5th nationally, 5th in East China', 'Released on itch.io, GCORES, Douyin, and Global Game Jam', 'Co-builder of the K-Hub Rare Disease Open Source Community']}
+  },
+  projectCards: {
+    growth: {
+      zh: {summary:'从 2009 年的 QQ 空间出发，在相册、录音与档案中拼回一段成长记忆。',result:'48 小时独立开发 · 已上传 Global Game Jam 官网 · 发布于 itch.io'},
+      en: {summary:'Reconstruct a forgotten life through albums, recordings, and a recreated 2009 Qzone page.',result:'48-hour solo project · On the Global Game Jam site and itch.io'}
+    },
+    yuanmo: {
+      zh: {summary:'用自然语言参与多派系博弈，让每个决策推动乱世沙盘继续演变。',result:'腾讯云黑客松 · 华东赛区第 5 名 / 优胜奖'},
+      en: {summary:'Shape a living, multi-faction strategy simulation through natural-language decisions.',result:'Tencent Cloud Hackathon · 5th place, East China'}
+    },
+    zhihu: {
+      zh: {summary:'通过自由对话与线索推演，调查「看山失踪夜」背后被掩埋的真相。',result:'48 小时开发 · 知乎黑客松参赛作品'},
+      en: {summary:'Investigate a disappearance through open conversations, evidence, and an AI-driven narrative.',result:'48-hour development · Zhihu Hackathon entry'}
+    },
+    ming: {
+      zh: {summary:'在明代政治叙事中，让人物记忆、系统规则与玩家抉择共同推动故事。',result:'Godot 4 · 持续迭代'},
+      en: {summary:'Connect political choices, character memory, and systemic consequences in Ming-era China.',result:'Godot 4 · In active development'}
+    },
+    epoch: {
+      zh: {summary:'独立完成编剧、AI 素材生成与剪辑，探索从科幻脚本到发布的完整流程。',result:'两期作品已发布抖音'},
+      en: {summary:'A science-fiction drama shaped from script to release through AI production and editing.',result:'Two episodes published on Douyin'}
+    },
+    rebirth: {
+      zh: {summary:'从实验室中苏醒，在逐渐异化的设施里探索、解谜并寻找逃生路径。',result:'48 小时团队 Game Jam · 已上传 Global Game Jam 官网 · 发布于机核'},
+      en: {summary:'Explore a transforming laboratory, solve its mysteries, and find a way out.',result:'48-hour team game jam · On the Global Game Jam site and GCORES'}
+    },
+    kun: {
+      zh: {summary:'围绕嗜睡症展开多线故事，以人物与声音呈现罕见病主题的人文关怀。',result:'腾讯游戏创作大赛「小红花作品」参展'},
+      en: {summary:'An educational visual novel about hypersomnia, told through multiple characters and voices.',result:'Exhibited in Tencent’s Little Red Flower showcase'}
+    },
+    novel: {
+      zh: {summary:'一部长篇玄幻小说，以及支撑故事的世界观、人物与修炼体系。',result:'原创文学 · 世界观构建'},
+      en: {summary:'A long-form fantasy novel with its own world, characters, and cultivation system.',result:'Original fiction · Worldbuilding'}
+    },
+    poetry: {
+      zh: {summary:'以古典意象记录情感、时光与自省，精选诗篇附作者原稿。',result:'三十余首原创 · 四首精选'},
+      en: {summary:'Reflections on time, longing, and life, accompanied by the original Chinese manuscripts.',result:'Over thirty original poems · Four selections'}
+    },
+    'esp32-learn': {
+      zh: {summary:'把 ESP32 开发板装进浏览器，连接课程、模拟实验与交互接线。',result:'13 个模块 / 47 个章节 · 已上线'},
+      en: {summary:'Bring the ESP32 into the browser with guided lessons, simulation, and interactive wiring.',result:'13 modules / 47 chapters · Published'}
+    },
+    'eufy-petlink': {
+      zh: {summary:'复用家庭摄像头与端侧算力，提供可核验的宠物与居家状态结论。',result:'Anker 黑客松 · 场景创新赛道参赛作品'},
+      en: {summary:'Use existing home cameras and edge compute to offer verifiable updates on pets and home.',result:'Anker Hackathon · Scenario-innovation entry'}
+    },
+    anyao: {
+      zh: {summary:'用独立药格、本人确认与三端同步，回答服药后那句「这顿药，到底吃没吃？」。',result:'罕见·无界黑客松 · 全国第 5 名 · 已开源'},
+      en: {summary:'Independent compartments, explicit confirmation, and three-device sync answer one question: “Did I already take this dose?”',result:'Rare & Boundless Hackathon · 5th nationally · Open source'}
+    }
+  },
+  languages: {ming:'zh',yuanmo:'zh',epoch:'zh',growth:'zh',rebirth:'zh',kun:'zh',novel:'zh',zhihu:'zh',poetry:'zh', 'esp32-learn':'zh','eufy-petlink':'zh','anyao':'zh'},
   caseStudies: {
     ming: {
       zh: {challenge:'让政治选择产生有规则、有记忆的后果，而不仅是一段生成的对话。',context:'以明代政治叙事为背景，连接人物、物品与地点。项目基于 Godot 持续迭代，参加腾讯游戏创作大赛。',
@@ -514,9 +667,9 @@ window.PORTFOLIO_DATA.international = {
     },
     rebirth: {
       zh: {challenge:'在限时开发中，把设施异化与实验体遭遇组织成可游玩的科幻解谜。',context:'武汉翌光计划 Game Jam 团队作品，使用 RPG Maker MV 制作可玩原型，已发布机核。我的职责为游戏策划与测试。',
-        decisions:[{title:'以环境推进叙事',text:'玩法和关卡围绕异化设施与编号实验体展开，让探索中的环境变化承载故事。'},{title:'在限时创作中保留测试',text:'建立 Playtest 清单，记录并跟进体验缺陷，在 48 小时团队协作中推进可游玩版本交付。'}],facts:['团队作品 / 游戏策划与测试','48 小时 Game Jam','已发布机核'],proof:'assets/certificates/cert-rebirth.jpg'},
+        decisions:[{title:'以环境推进叙事',text:'玩法和关卡围绕异化设施与编号实验体展开，让探索中的环境变化承载故事。'},{title:'在限时创作中保留测试',text:'建立 Playtest 清单，记录并跟进体验缺陷，在 48 小时团队协作中推进可游玩版本交付。'}],facts:['团队作品 / 游戏策划与测试','48 小时 Game Jam','已上传 Global Game Jam 官网 · 发布于机核']},
       en: {challenge:'Turn a transforming facility and experimental subjects into a playable science-fiction mystery within a game jam.',context:'A team project for the Wuhan Yiguang Game Jam, prototyped in RPG Maker MV and released on GCORES. My role was game design and testing.',
-        decisions:[{title:'Tell the story through the environment',text:'Gameplay and levels revolve around the changing facility and numbered experimental subjects, allowing exploration to carry the story.'},{title:'Make time for testing',text:'A playtest checklist tracked experience defects and follow-up work during the 48-hour team development process.'}],facts:['Team project / Game design & testing','48-hour game jam','Released on GCORES'],proof:'assets/certificates/cert-rebirth.jpg'}
+        decisions:[{title:'Tell the story through the environment',text:'Gameplay and levels revolve around the changing facility and numbered experimental subjects, allowing exploration to carry the story.'},{title:'Make time for testing',text:'A playtest checklist tracked experience defects and follow-up work during the 48-hour team development process.'}],facts:['Team project / Game design & testing','48-hour game jam','On the Global Game Jam site and GCORES']}
     },
     kun: {
       zh: {challenge:'通过角色与声音，把嗜睡症主题转化为可以体验的叙事。',context:'团队创作的罕见病教育视觉小说。我的工作包括剧情、系统策划与音频，作品已完成并作为腾讯游戏创作大赛「小红花作品」参展。',
@@ -539,32 +692,38 @@ window.PORTFOLIO_DATA.international = {
     growth: {
       zh: {challenge:'让一段被遗忘的成长，通过玩家亲手寻找证据重新浮现。', context:'QQ 空间是中国的个人社交主页。《生长档案》以 2009 年的界面和生活片段构建叙事入口，让相册、录音与医院档案成为可调查的证据。',
         decisions:[{title:'从碎片组织叙事',text:'六章主线围绕线索、解谜和揭示推进；玩家通过翻阅相册、听录音与查看档案，拼回人物的成长经历。'},{title:'让时间参与机制',text:'游戏将现实时间与游戏时间连接；五种结局让不同探索路径产生不同结果。'}],
-        facts:['48 小时独立开发','六章 / 五种结局','已发布于 itch.io'], proof:'assets/certificates/cert-growth.jpg'},
+        facts:['48 小时独立开发','六章 / 五种结局','已上传 Global Game Jam 官网 · 发布于 itch.io']},
       en: {challenge:'Reconstruct a forgotten life through evidence the player discovers firsthand.',context:'Qzone is a Chinese personal social-network page. A recreated 2009 interface gives this mystery a familiar, intimate setting. Albums, recordings, and hospital records become evidence rather than background decoration.',
         decisions:[{title:'A story assembled from fragments',text:'Six chapters follow a clue → puzzle → reveal loop. Browsing albums, listening to recordings, and investigating documents reconstructs a missing personal history.'},{title:'Time as part of the rules',text:'Real time and game time are connected. Five endings give different paths through the evidence different consequences.'}],
-        facts:['48-hour solo development','6 chapters / 5 endings','Published on itch.io'], proof:'assets/certificates/cert-growth.jpg'}
+        facts:['48-hour solo development','6 chapters / 5 endings','On the Global Game Jam site and itch.io']}
     },
     yuanmo: {
       zh: {challenge:'让自然语言指令转化为多派系策略沙盘中的行动与后果。',context:'故事发生在元末乱世。不同势力在持续变化的局势中博弈，玩家以自然语言表达意图。',
         decisions:[{title:'把意图接到系统上',text:'自然语言操控与局势推演引擎连接，将输入放回多派系博弈的规则中。'},{title:'让选择具有方向',text:'双结局与三条自定义势力国策路径形成不同策略方向。我的工作围绕核心玩法、数值框架和产品策划展开。'}],
-        facts:['团队作品 / 核心玩法与产品策划','双结局 / 三条国策路径','腾讯云黑客松华东赛区第 5 名 / 优胜奖'], proof:'assets/certificates/tencent-hackathon-ec.jpg'},
+        facts:['团队作品 / 核心玩法与产品策划','双结局 / 三条国策路径','腾讯云黑客松华东赛区第 5 名 / 优胜奖']},
       en: {challenge:'Turn natural-language intentions into actions and consequences in a multi-faction strategy simulation.',context:'Set during the final years of China’s Yuan dynasty, the game places competing factions in an evolving political landscape. Players express their intentions in natural language.',
         decisions:[{title:'Connect intentions to rules',text:'Natural-language control feeds a situation-simulation engine and multi-faction rules. The input becomes part of a strategy system.'},{title:'Give choices a direction',text:'Two endings and three custom-faction policy paths create distinct strategic directions. My contribution focused on core gameplay, the numerical framework, and product planning.'}],
-        facts:['Team project / Gameplay & product design','2 endings / 3 policy paths','5th place / East China regional award'], proof:'assets/certificates/tencent-hackathon-ec.jpg'}
+        facts:['Team project / Gameplay & product design','2 endings / 3 policy paths','5th place / East China regional award']}
     },
     zhihu: {
       zh: {challenge:'让自由对话推理拥有可运行的机制与多种结局。',context:'玩家以档案局调查员身份调查失踪事件，结合线索、角色对话和信息博弈逐步还原真相。',
         decisions:[{title:'为推理设计机制',text:'污染对照、回声证据链、AI 法官辩论与阵营策反构成四套信息操纵机制。'},{title:'把故事落到可交付系统',text:'实现八个角色、十档结局、单人及 2–5 人联机模式，并配套剧本生产工作台。'}],
-        facts:['48 小时开发','8 角色 / 10 档结局','知乎黑客松参赛凭证'],proof:'assets/certificates/zhihu-hackathon-cert.jpg'},
+        facts:['48 小时开发','8 角色 / 10 档结局','知乎黑客松参赛凭证']},
       en: {challenge:'Give open-ended conversational deduction a working set of rules and multiple outcomes.',context:'As an archive investigator, the player examines a disappearance through evidence, character conversations, and conflicting information.',
         decisions:[{title:'Design rules for deduction',text:'Four mechanisms structure information manipulation: contamination comparison, echo evidence chains, AI-judge debates, and faction persuasion.'},{title:'Deliver a playable system',text:'The implementation includes eight characters, ten ending tiers, solo and 2–5-player modes, and a script-production workspace.'}],
-        facts:['48-hour development','8 characters / 10 ending tiers','Zhihu Hackathon participation record'],proof:'assets/certificates/zhihu-hackathon-cert.jpg'}
+        facts:['48-hour development','8 characters / 10 ending tiers','Zhihu Hackathon participation record']}
     },
     'eufy-petlink': {
       zh: {challenge:'用户要的不是「检测到运动」，而是「我知道家里没事」。要让已经装在屋里的摄像头给出一个可核验的结论，而不是又一条告警。',context:'Anker 黑客松智能安防赛道团队作品。复用家庭已有的 eufy 多摄像头与 HomeBase 端侧算力，首页直接呈现结论卡。我在团队中负责端侧硬件与推理：取流、端侧推理、Jev 决策服务与跨摄接力。',
         decisions:[{title:'让判断发生在家庭内网',text:'取流与推理跑在 HomeBase 与摄像头一侧，结论在本地生成；不做疾病标签，不做人脸识别，减少隐私数据外流。'},{title:'给结论一个置信度',text:'结论卡分四态呈现：有把握时给出「家里都还好」，没把握时明确说「我不确定」，不把模糊的判断推回给用户。'},{title:'跨摄接力保持连续',text:'单一目标在多个摄像头之间交接跟踪，离开单个画面的宠物不会立刻丢失，结论在时间上保持连续。'}],facts:['团队作品 / 端侧硬件与推理','eufy 多摄像头 + HomeBase','智能安防 · 场景创新赛道']},
       en: {challenge:'Users do not want “motion detected.” They want “I know everything is fine at home.” The project lets cameras already in the home deliver a verifiable conclusion instead of another alert.',context:'A team entry in the Anker Hackathon smart-security track. It reuses the eufy multi-camera system and HomeBase edge compute already in the home, presenting a conclusion card on the first screen. I owned the hardware and inference side: stream capture, on-device inference, the decision service, and cross-camera handoff.',
         decisions:[{title:'Keep judgment inside the home network',text:'Capture and inference run on HomeBase and the cameras, and conclusions are generated locally. No disease labels, no face recognition — less private data leaves the home.'},{title:'Give conclusions a confidence level',text:'The conclusion card renders four states: when confident it says “everything is fine at home,” and when not it says “I am not sure,” rather than pushing a vague judgment back to the user.'},{title:'Stay continuous across cameras',text:'A single target is handed off between cameras, so a pet leaving one frame is not immediately lost and conclusions stay continuous over time.'}],facts:['Team project / Hardware & inference','eufy multi-camera + HomeBase','Smart security · scenario innovation']}
+    },
+    anyao: {
+      zh: {challenge:'发作性睡病患者在服药后可能出现短暂记忆空白，真正困扰他们的不是缺少提醒，而是那句无法回答的「这顿药，到底吃没吃？」。系统必须把服药变成一条可查证、家属也能看到的事实。',context:'「罕见·无界」开源创变嘉年华 · 黑客松团队作品，团队「重重迷雾」，代码以 Apache-2.0 开源。产品由四格智能药盒、患者 Android 应用、家属视图、兼容手表与 three.js 三维联动大屏组成。我在团队中负责硬件设计与开发：药盒结构、BLE 协议对接、提醒终端与三端联动。',
+        decisions:[{title:'取药不等于服药',text:'四格独立内盖让硬件能识别开盖动作，但只有患者在药盒或手机上显式确认，才生成服药记录。系统宁可留下一条「已取出未确认」，也不替用户假设已经服用。'},{title:'三端一起提醒，一起结束',text:'手机通知、药盒灯光 / 振动 / 铃声与手表提醒同时触发；任意一端处理，三端同步结束，避免多设备重复打扰。'},{title:'家属端区分「还没到」与「漏服」',text:'把未来计划、漏服、跳过与补记分开呈现。未到时间不显示为正常，减少家属把「计划」误读成「已完成」的误报。'}],facts:['团队作品 / 硬件设计与开发','四格药盒 + 三端联动','全国第 5 名 · Apache-2.0 开源']},
+      en: {challenge:'People with narcolepsy can lose the memory of the minutes after taking medication. The real problem is not a missing reminder but an unanswerable question: “Did I already take this dose?” The system has to turn taking medication into a fact the patient can verify and family can see.',context:'A team entry for the Rare & Boundless open-source hackathon (team Chongchong Miwu), released under Apache-2.0. The product combines a four-compartment smart pillbox, a patient Android app, a caregiver view, a compatible smartwatch, and a three.js live mirror. I owned hardware design and development: the pillbox structure, BLE protocol integration, the reminder terminal, and three-device synchronization.',
+        decisions:[{title:'Opening a compartment is not taking a dose',text:'Independent lids let the hardware detect that a compartment was opened, but a dose is recorded only when the patient confirms explicitly on the pillbox or phone. The system would rather record “removed, not confirmed” than assume the medication was taken.'},{title:'Three devices remind together and stop together',text:'Phone notifications, pillbox light, vibration and ring, and the watch alert all fire together. Handling the reminder on any one device ends it on all three, avoiding repeated interruptions.'},{title:'Separate “not yet due” from “missed”',text:'The caregiver view distinguishes future plans, missed doses, skipped doses, and back-filled records. A dose that is not yet due never appears as normal, removing the false alarm where plans look complete.'}],facts:['Team project / Hardware design & development','Four-compartment pillbox + three-device sync','5th nationally · Apache-2.0 open source']}
     }
   },
   // English project guides explain the visible work; they are not dialogue transcripts.
@@ -576,7 +735,7 @@ window.PORTFOLIO_DATA.international = {
 };
 window.PORTFOLIO_DATA.locales = {en:{
   profile:{
-    title:'Game Designer & Creative Technologist',
+    title:'AI-Native Games & Products · Hardware · Creative Technology',
     tagline:'Understand the past. Live in the present. Imagine the future.',
     location:'Jiangsu, China · UTC+8',
     intro:'I’m Tem. History helps me understand people; literature connects me to everyday life; science fiction lets me imagine what comes next. I write poetry, design games, and explore AI and interactive technology, turning curiosity into things people can read and experience.',
@@ -612,15 +771,17 @@ window.PORTFOLIO_DATA.locales = {en:{
         {period:'Jul 2024 — Aug 2025',kind:'Freelance / Technical services',title:'Independent IT services',role:'Independent technical support / Client delivery',text:'Handled requirements, schedules, and delivery for PC troubleshooting, Windows deployment, drivers, and software-conflict resolution.'}
       ],
       recognition:[
+        {kind:'Award',title:'Rare & Boundless Hackathon · 5th nationally / Top-ten team',text:'Oct 2026 / Team project: AnYao · Team Chongchong Miwu · Hardware design & development'},
         {kind:'Award',title:'Tencent Cloud Hackathon · 5th, East China',text:'2026 / Team project: Contenders of the Late Yuan · Regional award'},
-        {kind:'Completion',title:'Yiguang Game Jam · Two completion certificates',text:'2026 / Team project: ReBirth + solo project: Growth Archive'},
+        {kind:'Completion',title:'Yiguang Game Jam · Two completion certificates',text:'2026 / Team project: ReBirth + solo project: Growth Archive · Both submitted to the Global Game Jam site'},
+        {kind:'Community',title:'K-Hub Rare Disease Open Source Community · Co-builder',text:'Co-organizer of the Rare & Boundless hackathon · Co-building the community in a personal capacity'},
         {kind:'Participation',title:'Zhihu Hackathon · Campus Rising Stars',text:'Sep 2026 / Truth Archive Bureau · Participation certificate'},
         {kind:'Participation',title:'AdventureX 2026',text:'Jul 2026 / Emotional-agent framework · Five-day solo prototype'},
         {kind:'Certification',title:'Alibaba Cloud Certified Associate · LLM',text:'2026 / ACA large-language-model certification'}
       ],
       otherCredentials:['CET-4 English','National Computer Rank Examination · Level 1','SYB entrepreneurship training','CAAC lightweight UAV safe-operation qualification']
     },
-    links:[{label:'Email',url:'mailto:wangqianhui1314520@gmail.com'},{label:'QQ email',url:'mailto:3171678809@qq.com'},{label:'Douyin · Chinese-language films',url:'https://www.douyin.com/search/1779807797?type=user'},{label:'Phone · +86 183 6162 0821',url:'tel:+8618361620821'}]
+    links:[{label:'Email',url:'mailto:wangqianhui1314520@gmail.com'},{label:'QQ email',url:'mailto:3171678809@qq.com'},{label:'Douyin · Chinese-language films',url:'https://www.douyin.com/search/1779807797?type=user'},{label:'GitHub · wangqianhui1314520-oss',url:'https://github.com/wangqianhui1314520-oss'},{label:'Phone · +86 183 6162 0821',url:'tel:+8618361620821'}]
   },
   poetry:{title:'Qianyuan: Collected Poems',author:'Tem · Wang Qianhui',description:'Classical imagery, present-day feelings. Four selections from more than thirty original Chinese poems, reflecting on affection, time, and life.',totalLabel:'30+ original poems · 4 selections'},
   poems:{
@@ -644,18 +805,19 @@ window.PORTFOLIO_DATA.locales = {en:{
   },
   works:{
     ming:{type:'Game',title:'Ming Dynasty 1566: The Grand Game',subtitle:'Godot 4 · Narrative strategy',role:'Lead creator',status:'Chapter 1 released',desc:'A narrative strategy game set in Ming-era China, driven by political decisions. Its design promise: every choice creates understandable, character-specific, sustained consequences.',highlights:['10 characters × 5 interaction steps','21 people / 48 items / 33 locations','11 tutorial sequences'],contribution:{period:'Aug 2026 — Present',role:'Solo development · Narrative & systems design',actions:['Built a 10-character, 5-step interaction framework linking people, items, and locations.','Designed branching narrative and nine ending tiers, using agents, memory, timelines, and consistency constraints for character dialogue.'],outcome:'Continuing development in Godot; entered in a Tencent game-creation competition.'}},
-    yuanmo:{type:'Game',title:'Contenders of the Late Yuan',subtitle:'v3.0 · Browser strategy',role:'Team lead / Full stack',status:'Completed · East China regional award',desc:'A multi-faction strategy game set in the final years of the Yuan dynasty. Natural-language control meets a living simulation, with two endings and three custom-faction policy paths.',highlights:['Tencent Cloud Hackathon · East China regional award','Natural-language control','Multi-faction strategy','Situation-simulation engine','2 endings / 3 policy paths'],contribution:{period:'Jun — Jul 2026',role:'Team project · Product & core gameplay design',actions:['Designed core gameplay, numerical frameworks, and product logic; helped take the project from concept to internal testing.','Contributed to architecture and deployment, pitch materials, and the live presentation.'],outcome:'Completed team project. Tencent Cloud Hackathon: 5th place / East China regional award.'}},
+    yuanmo:{type:'Game',title:'Contenders of the Late Yuan',subtitle:'v3.0 · Browser strategy',role:'Team lead / Full stack',status:'Completed · 5th in East China (regional award)',desc:'A multi-faction strategy game set in the final years of the Yuan dynasty. Natural-language control meets a living simulation, with two endings and three custom-faction policy paths.',highlights:['Tencent Cloud Hackathon · 5th in East China (regional award)','Natural-language control','Multi-faction strategy','Situation-simulation engine','2 endings / 3 policy paths'],contribution:{period:'Jun — Jul 2026',role:'Team project · Product & core gameplay design',actions:['Designed core gameplay, numerical frameworks, and product logic; helped take the project from concept to internal testing.','Contributed to architecture and deployment, pitch materials, and the live presentation.'],outcome:'Completed team project. Tencent Cloud Hackathon: 5th place / East China regional award.'},images:[{src:'assets/certificates/tencent-hackathon-ec.jpg',caption:'Tencent Cloud Hackathon game-development challenge (East China) · Regional award certificate · Wang Qianhui (Aug 2026)'}]},
     epoch:{type:'AI film',title:'Machine Epoch: Humanity’s Embers',subtitle:'AI science-fiction drama · Writing & editing',role:'Writer / Director',status:'Competition entry · Demo completed',desc:'A science-fiction short drama made with AI-generated images and video, shot arrangement, and editing. Two episodes were published on Douyin, exploring a low-cost workflow from script to film. Entered in the PAVO AI short-drama competition.',stack:['AI image / Video generation','Video editing'],highlights:['PAVO AI short-drama competition entry','Two episodes published on Douyin','Independent writing, AI generation, and editing','From script to AI-assisted film'],contribution:{period:'Sep 2026',role:'Solo creator · Writing / AI production / Editing',actions:['Wrote the science-fiction script, generated images and video, arranged shots, and edited the film.','Explored a low-cost production workflow from script through publication.'],outcome:'Two episodes published on Douyin; entered in the PAVO low-cost AI short-drama competition.'}},
-    growth:{type:'Game',title:'Growth Archive',subtitle:'Game Jam · Browser narrative mystery',role:'Solo developer',status:'Completed',desc:'“Some things, if never spoken, will never be known.” Enter a recreated 2009 Qzone page and investigate albums, recordings, and archives across six chapters, rebuilding a forgotten life and reaching one of five endings.',stack:['Vanilla HTML / CSS / JavaScript','No engine / No dependencies'],highlights:['2026 Yiguang Game Jam','Real time connected to game time','6 chapters / 5 endings / approximately 60–90 minutes','Albums, hospital records, and signal investigations'],specs:[{k:'Platform',v:'Web browser'},{k:'Stack',v:'Vanilla HTML / CSS / JavaScript'},{k:'Assets',v:'28 images / 8 audio files / 8 videos'}],links:[{label:'Play on itch.io',url:'https://tempestwang.itch.io/growth-archive'}],contribution:{period:'Sep 2026',role:'Solo development · Design / Narrative / Implementation',actions:['Designed and implemented a clue → puzzle → reveal loop within a 48-hour game jam.','Independently delivered browser interactions, the narrative, and a playable release.'],outcome:'Published on itch.io; received a Yiguang Game Jam completion certificate.'}},
-    rebirth:{type:'Game',title:'ReBirth',subtitle:'RPG Maker MV · Sci-fi puzzle adventure',role:'Game designer',status:'Released',desc:'Awaken in a laboratory dish and escape a facility that gradually transforms around you. Numbered experimental subjects have distinct senses; the final encounter is an entity that imitates your actions.',highlights:['Laboratory escape through an evolving environment','Five numbered subjects with distinct senses','A final encounter that mirrors the player'],specs:[{k:'Platform',v:'Windows desktop · 816 × 624'},{k:'Genre',v:'Puzzle / Science fiction'}],links:[{label:'GCORES release · Chinese',url:'https://www.gcores.com/games/181588'}],contribution:{period:'Sep 2026',role:'Team development · Game design / Testing',actions:['Joined a 48-hour game jam to build a science-fiction puzzle prototype in RPG Maker MV.','Designed gameplay and levels, developed the facility narrative and experimental subjects, and maintained playtest and defect checklists.'],outcome:'Team release on GCORES; received a Yiguang Game Jam completion certificate.'}},
+    growth:{type:'Game',title:'Growth Archive',subtitle:'Game Jam · Browser narrative mystery',role:'Solo developer',status:'Completed · On the Global Game Jam site',desc:'“Some things, if never spoken, will never be known.” Enter a recreated 2009 Qzone page and investigate albums, recordings, and archives across six chapters, rebuilding a forgotten life and reaching one of five endings.',stack:['Vanilla HTML / CSS / JavaScript','No engine / No dependencies'],highlights:['2026 Yiguang Game Jam','Real time connected to game time','6 chapters / 5 endings / approximately 60–90 minutes','Albums, hospital records, and signal investigations'],specs:[{k:'Platform',v:'Web browser'},{k:'Stack',v:'Vanilla HTML / CSS / JavaScript'},{k:'Assets',v:'28 images / 8 audio files / 8 videos'}],links:[{label:'Play on itch.io',url:'https://tempestwang.itch.io/growth-archive'}],contribution:{period:'Sep 2026',role:'Solo development · Design / Narrative / Implementation',actions:['Designed and implemented a clue → puzzle → reveal loop within a 48-hour game jam.','Independently delivered browser interactions, the narrative, and a playable release.'],outcome:'Submitted to the Global Game Jam site and published on itch.io; received a Yiguang Program completion certificate.'},images:[{src:'assets/certificates/cert-growth.jpg',caption:'Yiguang Program 2026 · Wuhan Global University Game Creation Challenge · Certificate of Achievement · Team Tempest · Developer Wang Qianhui'}]},
+    rebirth:{type:'Game',title:'ReBirth',subtitle:'RPG Maker MV · Sci-fi puzzle adventure',role:'Game designer',status:'Released · On the Global Game Jam site',desc:'Awaken in a laboratory dish and escape a facility that gradually transforms around you. Numbered experimental subjects have distinct senses; the final encounter is an entity that imitates your actions.',highlights:['Laboratory escape through an evolving environment','Five numbered subjects with distinct senses','A final encounter that mirrors the player'],specs:[{k:'Platform',v:'Windows desktop · 816 × 624'},{k:'Genre',v:'Puzzle / Science fiction'}],links:[{label:'GCORES release · Chinese',url:'https://www.gcores.com/games/181588'}],contribution:{period:'Sep 2026',role:'Team development · Game design / Testing',actions:['Joined a 48-hour game jam to build a science-fiction puzzle prototype in RPG Maker MV.','Designed gameplay and levels, developed the facility narrative and experimental subjects, and maintained playtest and defect checklists.'],outcome:'Team project submitted to the Global Game Jam site and released on GCORES; received a Yiguang Program completion certificate.'},images:[{src:'assets/certificates/cert-rebirth.jpg',caption:'Yiguang Program 2026 · Wuhan Global University Game Creation Challenge · Certificate of Achievement · Yaozi’team (developers include Tempest / Wang Qianhui)'}]},
     kun:{type:'Game',title:'Kun: A Story of Sleep',subtitle:'Visual novel · Rare-disease awareness',role:'Team project · Narrative / Systems / Audio',status:'Completed',desc:'An educational visual novel exploring hypersomnia with empathy. Sixteen characters support branching stories; locally generated character-specific voice uses IndexTTS 2.5. Exhibited in Tencent’s “Little Red Flower” game-creation showcase.',stack:['Visual novel','IndexTTS 2.5','Rare-disease awareness'],highlights:['16 characters / Branching stories','Hypersomnia awareness and human experience','Local character-specific voice generation','Tencent game-creation showcase participant'],specs:[{k:'Genre',v:'Visual novel / Educational game'},{k:'Characters',v:'16 character profiles'},{k:'Audio',v:'Local IndexTTS 2.5 voice generation'}],contribution:{period:'Aug — Sep 2026',role:'Team project · Narrative / Systems / Audio',actions:['Created sixteen character profiles and branching narrative, incorporating hypersomnia education into a visual novel.','Generated voice by character and sentence with local IndexTTS 2.5.'],outcome:'Completed and exhibited in Tencent’s “Little Red Flower” game-creation showcase.'}},
     novel:{type:'Novel',title:'Douxiu Tianjue',year:'Serial in progress',subtitle:'Chinese fantasy · Cultivation & worldbuilding',role:'Author',desc:'A long-form Chinese fantasy novel with an accompanying world, character profiles, and cultivation system.',specs:[{k:'Chapter length',v:'2,800–3,200 Chinese characters'},{k:'Starstone ranks',v:'White / Yellow / Cyan / Blue / Violet / Gold / Red'}],excerpt:'Night lay black as ink, and starlight fell. At the edge of the cliff, the dim white starstone in the young man’s palm suddenly trembled. A green gleam finer than a strand of hair climbed its veins. Above white lay yellow; above yellow, cyan. But the rumored black rank appeared in no record. He closed his hand around the stone and heard the first ring of a sword within.'},
-    zhihu:{type:'Game',title:'Truth Archive Bureau: The Kanshan Disappearance',subtitle:'AI deduction game · Zhihu Hackathon',role:'Solo developer / AI narrative',status:'Hackathon participation',desc:'An AI-driven browser mystery. As an archive investigator, use open conversations and evidence to unravel a disappearance. LLM-generated narrative supports different paths through the investigation.',stack:['Vanilla Web','LLM-driven narrative','Natural-language deduction'],highlights:['Zhihu Hackathon participation','LLM narrative / Open conversations','Browser-based / No installation','Branching endings / Evidence-led investigation'],specs:[{k:'Platform',v:'Web browser'},{k:'Genre',v:'AI mystery / Interactive deduction'}],contribution:{period:'Sep 2026',role:'Solo development · Gameplay / Systems / AI architecture',actions:['Designed contamination comparison, echo evidence chains, AI-judge debates, and faction persuasion.','Implemented ten ending tiers, eight characters, solo and 2–5-player modes, and a script-production workspace.'],outcome:'Completed 48-hour development; received a Zhihu Hackathon Campus Rising Stars participation certificate.'}},
+    zhihu:{type:'Game',title:'Truth Archive Bureau: The Kanshan Disappearance',subtitle:'AI deduction game · Zhihu Hackathon',role:'Solo developer / AI narrative',status:'Hackathon participation',desc:'An AI-driven browser mystery. As an archive investigator, use open conversations and evidence to unravel a disappearance. LLM-generated narrative supports different paths through the investigation.',stack:['Vanilla Web','LLM-driven narrative','Natural-language deduction'],highlights:['Zhihu Hackathon participation','LLM narrative / Open conversations','Browser-based / No installation','Branching endings / Evidence-led investigation'],specs:[{k:'Platform',v:'Web browser'},{k:'Genre',v:'AI mystery / Interactive deduction'}],contribution:{period:'Sep 2026',role:'Solo development · Gameplay / Systems / AI architecture',actions:['Designed contamination comparison, echo evidence chains, AI-judge debates, and faction persuasion.','Implemented ten ending tiers, eight characters, solo and 2–5-player modes, and a script-production workspace.'],outcome:'Completed 48-hour development; received a Zhihu Hackathon Campus Rising Stars participation certificate.'},images:[{src:'assets/certificates/zhihu-hackathon-cert.jpg',caption:'Zhihu Hackathon · Campus Rising Stars · Participation certificate · Wang Qianhui (Sep 19, 2026)'}]},
     poetry:{type:'Poetry',title:'Qianyuan: Collected Poems',subtitle:'Classical imagery · Original poetry',year:'Ongoing',role:'Author',status:'30+ originals / 4 selections',stack:['Poetry','Classical imagery','Personal expression'],desc:'Four selections from my original Chinese poetry: reflections on life, weather, longing, and memory. Read the complete poems alongside the original manuscripts.',highlights:['More than thirty original poems','Four complete selections with manuscripts','Affection, time, and reflections on life'],links:[{label:'Read the collection',url:'en/poetry/'}]},
     'esp32-learn':{type:'Interactive learning',title:'ESP32 Learning Lab',subtitle:'Learn embedded systems without hardware',role:'Solo developer',status:'Published on Zhihu AIWorks',desc:'An interactive ESP32 learning platform for IoT and electronics learners. A browser-based board, Wokwi simulation, wiring diagrams, and a virtual lab connect first LEDs to AI-enabled experiments.',highlights:['13 modules / 47 chapters / approximately 10.6 hours','Wokwi simulation and interactive wiring','Virtual lab with 24 components','Self-tests, completion certificates, and locally saved progress','Static Vue 3 implementation'],specs:[{k:'Platform',v:'Web browser'},{k:'Stack',v:'Vue 3 / Wokwi / ESP32'},{k:'Content',v:'13 modules / 47 chapters / 24 components'}],links:[{label:'Open the learning lab · Chinese',url:'https://ybqru2c8ouvs.preview.aiworks.site/'}],contribution:{period:'Sep 2026',role:'Solo development · Frontend / Curriculum / Learning product',actions:['Built an interactive Vue 3 site with Wokwi simulation for learning without physical hardware.','Planned thirteen modules and forty-seven chapters, interactive wiring, self-tests, and completion certificates.'],outcome:'Published on Zhihu AIWorks.'}},
     'eufy-petlink':{type:'Smart hardware / Edge AI',title:'Eufy PetLink Guardian',subtitle:'Anker Hackathon · Smart security',role:'Team project · Edge hardware / Inference',status:'Anker Hackathon entry',desc:'Reuse the eufy multi-camera system and HomeBase edge compute already in the home, and let the first screen state a verifiable conclusion — “everything is fine at home” — while allowing “I am not sure” when confidence is low. No disease labels, no face recognition.',stack:['eufy multi-camera','HomeBase edge inference','Decision service','Cross-camera handoff'],highlights:['Anker Hackathon · Smart security, scenario innovation','On-device inference · judgment stays on the home network','Four-state conclusion card · a verifiable “all is well”','Cross-camera handoff · one target tracked across cameras','An explicit “I am not sure” when confidence is low'],specs:[{k:'Event',v:'Anker Hackathon · Smart-security track'},{k:'Team',v:'Team Strawberry (3 members)'},{k:'Hardware',v:'eufy multi-camera + HomeBase'},{k:'My role',v:'Stream capture / On-device inference / Decision service / Cross-camera handoff'}],
     value:{features:['On-device conclusion card: the home screen states “everything is fine at home” or “I am not sure” instead of a motion alert','Multi-camera capture and HomeBase edge inference: judgment completes inside the home network','Cross-camera handoff: a single target is tracked across cameras and is not lost between frames','Confidence mechanism: an explicit “I am not sure” when the system is not sure','Privacy by design: no disease labels, no face recognition'],scenarios:['Pet care while at work or traveling: confirm the cat or dog is fine remotely','Homes with several eufy cameras: living room, balcony, feeding area','Everyday reassurance about elderly or young family members — explicitly not medical diagnosis','Quick outings: a glance that confirms the home is all right'],needs:['Users want “I know everything is fine at home,” not “motion detected”','Alert noise and false positives train users to ignore notifications — they need conclusions','Cloud recognition raises privacy concerns; edge inference keeps data at home','Cameras work in isolation, with no continuous state across screens'],business:['Reuses installed hardware: no new camera purchases, activating sold devices and HomeBase compute','Shifts value from hardware margin to service: the conclusion card supports a subscription narrative','Differentiation through scenario innovation: a verifiable conclusion versus the motion-alert red ocean','Privacy as a selling point: on-device processing fits the sensitivity of home security data']},
     contribution:{period:'Oct 2026',role:'Team project · Edge hardware & inference',actions:['Owned eufy multi-camera stream capture and the HomeBase on-device inference pipeline, so the conclusion card is decided entirely inside the home network.','Built the decision service and cross-camera handoff: a single target is tracked across cameras, and conclusions carry confidence — “I am not sure” when it is not sure.'],outcome:'Anker Hackathon entry in the smart-security scenario-innovation track.'}},
+    anyao:{type:'Smart hardware / Accessibility',title:'AnYao',subtitle:'Rare & Boundless Hackathon · Smart pillbox and three-device sync',role:'Team hardware design & development · Engineer',status:'5th nationally at the hackathon · Open source',desc:'A smart pillbox system for people with narcolepsy and other sleep disorders. The problem is not a missing reminder but the question that follows a post-nap memory gap: “Did I already take this dose?” AnYao turns that into a fact the patient can verify and family can see, through independent compartments, explicit patient confirmation, and three-device synchronization.',stack:['Android','BLE','Node.js / WebSocket','three.js','Electron'],highlights:['Rare & Boundless open-source hackathon · 5th nationally (top-ten team)','Four independent lids plus a reminder terminal · removing a pill is not taking it; only the patient’s confirmation creates a record','Phone, pillbox, and watch synchronize · handling any one ends all three','Offline barcode registration · runs locally and on the LAN, no cloud','Apache-2.0 open source · public three-device live demo'],specs:[{k:'Event',v:'Rare & Boundless open-source hackathon'},{k:'Result',v:'5th nationally · Top-ten hacker team'},{k:'Organizers',v:'Illness Challenge Foundation (Beijing); co-organized by the K-Hub Rare Disease Open Source Community and CHANGE Foundation'},{k:'Date & venue',v:'Oct 15–17, 2026 · Nanhu Future Science Park, Hangzhou'},{k:'Community',v:'I am one of the K-Hub community’s co-builders'},{k:'Team',v:'Chongchong Miwu · Medical Realm Studio'},{k:'My role',v:'Hardware design & development / BLE protocol / Three-device sync and 3D mirror'},{k:'License',v:'Apache-2.0'}],links:[{label:'Live demo · three-device sync',url:'https://anyao-link.app.workbuddy.host/'},{label:'GitHub repository',url:'https://github.com/wangqianhui1314520-oss/anyao'}],contribution:{period:'Oct 2026',role:'Team hardware design & development · Engineer',actions:['Owned the hardware side: four independent inner lids, the reminder terminal with screen and confirm button, BLE protocol integration, and low-battery alerts — so open, remove, and confirm form a traceable record in hardware.','Contributed to the device side of three-device synchronization: pillbox light, vibration, ring, and screen alert alongside phone and watch; built the three.js real-time mirror of pillbox and watch so the full flow can be demonstrated without physical hardware.'],outcome:'Rare & Boundless open-source hackathon: 5th nationally, among the top-ten hacker teams. Code released under Apache-2.0.'},images:[{src:'assets/certificates/anyao-cert-player.jpg',caption:'Rare & Boundless open-source hackathon · Participant certificate · Wang Qianhui (Oct 2026)'},{src:'assets/certificates/anyao-cert-top10.jpg',caption:'Top-ten hacker team certificate · Team Chongchong Miwu (the original photo is slightly cropped on the right)'}]},
     'yiguang-cert':{type:'Project certificate',title:'Yiguang Game Jam Completion Certificates',subtitle:'Wuhan global university game-creation challenge',role:'Participant / Developer',status:'Completed',stack:['Game Jam','Yiguang'],desc:'Two completion certificates for team project ReBirth and solo project Growth Archive.',highlights:['ReBirth · Team project','Growth Archive · Solo project'],specs:[{k:'Event',v:'2026 Yiguang game-creation challenge'},{k:'Record',v:'2 completion certificates'}],images:[{src:'assets/certificates/cert-rebirth.jpg',caption:'ReBirth · Team completion certificate'},{src:'assets/certificates/cert-growth.jpg',caption:'Growth Archive · Solo completion certificate'}]},
     'tencent-hackathon-ec':{type:'Project certificate',title:'Tencent Cloud Hackathon: East China Regional Award',subtitle:'Game-development challenge · East China',role:'Awarded team',status:'Regional award',stack:['Tencent Cloud Hackathon','Contenders of the Late Yuan'],desc:'Regional award for team project Contenders of the Late Yuan in the Tencent Cloud Hackathon game-development challenge.',highlights:['Team project: Contenders of the Late Yuan','East China regional award'],specs:[{k:'Event',v:'Tencent Cloud Hackathon · East China'},{k:'Record',v:'Regional award'}],images:[{src:'assets/certificates/tencent-hackathon-ec.jpg',caption:'Tencent Cloud Hackathon · East China regional award'}]},
     'zhihu-hackathon-cert':{type:'Project certificate',title:'Zhihu Hackathon Participation Certificate',subtitle:'Campus Rising Stars',role:'Participant',status:'Participation record',stack:['Zhihu Hackathon','Truth Archive Bureau'],desc:'Participation certificate dated September 19, 2026, for the AI browser mystery Truth Archive Bureau. A record of participation, distinct from an award.',highlights:['48-hour development','AI-powered interactive deduction','Project: Truth Archive Bureau'],specs:[{k:'Event',v:'Zhihu Hackathon · Campus Rising Stars'},{k:'Record',v:'Participation certificate · September 19, 2026'}],images:[{src:'assets/certificates/zhihu-hackathon-cert.jpg',caption:'Zhihu Hackathon participation certificate · Wang Qianhui'}]}

@@ -48,13 +48,14 @@ test('planet reveal, cabin approach and docking aim settle without an intermedia
 
 test('new compact cabin removes only fallback architecture and overview hardware, retaining all later exhibits',()=>{
  const {applyArchiveReplacement}=moduleScope('immersive-archive-optical.js');
- const architecture={},bays=archiveChapterOrder.map(key=>({key,primary:{fixed:{},pane:{}},rig:{visible:true}}));
+ const architecture={},bays=archiveChapterOrder.map(key=>({key,primary:{g:{},fixed:{},pane:{}},rig:{visible:true}}));
  const fixture={architecture,bays,authoredDisplays:[],compact:true,map:false,deckReady:false};
  assert.equal(applyArchiveReplacement(fixture,0),1);assert.equal(architecture.visible,true);
  assert.ok(bays.every(bay=>bay.primary.fixed.visible));
  assert.equal(applyArchiveReplacement(fixture,1),0);assert.equal(architecture.visible,false);
  assert.equal(bays[0].primary.fixed.visible,false);assert.equal(bays[0].primary.pane.visible,false);
- for(const bay of bays.slice(1)){assert.equal(bay.primary.fixed.visible,true);assert.equal(bay.primary.pane.visible,true);assert.equal(bay.rig.visible,true);}
+ assert.equal(bays[0].primary.g.visible,false);
+ for(const bay of bays.slice(1)){assert.equal(bay.primary.g.visible,true);assert.equal(bay.primary.fixed.visible,true);assert.equal(bay.primary.pane.visible,true);assert.equal(bay.rig.visible,true);}
  const authoredDisplays=bays.map(bay=>({bay,root:{}}));
  applyArchiveReplacement({...fixture,compact:false,authoredDisplays},1);
  assert.equal(authoredDisplays[0].root.visible,false);assert.ok(authoredDisplays.slice(1).every(display=>display.root.visible));

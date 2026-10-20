@@ -15,6 +15,11 @@
 .launch-shortcuts{display:flex;gap:28px;margin-top:18px;position:relative;z-index:3}.launch-shortcuts a{font-size:14px;min-height:44px;display:flex;align-items:center;color:#d5e9f0;border-bottom:1px solid #a8cada55}
 .launch-readiness{font-size:13px!important;color:#bdcfdc!important}.opening-launch .launch-eyebrow{font-size:12px;line-height:1.6;letter-spacing:.12em}.opening-launch h1{font-size:clamp(44px,5vw,72px);line-height:1.35;letter-spacing:.035em;max-width:650px;text-wrap:balance}.opening-launch #launchDescription{font-size:17px;line-height:1.8;max-width:520px}.opening-launch .launch-route{font-size:11px}.launch-button{font-size:16px;min-height:56px;border-radius:6px 22px 6px 22px;letter-spacing:.04em}.skip-opening{font-size:14px;min-height:44px}
 .arrival-glass-panel .arrival-role{display:block;font-size:28px;line-height:1.6;color:#edf6fa;margin:12px 0}.arrival-copy .arrival-invitation{display:none}
+/* The positioning reads as two tracks, what I design and what I build; each row keeps the size of the line it replaced. */
+.role-track{display:grid;grid-template-columns:auto 1fr;align-items:baseline;column-gap:.75em;row-gap:.1em}.arrival-glass-panel .role-track{display:grid}
+.role-track dt{font-family:var(--hud-mono);font-size:.66em;font-weight:400;line-height:1.2;letter-spacing:.18em;color:var(--hud-cyan);text-shadow:var(--hud-text-glow)}.role-track dd{margin:0;line-height:1.4;overflow-wrap:break-word;text-wrap:pretty}
+/* The arrival glass has a fixed height: its two rows set tighter, so together they take little more than the one line they replaced. */
+.arrival-glass-panel .role-track dd{font-size:.9em;line-height:1.2}body.world-anchored .arrival-glass-panel .arrival-copy .role-track{margin:4px 0 6px}
 .arrival-glass-panel .quick-browse{display:inline-flex;align-items:center;min-height:70px;font-size:25px;color:#c7e4f0;margin-top:14px;border-bottom:1px solid #a8cada55;align-self:flex-start}
 .arrival-glass-panel .arrival-copy{overflow-y:auto;scrollbar-width:thin}
 .world-anchored .archive-glass-panel{background:linear-gradient(110deg,#07111fcc,#0a1924aa)!important}.world-anchored .ship-projection .project-detail{background:#091624db!important}
@@ -74,3 +79,34 @@ body:is(.graphics-standby,.scene-fallback) .archive-glass-panel[data-archive-pan
 body:is(.graphics-standby,.scene-fallback) .archive-glass-panel[data-archive-panel] :is(.archive-actions button,.content-button,.profile-contact .detail-links a){font-size:16px;min-height:48px;padding:12px 15px}
 body:is(.graphics-standby,.scene-fallback) .archive-glass-panel[data-archive-panel] .content-button span{font-size:20px}
 body:is(.graphics-standby,.scene-fallback) .archive-glass-panel[data-archive-panel] .archive-actions{padding:14px 24px}
+.performance-report-status{font:12px/1.5 var(--font-interface,sans-serif);color:#a8c6d9;overflow-wrap:anywhere}
+.performance-report-status:empty{display:none}
+
+body.expedition .bridge-header,body.expedition[data-step='captain'] .bridge-header{padding-right:calc(4.6% + 82px)}
+.opening-launch .launch-actions{display:flex;align-items:stretch;gap:16px;position:relative;z-index:3;max-width:100%;flex-wrap:wrap}
+.launch-browse,.opening-launch .launch-button{display:inline-flex;align-items:center;justify-content:space-between;gap:30px;min-height:62px;min-width:250px;padding:17px 24px;box-sizing:border-box;border:1px solid #c9e7f1;border-radius:7px 23px 7px 23px;font-size:16px;line-height:1.6;letter-spacing:.025em;text-decoration:none;transition:background .2s,border-color .2s,box-shadow .2s}
+.launch-browse{background:#d4edf7;color:#0a2232;font-weight:600;box-shadow:0 6px 32px #8dcae825,inset 0 1px #fff8}
+.launch-browse>span:last-child{font-size:24px;font-weight:400;line-height:1}
+.launch-browse:hover{background:#edf9ff;border-color:#f3fcff;box-shadow:0 6px 34px #8dcae83f,inset 0 1px #fff}
+.opening-launch .launch-button{background:#09142166;border-color:#94bbcf82;color:#e0edf5;box-shadow:none}
+.opening-launch .launch-button:hover{background:#1b3144b3;border-color:#d3e9f4;box-shadow:none}
+.opening-launch .launch-readiness{margin-top:15px;letter-spacing:.025em}
+.opening-launch .launch-shortcuts{margin-top:6px}
+@media(max-width:1100px){.bridge-header .brand small{display:none}.bridge-header .header-tools{gap:18px}}
+@media(max-width:1000px){.bridge-header .header-tools .archive-return{display:none}}
+@media(max-width:700px){
+ body[data-opening='waiting'] .skip-opening{display:none}
+ html[lang='en'] .opening-launch h1{font-size:clamp(28px,8vw,42px);line-height:1.25;letter-spacing:0}
+ .global-language{top:3px}
+ body.expedition .bridge-header,body.expedition[data-step='captain'] .bridge-header{height:94px;min-height:0;padding:3px 5%;display:grid;grid-template-columns:1fr;grid-template-rows:44px 44px;gap:0;background:linear-gradient(#020710a6,#02071021 80%,transparent)}
+ body.expedition .bridge-header .brand{grid-row:1;justify-self:start;align-self:center}
+ body.expedition .bridge-header .header-tools{grid-row:2;display:flex;justify-content:flex-end;gap:14px;min-width:0;height:44px}
+ .opening-launch{justify-content:flex-start;padding-top:max(112px,15svh);padding-bottom:72px}
+ .opening-launch .launch-actions{flex-direction:column;width:min(100%,340px);gap:12px;flex-wrap:nowrap}
+ .launch-browse,.opening-launch .launch-button{min-width:0;width:100%;min-height:58px;padding:15px 20px;font-size:15px}
+ .opening-launch .launch-readiness{max-width:340px;font-size:12px!important;line-height:1.6}
+ .opening-launch .launch-shortcuts{margin-top:4px}
+ .experience-settings .global-settings{right:0;top:46px;max-height:calc(100dvh - 112px)}
+}
+@media(max-width:375px){body.expedition .bridge-header .header-tools{gap:8px}}
+@media(max-height:600px) and (min-width:701px){.opening-launch .launch-actions{gap:12px}.launch-browse,.opening-launch .launch-button{min-height:54px;padding-block:12px}}

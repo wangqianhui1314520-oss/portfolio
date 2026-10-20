@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { mergeGeometries } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
+import { mergeGeometries } from '../vendor/three-0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
 
 // Everything lives in the atlas coordinate system. The open centre stays clear:
 // close curved cabin edges, a remote relay, and an oblique, sparse orbital belt.

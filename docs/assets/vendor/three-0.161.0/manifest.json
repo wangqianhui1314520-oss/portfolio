@@ -1,0 +1,86 @@
+{
+  "version": "0.161.0",
+  "source": "https://cdn.jsdelivr.net/npm/three@0.161.0/",
+  "license": "MIT",
+  "files": [
+    {
+      "file": "build/three.module.js",
+      "bytes": 1281276,
+      "sha256": "fb0b8232e4410fe207f1d56c27816ae27cafb966dbe5c8299ce4fc0bb51eba82",
+      "upstreamSha256": "e7348ab8c7bf7a41f7afc5fe503c20a0ed090d9536aacf1ee975d7aaee24d394",
+      "patches": [
+        "transmission-scale"
+      ]
+    },
+    {
+      "file": "LICENSE",
+      "bytes": 1081,
+      "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
+    },
+    {
+      "file": "examples/jsm/postprocessing/RenderPass.js",
+      "bytes": 1915,
+      "sha256": "1c90c085312871c4bcdccfcf519499c6276dd503363fcf7cb7f703add45cf4a2"
+    },
+    {
+      "file": "examples/jsm/loaders/GLTFLoader.js",
+      "bytes": 108522,
+      "sha256": "d073b438e6a07e1359741dd5d6c76c953420cc0d4fd84eb1bdde94315540e6a3"
+    },
+    {
+      "file": "examples/jsm/postprocessing/EffectComposer.js",
+      "bytes": 4651,
+      "sha256": "d234e578618fa816955ebdc059c049c577e203e650e33cf22bde3f232c29e669"
+    },
+    {
+      "file": "examples/jsm/postprocessing/UnrealBloomPass.js",
+      "bytes": 12406,
+      "sha256": "8f09315c0cec117a0ca2494d3e3586035b3c4323d6dcb037537cc51b04c3cdba"
+    },
+    {
+      "file": "examples/jsm/postprocessing/OutputPass.js",
+      "bytes": 2398,
+      "sha256": "13817fc7a87f662d29d2c5e00f44d3a4588c9afac4a372de0cacb0e44e368ffd"
+    },
+    {
+      "file": "examples/jsm/postprocessing/ShaderPass.js",
+      "bytes": 1576,
+      "sha256": "3b28a1ee27e0eb96c0eab137a1f442ccf127a926904eced2d51e125ec44af781"
+    },
+    {
+      "file": "examples/jsm/utils/BufferGeometryUtils.js",
+      "bytes": 31554,
+      "sha256": "b0c64fe6f3b9907262921b73fafc4ade874c07ba6b4876e164c87a830c2c2113"
+    },
+    {
+      "file": "examples/jsm/postprocessing/Pass.js",
+      "bytes": 1706,
+      "sha256": "b3c6128340eaa37e40a6a2f1b738e894c855239417d50959759b34a2b5e89f92"
+    },
+    {
+      "file": "examples/jsm/objects/Reflector.js",
+      "bytes": 7043,
+      "sha256": "012ecf98f5fc9bd262871e33d79392a25c04c2573ed68852eb3b8d2d39f9808b"
+    },
+    {
+      "file": "examples/jsm/shaders/CopyShader.js",
+      "bytes": 571,
+      "sha256": "4e3346db194db56a596cd074e9bdb39fb5eb52040c333e0d29dc4eb1324d3b1d"
+    },
+    {
+      "file": "examples/jsm/shaders/LuminosityHighPassShader.js",
+      "bytes": 1192,
+      "sha256": "3d841cc594a0c1767d1b0185720b32761a0133c5f1b70b56658e28f2fb9b7900"
+    },
+    {
+      "file": "examples/jsm/postprocessing/MaskPass.js",
+      "bytes": 2231,
+      "sha256": "328cf7db0da5d9be83ffe39d54b01d5ac1fddf108cc98182ddbb056f5c8b537f"
+    },
+    {
+      "file": "examples/jsm/shaders/OutputShader.js",
+      "bytes": 1393,
+      "sha256": "53a52e430c27bc36ceaab8ae90a2b4af7b02672d7ee4b29d6ba3c28e09c92c2a"
+    }
+  ]
+}

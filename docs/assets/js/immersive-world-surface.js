@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {quadMatrix,convexHull} from './immersive-projection.js?v=cinematic-v21.1';
+import {quadMatrix,convexHull} from './immersive-projection.js?v=cinematic-v21.19';
 const local=new THREE.Vector3(),world=new THREE.Vector3(),normal=new THREE.Vector3(),delta=new THREE.Vector3();
 const styleCache=new WeakMap(),clipCache=new WeakMap();
 function applyStyle(element,name,value){let cache=styleCache.get(element);if(!cache){cache={};styleCache.set(element,cache);}if(cache[name]!==value||element.style[name]!==value){element.style[name]=value;cache[name]=value;}}

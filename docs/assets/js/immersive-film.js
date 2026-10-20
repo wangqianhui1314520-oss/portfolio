@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { ShaderPass } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/ShaderPass.js';
-import { orbitalEarthOcclusion } from './immersive-planet.js?v=cinematic-v21.1';
+import { ShaderPass } from '../vendor/three-0.161.0/examples/jsm/postprocessing/ShaderPass.js';
+import { orbitalEarthOcclusion } from './immersive-planet.js?v=cinematic-v21.19';
 
 export function createFilmLook({composer,scene,camera,time,velocity,pulse,compact}) {
   const sunPosition=new THREE.Vector3(32,38,-310);
@@ -32,7 +32,7 @@ export function createFilmLook({composer,scene,camera,time,velocity,pulse,compac
         col*=mix(vec3(.94,1.01,1.06),vec3(1.025,1.009,.98),smoothstep(.08,.65,luma));
         vec2 lens=vUv-uSun;lens.y*=uSize.y/uSize.x;
         float streak=exp(-abs(lens.y)*1100.)*exp(-abs(lens.x)*6.7);
-        float ghost=exp(-pow((length((vUv-(vec2(1.)-uSun))*vec2(1.,uSize.y/uSize.x))-.085)*140.,2.));
+        float ghostDistance=(length((vUv-(vec2(1.)-uSun))*vec2(1.,uSize.y/uSize.x))-.085)*140.;float ghost=exp(-ghostDistance*ghostDistance);
         col+=vec3(.20,.37,.48)*(streak*.25+ghost*.005)*uSunVisible;
         float frame=floor(uTime*24.);
         vec2 pixel=floor(vUv*uSize);

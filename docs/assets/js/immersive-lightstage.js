@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { stellarSunDirection, normalizeStellarLayout } from './immersive-world-layout.js?v=cinematic-v21.1';
-import { publishOpticalRadiance } from './immersive-optical.js?v=cinematic-v21.1';
-import { createStellarDensityAtlas, stellarDensityGLSL, stellarLightSourceGLSL, stellarPointerGLSL, stellarProbeGLSL, stellarVolumeUniformNames, createRadianceCapturePolicy } from './immersive-volume-field.js?v=cinematic-v21.1';
+import { stellarSunDirection, normalizeStellarLayout } from './immersive-world-layout.js?v=cinematic-v21.19';
+import { publishOpticalRadiance } from './immersive-optical.js?v=cinematic-v21.19';
+import { createStellarDensityAtlas, stellarDensityGLSL, stellarLightSourceGLSL, stellarPointerGLSL, stellarProbeGLSL, stellarVolumeUniformNames, createRadianceCapturePolicy } from './immersive-volume-field.js?v=cinematic-v21.19';
 
 // Blender's sun, the volume scattering and physical surfaces share one source.
 export const cinematicLighting=Object.freeze({
@@ -12,14 +12,17 @@ export const cinematicLighting=Object.freeze({
 // The lighting cube is rendered from linear radiance and optional real emissive
 // geometry and finite 3D volume. It has no photograph input; full/low captures
 // are limited to once per 12/24 s, with explicit layout invalidation allowed.
-export function createCinematicEnvironment({renderer}){
+export function createCinematicEnvironment({renderer,volumeState=null,deferCapture=false}){
  if(!renderer)throw new Error('Cinematic environment requires its WebGL renderer.');
  const scene=new THREE.Scene(),generator=new THREE.PMREMGenerator(renderer),policy=createRadianceCapturePolicy();
- let fallbackAtlas=createStellarDensityAtlas(THREE);const initial=normalizeStellarLayout();
- const volumeUniforms={uAtlas:{value:fallbackAtlas},uTime:{value:0},uDensity:{value:.88},uDetail:{value:1},uSeaReveal:{value:1},uPulse:{value:0},
+ let fallbackAtlas=volumeState?.uAtlas?.value?null:createStellarDensityAtlas(THREE);const initial=normalizeStellarLayout();
+ const volumeUniforms={uAtlas:{value:volumeState?.uAtlas?.value||fallbackAtlas},uTime:{value:0},uDensity:{value:.88},uDetail:{value:1},uSeaReveal:{value:1},uPulse:{value:0},
   uCenters:{value:initial.volumeRegions.map(r=>new THREE.Vector3(...r.center))},uRadii:{value:initial.volumeRegions.map(r=>new THREE.Vector3(...r.radius))},uColors:{value:initial.volumeRegions.map(r=>new THREE.Color().setRGB(...r.color))},
   uSeeds:{value:initial.volumeRegions.map(r=>r.seed)},uExtinction:{value:initial.volumeRegions.map(r=>r.density)},uFlows:{value:initial.volumeRegions.map(r=>new THREE.Vector3(...r.flow))},uSun:{value:new THREE.Vector3(...initial.sunDirection)},
   uPointerOrigin:{value:new THREE.Vector3()},uPointerDirection:{value:new THREE.Vector3(0,0,-1)},uPointerPower:{value:0},uPointerSpeed:{value:0}};
+ // Bind the live field before the first probe. Building a second identical
+ // atlas and immediately replacing it wasted startup CPU and texture upload.
+ for(const name of stellarVolumeUniformNames)if(volumeState?.[name])volumeUniforms[name]=volumeState[name];
  const basis=(direction,longAxis)=>{
   const center=new THREE.Vector3(...direction).normalize(),tangent=new THREE.Vector3(...longAxis);
   tangent.addScaledVector(center,-tangent.dot(center)).normalize();
@@ -43,15 +46,19 @@ export function createCinematicEnvironment({renderer}){
    uniform vec3 uKey,uKeyTangent,uKeyBitangent,uKeyColor,uRim,uRimTangent,uRimBitangent,uRimColor,uCeiling,uCeilingTangent,uCeilingBitangent;
    float card(vec3 d,vec3 center,vec3 tangent,vec3 bitangent,vec2 extent){
     float toward=dot(d,center);vec2 p=vec2(dot(d,tangent),dot(d,bitangent))/max(toward,.01);
-    vec2 edge=1.-smoothstep(extent*.78,extent*1.12,abs(p));
-    return edge.x*edge.y*smoothstep(.01,.12,toward);
+    // A finite soft source, with a continuous shoulder in both directions.
+    // Box-shaped HDR cards made a reflected rectangle read like an opaque
+    // white component inside the crystal. Preserve energy and curvature cues.
+    vec2 normalized=p/extent;
+    float shoulder=exp(-dot(normalized,normalized)*1.65);
+    return shoulder*smoothstep(.01,.12,toward);
    }
    void main(){vec3 d=normalize(vDirection-uProbeOrigin);float up=clamp(d.y*.5+.5,0.,1.);
     vec3 radiance=mix(vec3(.003,.006,.013),vec3(.010,.019,.029),up);
-    float warm=card(d,uKey,uKeyTangent,uKeyBitangent,vec2(.22,.048));
-    float cool=card(d,uRim,uRimTangent,uRimBitangent,vec2(.29,.046));
+    float warm=card(d,uKey,uKeyTangent,uKeyBitangent,vec2(.29,.090));
+    float cool=card(d,uRim,uRimTangent,uRimBitangent,vec2(.32,.065));
     float pearl=card(d,uCeiling,uCeilingTangent,uCeilingBitangent,vec2(.40,.16));
-    radiance+=uKeyColor*warm*2.2+uRimColor*cool*1.5+vec3(.72,.82,.94)*pearl*.18;
+    radiance+=uKeyColor*warm*1.35+uRimColor*cool*1.15+vec3(.72,.82,.94)*pearl*.60;
     if(uVolumeReady>.5)radiance+=stellarProbeRadiance(d)*.68;
     gl_FragColor=vec4(radiance,1.);
    }`
@@ -59,9 +66,16 @@ export function createCinematicEnvironment({renderer}){
  const geometry=new THREE.SphereGeometry(18000,24,12),sphere=new THREE.Mesh(geometry,material);
  sphere.name='Tem.cinematic.analytic-HDR-lightstage';sphere.frustumCulled=false;scene.add(sphere);
  const emissions=new THREE.Group();scene.add(emissions);let pairs=[],target,released=false,cubeTarget=null,cubeCamera=null,cubeSize=0,captures=0,cpuMs=0;
+ // One cube size for every quality tier. The PMREM height is a shader define
+ // of every physical material; changing it on an automatic quality drop
+ // relinked the whole observatory mid-scene. Low tiers march fewer steps.
+ const edge=128;
+ function ensureCube(){
+  if(cubeTarget)return;
+  cubeSize=edge;cubeTarget=new THREE.WebGLCubeRenderTarget(edge,{type:THREE.HalfFloatType,generateMipmaps:false});cubeTarget.texture.colorSpace=THREE.LinearSRGBColorSpace;cubeCamera=new THREE.CubeCamera(.1,24000,cubeTarget);
+ }
  function capture({time=0,quality=1}={}){
-  const edge=quality<.75?64:128;
-  if(edge!==cubeSize){cubeTarget?.dispose();cubeSize=edge;cubeTarget=new THREE.WebGLCubeRenderTarget(edge,{type:THREE.HalfFloatType,generateMipmaps:false});cubeTarget.texture.colorSpace=THREE.LinearSRGBColorSpace;cubeCamera=new THREE.CubeCamera(.1,24000,cubeTarget);}
+  ensureCube();
   cubeCamera.position.copy(material.uniforms.uProbeOrigin.value);material.uniforms.uRadianceSteps.value=quality<.75?8:12;
   for(const pair of pairs){pair.source.updateWorldMatrix(true,false);pair.copy.matrix.copy(pair.source.matrixWorld);let visible=true;for(let object=pair.source;object;object=object.parent)if(!object.visible){visible=false;break;}pair.copy.visible=visible;}
   const scalars=new Map();
@@ -77,9 +91,30 @@ export function createCinematicEnvironment({renderer}){
   const old=target;target=next;publishOpticalRadiance({texture:target.texture,width:target.width,height:target.height,maxMip:Math.log2(edge)});old?.dispose();
   captures++;cpuMs=performance.now()-started;policy.remember({time,quality});return target.texture;
  }
- try{capture();}catch(error){cubeTarget?.dispose();fallbackAtlas?.dispose();generator.dispose();geometry.dispose();material.dispose();throw error;}
+ let preparation;
+ if(!deferCapture)try{capture();}catch(error){cubeTarget?.dispose();fallbackAtlas?.dispose();generator.dispose();geometry.dispose();material.dispose();throw error;}
  return {
-  get texture(){return target.texture;},
+  get texture(){return target?.texture||null;},
+  prepare(){
+   if(released)return Promise.reject(new Error('Cannot prepare a disposed lightstage.'));
+   if(target)return Promise.resolve(target.texture);
+   // r161 polls KHR_parallel_shader_compile when available. The expensive
+   // volume shader can link while input and asset loading continue; the first
+   // six-face draw never queries its still-compiling program synchronously.
+   // Compile against the linear HDR cube face that capture() draws into: the
+   // canvas default selects an sRGB-output variant, and the real capture then
+   // linked a second copy on the main thread.
+   if(!preparation)preparation=Promise.resolve().then(()=>{
+    ensureCube();
+    const previous=renderer.getRenderTarget(),face=renderer.getActiveCubeFace?.()??0,mip=renderer.getActiveMipmapLevel?.()??0;
+    try{renderer.setRenderTarget(cubeTarget);return renderer.compileAsync?.(scene,new THREE.PerspectiveCamera(90,1,.1,24000));}
+    finally{renderer.setRenderTarget(previous,face,mip);}
+   }).then(()=>{
+    if(released)throw new Error('Lightstage disposed during shader preparation.');
+    return capture();
+   });
+   return preparation;
+  },
   get stats(){return {captures,cubeSize,probeSteps:material.uniforms.uRadianceSteps.value,sharedVolume:!fallbackAtlas,cpuMs};},
   setWorldLayout(layout){
    const normalized=normalizeStellarLayout(layout);

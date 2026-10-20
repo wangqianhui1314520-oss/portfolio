@@ -1,8 +1,9 @@
 import * as THREE from 'three';
-import {mergeGeometries} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
-import {opticalEnvironment,opticalSkySample} from './immersive-optical.js?v=cinematic-v21.1';
-import {buildDetailedFleet} from './immersive-starship-detail.js?v=cinematic-v21.1';
-import {loadTemAsset} from './immersive-blender-assets.js?v=cinematic-v21.1';
+import {compileBeforeReveal} from './immersive-shader-preparation.js?v=cinematic-v21.19';
+import {mergeGeometries} from '../vendor/three-0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
+import {opticalEnvironment,opticalSkySample} from './immersive-optical.js?v=cinematic-v21.19';
+import {buildDetailedFleet} from './immersive-starship-detail.js?v=cinematic-v21.19';
+import {loadTemAsset} from './immersive-blender-assets.js?v=cinematic-v21.19';
 
 const TAU=Math.PI*2;
 function chamberFootprint(a,t=1,y=0){
@@ -112,7 +113,7 @@ export function createOpticalStarport({parent,uniforms,colors,interaction,sector
  });
  const ceramic=material([.39,.45,.53],.04,false,.26),titanium=material([.37,.28,.18],.72,false,.30),dark=material([.025,.042,.071],.46,false,.38),glass=material([.09,.20,.32],.06,true,.13);
  const glow=new THREE.ShaderMaterial({uniforms:shared,vertexShader:poseShader,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,toneMapped:false,
-  fragmentShader:`uniform float uTime,uSelected,uHover,uPower,uBayEngagement[4];uniform vec3 uActiveColor,uBayColor[4];varying vec2 vUv;varying float vBay,vIsShip;uniform float uAuthoredPlatform,uAuthoredFleet;void main(){if(uAuthoredPlatform>.5&&vIsShip<.5||uAuthoredFleet>.5&&vIsShip>.5)discard;float engagement=uBayEngagement[0];vec3 bayColor=uBayColor[0];if(vBay>.5){engagement=uBayEngagement[1];bayColor=uBayColor[1];}if(vBay>1.5){engagement=uBayEngagement[2];bayColor=uBayColor[2];}if(vBay>2.5){engagement=uBayEngagement[3];bayColor=uBayColor[3];}engagement*=step(-.5,vBay);float pulse=exp(-pow(fract(vUv.x-uTime*.11)-.36,2.)*250.);vec3 c=mix(vec3(.36,.69,.98),vec3(1.,.72,.45),vUv.y*.25);c=mix(c,bayColor,engagement*.80);gl_FragColor=vec4(c*(.52+pulse*(.22+engagement*.60)+engagement*.78),.19+engagement*.43);}`
+  fragmentShader:`uniform float uTime,uSelected,uHover,uPower,uBayEngagement[4];uniform vec3 uActiveColor,uBayColor[4];varying vec2 vUv;varying float vBay,vIsShip;uniform float uAuthoredPlatform,uAuthoredFleet;void main(){if(uAuthoredPlatform>.5&&vIsShip<.5||uAuthoredFleet>.5&&vIsShip>.5)discard;float engagement=uBayEngagement[0];vec3 bayColor=uBayColor[0];if(vBay>.5){engagement=uBayEngagement[1];bayColor=uBayColor[1];}if(vBay>1.5){engagement=uBayEngagement[2];bayColor=uBayColor[2];}if(vBay>2.5){engagement=uBayEngagement[3];bayColor=uBayColor[3];}engagement*=step(-.5,vBay);float pulseDistance=fract(vUv.x-uTime*.11)-.36;float pulse=exp(-pulseDistance*pulseDistance*250.);vec3 c=mix(vec3(.36,.69,.98),vec3(1.,.72,.45),vUv.y*.25);c=mix(c,bayColor,engagement*.80);gl_FragColor=vec4(c*(.52+pulse*(.22+engagement*.60)+engagement*.78),.19+engagement*.43);}`
  });
  const batches=new Map([[ceramic,[]],[titanium,[]],[dark,[]],[glass,[]],[glow,[]]]),pickParts=Array.from({length:4},()=>[]),transform=new THREE.Object3D();
  function part(g,mat,p=[0,0,0],rotation=[0,0,0],scale=[1,1,1],bay=-1){
@@ -180,27 +181,36 @@ export function createOpticalStarport({parent,uniforms,colors,interaction,sector
  const lamp=new THREE.PointLight(0xc5d8f5,25,28,2);lamp.position.copy(sourcePosition);root.add(lamp);
  const pickingMaterial=new THREE.MeshBasicMaterial({side:THREE.DoubleSide});pickingMaterial.visible=false;
  const picking=pickParts.map((parts,i)=>{const geo=mergeGeometries(parts,false);parts.forEach(g=>g.dispose());const ship=new THREE.Mesh(geo,pickingMaterial);ship.name='Tem.starport.pick-'+i;ship.userData.sector=sectorIds[i];ship.matrixAutoUpdate=false;root.add(ship);return ship;});
- let authoredPort=null,authoredFleet=null;
- loadTemAsset({name:'starport',desktopOnly:true,canvas:document.getElementById('space'),onLoad:model=>{
+ let authoredPort=null,authoredFleet=null,assetPreparation=null;
+ // The atlas is an optional destination. Keep its authored geometry out of
+ // the welcome/About loading queue; request the same full assets on entry.
+ function ensureAssets(){
+  if(assetPreparation)return assetPreparation;
+  // Each model links its shaders before attaching; the procedural port and
+  // fleet keep drawing until the authored ones can render without a stall.
+  assetPreparation=Promise.all([loadTemAsset({name:'starport',desktopOnly:true,canvas:document.getElementById('space'),onLoad:async model=>{
   if(!model.find('STARPORT'))throw new Error('Missing authored starport.');
+  await compileBeforeReveal(model.root);
   root.add(model.root);authoredPort=model.root;dispatchEvent(new Event('tem:scene-depth-change'));
- }});
- loadTemAsset({name:compact?'fleetLod':'fleet',canvas:document.getElementById('space'),onLoad:model=>{
+ }}),loadTemAsset({name:compact?'fleetLod':'fleet',canvas:document.getElementById('space'),onLoad:async model=>{
   const ships=Array.from({length:4},(_,i)=>model.find('SHIP_'+i));
   if(ships.some(ship=>!ship))throw new Error('Missing authored fleet roots.');
+  await compileBeforeReveal(model.root);
   for(const ship of ships)ship.matrixAutoUpdate=false;
   root.add(model.root);authoredFleet=ships;
   const canvas=document.getElementById('space');if(canvas)canvas.dataset.fleetV21=compact?'lod':'full';
   dispatchEvent(new Event('tem:scene-depth-change'));
- }});
+ }})]);
+  return assetPreparation;
+ }
  const pose=new THREE.Object3D(),inverse=new THREE.Matrix4();let ready=false,lastSelected=-1,lastHover=-1;
  function setPose(i,time,level,motion){pose.position.fromArray(poses[i]);pose.position.y+=level*.73+(motion?Math.sin(time*.30+i*1.71)*.055:0);pose.rotation.set(-.025-level*.10,yaw[i],(i%2?-.035:.035)*level);pose.scale.setScalar(i===2?1.25:i===3?1.34:1.55);pose.updateMatrix();shipPoses[i].copy(pose.matrix);picking[i].matrix.copy(pose.matrix);picking[i].matrixWorldNeedsUpdate=true;}
  poses.forEach((p,i)=>setPose(i,0,0,false));
- return {root,sourcePosition,picking,get responseLevel(){return Math.max(...levels);},layout(){shared.uHeight.value=innerHeight;},setTargets(centers,cloudMatrix){root.updateWorldMatrix(true,false);inverse.copy(root.matrixWorld).invert();centers.forEach((p,i)=>cloudTargets[i].fromArray(p).applyMatrix4(cloudMatrix).applyMatrix4(inverse));},update(dt,time,motion,selected,hover,energy,departure=0){
+ return {root,sourcePosition,picking,ensureAssets,get responseLevel(){return Math.max(...levels);},layout(){shared.uHeight.value=innerHeight;},setTargets(centers,cloudMatrix){root.updateWorldMatrix(true,false);inverse.copy(root.matrixWorld).invert();centers.forEach((p,i)=>cloudTargets[i].fromArray(p).applyMatrix4(cloudMatrix).applyMatrix4(inverse));},update(dt,time,motion,selected,hover,energy,departure=0){
+  ensureAssets();
   // A paused cloud cache still needs the new silhouette after a discrete pose change.
   const useAuthored=innerWidth>=700;
   if(authoredPort)authoredPort.visible=useAuthored;
-  if(authoredFleet)for(let i=0;i<4;i++){authoredFleet[i].visible=true;authoredFleet[i].matrix.copy(shipPoses[i]);authoredFleet[i].matrixWorldNeedsUpdate=true;}
   shared.uAuthoredPlatform.value=authoredPort&&useAuthored?1:0;shared.uAuthoredFleet.value=authoredFleet?1:0;
   for(const mesh of proceduralBatches)mesh.visible=!(shared.uAuthoredPlatform.value&&shared.uAuthoredFleet.value);
   const discrete=!ready||selected!==lastSelected||hover!==lastHover;
@@ -208,7 +218,7 @@ export function createOpticalStarport({parent,uniforms,colors,interaction,sector
   if(motion)shared.uTime.value=time;shared.uSelected.value=selected;shared.uHover.value=hover;shared.uHeight.value=innerHeight;
   if(motion)shared.uDeparture.value=THREE.MathUtils.damp(shared.uDeparture.value,Math.max(0,Math.min(1,departure)),5.4,dt);else if(discrete)shared.uDeparture.value=0;
   levels.forEach((value,i)=>{const target=hover===i?1:selected===i?Math.max(.38,shared.uDeparture.value*.78):0;if(motion)levels[i]=THREE.MathUtils.damp(value,target,hover===i?5.8:3.3,dt);else if(discrete)levels[i]=target;if(motion||discrete)setPose(i,time,levels[i],motion);});
-  if(authoredFleet)for(let i=0;i<4;i++){authoredFleet[i].matrix.copy(shipPoses[i]);authoredFleet[i].matrixWorldNeedsUpdate=true;}
+  if(authoredFleet)for(let i=0;i<4;i++){authoredFleet[i].visible=true;authoredFleet[i].matrix.copy(shipPoses[i]);authoredFleet[i].matrixWorldNeedsUpdate=true;}
   const activeColor=colors[hover>=0?hover:selected]||colors[0],lampTarget=24+energy*8+Math.max(...levels)*9;
   if(motion){lamp.color.lerp(activeColor,1-Math.exp(-dt*5.8));lamp.intensity=THREE.MathUtils.damp(lamp.intensity,lampTarget,5.8,dt);}else if(discrete){lamp.color.copy(activeColor);lamp.intensity=lampTarget;}
   ready=true;lastSelected=selected;lastHover=hover;

@@ -16,7 +16,7 @@ export function createEnvironmentResponse({root,color=0x91d7ed,monument=null,rel
     vec3 away=p-uPointer;float reach=exp(-dot(away,away)/100.)*uPointerPower;p+=normalize(away+vec3(.001))*reach*4.;
     vec3 wake=p-uShip;float engine=exp(-(wake.y*wake.y+wake.z*wake.z)/25.)*smoothstep(-2.,6.,wake.x)*(1.-smoothstep(15.,34.,wake.x))*uPower;
     p.y+=sin(uTime*1.8+p.x*.4)*engine*1.8;p.z+=cos(uTime*1.8+p.x*.4)*engine*1.8;
-    vec3 shock=p-uPulse;float wave=exp(-pow((length(shock)-uRadius)*.22,2.))*uPulsePower;p+=normalize(shock+vec3(.001))*wave*2.;
+    vec3 shock=p-uPulse;float waveDistance=(length(shock)-uRadius)*.22;float wave=exp(-waveDistance*waveDistance)*uPulsePower;p+=normalize(shock+vec3(.001))*wave*2.;
     vec4 mv=modelViewMatrix*vec4(p,1.);gl_Position=projectionMatrix*mv;gl_PointSize=clamp(aSize*uHeight*.035/max(5.,-mv.z),.7,3.8);
     vAlpha=.14+reach*.6+engine*.55+wave*.75;}
   `,
@@ -31,7 +31,7 @@ export function createEnvironmentResponse({root,color=0x91d7ed,monument=null,rel
  routeGeometry.setAttribute('position',new THREE.BufferAttribute(routePositions,3));routeGeometry.setAttribute('aProgress',new THREE.BufferAttribute(progress,1));
  const routeMaterial=new THREE.ShaderMaterial({uniforms:{uPhase:{value:0},uPower:{value:0},uColor:{value:new THREE.Color(color)}},transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
   vertexShader:'attribute float aProgress;varying float vProgress;void main(){vProgress=aProgress;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
-  fragmentShader:'varying float vProgress;uniform float uPhase,uPower;uniform vec3 uColor;void main(){float packet=exp(-pow((vProgress-uPhase)*20.,2.));float dash=.25+.75*smoothstep(.42,.55,fract(vProgress*26.));gl_FragColor=vec4(uColor,uPower*(.28*dash+packet*.8));}'
+  fragmentShader:'varying float vProgress;uniform float uPhase,uPower;uniform vec3 uColor;void main(){float packetDistance=(vProgress-uPhase)*20.;float packet=exp(-packetDistance*packetDistance);float dash=.25+.75*smoothstep(.42,.55,fract(vProgress*26.));gl_FragColor=vec4(uColor,uPower*(.28*dash+packet*.8));}'
  });
  const route=new THREE.Line(routeGeometry,routeMaterial);route.frustumCulled=false;route.visible=false;group.add(route);
  const packet=new THREE.Mesh(new THREE.SphereGeometry(.24,10,8),new THREE.MeshBasicMaterial({color:new THREE.Color(color).lerp(new THREE.Color(0xffffff),.55),transparent:true,opacity:.9,toneMapped:false}));

@@ -1,10 +1,10 @@
 import * as THREE from 'three';
-import { journey,subscribe,getRevision } from './immersive-session.js?v=cinematic-v21.1';
-import { transitionDurations } from './immersive-journey.js?v=cinematic-v21.1';
-import { createSpatialWorld } from './immersive-spatial.js?v=cinematic-v21.1';
-import { opening,updateOpening } from './immersive-intro.js?v=cinematic-v21.1';
-import { cinematicEase } from './immersive-easing.js?v=cinematic-v21.1';
-import {archivePose,archiveWelcomePose,archiveRail,archiveChapterOrder} from './immersive-archive-path.js?v=cinematic-v21.1';
+import { journey,subscribe,getRevision } from './immersive-session.js?v=cinematic-v21.19';
+import { transitionDurations } from './immersive-journey.js?v=cinematic-v21.19';
+import { createSpatialWorld } from './immersive-spatial.js?v=cinematic-v21.19';
+import { opening,updateOpening } from './immersive-intro.js?v=cinematic-v21.19';
+import { cinematicEase } from './immersive-easing.js?v=cinematic-v21.19';
+import {archivePose,archiveWelcomePose,archiveRail,archiveChapterOrder} from './immersive-archive-path.js?v=cinematic-v21.19';
 
 export function createNavigation({scene,camera,interaction}){
  const world=createSpatialWorld({scene,camera,interaction});
@@ -14,22 +14,16 @@ export function createNavigation({scene,camera,interaction}){
   if(state.step!=='bridge'){
    const pose=world.pose(state);
    if(state.step==='captain'){
-    const p=archivePose(renderedArchiveProgress,innerWidth<700);pose.position.fromArray(p.position);pose.look.fromArray(p.look);pose.fov=p.fov;
-    if(innerWidth>=700){
-     const rail=THREE.MathUtils.clamp(renderedArchiveProgress,0,3),index=Math.floor(rail),blend=smooth(rail-index),next=Math.min(3,index+1);
-     const lenses=[49,47.8,50,48.5],lifts=[0,.30,-.12,.24];
-     pose.fov=THREE.MathUtils.lerp(lenses[index],lenses[next],blend);
-     const lift=THREE.MathUtils.lerp(lifts[index],lifts[next],blend);pose.position.y+=lift;pose.look.y+=lift*.35;
-    }
+    const p=archivePose(renderedArchiveProgress,innerWidth<700,innerWidth/innerHeight);pose.position.fromArray(p.position);pose.look.fromArray(p.look);pose.fov=p.fov;
    }
    return pose;
   }
-  const p=archiveWelcomePose(innerWidth<700);
+  const p=archiveWelcomePose(innerWidth<700,innerWidth/innerHeight);
   return {position:new THREE.Vector3(...p.position),look:new THREE.Vector3(...p.look),fov:p.fov};
  };
  const initial=poseFor(journey.state),base=initial.position.clone(),look=initial.look.clone();
  const from=base.clone(),to=base.clone(),lookFrom=look.clone(),lookTo=look.clone();
- const openingRoute=new THREE.CatmullRomCurve3([[-260,95,1650],[-200,110,1270],[-112,72,690],[-118,53,275],[-82,34,140],[-48,20,106],[-18,8,67],archiveWelcomePose(innerWidth<700).position].map(a=>new THREE.Vector3(...a)),false,'centripetal');
+ const openingRoute=new THREE.CatmullRomCurve3([[-260,95,1650],[-200,110,1270],[-112,72,690],[-118,53,275],[-82,34,140],[-48,20,106],[-18,8,67],archiveWelcomePose(innerWidth<700,innerWidth/innerHeight).position].map(a=>new THREE.Vector3(...a)),false,'centripetal');
  const introPosition=new THREE.Vector3(),introLook=new THREE.Vector3(),parallax=new THREE.Vector3(),parallaxRight=new THREE.Vector3();
  const previousCamera=initial.position.clone(),heldPosition=new THREE.Vector3(),heldRotation=new THREE.Quaternion(),parallaxTarget=new THREE.Vector3();let wasOpening=false,readingHeld=false,heldFov=camera.fov;
  let step='bridge',age=0,duration=1,finished=false,revision=0,speed=0,previous=base.clone(),targetFov=initial.fov,fromFov=camera.fov,enabled=true,shotPath=null;
@@ -79,9 +73,9 @@ export function createNavigation({scene,camera,interaction}){
    document.getElementById('space').dataset.journey=step;
  };
  subscribe(state);state();camera.position.copy(base);
- let lastArchiveIndex=archiveRail.index;
+ let lastArchiveIndex=archiveRail.index,projectionFov=null,projectionAspect=null;
  addEventListener('tem:archive-chapter',e=>{if(journey.state.step==='captain'&&e.detail.source!=='orbit')archiveRail.select(archiveChapterOrder.indexOf(e.detail.tab));});
- addEventListener('resize',()=>{const p=poseFor(journey.state);to.copy(p.position);lookTo.copy(p.look);openingRoute.points.at(-1).fromArray(archiveWelcomePose(innerWidth<700).position);openingRoute.updateArcLengths();from.copy(base);lookFrom.copy(look);fromFov=camera.fov;targetFov=p.fov;shotPath=null;age=0;duration=.5;world.layout();});
+ addEventListener('resize',()=>{const p=poseFor(journey.state);to.copy(p.position);lookTo.copy(p.look);openingRoute.points.at(-1).fromArray(archiveWelcomePose(innerWidth<700,innerWidth/innerHeight).position);openingRoute.updateArcLengths();from.copy(base);lookFrom.copy(look);fromFov=camera.fov;targetFov=p.fov;shotPath=null;age=0;duration=.5;world.layout();});
  addEventListener('pointerdown',e=>{if(e.button!==0||!canOrbit()||e.target.closest(blockedUI))return;dragStart={x:e.clientX,y:e.clientY,yaw:orbitTarget.x,pitch:orbitTarget.y};});
  addEventListener('pointermove',e=>{if(!dragStart)return;const dx=e.clientX-dragStart.x,dy=e.clientY-dragStart.y;
   if(Math.hypot(dx,dy)>8)document.body.dataset.orbiting='true';
@@ -127,10 +121,13 @@ export function createNavigation({scene,camera,interaction}){
    if(motion)parallax.lerp(parallaxTarget,1-Math.exp(-dt*6));else if(!readingHeld)parallax.set(0,0,0);
    if(!opening.active&&!wasOpening)camera.position.add(parallax);
    if(step==='bridge'&&opening.active&&motion){
-    if(!opening.started){camera.position.set(-40,12,270);camera.lookAt(new THREE.Vector3(105,28,-500));}
+    if(!opening.started){
+     camera.position.set(-40-pointer.x*2*motion,12-pointer.y*motion,270);
+     camera.lookAt(new THREE.Vector3(105-pointer.x*2*motion,28-pointer.y*motion,-500));
+    }
     else if(opening.duration<=2){camera.position.add(new THREE.Vector3(-1,0,2).multiplyScalar(1-smooth(intro)));camera.lookAt(look);}
     else{openingRoute.getPointAt(introFrame.route,introPosition);camera.position.copy(introPosition);
-     introLook.fromArray(openingLookPoint(introFrame.time,archiveWelcomePose(innerWidth<700).look));camera.lookAt(introLook);
+     introLook.fromArray(openingLookPoint(introFrame.time,archiveWelcomePose(innerWidth<700,innerWidth/innerHeight).look));camera.lookAt(introLook);
      camera.rotateZ(Math.sin(introFrame.route*Math.PI)*.012);}
    }else camera.lookAt(introLook.copy(look).add(parallax));
    const arch=Math.sin(p*Math.PI)*motion;
@@ -140,11 +137,12 @@ export function createNavigation({scene,camera,interaction}){
    // Reading pauses the rendered shot, including its orbit and pointer offset.
    // Removing motion alone would snap the eye to the unmodified base position.
    if(readingHeld){camera.position.copy(heldPosition);camera.quaternion.copy(heldRotation);camera.fov=heldFov;}
-   camera.updateProjectionMatrix();camera.updateMatrixWorld();
+   if(camera.fov!==projectionFov||camera.aspect!==projectionAspect){camera.updateProjectionMatrix();projectionFov=camera.fov;projectionAspect=camera.aspect;}
+   camera.updateMatrixWorld();
    const archiveMoving=step==='captain'&&(p<1||archiveRail.moving||Math.abs(renderedArchiveProgress-archiveRail.progress)>.004||Math.abs(archiveVelocity)>.025);
    document.body.dataset.moving=p<1||archiveMoving||(opening.active&&introFrame.route<1)?'true':'false';
    document.getElementById('space').dataset.shotPhase=step==='docking'?(p<.34?'alignment':p<.86?'deployment':'settle'):p<1?'tracking':'hold';
-   interaction?.update(dt,pointer,camera,motion,step,opening.active);
+   interaction?.update(dt,pointer,camera,motion,step,opening.active&&opening.started);
    world.update(dt,time,motion,{progress:p,age,duration});
    if(p>=1&&!finished&&enabled){finished=true;const detail={step,revision};if(['boot','travel','docking'].includes(step))queueMicrotask(()=>dispatchEvent(new CustomEvent('tem:arrived',{detail})));}
    const introSpeed=opening.active&&opening.ready&&wasOpening?Math.min(2.5,camera.position.distanceTo(previousCamera)/Math.max(dt,.001)*.006):0;wasOpening=opening.active;

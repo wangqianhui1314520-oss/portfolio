@@ -1,5 +1,5 @@
 // Deploy completeness guard.
-// GitHub Pages publishes exactly what git tracks under the site folder (Tem/).
+// GitHub Pages publishes exactly what git tracks under the site folder (docs/).
 // Anything the site references but git does not publish will 404 after release,
 // so fail here instead of shipping a broken site.
 import test from 'node:test';
@@ -69,8 +69,9 @@ test('every page references only files git will publish', () => {
     if (!fs.existsSync(path.join(root, entry))) continue;
     assert.ok(publish.has(entry), 'entry page not published: ' + entry);
     const html = fs.readFileSync(path.join(root, entry), 'utf8');
-    for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
-      const url = match[1];
+    const references = [...html.matchAll(/(?:href|src|data-preview|data-model-url)="([^"]+)"/g)].map(match => match[1]);
+    for (const match of html.matchAll(/\bsrcset="([^"]+)"/g)) references.push(...match[1].split(',').map(entry => entry.trim().split(/\s+/)[0]));
+    for (const url of references) {
       if (/^(?:https?:|mailto:|tel:|#|data:)/.test(url)) continue;
       check(url, entry);
     }
@@ -81,13 +82,13 @@ test('every page references only files git will publish', () => {
   assert.ok(table, 'runtime GLB table must stay parseable');
   for (const match of table[1].matchAll(/'([^']+\.glb)'/g)) check('assets/models/' + match[1], 'immersive-blender-assets.js');
 
-  for (const dir of ['assets/css', 'assets/js', 'assets/captions', 'assets/audio']) {
+  for (const dir of ['assets/css', 'assets/js', 'assets/captions', 'assets/audio', 'assets/fonts', 'assets/vendor']) {
     const target = path.join(root, dir);
     if (!fs.existsSync(target)) continue;
     for (const file of fs.readdirSync(target, {recursive: true})) {
       const relative = dir + '/' + String(file).replace(/\\/g, '/');
       if (!fs.statSync(path.join(root, relative)).isFile()) continue;
-      if (!/\.(?:js|css|vtt|wav|mp3|ogg)$/i.test(String(file))) continue;
+      if (!/\.(?:js|css|vtt|wav|mp3|ogg|woff2|json|txt)$/i.test(String(file))) continue;
       check(relative, dir);
     }
   }

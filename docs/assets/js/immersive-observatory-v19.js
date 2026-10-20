@@ -1,5 +1,8 @@
 import * as THREE from 'three';
-import {loadTemAsset,prepareReveal} from './immersive-blender-assets.js?v=cinematic-v21.1';
+import {loadTemAsset,prepareReveal} from './immersive-blender-assets.js?v=cinematic-v21.19';
+import {bindCrystalVolume} from './immersive-crystal-volume.js?v=cinematic-v21.19';
+import {surfaceLightProfile} from './immersive-surface-look.js?v=cinematic-v21.19';
+import {bindSolarReceiver} from './immersive-solar-receiver.js?v=cinematic-v21.19';
 
 const semanticNames=['CABIN_V19','T_IDENTITY_V19','EXTERIOR_V19','SURFACE_FRAME_V19'];
 const mapKeys=['map','normalMap','roughnessMap','metalnessMap','aoMap','emissiveMap','alphaMap','bumpMap','clearcoatMap','clearcoatNormalMap','clearcoatRoughnessMap','transmissionMap','thicknessMap','specularIntensityMap','specularColorMap','iridescenceMap','iridescenceThicknessMap'];
@@ -8,9 +11,9 @@ const finiteTriple=value=>Array.isArray(value)&&value.length===3&&value.every(Nu
 
 // The GLB is authored in browser world coordinates. It is never recentered,
 // scaled to a box, or rotated onto the old procedural observatory's origin.
-export function createObservatoryV19({scene,camera,canvas,compact=()=>innerWidth<701,reflection,externalCloud=false}){
+export function createObservatoryV19({scene,camera,canvas,compact=()=>innerWidth<701,reflection,externalCloud=false,densityAtlas,sunDirection}){
  const root=new THREE.Group();root.name='Tem.observatory.v19.authored';root.visible=false;scene.add(root);
- const reveal={value:0},identityReveal={value:0},cloudTime={value:0},semanticRoots={},floorMeshes=[],cloudMeshes=[],privateMaterials=new Set();
+ const reveal={value:0},identityReveal={value:0},cloudTime={value:0},crystalExcitation={value:.48},semanticRoots={},floorMeshes=[],cloudMeshes=[],privateMaterials=new Set();
  const isCompact=()=>typeof compact==='function'?Boolean(compact()):Boolean(compact);
  let model=null,effects=null,cloudVolume=null,disposed=false,override=null,target=0,lastReveal='',lastVisible=false,lastSettled=0,lastCloudMode=null;
  let effectAuthoredMatrix=null,identityPose=null,loadError='',pointerActivity=0,lastCompact=null;
@@ -74,14 +77,16 @@ export function createObservatoryV19({scene,camera,canvas,compact=()=>innerWidth
      // Absolute baked roughness keeps its exported factor (normally 1).
      // Untextured glass still has a small, physically readable roughness.
      if(!material.roughnessMap)material.roughness=clamp(material.roughness,.035,.16,.07);
-     material.transmission=clamp(material.transmission,.78,.94,.90);
-     material.thickness=material.thickness>0?clamp(material.thickness,.12,2.36,1.25):/t_identity_v19/.test(semantic)?2.36:.40;
-     material.ior=clamp(material.ior,1.42,1.50,1.46);
+     material.transmission=material.transmission>0?clamp(material.transmission,0,1,.90):.90;
+     // Keep the exported optical path, including the T's 2.98-unit bulged
+     // center. The old 2.36 / 18 caps silently overrode Blender volume data.
+     material.thickness=material.thickness>0?clamp(material.thickness,.02,8,1.25):/t_identity_v19/.test(semantic)?2.98:.40;
+     material.ior=internalFilm?1.035:clamp(material.ior,1.42,1.50,1.468);
      material.clearcoat=clamp(material.clearcoat,0,.52,.38);
      material.clearcoatRoughness=clamp(material.clearcoatRoughness,.10,.35,.14);
      material.envMapIntensity=.86;
-     material.attenuationDistance=clamp(material.attenuationDistance,2.5,8,4.5);
-     if(material.attenuationColor.equals(new THREE.Color(0xffffff)))material.attenuationColor.setRGB(.45,.73,.91);
+     material.attenuationDistance=material.attenuationDistance===Infinity?Infinity:clamp(material.attenuationDistance,.1,10000,12);
+     if(material.attenuationColor.equals(new THREE.Color(0xffffff)))material.attenuationColor.setRGB(.79,.91,.98);
      material.side=THREE.FrontSide;material.depthWrite=false;material.transparent=false;material.opacity=1;
      if(internalFilm){
       // The outer body carries true transmission. A second equally reflective
@@ -89,19 +94,26 @@ export function createObservatoryV19({scene,camera,canvas,compact=()=>innerWidth
       // Keep the inner dichroic film as a quiet surface, without another
       // transmissive solid competing with the real outside glass.
       material.transmission=0;material.thickness=.025;material.transparent=true;material.opacity=.055;
-      material.clearcoat=.16;material.clearcoatRoughness=Math.max(material.clearcoatRoughness,.22);material.envMapIntensity=.16;
+      material.clearcoat=.16;material.clearcoatRoughness=Math.max(material.clearcoatRoughness,.22);material.envMapIntensity=.16;material.specularIntensity=.12;
       material.iridescence=.28;material.iridescenceIOR=1.28;material.iridescenceThicknessRange=[180,360];
       material.userData.temV19InnerFilm=true;
      }
      material.userData.temV19Glass=true;
      if(!internalFilm){
+      // Retain the bulk's transmission and its shaped environment, while
+      // separating a quiet coating from the glowing crystal-edge treatment.
+      // A full-strength extra dielectric lobe clipped to the T's end facet
+      // appeared as an opaque white block at this camera angle.
+      material.specularIntensity=.48;
+      material.clearcoat=Math.min(material.clearcoat,.12);
+      material.clearcoatRoughness=Math.max(material.clearcoatRoughness,.22);
       const previous=material.onBeforeCompile,key=material.customProgramCacheKey.call(material);
-      material.onBeforeCompile=function(shader,renderer){previous.call(this,shader,renderer);shader.fragmentShader=shader.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\nfloat crystalFacing=clamp(abs(dot(normal,normalize(vViewPosition))),0.,1.);float crystalRim=pow(1.-crystalFacing,3.2);totalEmissiveRadiance+=mix(vec3(.12,.38,.64),vec3(.43,.23,.57),crystalRim)*crystalRim*.65;');};
-      material.customProgramCacheKey=()=>key+'|tem-solid-crystal-grazing';
+      material.onBeforeCompile=function(shader,renderer){previous.call(this,shader,renderer);shader.fragmentShader=shader.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\nfloat crystalFacing=clamp(abs(dot(normal,normalize(vViewPosition))),0.,1.);float crystalRim=pow(1.-crystalFacing,2.7);totalEmissiveRadiance+=mix(vec3(.12,.38,.64),vec3(.43,.23,.57),crystalRim)*crystalRim*.72;');};
+      material.customProgramCacheKey=()=>key+'|tem-solid-crystal-grazing-v2';
      }
     }else if(material.isMeshPhysicalMaterial){
      if(/floor/.test(semantic)){
-      material.clearcoat=Math.min(material.clearcoat,.17);material.clearcoatRoughness=Math.max(material.clearcoatRoughness,.28);material.envMapIntensity=.30;material.specularIntensity=.23;
+      material.clearcoat=Math.min(material.clearcoat,.12);material.clearcoatRoughness=Math.max(material.clearcoatRoughness,.32);material.envMapIntensity=.30;material.specularIntensity=.18;
      }else if(/pearl|ceramic|porcelain/.test(`${node.name} ${material.name}`.toLowerCase())){
       material.clearcoat=clamp(material.clearcoat,.18,.52,.35);material.clearcoatRoughness=Math.max(material.clearcoatRoughness,.20);
      }
@@ -113,6 +125,17 @@ export function createObservatoryV19({scene,camera,canvas,compact=()=>innerWidth
     material.needsUpdate=true;return material;
    };
    node.material=Array.isArray(node.material)?node.material.map(configure):configure(node.material);
+   if(node.userData.tem_material_kind==='identity-crystal'){
+    bindCrystalVolume(node,{time:cloudTime,excitation:crystalExcitation,atlas:densityAtlas});
+    canvas.dataset.observatoryV19CrystalMedium=node.material.userData.temCrystalMedium;
+   }
+   // The two authored ceramic batches keep their source PBR factors. Their
+   // cabin-only solar receiver mirrors Blender's explicit lighting control.
+   const coating=surfaceLightProfile.materials.find(p=>node.material?.name?.startsWith(p.prefix));
+   if(coating&&node.material.isMeshPhysicalMaterial){
+    bindSolarReceiver(node,{sunDirection,visibility:surfaceLightProfile.sunVisibility,finishVariation:surfaceLightProfile.finishVariation,revision:surfaceLightProfile.revision});
+    canvas.dataset.observatoryV19Coating=surfaceLightProfile.revision;
+   }
   });
  }
  function poseFor(identity){
@@ -131,8 +154,22 @@ export function createObservatoryV19({scene,camera,canvas,compact=()=>innerWidth
    if(!reflection||Array.isArray(node.material))return;
    const material=node.material.clone();privateMaterials.add(node.material);privateMaterials.add(material);node.material=material;
    const floorCompile=material.onBeforeCompile,floorKey=material.customProgramCacheKey.call(material);
-   material.onBeforeCompile=function(shader,renderer){floorCompile.call(this,shader,renderer);shader.fragmentShader=shader.fragmentShader.replace('#include <roughnessmap_fragment>', '#include <roughnessmap_fragment>\nroughnessFactor=max(roughnessFactor,.31);').replace('#include <lights_fragment_end>', '#include <lights_fragment_end>\nreflectedLight.directSpecular*=.65;reflectedLight.indirectSpecular*=.80;');};
-   material.customProgramCacheKey=()=>floorKey+'|tem-floor-controlled-specular';
+   const sunView={value:new THREE.Vector3()},beforeRender=node.onBeforeRender;
+   node.onBeforeRender=function(renderer,scene,activeCamera,...args){
+    beforeRender.call(this,renderer,scene,activeCamera,...args);
+    if(sunDirection)sunView.value.copy(sunDirection.value).transformDirection(activeCamera.matrixWorldInverse);
+   };
+   material.onBeforeCompile=function(shader,renderer){
+    floorCompile.call(this,shader,renderer);shader.uniforms.uTemDeckSunView=sunView;
+    // Match Blender's explicit interior light-link. The exterior sun remains
+    // shared by planets and clouds; only this sheltered deck excludes its
+    // direct lobe. Environment reflections, point fills and cyan rim remain.
+    const deckLights=THREE.ShaderChunk.lights_fragment_begin.replace('getDirectionalLightInfo( directionalLight, directLight );','getDirectionalLightInfo( directionalLight, directLight );\ndirectLight.color*=1.-smoothstep(.9998,.99995,dot(directionalLight.direction,uTemDeckSunView));');
+    shader.fragmentShader='uniform vec3 uTemDeckSunView;\n'+shader.fragmentShader;
+    shader.fragmentShader=shader.fragmentShader.replace('#include <lights_fragment_begin>',deckLights).replace('#include <roughnessmap_fragment>', '#include <roughnessmap_fragment>\nroughnessFactor=max(roughnessFactor,.31);').replace('#include <lights_fragment_end>', '#include <lights_fragment_end>\nreflectedLight.directSpecular*=.38;reflectedLight.indirectSpecular*=.80;');
+   };
+   material.customProgramCacheKey=()=>floorKey+'|tem-floor-linked-stellar-direct';
+   material.userData.temSunReceiver='interior-deck-exclusion';
    reflection.bindSurface(node);floorMeshes.push(node);
   });
  }
@@ -158,7 +195,7 @@ export function createObservatoryV19({scene,camera,canvas,compact=()=>innerWidth
   if(!externalCloud){cloudVolume=createObservatoryCloudVolume({camera,time:cloudTime});root.add(cloudVolume.root);}
   warm.position.set(identityPose.center[0]+8,identityPose.center[1]+5,identityPose.center[2]-6);
   cool.position.set(identityPose.center[0]-6,identityPose.center[1]+1,identityPose.center[2]+5);
-  if(canvas){canvas.dataset.observatoryV19='ready';canvas.dataset.observatoryV19Floor=String(floorMeshes.length);canvas.dataset.observatoryV19Flow='gpu-layered-ribbons-and-condensing-path-motes';canvas.dataset.observatoryV19Cloud=externalCloud?'depth-integrated-cloud-sea':'world-space-noise-micro-surface';canvas.dataset.observatoryV19Lights='2-unshadowed';}
+  if(canvas){canvas.dataset.observatoryV19='ready';canvas.dataset.observatoryV19Floor=String(floorMeshes.length);canvas.dataset.observatoryV19Flow='gpu-layered-ribbons-and-condensing-path-motes';canvas.dataset.observatoryV19Crystal='refracted-bounded-3d-field-16';canvas.dataset.observatoryV19DeckLight='interior-stellar-link';canvas.dataset.observatoryV19Cloud=externalCloud?'depth-integrated-cloud-sea':'world-space-noise-micro-surface';canvas.dataset.observatoryV19Lights='2-unshadowed';}
   adaptViewport();reflection?.invalidate();dispatchEvent(new Event('tem:scene-depth-change'));
  },onError:error=>{loadError=error?.message||String(error);if(canvas)canvas.dataset.observatoryV19='fallback';}});
 
@@ -201,6 +238,9 @@ export function createObservatoryV19({scene,camera,canvas,compact=()=>innerWidth
    if(Math.abs(reveal.value-target)<.001)reveal.value=target;
    root.visible=reveal.value>.001;
    identityReveal.value=reveal.value*(frame.step==='captain'?1-THREE.MathUtils.smoothstep(clamp(Number(frame.archiveProgress),0,3,0),.25,.75):1);
+   // A zero-coverage identity contributes no pixels. Exclude its physical
+   // glass from r161's transmission list instead of rendering it to discard.
+   for(const name of ['T_IDENTITY_V19','SURFACE_FRAME_V19'])if(semanticRoots[name])semanticRoots[name].visible=identityReveal.value>.001;
    if(root.visible!==lastVisible){lastVisible=root.visible;reflection?.invalidate();}
    // A late GLB can arrive while the welcome camera and the host's shadow
    // cache are already resting. Publish its completed geometry once; otherwise
@@ -212,8 +252,8 @@ export function createObservatoryV19({scene,camera,canvas,compact=()=>innerWidth
    for(const item of cloudMeshes)item.mesh.visible=externalCloud||volumeMode?false:item.visible;
    cloudVolume?.update(reveal.value,volumeMode,quality);
    if(volumeMode!==lastCloudMode){lastCloudMode=volumeMode;reflection?.invalidate();if(model)dispatchEvent(new Event('tem:scene-depth-change'));if(canvas)canvas.dataset.observatoryV19Cloud=externalCloud?'depth-integrated-cloud-sea':volumeMode?'world-space-raymarched-cloud-sea':'physical-mesh-fallback';}
-   const excitation=.48+pointerActivity*.45;
-   warm.intensity=identityReveal.value*2.0;cool.intensity=identityReveal.value*1.25;
+   const excitation=.48+pointerActivity*.45;crystalExcitation.value=excitation;
+   warm.intensity=identityReveal.value*26;cool.intensity=identityReveal.value*18;
    effects?.update(time,identityReveal.value,excitation,pointer,motion);
    const value=reveal.value.toFixed(2);if(canvas&&value!==lastReveal){lastReveal=value;canvas.dataset.observatoryV19Reveal=value;}
   },

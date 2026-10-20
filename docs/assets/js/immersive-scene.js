@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import { EffectComposer } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { OutputPass } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/OutputPass.js';
+import { EffectComposer } from '../vendor/three-0.161.0/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from '../vendor/three-0.161.0/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from '../vendor/three-0.161.0/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from '../vendor/three-0.161.0/examples/jsm/postprocessing/OutputPass.js';
 
 const canvas = document.getElementById('space');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -74,7 +74,7 @@ function startScene() {
       float cloud=fbm(p*3.+vec2(uTime*.008,-uTime*.005));
       float key=exp(-dot((p-vec2(.28,.76))*vec2(1.35,1.),(p-vec2(.28,.76))*vec2(1.35,1.))*5.);
       float fill=exp(-dot((p-vec2(.85,.39))*vec2(2.,1.4),(p-vec2(.85,.39))*vec2(2.,1.4))*5.);
-      float slash=exp(-pow((p.x+p.y*.45-.69)*4.8,2.));
+      float slashDistance=(p.x+p.y*.45-.69)*4.8;float slash=exp(-slashDistance*slashDistance);
       float illumination=(key*.72+slash*.23)*(.55+cloud*.6);
       float pulse=.5+.5*sin(uTime*.18+cell.x*.12-cell.y*.08);
       vec3 color=vec3(.002,.004,.016)*( .8+hash(cell)*.38+material*.25);
@@ -134,7 +134,7 @@ function startScene() {
   }
   const portalGlowMaterial=new THREE.ShaderMaterial({
     uniforms:{uTime:time},vertexShader:planeVertex,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
-    fragmentShader:`varying vec2 vUv;uniform float uTime;void main(){vec2 p=vUv-.5;p.x*=1.1;float r=length(p);float pulse=.8+.2*sin(uTime*.24);float aura=exp(-r*r*13.)*pulse;float rim=exp(-pow((r-.32)*16.,2.));vec3 col=mix(vec3(.03,.22,.64),vec3(.72,.04,.48),smoothstep(.18,.52,vUv.y));gl_FragColor=vec4(col,(aura*.13+rim*.09));}`
+    fragmentShader:`varying vec2 vUv;uniform float uTime;void main(){vec2 p=vUv-.5;p.x*=1.1;float r=length(p);float pulse=.8+.2*sin(uTime*.24);float aura=exp(-r*r*13.)*pulse;float rimDistance=(r-.32)*16.;float rim=exp(-rimDistance*rimDistance);vec3 col=mix(vec3(.03,.22,.64),vec3(.72,.04,.48),smoothstep(.18,.52,vUv.y));gl_FragColor=vec4(col,(aura*.13+rim*.09));}`
   });
   const portalGlow=new THREE.Mesh(new THREE.PlaneGeometry(7,7),portalGlowMaterial);portalGlow.position.z=-.12;portal.add(portalGlow);
 
@@ -158,7 +158,7 @@ function startScene() {
       float down=1.-vUv.y;
       float width=.024+pow(down,.85)*.43;
       float center=.5+sin(down*2.1+uSeed)*.016;
-      float falloff=exp(-pow((vUv.x-center)/width,2.)*2.6);
+      float falloffDistance=(vUv.x-center)/width;float falloff=exp(-falloffDistance*falloffDistance*2.6);
       float veil=fbm(vec2(vUv.x*4.+uSeed,vUv.y*6.-uTime*.021));
       float strands=.78+.22*noise(vec2((vUv.x-.5)/(width+.08)*8.,uTime*.045+uSeed));
       float fade=smoothstep(0.,.24,vUv.y)*(1.-smoothstep(.95,1.,vUv.y));
@@ -223,7 +223,7 @@ function startScene() {
     vertexShader:`uniform float uTime,uPixelHeight;attribute float aSize,aPhase;varying float vAlpha,vNear;
       void main(){vec3 p=position;p.x+=sin(uTime*.08+aPhase)*.16;p.y+=sin(uTime*.12+aPhase*1.4)*.24;
       vec4 mv=modelViewMatrix*vec4(p,1.);vNear=step(2.5,position.z);
-      float beam=exp(-pow((p.x+p.y*.42+1.9)*.28,2.));vAlpha=(.035+beam*.27)*(.7+.3*sin(aPhase+uTime*.17));
+      float beamDistance=(p.x+p.y*.42+1.9)*.28;float beam=exp(-beamDistance*beamDistance);vAlpha=(.035+beam*.27)*(.7+.3*sin(aPhase+uTime*.17));
       vAlpha*=mix(1.,.20,vNear)*smoothstep(.5,2.4,-mv.z);
       gl_PointSize=clamp(aSize*uPixelHeight/max(1.,-mv.z),1.,38.);gl_Position=projectionMatrix*mv;}`,
     fragmentShader:`varying float vAlpha,vNear;void main(){float r=length(gl_PointCoord-.5)*2.;if(r>1.)discard;

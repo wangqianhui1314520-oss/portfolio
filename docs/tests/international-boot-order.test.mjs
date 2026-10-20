@@ -70,5 +70,5 @@ for(const locale of ['en','zh'])test(`cold ${locale} boot initializes audio and 
   {input:bootstrap,encoding:'utf8',timeout:10000});
  assert.equal(result.error,undefined,result.error?.message);
  assert.equal(result.status,0,result.stderr||result.stdout);
- assert.match(result.stdout,new RegExp('Verified '+locale+' audio/session initialization and 11 project flows'));
+ assert.match(result.stdout,new RegExp('Verified '+locale+' audio/session initialization and 12 project flows'));
 });

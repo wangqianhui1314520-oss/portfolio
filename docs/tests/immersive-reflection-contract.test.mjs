@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {runInNewContext} from 'node:vm';
+import {Scene,Object3D} from '../assets/vendor/three-0.161.0/build/three.module.js';
 
 class Vector3{
  constructor(x=0,y=0,z=0){Object.assign(this,{x,y,z});}
@@ -34,6 +35,7 @@ function reflectionFixture(){
    assert.notEqual(scene.glass.material,scene.originalGlass);
    assert.equal(scene.glass.material.onBeforeCompile,scene.originalGlass.onBeforeCompile,'arrival coverage is shared');
    assert.equal(scene.cameraCloud.value.y,-13.34);assert.equal(scene.volumeSteps.value,8);
+   scene.inspectCapture?.();
    captures.push(true);renderer.setRenderTarget(this.target);renderer.xr.enabled=false;
    if(scene.failCapture)throw new Error('synthetic render failure');
   }
@@ -43,9 +45,9 @@ function reflectionFixture(){
  const viewport={x:0,y:0,z:1200,w:700},mainTarget={name:'main'};
  const renderer={shadowMap:{needsUpdate:true,autoUpdate:false},xr:{enabled:true},target:mainTarget,getRenderTarget(){return this.target;},setRenderTarget(v){this.target=v;},getViewport(v){return v.copy(viewport);},setViewport(v){this.viewport={...v};}};
  const originalGlass={transmission:.94,onBeforeCompile(){},customProgramCacheKey(){return 'arrival';},clone(){return {...this};},dispose(){}};
- const floor={visible:true,isMesh:true,userData:{},material:{onBeforeCompile(){},customProgramCacheKey(){return 'pbr';}}},glass={isMesh:true,material:originalGlass};
- const cameraCloud={value:new Vector3(3,4,5)},volumeSteps={value:16},volumeA={material:{uniforms:{uCameraCloud:cameraCloud,uVolumeSteps:volumeSteps}},matrixWorld:new Matrix4(),updateWorldMatrix(){}},volumeB={...volumeA};
- const scene={floor,glass,originalGlass,cameraCloud,volumeSteps,traverse(visit){visit(floor);visit(glass);visit(volumeA);visit(volumeB);}};
+ const floor=Object.assign(new Object3D(),{isMesh:true,material:{onBeforeCompile(){},customProgramCacheKey(){return 'pbr';}}}),glass=Object.assign(new Object3D(),{isMesh:true,material:originalGlass});
+ const cameraCloud={value:new Vector3(3,4,5)},volumeSteps={value:16},volumeA=Object.assign(new Object3D(),{material:{uniforms:{uCameraCloud:cameraCloud,uVolumeSteps:volumeSteps}}}),volumeB=Object.assign(new Object3D(),{material:volumeA.material});
+ const scene=Object.assign(new Scene(),{floor,glass,originalGlass,cameraCloud,volumeSteps});scene.add(floor,glass,volumeA,volumeB);
  const canvas={dataset:{}},reflection=scope.createPlanarReflection({renderer,scene,camera,canvas});reflection.bindSurface(floor);
  return {reflection,renderer,scene,camera,canvas,captures,mainTarget};
 }
@@ -96,6 +98,34 @@ test('a small reflection cannot consume main-scene shadow work and restores temp
  assert.equal(f.renderer.shadowMap.needsUpdate,false);assert.equal(f.renderer.shadowMap.autoUpdate,false);assert.equal(f.renderer.xr.enabled,true);
  assert.equal(f.renderer.target,f.mainTarget);assert.equal(f.scene.floor.visible,true);assert.equal(f.scene.glass.material,f.scene.originalGlass);
  assert.equal(f.scene.cameraCloud.value.y,4);assert.equal(f.scene.volumeSteps.value,16);
+});
+test('hidden scene branches create no mirror material or eye work and resume completely when visible',()=>{
+ const f=reflectionFixture(),branch=new Object3D();branch.visible=false;
+ let clones=0;
+ const original={...f.scene.originalGlass,clone(){clones++;return {...this};}};
+ const glass=Object.assign(new Object3D(),{isMesh:true,material:original});
+ const eye={value:new Vector3(7,8,9)},steps={value:20};
+ const volume=Object.assign(new Object3D(),{material:{uniforms:{uLocalEye:eye,uVolumeSteps:steps}}});
+ branch.add(glass,volume);f.scene.add(branch);
+ f.scene.inspectCapture=()=>{assert.equal(clones,0);assert.equal(glass.material,original);assert.equal(eye.value.y,8);assert.equal(steps.value,20);};
+ f.reflection.update(0,{},1);assert.equal(clones,0);
+ branch.visible=true;
+ f.scene.inspectCapture=()=>{assert.equal(clones,1);assert.notEqual(glass.material,original);assert.equal(eye.value.y,-13.34);assert.equal(steps.value,8);};
+ f.reflection.invalidate();f.reflection.update(.2,{},1);
+ assert.equal(glass.material,original);assert.equal(eye.value.y,8);assert.equal(steps.value,20);
+});
+test('zero projected mirror coverage retains HDR cleanup and makes no mirror texture sample',()=>{
+ const f=reflectionFixture(),shader={uniforms:{},vertexShader:'#include <project_vertex>',fragmentShader:'#include <opaque_fragment>'};
+ f.scene.floor.material.onBeforeCompile(shader,{});
+ const fragment=shader.fragmentShader,start=fragment.indexOf('if(inFrame>.5){');assert.ok(start>=0);
+ const outside=fragment.slice(0,start),inside=fragment.slice(start);
+ assert.match(outside,/notEqual\(outgoingLight,outgoingLight\)/);assert.match(outside,/outgoingLight=clamp/);
+ assert.equal((outside.match(/texture2D\(uTemMirror/g)||[]).length,0);
+ assert.equal((inside.match(/texture2D\(uTemMirror/g)||[]).length,5,'the contributing reflection keeps its full five-tap filter');
+ const expression=fragment.match(/float inFrame=([^;]+);/)[1],coverage=new Function('vTemMirror','projectedMirrorUV','step',`return ${expression};`);
+ const step=(edge,x)=>x<edge?0:1;
+ for(const [w,x,y] of [[-1,.5,.5],[0,.5,.5],[1,-.01,.5],[1,1.01,.5],[1,.5,-.01],[1,.5,1.01]])assert.equal(coverage({w},{x,y},step),0);
+ assert.equal(coverage({w:1},{x:.5,y:.5},step),1);
 });
 test('preparing authored materials retains actual baked maps, UV channels and physical factors',()=>{
  const scope=moduleScope('immersive-blender-assets.js',{THREE:{FrontSide:0},GLTFLoader:class{}});

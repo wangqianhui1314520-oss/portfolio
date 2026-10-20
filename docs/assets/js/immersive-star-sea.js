@@ -1,12 +1,12 @@
 import * as THREE from 'three';
-import {loadTemAsset} from './immersive-blender-assets.js?v=cinematic-v21.1';
-import {normalizeStellarLayout} from './immersive-world-layout.js?v=cinematic-v21.1';
-import {createProceduralPlanetMaterial,createProceduralPlanetClouds} from './immersive-procedural-planet.js?v=cinematic-v21.1';
+import {loadTemAsset} from './immersive-blender-assets.js?v=cinematic-v21.19';
+import {normalizeStellarLayout} from './immersive-world-layout.js?v=cinematic-v21.19';
+import {createProceduralPlanetMaterial,createProceduralPlanetClouds} from './immersive-procedural-planet.js?v=cinematic-v21.19';
 
 // The geometry and layout are exported from the same editable Blender scene.
 // Dynamic bands remain real world meshes, so both the main view and floor's
 // virtual camera see the same current, rather than a composited image overlay.
-export function createStarSea({scene,canvas,time,interaction,compact=()=>false,onLayout,onReady}={}){
+export function createStarSea({scene,canvas,time,interaction,compact=()=>false,onLayout,onReady,onPlanet}={}){
  const root=new THREE.Group();root.name='Tem.Blender.living-star-sea';scene.add(root);
  const effects=new THREE.Group();effects.name='Tem.star-sea.world-energy';root.add(effects);
  const isCompact=()=>typeof compact==='function'?Boolean(compact()):Boolean(compact);
@@ -74,13 +74,18 @@ export function createStarSea({scene,canvas,time,interaction,compact=()=>false,o
     if(disposed)return;
     for(const spec of metadata.planets||[]){
      const planet=model.find(spec.id);if(!planet?.isMesh)continue;
+     // The shared orbital actor owns Dawn's weather and flight choreography.
+     // Adopt this actual GLB geometry, then suppress only its duplicate source.
+     if(onPlanet?.(planet,spec)===true){planet.visible=false;continue;}
      const original=planet.material;planet.material=createProceduralPlanetMaterial({time,sunDirection:layout.sunDirection,seed:spec.seed,rocky:/MOON/i.test(spec.id),center:spec.center,tint:new THREE.Color(...spec.color)});original.dispose();ownedPlanets.push({material:planet.material});
      // Each exported sphere has baked world vertices. Copying its world pose
      // here keeps satellite weather at the authored centre and radial depth.
      if(/MOON/i.test(spec.id))continue;
      const vapor=createProceduralPlanetClouds({radius:spec.radius,time,sunDirection:layout.sunDirection,seed:spec.seed,compact});vapor.position.fromArray(spec.center);root.add(vapor);ownedPlanets.push(vapor);
     }
-    model.root.traverse(node=>{if(!node.isMesh)return;node.castShadow=false;node.receiveShadow=false;for(const material of Array.isArray(node.material)?node.material:[node.material]){if(material.emissive)material.emissiveIntensity=Math.min(material.emissiveIntensity,.85);}});
+    // Backlit basalt keeps its sunlit rim; the nebula supplies a faint violet floor
+    // instead of a pure black silhouette. Emissive colour is a uniform, not a variant.
+    model.root.traverse(node=>{if(!node.isMesh)return;node.castShadow=false;node.receiveShadow=false;for(const material of Array.isArray(node.material)?node.material:[node.material]){if(material.emissive)material.emissiveIntensity=Math.min(material.emissiveIntensity,.85);if(/BASALT/.test(node.name)&&material.emissive)material.emissive.setHex(0x1d1a3a);}});
     root.add(model.root);ready=true;canvas.dataset.starSea='blender-authored-live-depth';canvas.dataset.starSeaEnvironmentImages='0';canvas.dataset.starSeaGeometry=String(Math.round(model.triangleCount));canvas.dataset.starSeaFlowPaths=String(layout.flowCurves.length);onReady?.(effects);
    }});
    if(!asset)throw new Error('Star-sea geometry could not load');

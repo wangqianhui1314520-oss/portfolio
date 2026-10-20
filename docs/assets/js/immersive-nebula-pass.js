@@ -1,13 +1,13 @@
 import * as THREE from 'three';
-import { normalizeStellarLayout } from './immersive-world-layout.js?v=cinematic-v21.1';
-import { createStellarDensityAtlas, stellarDensityGLSL, stellarLightSourceGLSL, stellarPointerGLSL } from './immersive-volume-field.js?v=cinematic-v21.1';
-import { Pass, FullScreenQuad } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/postprocessing/Pass.js';
+import { normalizeStellarLayout } from './immersive-world-layout.js?v=cinematic-v21.19';
+import { createStellarDensityAtlas, stellarDensityGLSL, stellarLightSourceGLSL, stellarPointerGLSL } from './immersive-volume-field.js?v=cinematic-v21.19';
+import { Pass, FullScreenQuad } from '../vendor/three-0.161.0/examples/jsm/postprocessing/Pass.js';
 
 const screenVertex='varying vec2 vUv;void main(){vUv=uv;gl_Position=vec4(position.xy,0.,1.);}';
 
 export class NebulaPass extends Pass {
-  constructor({camera,time,velocity,pulse,compact,interaction}) {
-    super();this.camera=camera;this.compact=compact;this.scale=compact()?.42:.42;this.quality=null;this.mobile=compact();this.layoutTargets=normalizeStellarLayout();
+  constructor({camera,time,velocity,pulse,compact,interaction,sourceTarget=null}) {
+    super();this.camera=camera;this.sourceTarget=sourceTarget;this.compact=compact;this.scale=compact()?.42:.42;this.quality=null;this.mobile=compact();this.layoutTargets=normalizeStellarLayout();
     this.target=new THREE.WebGLRenderTarget(1,1,{type:THREE.HalfFloatType,depthBuffer:false});
     this.target.texture.name='Tem.nebula.volume';this.atlas=createStellarDensityAtlas(THREE);
     // Share the exact world ray maintained by the render loop. The inert
@@ -51,11 +51,11 @@ export class NebulaPass extends Pass {
            if(float(i)>=marchSteps)break;
            float distance=span.x+(float(i)+jitter)*stride;vec3 world=uCamera+ray*distance,q;
            float influence;vec3 p=stellarPointerPosition(world,center,radii,influence);
-           vec3 features;float den=field(p,seed,flowRate/radii,sea,q,features);if(den<.008)continue;
+           vec4 features;float den=field(p,seed,flowRate/radii,sea,q,features);if(den<.008)continue;
            den*=1.-influence*(.045+pointerSpeed*.065);
            // Two sunward probes in the same bounded 3D density field provide
            // self-occlusion rather than a painted shadow on a sliding cloud.
-           vec3 shadowQ,shadowFeatures;
+           vec3 shadowQ;vec4 shadowFeatures;
            float probeStep=sea>.5?18.:55.;
            if(mod(float(i),4.)<.5){blocker=field(p+lightDirection*probeStep/radii,seed,flowRate/radii,sea,shadowQ,shadowFeatures);
             farBlocker=field(p+lightDirection*(probeStep*2.8)/radii,seed,flowRate/radii,sea,shadowQ,shadowFeatures);}
@@ -76,20 +76,25 @@ export class NebulaPass extends Pass {
          vec2 d=interval(ray,uCenters[3],uRadii[3],limit),e=interval(ray,uCenters[4],uRadii[4],limit),f=uSeaReveal>.001?interval(ray,uCenters[5],uRadii[5],limit):vec2(1e6,-1.);
          // Integrate the actual nearest lobe first in every archive heading.
          // Fixed branches avoid dynamic uniform-array indexing on older GPUs.
+         // The branches only select a lobe; integrate() has one call site. D3D's
+         // compiler inlined six copies of the march and spent about a minute
+         // per cold link on Windows; the integrated samples are unchanged.
          vec4 fog=vec4(0.);
          for(int layer=0;layer<6;layer++){
            float nearest=min(min(a.x,b.x),min(c.x,min(d.x,min(e.x,f.x))));if(nearest>999999.||fog.a>.94)break;
-           if(a.x<=nearest){integrate(ray,a,uCenters[0],uRadii[0],uColors[0],uSeeds[0],uExtinction[0],uFlows[0],0.0,fog);a=vec2(1e6,-1.);}
-           else if(b.x<=nearest){integrate(ray,b,uCenters[1],uRadii[1],uColors[1],uSeeds[1],uExtinction[1],uFlows[1],0.0,fog);b=vec2(1e6,-1.);}
-           else if(c.x<=nearest){integrate(ray,c,uCenters[2],uRadii[2],uColors[2],uSeeds[2],uExtinction[2],uFlows[2],0.0,fog);c=vec2(1e6,-1.);}
-           else if(d.x<=nearest){integrate(ray,d,uCenters[3],uRadii[3],uColors[3],uSeeds[3],uExtinction[3],uFlows[3],0.0,fog);d=vec2(1e6,-1.);}
-           else if(e.x<=nearest){integrate(ray,e,uCenters[4],uRadii[4],uColors[4],uSeeds[4],uExtinction[4],uFlows[4],0.0,fog);e=vec2(1e6,-1.);}
-           else{integrate(ray,f,uCenters[5],uRadii[5],uColors[5],uSeeds[5],uExtinction[5],uFlows[5],1.0,fog);f=vec2(1e6,-1.);}
+           vec2 span;vec3 center,radii,tint,flowRate;float seed,extinction,sea=0.;
+           if(a.x<=nearest){span=a;center=uCenters[0];radii=uRadii[0];tint=uColors[0];seed=uSeeds[0];extinction=uExtinction[0];flowRate=uFlows[0];a=vec2(1e6,-1.);}
+           else if(b.x<=nearest){span=b;center=uCenters[1];radii=uRadii[1];tint=uColors[1];seed=uSeeds[1];extinction=uExtinction[1];flowRate=uFlows[1];b=vec2(1e6,-1.);}
+           else if(c.x<=nearest){span=c;center=uCenters[2];radii=uRadii[2];tint=uColors[2];seed=uSeeds[2];extinction=uExtinction[2];flowRate=uFlows[2];c=vec2(1e6,-1.);}
+           else if(d.x<=nearest){span=d;center=uCenters[3];radii=uRadii[3];tint=uColors[3];seed=uSeeds[3];extinction=uExtinction[3];flowRate=uFlows[3];d=vec2(1e6,-1.);}
+           else if(e.x<=nearest){span=e;center=uCenters[4];radii=uRadii[4];tint=uColors[4];seed=uSeeds[4];extinction=uExtinction[4];flowRate=uFlows[4];e=vec2(1e6,-1.);}
+           else{span=f;center=uCenters[5];radii=uRadii[5];tint=uColors[5];seed=uSeeds[5];extinction=uExtinction[5];flowRate=uFlows[5];sea=1.;f=vec2(1e6,-1.);}
+           integrate(ray,span,center,radii,tint,seed,extinction,flowRate,sea,fog);
          }
          gl_FragColor=fog;
        }`
     });
-    this.compositeMaterial=new THREE.ShaderMaterial({depthTest:false,depthWrite:false,toneMapped:false,
+    this.compositeMaterial=new THREE.ShaderMaterial({depthTest:false,depthWrite:false,toneMapped:false,extensions:{shaderTextureLOD:true},
       uniforms:{tDiffuse:{value:null},uFog:{value:this.target.texture},uDepth:this.uniforms.uDepth,uSize:this.uniforms.uResolution,uNear:{value:camera.near},uFar:{value:camera.far}},
       vertexShader:screenVertex,
       fragmentShader:`varying vec2 vUv;uniform sampler2D tDiffuse,uFog,uDepth;uniform vec2 uSize;uniform float uNear,uFar;
@@ -99,14 +104,25 @@ export class NebulaPass extends Pass {
        float finiteHDR(float c){return c>=0.&&c<65504.?min(c,64.):0.;}
        vec3 safeHDR(vec3 c){return vec3(finiteHDR(c.r),finiteHDR(c.g),finiteHDR(c.b));}
        void main(){
-         vec3 source=safeHDR(texture2D(tDiffuse,vUv).rgb);float depth=viewDepth(texture2D(uDepth,vUv).r);
-         vec2 grid=vUv*uSize-.5,base=(floor(grid)+.5)/uSize,blend=fract(grid);vec4 fog=vec4(0.);float sum=0.;
+         // These screen/depth targets have no mip chain. Explicit level zero
+         // keeps the same filter without undefined derivatives after the
+         // empty-footprint return or inside the bilateral loop (ANGLE X3595).
+         vec3 source=safeHDR(texture2DLodEXT(tDiffuse,vUv,0.).rgb);
+         vec2 grid=vUv*uSize-.5,base=(floor(grid)+.5)/uSize,blend=fract(grid);
+         vec4 fog00=texture2DLodEXT(uFog,base,0.),fog10=texture2DLodEXT(uFog,base+vec2(1.,0.)/uSize,0.);
+         vec4 fog01=texture2DLodEXT(uFog,base+vec2(0.,1.)/uSize,0.),fog11=texture2DLodEXT(uFog,base+vec2(1.,1.)/uSize,0.);
+         // A strictly empty four-tap footprint contributes exactly zero for
+         // every bilateral weight. Preserve source without five depth reads
+         // and four exponentials; gas boundaries still use the full filter.
+         if(all(equal(fog00,vec4(0.)))&&all(equal(fog10,vec4(0.)))&&all(equal(fog01,vec4(0.)))&&all(equal(fog11,vec4(0.)))){gl_FragColor=vec4(source,1.);return;}
+         float depth=viewDepth(texture2DLodEXT(uDepth,vUv,0.).r);vec4 fog=vec4(0.);float sum=0.;
          for(int y=0;y<2;y++)for(int x=0;x<2;x++){
-           vec2 uv=base+vec2(float(x),float(y))/uSize;float other=viewDepth(texture2D(uDepth,uv).r);
+           vec2 uv=base+vec2(float(x),float(y))/uSize;float other=viewDepth(texture2DLodEXT(uDepth,uv,0.).r);
            float weight=(x==0?1.-blend.x:blend.x)*(y==0?1.-blend.y:blend.y)*exp(-abs(depth-other)/(.75+depth*.018));
-           fog+=texture2D(uFog,uv)*weight;sum+=weight;
+           vec4 sampleFog=y==0?(x==0?fog00:fog10):(x==0?fog01:fog11);
+           fog+=sampleFog*weight;sum+=weight;
          }
-         fog=sum>.00001?fog/sum:texture2D(uFog,vUv);
+         fog=sum>.00001?fog/sum:texture2DLodEXT(uFog,vUv,0.);
          fog.rgb=safeHDR(fog.rgb);fog.a=fog.a>=0.&&fog.a<=1.?fog.a:0.;
          gl_FragColor=vec4(source*(1.-fog.a)+fog.rgb,1.);
        }`
@@ -168,7 +184,9 @@ export class NebulaPass extends Pass {
     if(scale!==this.scale){this.scale=scale;this.setSize(this.width||innerWidth,this.height||innerHeight);}
   }
   render(renderer,writeBuffer,readBuffer){
-    this.uniforms.uDepth.value=readBuffer.depthTexture;this.uniforms.uCamera.value.copy(this.camera.position);
+    const source=this.sourceTarget||readBuffer;
+    if(!this.renderToScreen&&source===writeBuffer)throw new Error('NebulaPass cannot sample its output target');
+    this.uniforms.uDepth.value=source.depthTexture;this.uniforms.uCamera.value.copy(this.camera.position);
     this.uniforms.uCameraMatrix.value.copy(this.camera.matrixWorld);this.uniforms.uInvProjection.value.copy(this.camera.projectionMatrixInverse);
     // Frozen reading/reduced-motion views can reuse their exact density+depth
     // result. Composite still runs over the current frame, including video RGB.
@@ -176,7 +194,7 @@ export class NebulaPass extends Pass {
     const reused=this.matchesVolumeCache();
     if(!reused){this.quad.material=this.volumeMaterial;renderer.setRenderTarget(this.target);this.quad.render(renderer);this.rememberVolume();this.volumeFrames++;}
     const status=reused?'reused':'live';if(status!==this.volumeCacheStatus||!reused&&this.volumeFrames%60===0){this.volumeCacheStatus=status;if(this.cacheCanvas){this.cacheCanvas.dataset.nebulaCache=status;this.cacheCanvas.dataset.nebulaVolumeFrames=String(this.volumeFrames);}}
-    this.compositeMaterial.uniforms.tDiffuse.value=readBuffer.texture;this.quad.material=this.compositeMaterial;
+    this.compositeMaterial.uniforms.tDiffuse.value=source.texture;this.quad.material=this.compositeMaterial;
     renderer.setRenderTarget(this.renderToScreen?null:writeBuffer);this.quad.render(renderer);
   }
   dispose(){this.target.dispose();this.atlas.dispose();this.volumeMaterial.dispose();this.compositeMaterial.dispose();this.quad.dispose();}

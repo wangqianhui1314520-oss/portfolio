@@ -1,0 +1,5 @@
+# Fixed vendor hashes must survive Windows checkouts and Pages publication.
+docs/assets/vendor/** text eol=lf
+docs/assets/fonts/*.json text eol=lf
+docs/assets/fonts/*.txt text eol=lf
+docs/assets/fonts/*.woff2 binary

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { hardwareMaterials,hardwareMesh,bevelGeometry,consolidateHardware } from './immersive-hardware.js?v=cinematic-v21.1';
+import { hardwareMaterials,hardwareMesh,bevelGeometry,consolidateHardware } from './immersive-hardware.js?v=cinematic-v21.19';
 
 // The portal is open geometry on the camera's real route; dust stays in world space.
 export function createOpeningVoyage({scene,camera,particleScene,particleUniforms,compact}){

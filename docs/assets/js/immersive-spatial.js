@@ -1,14 +1,16 @@
 import * as THREE from 'three';
-import { createEnvironmentResponse } from './immersive-environment.js?v=cinematic-v21.1';
-import { createProjectStarship } from './immersive-starship.js?v=cinematic-v21.1';
-import { createOrbitalDockyard,createEscortCraft } from './immersive-station.js?v=cinematic-v21.1';
-import { bevelGeometry } from './immersive-hardware.js?v=cinematic-v21.1';
-import { journey, navigate, subscribe } from './immersive-session.js?v=cinematic-v21.1';
-import {archivePose,archiveRail} from './immersive-archive-path.js?v=cinematic-v21.1';
-import {createOrbitalAtlas} from './immersive-orbital-atlas.js?v=cinematic-v21.1';
-import {projectWorldSurface} from './immersive-world-surface.js?v=cinematic-v21.1';
-import {opticalFilm,crystalMaterial} from './immersive-optical.js?v=cinematic-v21.1';
-import { sectors, sectorFor, isProject } from './immersive-journey.js?v=cinematic-v21.1';
+import { createEnvironmentResponse } from './immersive-environment.js?v=cinematic-v21.19';
+import { createProjectStarship } from './immersive-starship.js?v=cinematic-v21.19';
+import { createOrbitalDockyard,createEscortCraft } from './immersive-station.js?v=cinematic-v21.19';
+import { bevelGeometry, instancedMesh } from './immersive-hardware.js?v=cinematic-v21.19';
+import { journey, navigate, subscribe } from './immersive-session.js?v=cinematic-v21.19';
+import {archivePose,archiveRail} from './immersive-archive-path.js?v=cinematic-v21.19';
+import {createOrbitalAtlas} from './immersive-orbital-atlas.js?v=cinematic-v21.19';
+import {projectWorldSurface} from './immersive-world-surface.js?v=cinematic-v21.19';
+import {opticalFilm,crystalMaterial} from './immersive-optical.js?v=cinematic-v21.19';
+import { sectors, sectorFor, isProject } from './immersive-journey.js?v=cinematic-v21.19';
+import {compileBeforeReveal,hasLateAssetCompiler} from './immersive-shader-preparation.js?v=cinematic-v21.19';
+import {placeLock} from './immersive-hud.js?v=cinematic-v21.19';
 
 const vector=a=>new THREE.Vector3(...a);
 const smooth=x=>x*x*(3-2*x);
@@ -24,6 +26,9 @@ export function createSpatialWorld({scene,camera,interaction}){
  const alloy=new THREE.MeshStandardMaterial({color:0x405867,metalness:.82,roughness:.32,envMapIntensity:1.45});
  const dark=new THREE.MeshStandardMaterial({color:0x14232e,metalness:.63,roughness:.48});
  const pale=new THREE.MeshStandardMaterial({color:0x96aebd,metalness:.6,roughness:.3});
+ // Rock is rough and non-metallic: a metal in dark space reflects only black.
+ const rock=new THREE.MeshStandardMaterial({color:0x5c616b,metalness:.04,roughness:.92,emissive:0x15132a});
+ function rockGeometry(seed){const g=new THREE.IcosahedronGeometry(1,1),p=g.getAttribute('position');for(let i=0;i<p.count;i++){const x=p.getX(i),y=p.getY(i),z=p.getZ(i),k=.84+.22*Math.sin(x*7.9+seed+y*11.3)*Math.cos(z*8.7-x*4.2+seed*.7);p.setXYZ(i,x*k,y*k*.82,z*k);}g.computeVertexNormals();return g;}
  const cyan=new THREE.MeshBasicMaterial({color:new THREE.Color(.24,1.24,1.7),toneMapped:false});
  const warm=new THREE.MeshStandardMaterial({color:0x8d785e,metalness:.7,roughness:.37,emissive:0x67401c,emissiveIntensity:.38});
  const mesh=(g,mat,parent,pos=[0,0,0])=>{const m=new THREE.Mesh(g,mat);m.position.fromArray(pos);parent.add(m);return m;};
@@ -41,6 +46,7 @@ export function createSpatialWorld({scene,camera,interaction}){
  const pointerPosition=new THREE.Vector2(),pointerPlane=new THREE.Plane(),interactionPoint=new THREE.Vector3();
  const canvas=document.getElementById('space'),instruction=document.getElementById('worldInstruction');
  const ray=new THREE.Raycaster(),cursor=new THREE.Vector2(),projected=new THREE.Vector3(),worldPoint=new THREE.Vector3();
+ const lockPoint=new THREE.Vector3(),lockBox=new THREE.Box3();let lastGpuHover=null;
  const scanOrigin=new THREE.Vector3(),scanRadius={value:0};
  const scanMesh=new THREE.Mesh(new THREE.SphereGeometry(1,48,32),new THREE.ShaderMaterial({
    uniforms:{uRadius:scanRadius,uOpacity:{value:0}},transparent:true,side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending,
@@ -49,10 +55,10 @@ export function createSpatialWorld({scene,camera,interaction}){
  }));scene.add(scanMesh);scanMesh.visible=false;
  function ringStructure(parent,r,segments=48){
    torus(parent,r,r>70?1.25:.5);const rail=torus(parent,r+1.2,.055,cyan);rail.rotation.z=.2;
-   const modules=new THREE.InstancedMesh(new THREE.BoxGeometry(r>70?3.5:2.1,r>70?2.5:1.1,r>70?7:3.4),alloy,segments),lights=new THREE.InstancedMesh(new THREE.BoxGeometry(.8,.07,r>70?7.1:3.5),warm,segments),d=new THREE.Object3D();
+   const modules=instancedMesh(new THREE.BoxGeometry(r>70?3.5:2.1,r>70?2.5:1.1,r>70?7:3.4),alloy,segments),lights=instancedMesh(new THREE.BoxGeometry(.8,.07,r>70?7.1:3.5),warm,segments),d=new THREE.Object3D();
    for(let i=0;i<segments;i++){const a=i/segments*Math.PI*2;d.position.set(Math.cos(a)*r,Math.sin(a)*r,0);d.rotation.z=a;d.updateMatrix();modules.setMatrixAt(i,d.matrix);lights.setMatrixAt(i,d.matrix);}
    parent.add(modules,lights);occluders.push(modules);
-   const guideCount=Math.floor(segments/2),guides=new THREE.InstancedMesh(new THREE.BoxGeometry(.12,r>70?2.3:1.0,r>70?7.15:3.6),cyan,guideCount);
+   const guideCount=Math.floor(segments/2),guides=instancedMesh(new THREE.BoxGeometry(.12,r>70?2.3:1.0,r>70?7.15:3.6),cyan,guideCount);
    for(let i=0;i<guideCount;i++){const a=i/guideCount*Math.PI*2+.025;d.position.set(Math.cos(a)*(r+.6),Math.sin(a)*(r+.6),0);d.rotation.z=a;d.updateMatrix();guides.setMatrixAt(i,d.matrix);}parent.add(guides);
    for(let i=0;i<4;i++){const arc=new THREE.Mesh(new THREE.TorusGeometry(r-1.65,.035,5,64,Math.PI*.39),cyan);arc.rotation.z=i*Math.PI*.5+.12;arc.position.z=.45;parent.add(arc);}
    for(let i=0;i<8;i++){const a=i/8*Math.PI*2;const brace=box(parent,1.2,8,1,[Math.cos(a)*(r-3),Math.sin(a)*(r-3),0],dark);brace.rotation.z=a-Math.PI/2;}
@@ -123,7 +129,9 @@ export function createSpatialWorld({scene,camera,interaction}){
    if(s.id==='forge'){
     monument.position.set(35,41,-102);monument.rotation.set(.17,-.26,.10);const yard=createOrbitalDockyard({variant:'forge',compact:innerWidth<700});monument.add(yard.root);yard.root.traverse(o=>{if(o.isMesh&&!o.material.isMeshBasicMaterial)occluders.push(o);});
    }else if(s.id==='lumen'){
-    monument.position.set(10,4,-64);for(let i=0;i<4;i++){const lens=torus(monument,23-i*3,.55,i%2?pale:alloy);lens.position.z=-i*10;lens.rotation.y=.18*i;torus(lens,23-i*3+.7,.045,glow);}
+    // The lens gate stands well left of the ship: beside it on arrival, and
+    // outside the lock ring and the copy panels once the camera closes in.
+    monument.position.set(-78,12,-110);for(let i=0;i<4;i++){const lens=torus(monument,23-i*3,.55,i%2?pale:alloy);lens.position.z=-i*10;lens.rotation.y=.18*i;torus(lens,23-i*3+.7,.045,glow);}
     const core=mesh(new THREE.IcosahedronGeometry(6,1),new THREE.MeshPhysicalMaterial({color:0xa9bac9,metalness:.8,roughness:.17,iridescence:1,clearcoat:1}),monument,[0,0,-35]);core.rotation.z=.4;
    }else if(s.id==='echo'){
     monument.position.set(0,0,-70);for(let i=0;i<13;i++){const a=i*2.4,r=20+(i%3)*7;const shard=box(monument,5,18+i%4*5,.8,[Math.cos(a)*r,Math.sin(a)*r*.65,-i*4],i%2?dark:alloy);shard.rotation.set(.1,i*.23,.1*Math.sin(i));box(shard,.06,15,.9,[1.7,0,0],glow);}
@@ -135,12 +143,12 @@ export function createSpatialWorld({scene,camera,interaction}){
    const planet=mesh(new THREE.SphereGeometry(s.id==='echo'?72:100,64,40),planetaryMaterial(s.id==='forge'?0x627c96:s.id==='lumen'?0x92877a:s.id==='echo'?0x715f80:0x5a7771,sectors.indexOf(s)*13.7),root,[-100,-110,-260]);
    const moon=mesh(new THREE.SphereGeometry(s.id==='lumen'?27:19,40,28),planetaryMaterial(0x8d929d,42.1+sectors.indexOf(s)*5),root,[150,45,-470]);moon.rotation.z=.23;
    const beltRoot=new THREE.Group();beltRoot.position.copy(planet.position);beltRoot.rotation.set(.87,.12,-.38);root.add(beltRoot);
-   const beltCount=innerWidth<700?220:560,belt=new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1,0),alloy,beltCount),beltPose=new THREE.Object3D();
-   for(let i=0;i<beltCount;i++){const a=i*2.399963,r=(s.id==='echo'?110:141)+Math.sin(i*7.31)*7+Math.cos(i*3.13)*4;beltPose.position.set(Math.cos(a)*r,Math.sin(i*4.17)*1.8,Math.sin(a)*r);beltPose.rotation.set(a,i*.37,i*.8);beltPose.scale.setScalar(.10+Math.pow((i*.754877)%1,3)*1.0);beltPose.updateMatrix();belt.setMatrixAt(i,beltPose.matrix);}beltRoot.add(belt);
+   const beltCount=innerWidth<700?220:560,belt=instancedMesh(rockGeometry(1.7),rock,beltCount),beltPose=new THREE.Object3D();
+   for(let i=0;i<beltCount;i++){const a=i*2.399963,r=(s.id==='echo'?110:141)+Math.sin(i*7.31)*7+Math.cos(i*3.13)*4;beltPose.position.set(Math.cos(a)*r,Math.sin(i*4.17)*1.8,Math.sin(a)*r);beltPose.rotation.set(a,i*.37,i*.8);beltPose.scale.setScalar(.10+Math.pow((i*.754877)%1,3)*1.0).multiply(new THREE.Vector3(1,.62+(i*.618034)%1*.6,.8+(i*.414214)%1*.4));beltPose.updateMatrix();belt.setMatrixAt(i,beltPose.matrix);}beltRoot.add(belt);
    const atmosphere=mesh(new THREE.SphereGeometry((s.id==='echo'?72:100)*1.012,48,32),new THREE.ShaderMaterial({uniforms:{uColor:{value:color}},transparent:true,side:THREE.BackSide,depthWrite:false,blending:THREE.AdditiveBlending,vertexShader:'varying vec3 n,p;void main(){n=normalize(mat3(modelMatrix)*normal);p=(modelMatrix*vec4(position,1.)).xyz;gl_Position=projectionMatrix*viewMatrix*vec4(p,1.);}',fragmentShader:'varying vec3 n,p;uniform vec3 uColor;void main(){float rim=pow(1.-abs(dot(normalize(n),normalize(cameraPosition-p))),6.);float sun=max(.12,dot(normalize(n),normalize(vec3(.48,.19,-.84))));gl_FragColor=vec4(uColor,rim*sun*.6);}'}),root,planet.position.toArray());
    occluders.push(planet);
-   const debris=new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1,0),dark,90),d=new THREE.Object3D();
-   for(let i=0;i<90;i++){const a=i*2.399,r=43+(i%11)*3;d.position.set(Math.cos(a)*r,Math.sin(a)*r*.6,-30-i%7*10);d.rotation.set(a,a*.3,a*.6);d.scale.setScalar(.18+i%5*.17);d.updateMatrix();debris.setMatrixAt(i,d.matrix);}root.add(debris);
+   const debris=instancedMesh(rockGeometry(4.3),rock,90),d=new THREE.Object3D();
+   for(let i=0;i<90;i++){const a=i*2.399,r=43+(i%11)*3;d.position.set(Math.cos(a)*r,Math.sin(a)*r*.6,-30-i%7*10);d.rotation.set(a,a*.3,a*.6);d.scale.setScalar(.18+i%5*.17).multiply(new THREE.Vector3(1,.6+(i%4)*.14,.75+(i%3)*.16));d.updateMatrix();debris.setMatrixAt(i,d.matrix);}root.add(debris);
    const entry={root,monument,planet,atmosphere,baseYaw:monument.rotation.y,light:new THREE.PointLight(color,85,140,2)};entry.light.position.set(-20,16,14);root.add(entry.light);entry.response=createEnvironmentResponse({root,color,monument,relayOffset:s.id==='forge'?[-14.31,-6.21,31.32]:s.id==='lumen'?[-23,0,4]:s.id==='echo'?[20,0,2]:[-17,10,4],compact:innerWidth<700});destinations.set(s.id,entry);
    const list=works.filter(w=>sectorFor(w)===s.id);
    list.forEach((work,i)=>{
@@ -156,7 +164,15 @@ export function createSpatialWorld({scene,camera,interaction}){
    });
    return entry;
  }
- function ensureSector(id){if(id&&!destinations.has(id))buildDestination(sectors.find(s=>s.id===id));return destinations.get(id);}
+ // A sector is built when its flight starts. It links its shaders while it is
+ // still a distant point and appears once its first frame cannot stall.
+ function ensureSector(id){
+  if(id&&!destinations.has(id)){
+   buildDestination(sectors.find(s=>s.id===id));const d=destinations.get(id);
+   if(d&&hasLateAssetCompiler()){d.linked=false;compileBeforeReveal(d.root).then(()=>{d.linked=true;if(sectorId===id)d.root.visible=true;});}
+  }
+  return destinations.get(id);
+ }
  function layout(){
    layoutMobile=innerWidth<700;
    atlas.layout();const points=atlas.positions();
@@ -175,7 +191,7 @@ export function createSpatialWorld({scene,camera,interaction}){
    const mobile=innerWidth<700;
    if(state.step==='bridge')return {position:vector([0,2,25]),look:vector([0,3,-90]),fov:mobile?55:52};
    if(state.step==='captain'){
-    const p=archivePose(archiveRail.progress,mobile);return {position:vector(p.position),look:vector(p.look),fov:p.fov};
+    const p=archivePose(archiveRail.progress,mobile,innerWidth/innerHeight);return {position:vector(p.position),look:vector(p.look),fov:p.fov};
    }
    // A lower, slightly closer eye exposes the thick outer shoulder and berth
    // undersides. The real label/control surfaces keep their existing anchors.
@@ -201,8 +217,9 @@ export function createSpatialWorld({scene,camera,interaction}){
  function setState(){
    const state=journey.state,changedSector=state.sector!==sectorId;step=state.step;selected=state.work;sectorId=state.sector;entrance=0;
    ensureSector(sectorId);mapRoot.visible=['map','boot','travel'].includes(step);
+   if(mapRoot.visible)atlas.ensureAssets();
    home.visible=step==='travel';
-   for(const [id,d] of destinations)d.root.visible=id===sectorId;
+   for(const [id,d] of destinations)d.root.visible=id===sectorId&&d.linked!==false;
    if(changedSector){layout();homeResponse.reset();for(const d of destinations.values())d.response.reset();}
    labelHovered=null;gpuHovered=null;hovered=null;probeUntil=0;lastInteraction='';delete document.body.dataset.worldHover;
    if(step==='scanning'){scanAge=0;scanDone=false;scanOrigin.copy(pose(state).position);scanMesh.position.copy(scanOrigin);for(const f of facilities.values())if(f.assembly.userData.sector===sectorId)f.echo=false;}
@@ -271,6 +288,7 @@ export function createSpatialWorld({scene,camera,interaction}){
  function updateInteraction(dt,time,motion){
    const active=interactive(),inputStamp=performance.now()*.001;let point=null;
    if(active&&pointerKnown&&!pointerDown){cast();if(!pointerOverUI&&inputStamp-pickStamp>.05){gpuHovered=pick()?.id||null;pickStamp=inputStamp;}else if(pointerOverUI)gpuHovered=null;point=probePoint();}else gpuHovered=null;
+   if(gpuHovered!==lastGpuHover){lastGpuHover=gpuHovered;if(gpuHovered)dispatchEvent(new CustomEvent('tem:world-hover',{detail:{id:gpuHovered}}));}
    hovered=labelHovered||gpuHovered;
    interaction?.setHover(hovered);
    if(hovered)document.body.dataset.worldHover=hovered;else delete document.body.dataset.worldHover;
@@ -285,19 +303,32 @@ export function createSpatialWorld({scene,camera,interaction}){
    }
    canvas.dataset.probeCount=String(result.pulseCount);
  }
+ // The lock ring frames the hull's bounding sphere, measured once in the
+ // assembly's own space so layout scaling and motion only need a projection.
+ function lockView(f,label){
+  if(!f.lockSphere){f.assembly.updateWorldMatrix(true,true);const sphere=lockBox.setFromObject(f.body).getBoundingSphere(new THREE.Sphere());f.lockSphere={center:f.assembly.worldToLocal(sphere.center.clone()),radius:sphere.radius/f.assembly.getWorldScale(new THREE.Vector3()).x};}
+  lockPoint.copy(f.lockSphere.center);f.assembly.localToWorld(lockPoint);
+  const distance=camera.position.distanceTo(lockPoint);projected.copy(lockPoint).project(camera);
+  if(projected.z<-1||projected.z>1||Math.abs(projected.x)>1.1||Math.abs(projected.y)>1.1)return null;
+  const radius=f.lockSphere.radius*f.assembly.getWorldScale(worldPoint).x/(distance*Math.tan(THREE.MathUtils.degToRad(camera.fov*.5)))*innerHeight*.5;
+  worldPoint.copy(lockPoint).applyMatrix4(camera.matrixWorldInverse);
+  return {x:(projected.x*.5+.5)*innerWidth,y:(-projected.y*.5+.5)*innerHeight,radius:THREE.MathUtils.clamp(radius*.92,30,Math.min(innerHeight*.2,innerWidth*.3)),distance,bearing:(Math.atan2(worldPoint.x,-worldPoint.z)*180/Math.PI+360)%360,label};
+ }
  const videoCanvas=document.createElement('canvas');videoCanvas.width=videoCanvas.height=8;const videoContext=videoCanvas.getContext('2d',{willReadFrequently:true});let videoTick=0;
  const previewScale=new THREE.Matrix4();
  return {pose,opticalAnchor:()=>atlas.opticalAnchor(),update(dt,time,motion,shot={progress:1}){
    elapsed=time;entrance+=dt;if(layoutMobile!==(innerWidth<700))layout();updateInteraction(dt,time,motion);
    readingPower=Math.max(readingHover?.35:0,readingPower*Math.exp(-dt*2.5));
    const activeDestination=destinations.get(sectorId);if(activeDestination){activeDestination.planet.rotation.y=time*.002;activeDestination.monument.rotation.y=activeDestination.baseYaw+Math.sin(time*.06)*.04;}
-   const archive=step==='captain';megastructure.position.set(archive?320:170,archive?35:120,archive?-600:-245);megastructure.scale.setScalar(archive?.65:1);
-   dockyard.update(time,step==='boot'?.5:0,motion);
-   shuttles.forEach((g,i)=>{g.position.set(-52+((time*.55+i*39)%180),-3+i*8,-118-i*45);g.rotation.y=-.32;g.rotation.z=.04*Math.sin(time*.025+i);});
-   mapModels.forEach((m,i)=>{m.rotation.y=-.25+Math.sin(time*.18+i)*.22;const focused=hovered===m.userData.sector;m.children.at(-1).rotation.z=time*.03;if(focused)m.rotation.y+=.10;});
+   if(home.visible){
+    megastructure.position.set(170,120,-245);megastructure.scale.setScalar(1);
+    dockyard.update(time,0,motion);
+    shuttles.forEach((g,i)=>{g.position.set(-52+((time*.55+i*39)%180),-3+i*8,-118-i*45);g.rotation.y=-.32;g.rotation.z=.04*Math.sin(time*.025+i);});
+   }
    // Keep the departing port at its original coordinates until it is behind the eye.
    const departing=step==='travel'&&shot.progress<.4;
    mapRoot.visible=step==='map'||step==='boot'||departing;
+   if(mapRoot.visible)mapModels.forEach((m,i)=>{m.rotation.y=-.25+Math.sin(time*.18+i)*.22;const focused=hovered===m.userData.sector;m.children.at(-1).rotation.z=time*.03;if(focused)m.rotation.y+=.10;});
    atlas.update(dt,time,motion,step==='map'||step==='boot'||departing,hovered,departing?Math.max(0,1-shot.progress/.22):0);
    if(step==='scanning'){
     scanAge+=dt;const radius=motion?scanAge*53:1000;scanRadius.value=radius;scanMesh.scale.setScalar(Math.max(.1,radius));scanMesh.material.uniforms.uOpacity.value=Math.min(.32,scanAge*.5)*Math.max(0,1-scanAge/3);
@@ -325,7 +356,9 @@ export function createSpatialWorld({scene,camera,interaction}){
    }
    const video=document.querySelector('.media-player video');
    if(step==='docked'&&selected){const f=facilities.get(selected);if(video&&video.readyState>=2&&!video.paused){if(f.video!==video){f.videoTexture?.dispose();f.videoTexture=new THREE.VideoTexture(video);f.videoTexture.colorSpace=THREE.SRGBColorSpace;f.video=video;}setImage(f,f.videoTexture);}else if(f.cover.material.map===f.videoTexture&&textureCache.has(f.work.cover)){setImage(f,textureCache.get(f.work.cover));}}if(step==='docked'&&selected&&video&&!video.paused&&video.readyState>=2&&videoTick++%12===0){try{videoContext.drawImage(video,0,0,8,8);const d=videoContext.getImageData(0,0,8,8).data;let r=0,g=0,b=0;for(let i=0;i<d.length;i+=4){r+=d[i];g+=d[i+1];b+=d[i+2];}facilities.get(selected).color.setRGB(r/16320,g/16320,b/16320,THREE.SRGBColorSpace);}catch{}}
-   scene.updateMatrixWorld();const now=performance.now()*.001;if(['map','signals'].includes(step)&&now-labelStamp>.033){projectLabels();labelStamp=now;}
+   // Rendering updates the scene tree itself. Only the earlier DOM label
+   // occlusion pass needs a separate update, at its existing 30 Hz cadence.
+   const now=performance.now()*.001;if(['map','signals'].includes(step)&&now-labelStamp>.033){scene.updateMatrixWorld();projectLabels();labelStamp=now;}
    if(step==='target'&&selected){
     const f=facilities.get(selected),panel=document.querySelector('#expeditionUI .approach-copy');
     if(panel&&f.previewPane.visible){
@@ -333,6 +366,8 @@ export function createSpatialWorld({scene,camera,interaction}){
      canvas.dataset.approachSurface='world-starship-gantry';
     }
    }
+   const lockId=['target','docking'].includes(step)?selected:step==='signals'?hovered:null,lockFacility=lockId&&facilities.get(lockId);
+   placeLock(lockFacility?lockView(lockFacility,step==='signals'?`TRACK · SIGNAL ${String(lockFacility.assembly.userData.index+1).padStart(2,'0')}`:''):null);
    if(step==='docked'&&selected){const f=facilities.get(selected),panel=document.querySelector('#expeditionUI .project-detail');canvas.dataset.readingSurface=f.ship.readingSurface?'world-gantry':'unavailable';if(panel)projectWorldSurface({object:f.ship.readingSurface,camera,element:panel,w:.94,h:.94,width:640,height:850,ready:f.opened>.95});}
  },layout,getFacilityPosition};
 }

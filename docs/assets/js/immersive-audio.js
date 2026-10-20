@@ -4,25 +4,29 @@
 // 音频只在用户手势后解锁（浏览器自动播放策略），状态变化由
 // tem:opening-* 事件与 journey 状态机驱动。
 // ============================================================
-import { journey, subscribe } from './immersive-session.js?v=cinematic-v21.1';
+import { journey, subscribe } from './immersive-session.js?v=cinematic-v21.19';
 
 const P = 'assets/audio/';
+// 一次性音乐与音效优先使用约 1/8 体积的 AAC（.m4a），解码失败时回退到原 WAV。
+// 无缝循环的 Bed 保持 WAV：AAC 的编码填充会在循环接缝处留下空隙。
+const aac = (() => { try { return typeof Audio !== 'undefined' && new Audio().canPlayType('audio/mp4; codecs="mp4a.40.2"') !== ''; } catch { return false; } })();
+const compact = path => aac ? path.replace(/\.wav$/, '.m4a') : path;
 const URLS = {
-  opening: P + 'music/opening-14.wav',   // 宇宙序章 14s（一次性，含跃迁高潮）
-  bed:     P + 'music/bed-dream.wav',    // 主世界梦幻 Bed（无缝循环）
-  theme:   P + 'music/theme-uplift.wav'  // 励志主题（结尾联系，首尾呼应）
+  opening: compact(P + 'music/opening-14.wav'),   // 宇宙序章 14s（一次性，含跃迁高潮）
+  bed:     P + 'music/bed-dream.wav',             // 主世界梦幻 Bed（无缝循环）
+  theme:   compact(P + 'music/theme-uplift.wav')  // 励志主题（结尾联系，首尾呼应）
 };
 const SFX = {
-  ignition: P + 'sfx/engine-ignition.wav',
-  warp:     P + 'sfx/warp-whoosh.wav',
-  scan:     P + 'sfx/scan-ping.wav',
-  lock:     P + 'sfx/lock-on.wav',
-  chime:    P + 'sfx/gate-chime.wav',
-  dock:     P + 'sfx/dock.wav',
-  appear:   P + 'sfx/ui-appear.wav',
-  hover:    P + 'sfx/ui-hover.wav',
-  click:    P + 'sfx/ui-click.wav',
-  back:     P + 'sfx/ui-back.wav'
+  ignition: compact(P + 'sfx/engine-ignition.wav'),
+  warp:     compact(P + 'sfx/warp-whoosh.wav'),
+  scan:     compact(P + 'sfx/scan-ping.wav'),
+  lock:     compact(P + 'sfx/lock-on.wav'),
+  chime:    compact(P + 'sfx/gate-chime.wav'),
+  dock:     compact(P + 'sfx/dock.wav'),
+  appear:   compact(P + 'sfx/ui-appear.wav'),
+  hover:    compact(P + 'sfx/ui-hover.wav'),
+  click:    compact(P + 'sfx/ui-click.wav'),
+  back:     compact(P + 'sfx/ui-back.wav')
 };
 
 // ---------- 持久化设置 ----------
@@ -68,8 +72,13 @@ function getRaw(url) {
 }
 async function getBuffer(url) {
   if (decoded.has(url)) return decoded.get(url);
-  const ab = await getRaw(url);
-  const buf = await ctx.decodeAudioData(ab);
+  let buf;
+  try { buf = await ctx.decodeAudioData(await getRaw(url)); }
+  catch (error) {
+    // 个别浏览器声明支持 AAC 但无法解码时，退回同名 WAV。
+    if (!url.endsWith('.m4a')) throw error;
+    buf = await ctx.decodeAudioData(await getRaw(url.replace(/\.m4a$/, '.wav')));
+  }
   decoded.set(url, buf);
   return buf;
 }
@@ -188,7 +197,9 @@ addEventListener('tem:opening-skip', () => { stopOpening(true); });
 addEventListener('tem:opening-complete', () => { stopOpening(false); startBed(); });
 
 // ---------- 状态机音效 ----------
-const STEP_SFX = { boot: 'ignition', map: 'appear', travel: 'warp', scanning: 'scan', signals: 'appear', target: 'lock', docking: 'dock', docked: 'chime', captain: 'click' };
+// The lock cue waits for the HUD ring to close (tem:hud-lock) instead of the step change.
+const STEP_SFX = { boot: 'ignition', map: 'appear', travel: 'warp', scanning: 'scan', signals: 'appear', docking: 'dock', docked: 'chime', captain: 'click' };
+addEventListener('tem:hud-lock', () => playSfx('lock', { vol: SFX_VOL.lock }));
 let lastStep = journey.state.step;
 subscribe(state => {
   const step = state.step;
@@ -213,6 +224,13 @@ document.addEventListener('pointerover', e => {
   lastHover = now;
   playSfx('hover', { vol: SFX_VOL.hover });
 }, { passive: true });
+// Ships and sectors answer the pointer in the scene itself, not only through DOM buttons.
+addEventListener('tem:world-hover', () => {
+  const now = performance.now();
+  if (now - lastHover < 70) return;
+  lastHover = now;
+  playSfx('hover', { vol: SFX_VOL.hover });
+});
 document.addEventListener('click', e => {
   const b = e.target.closest && e.target.closest('button,a');
   if (!b) return;

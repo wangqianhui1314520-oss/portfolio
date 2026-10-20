@@ -1,13 +1,17 @@
+@import url('./fonts.css');
 /* V11: world projections retain their intrinsic scene-scale type and bounds.
    Material and feedback only; camera projection owns position and perspective. */
 :root{
- --tem-font-interface:'Segoe UI Variable','Noto Sans SC','Segoe UI','Microsoft YaHei UI',sans-serif;
- --tem-font-display:'Noto Serif SC','Source Han Serif SC','Songti SC','SimSun',serif;
+ --tem-font-interface:'Tem Interface','Segoe UI Variable','Noto Sans SC','Segoe UI','Microsoft YaHei UI',sans-serif;
+ --tem-font-display:'Tem Narrative','Noto Serif SC','Source Han Serif SC','Songti SC','SimSun',serif;
  --tem-font-instrument:'Bahnschrift','Consolas',ui-monospace,monospace;
 }
 body.expedition{font-family:var(--tem-font-interface);font-kerning:normal}
 .opening-launch h1,.arrival-glass-panel .arrival-copy h2,.archive-glass-panel .profile-panel-title h3,.contact-dialog h2{font-family:var(--tem-font-display);font-weight:400}
 .archive-glass-panel .archive-person h3,.arrival-glass-panel .arrival-copy h1{font-family:var(--tem-font-interface);font-variant-numeric:lining-nums}
+html[lang='zh-CN'] .arrival-glass-panel .arrival-copy h1{font-family:var(--tem-font-display);font-weight:350;letter-spacing:.015em}
+html[lang='zh-CN'] .arrival-glass-panel .arrival-copy h1>span{font-family:var(--tem-font-interface);font-weight:250;letter-spacing:0}
+html[lang='zh-CN'] .archive-glass-panel .archive-tagline{font-family:var(--tem-font-display);font-weight:400}
 .archive-glass-panel .optical-registration,.archive-glass-panel .profile-panel-title>span,.arrival-glass-panel .arrival-copy .eyebrow{font-family:var(--tem-font-instrument);font-weight:400}
 html[lang='en'] :is(.opening-launch h1,.arrival-glass-panel .arrival-copy h2,.archive-glass-panel .profile-panel-title h3,.contact-dialog h2){font-family:var(--tem-font-interface);font-weight:350;letter-spacing:0;text-wrap:pretty}
 .world-anchored .archive-glass-panel :is(p,h3,h4,strong,summary){overflow-wrap:break-word}

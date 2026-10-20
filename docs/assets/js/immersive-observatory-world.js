@@ -1,6 +1,7 @@
 import * as THREE from 'three';
-import { mergeGeometries } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
-import {loadTemAsset,cloneTemModel,prepareReveal} from './immersive-blender-assets.js?v=cinematic-v21.1';
+import { mergeGeometries } from '../vendor/three-0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
+import {loadTemAsset,cloneTemModel,prepareReveal} from './immersive-blender-assets.js?v=cinematic-v21.19';
+import {compileBeforeReveal} from './immersive-shader-preparation.js?v=cinematic-v21.19';
 
 // A cropped viewing deck, with a pressure shell, an optical floor and distant
 // inhabited structures. All layers have actual thickness and world parallax.
@@ -17,14 +18,15 @@ export function createObservatoryWorld({ scene, reflection, compact = () => inne
   // shadows into the current deck. No additional light or render pass is made.
   const visibilityMask=`
     if(vObservatory.x>=0.&&abs(vObservatory.x-uObservatoryChapter)>.92)discard;
-    if(vObservatory.y<1.5&&abs(vObservatory.y-uObservatoryCompact)>.5)discard;
+    if(vObservatory.y<1.5&&abs(vObservatory.y-uObservatoryCompact)>.5)discard;`;
+  const shadowVisibilityMask=visibilityMask+`
     if(uObservatoryReveal<.999&&vObservatory.x>=0.){float grain=fract(sin(dot(floor(gl_FragCoord.xy*.5),vec2(12.9898,78.233)))*43758.5453);if(grain>uObservatoryReveal)discard;}`;
   const shadowDepth=new THREE.MeshDepthMaterial({depthPacking:THREE.RGBADepthPacking});
   shadowDepth.name='Tem.observatory.masked-sun-depth';
   shadowDepth.onBeforeCompile=shader=>{
     Object.assign(shader.uniforms,uniforms);
     shader.vertexShader=`attribute vec3 aObservatory;varying vec3 vObservatory;\n${shader.vertexShader}`.replace('#include <begin_vertex>','#include <begin_vertex>\nvObservatory=aObservatory;');
-    shader.fragmentShader=`varying vec3 vObservatory;uniform float uObservatoryChapter,uObservatoryCompact,uObservatoryReveal;\n${shader.fragmentShader}`.replace('#include <clipping_planes_fragment>',`#include <clipping_planes_fragment>\n${visibilityMask}`);
+    shader.fragmentShader=`varying vec3 vObservatory;uniform float uObservatoryChapter,uObservatoryCompact,uObservatoryReveal;\n${shader.fragmentShader}`.replace('#include <clipping_planes_fragment>',`#include <clipping_planes_fragment>\n${shadowVisibilityMask}`);
   };
   shadowDepth.customProgramCacheKey=()=> 'tem-observatory-masked-sun-depth-v16';
   const materials = [
@@ -36,12 +38,14 @@ export function createObservatoryWorld({ scene, reflection, compact = () => inne
   ];
   materials.forEach((material, index) => {
     material.vertexColors = true;
+    material.alphaToCoverage = true;
     material.onBeforeCompile = shader => {
       Object.assign(shader.uniforms, uniforms);
       shader.vertexShader = `attribute vec3 aObservatory;varying vec3 vObservatory;\n${shader.vertexShader}`
         .replace('#include <begin_vertex>', '#include <begin_vertex>\nvObservatory=aObservatory;');
       shader.fragmentShader = `varying vec3 vObservatory;uniform float uObservatoryChapter,uObservatoryCompact,uObservatoryTime,uObservatoryPower,uObservatoryReveal;\n${shader.fragmentShader}`
-        .replace('#include <clipping_planes_fragment>', `#include <clipping_planes_fragment>\n${visibilityMask}`);
+        .replace('#include <clipping_planes_fragment>', `#include <clipping_planes_fragment>\n${visibilityMask}`)
+        .replace('#include <dithering_fragment>', '#include <dithering_fragment>\nif(vObservatory.x>=0.)gl_FragColor.a*=clamp(uObservatoryReveal,0.,1.);');
       if (index === 3) shader.fragmentShader = shader.fragmentShader.replace('#include <color_fragment>', `#include <color_fragment>
         float traveller=pow(.5+.5*sin(vObservatory.z*.16-uObservatoryTime*.34),18.);
         diffuseColor.rgb*=.40+uObservatoryPower*.34+traveller*.24;`);
@@ -266,7 +270,12 @@ export function createObservatoryWorld({ scene, reflection, compact = () => inne
   let initialized = false, lastPausedSignature = '', lastCompact = isCompact(),authoredDecks=null,authoredHabitat=null,sharedDeck=null;
   let authoredNearTriangles=0,authoredFarTriangles=0;
   const fallbackBatches=root.children.filter(child=>child.isMesh);
-  if(typeof loadTemAsset==='function')loadTemAsset({name:'deck',desktopOnly:true,canvas:document.getElementById('space'),onLoad:model=>{
+  let fallbackWorldRequested=false;
+  const assetCanvas=document.getElementById('space');
+  if(assetCanvas){assetCanvas.dataset.assetDeck='deferred-star-map';assetCanvas.dataset.assetObservatory='deferred-star-map';}
+  function requestFallbackWorld(){
+  if(fallbackWorldRequested)return;fallbackWorldRequested=true;
+  if(typeof loadTemAsset==='function')loadTemAsset({name:'deck',desktopOnly:true,canvas:assetCanvas,onLoad:async model=>{
     if(!model.find('WORLD_DECK'))throw new Error('Continuous authored deck is missing its semantic root.');
     prepareReveal(model.root,uniforms.uObservatoryReveal);
     model.root.traverse(mesh=>{
@@ -277,15 +286,20 @@ export function createObservatoryWorld({ scene, reflection, compact = () => inne
         if(!mesh.material.roughnessMap){mesh.material.roughness=.21;mesh.material.clearcoat=.56;mesh.material.clearcoatRoughness=.18;}
         // The broad deck should hold a shaped reflection rather than the
         // low-angle cyan rim's white clearcoat hot spot. Keep its baked maps.
-        mesh.material.clearcoat=Math.min(mesh.material.clearcoat,.38);mesh.material.clearcoatRoughness=Math.max(mesh.material.clearcoatRoughness,.24);
-        mesh.material.envMapIntensity=.26;
+        mesh.material.clearcoat=Math.min(mesh.material.clearcoat,.12);mesh.material.clearcoatRoughness=Math.max(mesh.material.clearcoatRoughness,.32);
+        mesh.material.envMapIntensity=.26;mesh.material.specularIntensity=.24;
+        const floorCompile=mesh.material.onBeforeCompile,floorKey=mesh.material.customProgramCacheKey.call(mesh.material);
+        mesh.material.onBeforeCompile=function(shader,renderer){floorCompile.call(this,shader,renderer);shader.fragmentShader=shader.fragmentShader.replace('#include <roughnessmap_fragment>','#include <roughnessmap_fragment>\nroughnessFactor=max(roughnessFactor,.30);').replace('#include <lights_fragment_end>','#include <lights_fragment_end>\nreflectedLight.directSpecular*=.60;');};
+        mesh.material.customProgramCacheKey=()=>floorKey+'|tem-shared-deck-controlled-specular';
         reflection?.bindSurface(mesh);
       }
     });
+    // The mirror hook and reveal uniforms are bound above; link that exact variant first.
+    await compileBeforeReveal(model.root);
     root.add(model.root);sharedDeck=model.root;authoredNearTriangles=model.triangleCount;
     dispatchEvent(new Event('tem:scene-depth-change'));
   }});
-  if(typeof loadTemAsset==='function')loadTemAsset({name:'observatory',desktopOnly:true,canvas:document.getElementById('space'),onLoad:model=>{
+  if(typeof loadTemAsset==='function')loadTemAsset({name:'observatory',desktopOnly:true,canvas:document.getElementById('space'),onLoad:async model=>{
     if(!model.find('NEAR_DECK'))throw new Error('Authored observatory is missing its deck.');
     authoredDecks=[];
     const countTriangles=node=>{let count=0;node.traverse(mesh=>{if(mesh.isMesh)count+=(mesh.geometry.index?.count||mesh.geometry.attributes.position.count)/3;});return count;};
@@ -294,16 +308,20 @@ export function createObservatoryWorld({ scene, reflection, compact = () => inne
       authoredFarTriangles=countTriangles(far);
       model.root.updateWorldMatrix(true,true);
       const distant=cloneTemModel(far);far.matrixWorld.decompose(distant.position,distant.quaternion,distant.scale);
-      distant.name='Tem.observatory.Blender-distant-habitat';root.add(distant);authoredHabitat=distant;prepareReveal(distant,uniforms.uObservatoryReveal);
+      distant.name='Tem.observatory.Blender-distant-habitat';prepareReveal(distant,uniforms.uObservatoryReveal);
+      // Requested on the atlas; link with its reveal hooks before it attaches.
+      await compileBeforeReveal(distant);root.add(distant);authoredHabitat=distant;
     }
     dispatchEvent(new Event('tem:scene-depth-change'));
   }});
+  }
   function layout() { lastCompact = isCompact(); uniforms.uObservatoryCompact.value = lastCompact ? 1 : 0; }
   return { root, layout, stats, update(dt, time, frame, motion) {
     if (lastCompact !== isCompact()) layout();
     const arrival = Boolean(frame.opening && frame.introFrame?.time > 9), welcome = frame.step === 'bridge' && !frame.opening;
     root.visible = welcome || ['captain','map','boot'].includes(frame.step) || arrival;
     if (!root.visible) { lastPausedSignature = ''; return; }
+    if(frame.step==='map'||frame.step==='boot'||assetCanvas?.dataset.assetObservatoryV19==='fallback')requestFallbackWorld();
     const chapter = welcome || arrival ? 0 : THREE.MathUtils.clamp(Number(frame.archiveProgress) || 0, 0, 3);
     uniforms.uObservatoryChapter.value = chapter;
     uniforms.uObservatoryReveal.value = (arrival ? THREE.MathUtils.smoothstep(frame.introFrame.time, 9, 11.6) : 1)*(1-(frame.observatoryReplacement||0));
