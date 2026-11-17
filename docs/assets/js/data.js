@@ -120,6 +120,64 @@ window.PORTFOLIO_DATA = {
   */
   works: [
     {
+      "id": "dafeiyu",
+      "sector": "nexus",
+      "type": "AI 应用 / 本地伴侣",
+      "title": "大肥鱼 · 本地伴侣",
+      "subtitle": "住在电脑里，通过 QQ 连接日常",
+      "cover": "assets/covers/dafeiyu-cover.svg",
+      "year": "2026",
+      "role": "个人项目",
+      "status": "v3.6.2 · 持续迭代",
+      "stack": [
+        "Node.js",
+        "AI Agent",
+        "OneBot v11",
+        "长期记忆",
+        "知识库"
+      ],
+      "desc": "一个在自己电脑上持续运行的 AI 伴侣。通过 QQ 连接日常对话，把人格、长期记忆、知识库、主动联系与日程提醒整合成有连续性的陪伴体验，并支持识图、语音与多媒体互动。",
+      "contribution": {
+        "period": "2026.10 — 至今",
+        "role": "个人项目 · 产品设计 / Agent 工程",
+        "actions": [
+          "围绕日常陪伴设计人格、长期记忆与知识库，让多次对话保留上下文与连续性。",
+          "以 Node.js 和 OneBot v11 串联 QQ 消息、主动联系、日程提醒及多媒体任务，搭建本地大屏与服务守护。"
+        ],
+        "outcome": "本机持续运行的个人伴侣项目；消息桥源码可在 GitHub 查看。"
+      },
+      "highlights": [
+        "人格、长期记忆与知识库连接连续对话",
+        "按时间、忙闲与未回复状态调整主动联系",
+        "识图、语音与多媒体任务接入 QQ",
+        "本地状态大屏、服务守护与会话恢复"
+      ],
+      "specs": [
+        {
+          "k": "运行方式",
+          "v": "本机常驻服务 · QQ 私聊 / 群聊"
+        },
+        {
+          "k": "消息链路",
+          "v": "Node.js · DSH 插件 · OneBot v11"
+        },
+        {
+          "k": "数据与服务",
+          "v": "记忆与知识库保存在本机；模型、语音等能力按配置调用外部服务"
+        }
+      ],
+      "play": {
+        "type": "none",
+        "url": ""
+      },
+      "links": [
+        {
+          "label": "GitHub · 消息桥源码",
+          "url": "https://github.com/wangqianhui1314520-oss/dsh-qq-onebot-bridge"
+        }
+      ]
+    },
+    {
       id: "ming",
       contribution: { period: "2026.08 — 至今", role: "独立开发 · 剧情 / 系统策划", actions: ["搭建 10 角色 × 5 步骤交互框架，组织人物、物品与地点之间的关系。", "设计多分支叙事与 9 档结局，以 Agent、记忆、时间线与一致性约束驱动角色对话。"], outcome: "基于 Godot 持续迭代；腾讯游戏创作大赛参赛作品。" },
       sector: "forge",
@@ -680,7 +738,7 @@ window.PORTFOLIO_DATA = {
 window.PORTFOLIO_DATA.international = {
   // Reading order of the work archive and of each case study's "next project": game design first,
   // then the strongest evidence; writing comes last.
-  order: ['yuanmo', 'growth', 'whale-heist', 'anyao', 'zhihu', 'rebirth', 'kun', 'ming', 'epoch', 'eufy-petlink', 'esp32-learn', 'poetry', 'novel'],
+  order: ['yuanmo', 'growth', 'whale-heist', 'anyao', 'zhihu', 'rebirth', 'kun', 'ming', 'epoch', 'dafeiyu', 'eufy-petlink', 'esp32-learn', 'poetry', 'novel'],
   // Projects whose recognition is an award (see profile.resume.recognition).
   awards: ['yuanmo', 'anyao'],
   // Horizontal focal point of each cover where the narrow ribbon card crops it; unset covers stay centred.
@@ -691,6 +749,7 @@ window.PORTFOLIO_DATA.international = {
     en: {name: 'Tem · Wang Qianhui', role: [{label: 'DESIGN', text: 'AI-Native Games & Products'}, {label: 'BUILD', text: 'Hardware · Creative Technology'}], text: 'I connect play, story, and AI systems into work people can experience.', proof: ['Hackathons: 5th nationally, 5th in East China', 'Released on itch.io, GCORES, Douyin, and Global Game Jam', 'K-Hub Rare Disease Open Source Community co-builder · COSCon’26 speaker']}
   },
   projectCards: {
+    dafeiyu: {zh:{summary:'让日常对话拥有记忆，也让陪伴延伸到主动联系与提醒。',result:'本机持续运行 · QQ 消息桥源码可查看'},en:{summary:'Give everyday conversations memory, continuity, and thoughtful check-ins.',result:'Runs on a personal computer · QQ bridge source available'}},
     growth: {
       zh: {summary:'从 2009 年的 QQ 空间出发，在相册、录音与档案中拼回一段成长记忆。',result:'48 小时独立开发 · 已上传 Global Game Jam 官网 · 发布于 itch.io'},
       en: {summary:'Reconstruct a forgotten life through albums, recordings, and a recreated 2009 Qzone page.',result:'48-hour solo project · On the Global Game Jam site and itch.io'}
@@ -744,8 +803,9 @@ window.PORTFOLIO_DATA.international = {
       en: {summary:'Giving orders to AI becomes the game: lead three AI crewmates into an undersea vault, then bring everyone home.',result:'WaytoAGI 1024 Coding Weekend · WorkBuddy 1024 Programmer’s Day'}
     }
   },
-  languages: {ming:'zh',yuanmo:'zh',epoch:'zh',growth:'zh',rebirth:'zh',kun:'zh',novel:'zh',zhihu:'zh',poetry:'zh', 'esp32-learn':'zh','eufy-petlink':'zh','anyao':'zh','whale-heist':'zh'},
+  languages: {dafeiyu:'zh',ming:'zh',yuanmo:'zh',epoch:'zh',growth:'zh',rebirth:'zh',kun:'zh',novel:'zh',zhihu:'zh',poetry:'zh', 'esp32-learn':'zh','eufy-petlink':'zh','anyao':'zh','whale-heist':'zh'},
   caseStudies: {
+    dafeiyu: {"zh":{"challenge":"让陪伴不止于一次问答，而是在日常生活里保持记忆、节奏与连续性。","context":"大肥鱼是一个运行在个人电脑上的 AI 伴侣项目，通过 QQ 私聊与群聊连接日常。当前桥版本为 v3.6.2，记忆与知识库保存在本机；模型、语音与媒体能力按配置连接外部服务。","decisions":[{"title":"先记住，再继续对话","text":"把人格、长期记忆与知识库分开组织，让历史信息可以查看、删除与审计，避免把每次聊天都当成第一次见面。"},{"title":"主动，但有节奏","text":"主动联系结合时间、忙闲与未回复状态调整；日程提醒作为独立任务运行，让陪伴也能回应具体的生活安排。"},{"title":"把陪伴做成持续运行的系统","text":"插件化消息桥串联识图、语音与多媒体任务，本地状态大屏、服务守护与会话恢复负责运行反馈。"}],"facts":["个人项目 / 产品设计与 Agent 工程","Node.js · OneBot v11 · DSH 插件","本地常驻服务，并非全离线系统"]},"en":{"challenge":"Make companionship continuous across everyday life, rather than a series of isolated answers.","context":"DaFeiYu is an AI companion running on a personal computer and connected through QQ direct messages and group chats. The bridge is at v3.6.2. Memory and knowledge stay on the computer; model, voice, and media services may use external providers.","decisions":[{"title":"Remember before responding","text":"Separate persona, long-term memory, and knowledge so that prior context can be inspected, deleted, and audited instead of treating every conversation as the first."},{"title":"Reach out with a sense of timing","text":"Proactive contact adapts to time, availability, and unanswered messages. Scheduled reminders connect companionship to concrete plans."},{"title":"Engineer for continued operation","text":"A modular message bridge connects image understanding, voice, and media tasks. A local dashboard, service watchdog, and session recovery provide operational feedback."}],"facts":["Personal project / Product design & agent engineering","Node.js · OneBot v11 · DSH plugins","Locally hosted, not an offline-only system"]}},
     ming: {
       zh: {challenge:'让政治选择产生有规则、有记忆的后果，而不仅是一段生成的对话。',context:'以明代政治叙事为背景，连接人物、物品与地点。项目基于 Godot 持续迭代，参加腾讯游戏创作大赛。',
         decisions:[{title:'先搭建可推演的世界',text:'用 10 角色 × 5 步骤组织交互框架；21 人物、48 物品与 33 地点构成叙事所依赖的世界结构。'},{title:'让 AI 表演，让规则裁定',text:'NPCAgent、MemorySystem、Timeline 与 ConsistencyGuard 配合约束角色对话；多分支叙事与九档结局让选择延续到后续体验。'}],facts:['独立开发 / 叙事与系统策划','10 角色 × 5 步骤','持续迭代中的 Godot 项目']},
@@ -899,6 +959,7 @@ window.PORTFOLIO_DATA.locales = {en:{
     ]}
   },
   works:{
+    dafeiyu:{"type":"AI application / Local companion","title":"DaFeiYu · Local Companion","subtitle":"At home on your computer, connected through QQ","role":"Personal project","status":"v3.6.2 · In active development","stack":["Node.js","AI Agent","OneBot v11","Long-term memory","Knowledge base"],"desc":"An AI companion that runs on a personal computer. QQ conversations connect persona, long-term memory, knowledge, proactive check-ins, and scheduled reminders into an ongoing relationship, with image understanding, voice, and multimedia interactions.","highlights":["Persona, long-term memory, and knowledge connect conversations","Proactive check-ins adapt to time, availability, and unanswered messages","Image understanding, voice, and multimedia tasks through QQ","Local dashboard, service watchdog, and session recovery"],"specs":[{"k":"Runtime","v":"Resident local services · QQ direct messages / group chats"},{"k":"Message bridge","v":"Node.js · DSH plugins · OneBot v11"},{"k":"Data & services","v":"Local memory and knowledge; models and voice may use external services"}],"contribution":{"period":"Oct 2026 — Present","role":"Personal project · Product design / Agent engineering","actions":["Designed persona, long-term memory, and a knowledge base to preserve context across everyday conversations.","Connected QQ messages, proactive check-ins, reminders, and media tasks with Node.js and OneBot v11, supported by a local dashboard and service watchdog."],"outcome":"An ongoing personal companion project; the message bridge source is available on GitHub."},"links":[{"label":"GitHub · Message bridge source","url":"https://github.com/wangqianhui1314520-oss/dsh-qq-onebot-bridge"}]},
     ming:{type:'Game',title:'Ming Dynasty 1566: The Grand Game',subtitle:'Godot 4 · Narrative strategy',role:'Lead creator',status:'Chapter 1 released',desc:'A narrative strategy game set in Ming-era China, driven by political decisions. Its design promise: every choice creates understandable, character-specific, sustained consequences.',highlights:['10 characters × 5 interaction steps','21 people / 48 items / 33 locations','11 tutorial sequences'],contribution:{period:'Aug 2026 — Present',role:'Solo development · Narrative & systems design',actions:['Built a 10-character, 5-step interaction framework linking people, items, and locations.','Designed branching narrative and nine ending tiers, using agents, memory, timelines, and consistency constraints for character dialogue.'],outcome:'Continuing development in Godot; entered in a Tencent game-creation competition.'}},
     yuanmo:{type:'Game',title:'Contenders of the Late Yuan',subtitle:'v3.0 · Browser strategy',role:'Team lead / Full stack',status:'Completed · 5th in East China (regional award)',desc:'A multi-faction strategy game set in the final years of the Yuan dynasty. Natural-language control meets a living simulation, with two endings and three custom-faction policy paths.',highlights:['Tencent Cloud Hackathon · 5th in East China (regional award)','Natural-language control','Multi-faction strategy','Situation-simulation engine','2 endings / 3 policy paths'],contribution:{period:'Jun — Jul 2026',role:'Team project · Product & core gameplay design',actions:['Designed core gameplay, numerical frameworks, and product logic; helped take the project from concept to internal testing.','Contributed to architecture and deployment, pitch materials, and the live presentation.'],outcome:'Completed team project. Tencent Cloud Hackathon: 5th place / East China regional award.'},images:[{src:'assets/certificates/tencent-hackathon-ec.jpg',caption:'Tencent Cloud Hackathon game-development challenge (East China) · Regional award certificate · Wang Qianhui (Aug 2026)'}]},
     epoch:{type:'AI film',title:'Machine Epoch: Humanity’s Embers',subtitle:'AI science-fiction drama · Writing & editing',role:'Writer / Director',status:'Competition entry · Demo completed',desc:'A science-fiction short drama made with AI-generated images and video, shot arrangement, and editing. Two episodes were published on Douyin, exploring a low-cost workflow from script to film. Entered in the PAVO AI short-drama competition.',stack:['AI image / Video generation','Video editing'],highlights:['PAVO AI short-drama competition entry','Two episodes published on Douyin','Independent writing, AI generation, and editing','From script to AI-assisted film'],contribution:{period:'Sep 2026',role:'Solo creator · Writing / AI production / Editing',actions:['Wrote the science-fiction script, generated images and video, arranged shots, and edited the film.','Explored a low-cost production workflow from script through publication.'],outcome:'Two episodes published on Douyin; entered in the PAVO low-cost AI short-drama competition.'}},

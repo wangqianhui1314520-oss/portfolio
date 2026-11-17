@@ -105,7 +105,7 @@ export function buildInternational({outDir = workspace, origin = 'https://wqh-te
     const intro = data.international.intro[locale];
     const title = choose(locale,'Tem · 作品档案','Tem · Selected Work');
     const description = choose(locale,'王乾辉（Tem）的作品档案：游戏、互动叙事、AI 影像与技术实验，每件作品注明我的角色与成果。','Selected work by Wang Qianhui (Tem): games, interactive stories, AI films, and technical experiments, each with my role and its outcome.');
-    const palettes = {growth:['#081b28','#d5edf5'],yuanmo:['#10192e','#d6e5fc'],zhihu:['#071e27','#d0edf2'],ming:['#0c182b','#dce9fb'],epoch:['#090f22','#d3e1ff'],rebirth:['#0d1b25','#cfeaf3'],kun:['#101a31','#d9e4fa'],novel:['#13182e','#e0e4ff'],poetry:['#101c2b','#dbeaf4'],'esp32-learn':['#06222b','#ccf4f6'],'eufy-petlink':['#0a202b','#d5eef3'],anyao:['#0b1f24','#d3eeec'],'whale-heist':['#071a2c','#d0eaf8']};
+    const palettes = {dafeiyu:['#0c2034','#fff0d3'],growth:['#081b28','#d5edf5'],yuanmo:['#10192e','#d6e5fc'],zhihu:['#071e27','#d0edf2'],ming:['#0c182b','#dce9fb'],epoch:['#090f22','#d3e1ff'],rebirth:['#0d1b25','#cfeaf3'],kun:['#101a31','#d9e4fa'],novel:['#13182e','#e0e4ff'],poetry:['#101c2b','#dbeaf4'],'esp32-learn':['#06222b','#ccf4f6'],'eufy-petlink':['#0a202b','#d5eef3'],anyao:['#0b1f24','#d3eeec'],'whale-heist':['#071a2c','#d0eaf8']};
     const notes = work => data.international.projectCards?.[work.id]?.[locale] || {};
     const summary = work => notes(work).summary || work.subtitle || '';
     const result = work => notes(work).result || work.status || '';

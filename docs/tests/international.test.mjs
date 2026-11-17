@@ -46,9 +46,9 @@ test('localization preserves project IDs, source media, dates, team roles, and C
  for(const work of english.works.filter(w=>w.type==='Project certificate'))assert.ok(certificates.includes(work.cover));
  assert.equal(original.profile.title,localizedData(original,'zh').profile.title);
 });
-test('all thirteen English projects restore through the real journey and round-trip language state',()=>{
- assert.equal(createJourney(english.works).total,13);
- assert.equal(english.works.filter(isProject).length,13);
+test('all fourteen English projects restore through the real journey and round-trip language state',()=>{
+ assert.equal(createJourney(english.works).total,14);
+ assert.equal(english.works.filter(isProject).length,14);
  for(const certificate of english.works.filter(w=>w.type==='Project certificate'))assert.equal(isProject(certificate),false);
  for(const work of english.works.filter(w=>w.sector)){
   const journey=createJourney(english.works);assert.ok(restoreView(journey.dispatch,english.works,{work:work.id}).restored);
@@ -90,9 +90,9 @@ test('every generated page has reciprocal language metadata and existing local d
  const output=mkdtempSync(resolve(tmpdir(),'tem-international-test-'));
  try{
   const files=buildInternational({outDir:output,origin:'https://example.test',basePath:'/portfolio/'});
-  assert.equal(files.length,42);
+  assert.equal(files.length,44);
   const pages=files.filter(f=>f.endsWith('.html'));
-  assert.equal(pages.length,36);
+  assert.equal(pages.length,38);
   for(const path of pages){
    const html=readFileSync(resolve(output,path),'utf8');
    assert.doesNotMatch(html,/\{\{|href="[^\"]*(?:resume\.html|\.pdf)"/);
@@ -114,7 +114,7 @@ test('every generated page has reciprocal language metadata and existing local d
    const projects=[...directory.matchAll(/<article\b[^>]*\bdata-ribbon-item\b[^>]*>[\s\S]*?<\/article>/g)].map(match=>match[0]);
    const projectIDs=projects.map(project=>project.match(/\bdata-project-id="([^"]+)"/)?.[1]);
    const projectCount=original.works.filter(isProject).length;
-   assert.equal(projectCount,13);
+   assert.equal(projectCount,14);
    assert.equal(projects.length,projectCount,'The ribbon must expose every project exactly once.');
    assert.equal(new Set(projectIDs).size,projectCount,'Ribbon projects must have distinct stable IDs.');
    assert.deepEqual([...projectIDs].sort(),Array.from(original.works.filter(isProject),work=>work.id).sort());
@@ -243,7 +243,7 @@ test('every generated page has reciprocal language metadata and existing local d
    const durations={growth:48.018,yuanmo:163.933,zhihu:190};
    let end=0;for(const cue of original.international.guides[id]){assert.ok(cue.start>=end);assert.ok(cue.end>cue.start);assert.ok(cue.end<=durations[id]);end=cue.end;}
   }
-  const sitemap=readFileSync(resolve(output,'sitemap.xml'),'utf8');assert.equal((sitemap.match(/<url>/g)||[]).length,35);
+  const sitemap=readFileSync(resolve(output,'sitemap.xml'),'utf8');assert.equal((sitemap.match(/<url>/g)||[]).length,37);
   assert.match(sitemap,/<loc>https:\/\/example.test\/portfolio\/<\/loc>/);
   // The root document is the main site itself: no redirect, canonical points at the root.
   const rootEntry=readFileSync(resolve(output,'index.html'),'utf8');

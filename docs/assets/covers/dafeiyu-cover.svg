@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">大肥鱼 · 本地伴侣</title>
+  <desc id="desc">深蓝星空中，一条金色的小鱼围绕本地记忆节点游动。项目概念封面。</desc>
+  <defs>
+    <radialGradient id="bg" cx="58%" cy="42%" r="73%"><stop stop-color="#173c58"/><stop offset=".5" stop-color="#0c2034"/><stop offset="1" stop-color="#060d19"/></radialGradient>
+    <linearGradient id="fish" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff2be"/><stop offset=".45" stop-color="#efbb69"/><stop offset="1" stop-color="#cc6b42"/></linearGradient>
+    <linearGradient id="fin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffdc96" stop-opacity=".9"/><stop offset="1" stop-color="#d47d50" stop-opacity=".3"/></linearGradient>
+    <radialGradient id="halo"><stop stop-color="#ecb86a" stop-opacity=".16"/><stop offset="1" stop-color="#ecb86a" stop-opacity="0"/></radialGradient>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0H0V64" fill="none" stroke="#a9d9e0" stroke-opacity=".035"/></pattern>
+    <filter id="glow"><feGaussianBlur stdDeviation="6"/></filter>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h1600v1000H0z"/>
+  <path fill="url(#grid)" d="M0 0h1600v1000H0z"/>
+  <circle cx="800" cy="445" r="420" fill="url(#halo)"/>
+  <g fill="none" stroke="#8ac9cf">
+    <ellipse cx="800" cy="455" rx="468" ry="212" stroke-opacity=".18" transform="rotate(-15 800 455)"/>
+    <ellipse cx="800" cy="455" rx="380" ry="300" stroke-opacity=".09" transform="rotate(24 800 455)"/>
+    <path d="M363 550L513 632 1135 346 1248 408M513 632L800 742 1135 346" stroke-opacity=".13" stroke-dasharray="4 12"/>
+  </g>
+  <g fill="#8fcbd0"><circle cx="363" cy="550" r="5"/><circle cx="1135" cy="346" r="5"/><circle cx="1248" cy="408" r="4"/><circle cx="513" cy="632" r="4"/><circle cx="800" cy="742" r="3"/></g>
+  <g stroke="#9cd3d6" stroke-opacity=".3" fill="#0b2234"><circle cx="363" cy="550" r="19"/><circle cx="1135" cy="346" r="19"/><circle cx="1248" cy="408" r="13"/></g>
+  <g fill="#99cfd6" font-family="Consolas,monospace" font-size="15" letter-spacing="3"><text x="248" y="600">MEMORY</text><text x="1160" y="319">CONNECTION</text><text x="1220" y="454">PRESENCE</text></g>
+  <g transform="translate(790 430) rotate(-12)">
+    <path d="M-178 7C-257-91-320-99-304-24L-286 10-304 51C-332 137-243 103-174 38" fill="url(#fin)" stroke="#f8ce86" stroke-opacity=".5" stroke-width="2"/>
+    <path d="M-101-95C-66-181 30-173 64-87M-19 101C4 157 88 141 109 78" fill="url(#fin)"/>
+    <path d="M-195 13C-164-90-20-139 120-81 185-54 214-10 222 11 198 40 165 87 107 107-36 156-161 109-195 13Z" fill="url(#fish)"/>
+    <path d="M-163 15C-111-41-44-66 34-69" fill="none" stroke="#fff5d7" stroke-opacity=".48" stroke-width="4" stroke-linecap="round"/>
+    <path d="M18 25C-21 29-28 70 17 92 42 69 54 46 18 25Z" fill="#cc7c4c" fill-opacity=".4" stroke="#ffdf9c" stroke-opacity=".6"/>
+    <path d="M124-49C96-7 99 32 125 60" fill="none" stroke="#b96d42" stroke-opacity=".35" stroke-width="3"/>
+    <circle cx="160" cy="-12" r="12" fill="#172638"/><circle cx="163" cy="-16" r="4" fill="#fff9de"/>
+  </g>
+  <g fill="#b5e4e8" fill-opacity=".6"><circle cx="1070" cy="390" r="7"/><circle cx="1094" cy="361" r="4"/><circle cx="1109" cy="338" r="2"/></g>
+  <g fill="#b8d8e7"><circle cx="232" cy="205" r="1.5"/><circle cx="1290" cy="167" r="2"/><circle cx="1421" cy="602" r="1.4"/><circle cx="128" cy="735" r="1.5"/><circle cx="939" cy="148" r="1"/><circle cx="592" cy="232" r="1.3"/></g>
+  <g font-family="Arial,Microsoft YaHei,sans-serif">
+    <text x="86" y="104" fill="#b7d1de" font-size="19" letter-spacing="5">TEM / PERSONAL SYSTEMS</text>
+    <circle cx="1373" cy="96" r="5" fill="#9dd9bd"/><text x="1391" y="103" fill="#9dd9bd" font-size="16" letter-spacing="2">LOCAL</text>
+    <text x="800" y="823" text-anchor="middle" fill="#fff0d3" font-size="64" font-weight="600" letter-spacing="9">大肥鱼</text>
+    <text x="800" y="879" text-anchor="middle" fill="#b7cedb" font-size="20" letter-spacing="7">LOCAL COMPANION</text>
+    <path d="M86 936H1514" stroke="#94b8ca" stroke-opacity=".2"/>
+    <text x="86" y="969" fill="#7d9aaf" font-size="14" letter-spacing="3">A LITTLE PRESENCE. A LASTING MEMORY.</text>
+    <text x="1514" y="969" text-anchor="end" fill="#7d9aaf" font-size="14" letter-spacing="3">2026 / NODE.JS · ONEBOT</text>
+  </g>
+</svg>
