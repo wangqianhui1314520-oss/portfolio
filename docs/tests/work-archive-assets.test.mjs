@@ -68,6 +68,18 @@ test('preview loops are short, silent, small and cut from the project films', ()
   }
 });
 
+test('the crystal still is a small transparent WebP in the viewer frame', () => {
+  const bytes = readFileSync(resolve(root, 'assets/images/tem-crystal.webp'));
+  assert.equal(bytes.subarray(0, 4).toString('latin1') + bytes.subarray(8, 16).toString('latin1'), 'RIFFWEBPVP8X', 'an extended-format WebP');
+  assert.ok(bytes[20] & 0x10, 'the still keeps its transparency');
+  assert.ok(bytes.length >= 8 * 1024 && bytes.length <= 60 * 1024, 'the still is a real picture under 60 KB');
+  const width = 1 + bytes.readUIntLE(24, 3), height = 1 + bytes.readUIntLE(27, 3);
+  assert.ok(Math.abs(width / height - 1.15) < .01, 'the still shares the 1.15 frame of the live crystal');
+  // The page reserves the same box for the still and the live canvas, so the swap does not move anything.
+  const page = read('zh/about/index.html');
+  assert.match(page, new RegExp(`class="about-crystal-still"[^>]*width="${width}" height="${height}"`));
+});
+
 test('responsive covers exist, shrink their JPEG, and top out at the source width', () => {
   const manifest = JSON.parse(read('assets/covers/r/manifest.json'));
   assert.ok(Object.keys(manifest).length >= 10);

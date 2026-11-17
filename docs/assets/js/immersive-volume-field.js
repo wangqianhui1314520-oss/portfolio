@@ -1,4 +1,4 @@
-import {stellarMediumProfile as medium} from './immersive-stellar-medium.js?v=cinematic-v21.19';
+import {stellarMediumProfile as medium} from './immersive-stellar-medium.js?v=cinematic-v21.22';
 
 // Shared, bounded three-dimensional density and emission. The live view and
 // low-frequency lighting probe evaluate the same field, seeded data and sun.

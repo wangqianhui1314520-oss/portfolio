@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import {loadTemAsset,prepareReveal} from './immersive-blender-assets.js?v=cinematic-v21.19';
-import {bindCrystalVolume} from './immersive-crystal-volume.js?v=cinematic-v21.19';
-import {surfaceLightProfile} from './immersive-surface-look.js?v=cinematic-v21.19';
-import {bindSolarReceiver} from './immersive-solar-receiver.js?v=cinematic-v21.19';
+import {loadTemAsset,prepareReveal} from './immersive-blender-assets.js?v=cinematic-v21.22';
+import {bindCrystalVolume} from './immersive-crystal-volume.js?v=cinematic-v21.22';
+import {surfaceLightProfile} from './immersive-surface-look.js?v=cinematic-v21.22';
+import {bindSolarReceiver} from './immersive-solar-receiver.js?v=cinematic-v21.22';
 
 const semanticNames=['CABIN_V19','T_IDENTITY_V19','EXTERIOR_V19','SURFACE_FRAME_V19'];
 const mapKeys=['map','normalMap','roughnessMap','metalnessMap','aoMap','emissiveMap','alphaMap','bumpMap','clearcoatMap','clearcoatNormalMap','clearcoatRoughnessMap','transmissionMap','thicknessMap','specularIntensityMap','specularColorMap','iridescenceMap','iridescenceThicknessMap'];

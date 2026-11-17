@@ -39,7 +39,7 @@ PRIORITY = ('zh/work/index.html', 'index.html', 'zh/about/index.html', 'zh/poetr
 # Text a page's script writes at run time (announcements, hints) counts as part of that page.
 COMPANIONS = {'zh/work/index.html': 'assets/js/international-static.js', 'en/work/index.html': 'assets/js/international-static.js'}
 # Serif display text on the work archive: the introduction, every project title and the contact lead.
-DISPLAY = re.compile(r'data-title="([^"]*)"|(?:class="(?:ribbon-intro-role|ribbon-about-lead|ribbon-row-title)">|class="ribbon-intro-track"><small>[^<]*</small>)([^<]*)<')
+DISPLAY = re.compile(r'data-title="([^"]*)"|(?:class="(?:ribbon-intro-role|ribbon-intro-track-text|ribbon-about-lead|ribbon-row-title)">|class="ribbon-intro-track"><small>[^<]*</small>)([^<]*)<')
 
 
 def display_text(documents_root=ROOT):

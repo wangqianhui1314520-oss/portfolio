@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {planetaryHorizonProfile as horizon} from './immersive-planetary-look.js?v=cinematic-v21.19';
+import {planetaryHorizonProfile as horizon} from './immersive-planetary-look.js?v=cinematic-v21.22';
 
 // One continuous, object-space field. No albedo, cloud or night photograph is
 // used; rotating the authored sphere changes the same terrain seen by its air.

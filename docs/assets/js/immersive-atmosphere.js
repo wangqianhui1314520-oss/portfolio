@@ -1,9 +1,9 @@
 import * as THREE from 'three';
-import { normalizeStellarLayout } from './immersive-world-layout.js?v=cinematic-v21.19';
-import { sectors } from './immersive-journey.js?v=cinematic-v21.19';
-import { NebulaPass } from './immersive-nebula-pass.js?v=cinematic-v21.19';
+import { normalizeStellarLayout } from './immersive-world-layout.js?v=cinematic-v21.22';
+import { sectors } from './immersive-journey.js?v=cinematic-v21.22';
+import { NebulaPass } from './immersive-nebula-pass.js?v=cinematic-v21.22';
 import { RenderPass } from '../vendor/three-0.161.0/examples/jsm/postprocessing/RenderPass.js';
-import { ParticleLayerPass } from './immersive-scene-layers.js?v=cinematic-v21.19';
+import { ParticleLayerPass } from './immersive-scene-layers.js?v=cinematic-v21.22';
 
 // Cloud light is integrated in actual world space and clipped against the scene depth.
 export function createDeepSpaceAtmosphere({scene,camera,composer,time,velocity,pulse,compact,pixelHeight,interaction,sourceTarget=null}){

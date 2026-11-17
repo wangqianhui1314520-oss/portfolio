@@ -2,6 +2,16 @@
 
 网站、代码、作品素材、Blender 工程和设计归档的完整项目目录。
 
+## 当前前端体验（2026-11-18）
+
+- 首页保留星海与水晶标志，提供直接浏览作品和主动开启宇宙体验两个入口；未主动进入时不加载图形引擎。
+- 作品页默认展示三个编辑式精选案例，另有完整网格、列表与作品带；视图、筛选、返回位置和键盘焦点保留上下文。
+- 案例图片可在页内放大，支持上一张／下一张、方向键与 Escape，关闭后返回原焦点；未运行脚本时原图链接仍可用，视频由访客主动播放。
+- 菜单支持键盘导航，筛选结果通过无障碍实时区域播报；减少动态设置保留，手机操作入口至少 44px。
+- 安药中英文项目记录已同步 K-Hub 社区应用、第十一届开源大会展示与义务供应链支持，原有获奖及开源记录独立保留。
+
+静态案例图片查看器为 `assets/js/case-media.js` 和 `assets/css/case-media.css`；结构由双语生成器输出。现行依赖图版本为 `cinematic-v21.22`。
+
 ## 本地预览
 
 在这个 `docs` 文件夹打开终端（目录名为 `docs`，是因为 GitHub Pages 的分支发布只支持 `/` 或 `/docs`；项目本身仍叫 Tem）：
@@ -85,7 +95,7 @@ npm run blender:info
 
 正文采用本地 `Tem Narrative` 字体，界面采用 `Tem Interface`；两者是保留 OFL 许可证的 Noto SC 可变字体子集。修改文案后先生成页面，再运行 `python scripts/build-fonts.py --check` 检查字符覆盖；需要重建时运行同一脚本而不加 `--check`。脚本依赖和源字体要求见 [工程说明](docs/ENGINEERING.md)。
 
-作品的中英文短介绍与成果位于 `data.js` 的 `international.projectCards`，个人职责继续读取每件作品的 `contribution`。同一处还有：`order`（作品档案与案例页「下一个作品」的顺序，先游戏策划相关、再按证据强弱，文学收尾）、`awards`（显示「获奖」标签的作品）、`coverFocus`（窄卡片裁切封面时的水平焦点）和 `intro`（左栏的定位与证据文案）。「可试玩 / 在线体验」标签来自作品的 `play.url`，「开源」来自 GitHub 链接。直接浏览的页面结构、展开配色由 `scripts/build-international.mjs` 生成，样式位于 `assets/css/international-site.css`，横向滚动、筛选、列表、当前作品、展开、预览、菜单和联系面板交互位于 `assets/js/international-static.js`；不要直接修改生成的中英文 HTML。这三个文件和水晶模型在页面里带内容指纹（`?v=` 后为文件哈希），改动后重新生成页面即可刷新缓存。桌面端左侧栏宽 `min(32vw, 520px)`，卡片宽 `clamp(110px, 8.6vw, 140px)`，常见桌面宽度一屏可见 6–8 张；窄屏卡片宽 78vw、按 16:10 显示完整封面。标题、年份等信息文字不小于 11px，可点击区域不小于 44px。背景图 `assets/images/work-backdrop-galaxy.webp`（桌面）与 `work-backdrop-galaxy-m.webp`（窄屏）由 `python scripts/build-backdrop.py` 从 `assets/images/optical/tem-galactic-panorama.png` 压暗导出（需要 Pillow），调整亮度后重新运行即可；`tests/work-backdrop.test.mjs` 会检查两张图分别不超过 100 KB 与 30 KB。
+作品的中英文短介绍与成果位于 `data.js` 的 `international.projectCards`，个人职责继续读取每件作品的 `contribution`。同一处还有：`order`（作品档案与案例页「下一个作品」的顺序，先游戏策划相关、再按证据强弱，文学收尾）、`awards`（显示「获奖」标签的作品）、`coverFocus`（窄卡片裁切封面时的水平焦点）和 `intro`（左栏的定位与证据文案）。「可试玩 / 在线体验」标签来自作品的 `play.url`，「开源」来自 GitHub 链接。「荣誉与记录」来自 `profile.resume.recognition`；条目加上 `featured: true` 会在「关于我」页和宇宙个人空间里突出显示，`evidence: { work, label }` 则在「关于我」页给出一个指向该作品案例页证书区的链接。直接浏览的页面结构、展开配色由 `scripts/build-international.mjs` 生成，样式位于 `assets/css/international-site.css`，横向滚动、筛选、列表、当前作品、展开、预览、菜单和联系面板交互位于 `assets/js/international-static.js`；不要直接修改生成的中英文 HTML。这三个文件和水晶模型在页面里带内容指纹（`?v=` 后为文件哈希），改动后重新生成页面即可刷新缓存。桌面端左侧栏宽 `min(32vw, 520px)`，卡片宽 `clamp(110px, 8.6vw, 140px)`，常见桌面宽度一屏可见 6–8 张；窄屏卡片宽 78vw、按 16:10 显示完整封面。标题、年份等信息文字不小于 11px，可点击区域不小于 44px。背景图 `assets/images/work-backdrop-galaxy.webp`（桌面）与 `work-backdrop-galaxy-m.webp`（窄屏）由 `python scripts/build-backdrop.py` 从 `assets/images/optical/tem-galactic-panorama.png` 压暗导出（需要 Pillow），调整亮度后重新运行即可；`tests/work-backdrop.test.mjs` 会检查两张图分别不超过 100 KB 与 30 KB。
 
 案例页、关于我（履历与荣誉）与诗集共用一套阅读主题（`body.reading-page`，各页另有 `case-page` / `about-page` / `poems-page`）：作品档案的银河背景固定在正文后方并加深，两侧多保留一些星空，最暗的说明文字对最亮的星点仍有约 6:1 的对比度；配色、衬线标题和 TEM 字标与作品档案一致，手机加载小尺寸背景。`tests/work-backdrop.test.mjs` 会检查这几页都用同一背景。
 
@@ -94,6 +104,7 @@ npm run blender:info
 - 封面：`python scripts/build-covers.py` 为 `data.js` 引用的每张 JPEG 封面导出 480 px、960 px 与原宽的 WebP（`assets/covers/r/`，附 `manifest.json`）；页面用 `<picture>` 提供 WebP，原 JPEG 作后备，只有前两张立即加载。
 - 预览：`python scripts/build-previews.py`（需要 ffmpeg）从作品视频剪出 5 秒、无声、16:10 的循环（`assets/videos/previews/`），起点写在脚本的 `CLIPS` 里（画面嵌在更大画框里的素材，可在 `CLIPS` 中同时写明保留区域）；竖屏素材放在自身的模糊放大背景上。只重剪某件作品时传入它的编号，如 `python scripts/build-previews.py whale-heist`。案例页播放器默认以作品封面为海报；视频与封面比例不同时，可在作品数据里用 `videoPoster` 指定一张同比例的海报。
 - 水晶：`node scripts/build-identity-model.mjs` 从 `tem-refined-observatory-v21-lod.glb` 中只取出 `T_IDENTITY_V19`，写成 `assets/models/tem-identity-v21.glb`（约 300 KB，原文件 1.4 MB）。页面加载完成、浏览器空闲后才下载 Three.js 与模型；左栏隐藏（窄屏、宽度小于 1180px、窗口高度不超过 600px）时完全不下载。
+- 水晶静态图：`node scripts/build-crystal-still.mjs [调试端口] [站点地址]` 从作品档案的实时水晶截取透明底 WebP（`assets/images/tem-crystal.webp`，690×600，约 28 KB）；需要本地预览（`npm run dev`）和一个带远程调试端口的 Chrome，用法见脚本开头。「关于我」页的标志先显示这张图，宽屏在浏览器空闲后换成同一颗可拖动的实时水晶——页面需要滚动，所以滚轮仍然滚动页面而不缩放水晶；宽度不超过 800px 时只显示静态图，不下载 Three.js 与模型。更换模型或灯光后重新运行。
 - 字体：中文字形按页面重要性切成约 160 字一片，各带 `unicode-range`，页面只下载用到的切片；作品档案先占前几片，衬线体的标题字单独一片。作品档案首屏实际下载 5 个字体文件、约 205 KB（原先单文件约 985 KB）。英文页使用字体自带的比例宽度引号（`font-variant-east-asian: proportional-width`），中文保留全角标点。
 
 完整的重新生成顺序：`node scripts/build-international.mjs` → `python scripts/build-fonts.py` → 再运行一次 `node scripts/build-international.mjs`（更新字体样式的内容指纹）。
@@ -115,3 +126,25 @@ npm run blender:info
 作品档案默认展示三件精选（元末逐鹿、安药、大肥鱼），分别说明游戏系统、硬件交付、Agent 连续体验。选择「全部作品」进入完整网格，也可切换列表或原作品带；分类、视图与语言切换保持网址上下文：`?view=grid`、`?view=list`、`?view=ribbon`，带分类的直达链接默认使用网格。精选配置位于 `international.featured`。
 
 案例首屏优先显示手动播放的视频或 `work.evidence` / `work.heroImage` 产品图，职责与时间移到其后。大肥鱼首图使用已有历史运行界面的局部截图，已裁去私人信息，不代表本轮实时演示；原始截图仅保存在本地取证目录，未进入站点。新样式分别位于 `portfolio-browse.css`、`case-evidence.css`。
+
+## 2026-11-17 定位、轻量入口与页面连续性
+
+- 职业主句统一为「游戏与 AI 产品策划」，原型与硬件作为实现能力；首页、作品及案例标题包含姓名。关于我先展示职业速读、能力、经历与荣誉，再展开名字故事和书单。
+- 三件精选的双语设计步骤来自 `international.caseNarratives`。流程图解释设计意图，现有视频、线上演示和历史界面单独标注为证据；新增真实操作录像后再更新对应媒体，不把示意图标作实测记录。
+- 手机精选视图收起类型筛选与重复摘要，完整档案仍保留分类。职责与成果文字为 14px。
+- 普通首页只显示静态银河；`international-boot.js` 在体验、跳过或明确场景深链时才请求图形引擎。等待期间显示加载字幕。首页场景 CSS 仍随页面加载，此轮主要移除 WebGL、模型和着色器的无条件预热。
+- `page-transitions.js` / `.css` 为阅读页与作品档案提供渐进增强的原生多页转场，脚本在 head 中使用 `type="module" blocking="render"` 以捕获首次 `pagereveal`。共享封面约 360ms、普通淡入约 220ms；减少动态偏好关闭转场。链接不经客户端路由拦截。
+- 从档案进入案例后，显式返回保留同语言的筛选参数、滚动和焦点；浏览器前进、后退沿用原生恢复。返回记录仅存当前标签页的 sessionStorage，最多保留一天。案例目录标示当前阅读章节。
+- 调试可观察 html 的 `data-last-page-transition` 与 `data-transition-status`，区分浏览器实际完成快照或跳过增强。它们不决定导航结果。
+
+本轮交付与回滚验证保存在父目录 `output/portfolio-refinement-20261117/`。该记录只说明本地改动与候选发布文件完整性；没有修改域名、证书、真实 Git 索引或线上站点。
+
+## 2026-11-17 第二轮视觉制作
+
+- 首页新增 `landing-polish.css`：静态水晶 T、轨道线与更简洁的编辑式排版；使用现有透明 WebP，不额外预热 WebGL。启动按钮在独立 HUD 层内有定向覆盖，不改变进入宇宙后的战术界面。
+- 非作品带的档案页使用横向身份介绍；精选按 `data-featured-order` 呈现一件主视觉与两件非等权作品。手机先读标题、职责和成果，再看封面。完整网格、列表与原作品带继续共用同一组真实作品。
+- 案例首屏改为大标题、独立操作区与全宽完整媒体。`reading-polish.css` 统一案例、关于我与诗集的阅读宽度、暗银河背景、导航、留白和下一作品入口；`case-story.css` 使用开放式步骤排版。
+- 页头字标统一为 32px；跨页转场只展示新页头快照，避免不同旧版布局的字标叠影。减少动态偏好保留。
+- 字体分片生成器识别新增的 `ribbon-intro-track-text`，确保新的职业标题仍来自优先显示字形片。布局变动后重新构建了字体与页面。
+
+本轮本地交付与独立回滚副本位于 `output/portfolio-visual-20261117/`。没有提交或发布到线上，也没有修改域名和证书。

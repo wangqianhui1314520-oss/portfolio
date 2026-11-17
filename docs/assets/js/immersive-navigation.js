@@ -1,10 +1,10 @@
 import * as THREE from 'three';
-import { journey,subscribe,getRevision } from './immersive-session.js?v=cinematic-v21.19';
-import { transitionDurations } from './immersive-journey.js?v=cinematic-v21.19';
-import { createSpatialWorld } from './immersive-spatial.js?v=cinematic-v21.19';
-import { opening,updateOpening } from './immersive-intro.js?v=cinematic-v21.19';
-import { cinematicEase } from './immersive-easing.js?v=cinematic-v21.19';
-import {archivePose,archiveWelcomePose,archiveRail,archiveChapterOrder} from './immersive-archive-path.js?v=cinematic-v21.19';
+import { journey,subscribe,getRevision } from './immersive-session.js?v=cinematic-v21.22';
+import { transitionDurations } from './immersive-journey.js?v=cinematic-v21.22';
+import { createSpatialWorld } from './immersive-spatial.js?v=cinematic-v21.22';
+import { opening,updateOpening } from './immersive-intro.js?v=cinematic-v21.22';
+import { cinematicEase } from './immersive-easing.js?v=cinematic-v21.22';
+import {archivePose,archiveWelcomePose,archiveRail,archiveChapterOrder} from './immersive-archive-path.js?v=cinematic-v21.22';
 
 export function createNavigation({scene,camera,interaction}){
  const world=createSpatialWorld({scene,camera,interaction});

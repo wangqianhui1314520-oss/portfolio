@@ -155,7 +155,25 @@ test('every generated page has reciprocal language metadata and existing local d
    for(const track of original.international.intro[locale].role)assert.ok(intro.includes(track.text.replace(/&/g,'&amp;')),'The introduction states the role.');
    assert.ok(intro.includes(`href="/portfolio/${locale}/about/#experience"`),'The record links to the experience section.');
    assert.match(intro,/<a\b[^>]*\bdata-about-open\b/);
-   assert.match(readFileSync(resolve(output,locale+'/about/index.html'),'utf8'),/<section id="experience">/);
+   const about=readFileSync(resolve(output,locale+'/about/index.html'),'utf8');
+   assert.match(about,/<section id="experience">/);
+   // The About identity is the crystal too: its still picture at once, then the live viewer, and the page keeps its wheel.
+   const aboutViewer=about.match(/<figure\b[^>]*\bdata-tem-viewer\b[^>]*>[\s\S]*?<\/figure>/)?.[0];
+   assert.ok(aboutViewer,'About shows the crystal identity.');
+   assert.match(aboutViewer,/\bdata-tem-wheel="page"/,'A page that scrolls keeps the wheel for scrolling.');
+   assert.match(aboutViewer,/<img class="about-crystal-still" src="\/portfolio\/assets\/images\/tem-crystal\.webp\?v=[0-9a-f]{10}" alt=""/,'The still picture stands in until the model loads.');
+   assert.match(aboutViewer,/<canvas\b[^>]*\btabindex="0"[^>]*\baria-label="[^"]+"/);
+   assert.ok(about.includes('<script type="importmap">')&&about.indexOf('<script type="importmap">')<about.indexOf('<script type="module"'),'The viewer resolves Three through an import map declared before its module.');
+   assert.doesNotMatch(about,/identity-mark/,'The flat letter is gone.');
+   // Featured records stand out and link to their evidence on a case page.
+   const featured=[...about.matchAll(/<article class="recognition-item" data-featured>[\s\S]*?<\/article>/g)].map(match=>match[0]);
+   assert.equal(featured.length,original.profile.resume.recognition.filter(entry=>entry.featured).length);
+   assert.ok(featured.length>=1);
+   for(const item of featured){
+    const target=item.match(new RegExp(`<a class="text-link" href="/portfolio/${locale}/work/([\\w-]+)/#evidence">`))?.[1];
+    assert.ok(target,'A featured record links to its evidence.');
+    assert.match(readFileSync(resolve(output,locale+'/work/'+target+'/index.html'),'utf8'),/<section id="evidence"/,'The evidence link lands on a real section.');
+   }
    // Covers ship as responsive WebP with the JPEG fallback; only the first two load eagerly.
    assert.equal(projects.filter(project=>/loading="eager"/.test(project)).length,0,'The optional ribbon defers its covers until that view is selected.');
    assert.ok(projects.every(project=>/<picture><source type="image\/webp" srcset="[^"]+ \d+w/.test(project)||/\.svg"/.test(project)),'Raster covers offer WebP sources.');

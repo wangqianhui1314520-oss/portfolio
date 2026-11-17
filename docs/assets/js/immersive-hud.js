@@ -1,5 +1,5 @@
-import {journey,subscribe} from './immersive-session.js?v=cinematic-v21.19';
-import {getMotionPreference} from './runtime-settings.js?v=cinematic-v21.19';
+import {journey,subscribe} from './immersive-session.js?v=cinematic-v21.22';
+import {getMotionPreference} from './runtime-settings.js?v=cinematic-v21.22';
 
 // v22 tactical HUD, DOM and SVG only: a reticle that snaps to controls and aims
 // at hovered ships, the mission step rail and clock, decoding for ASCII codes,

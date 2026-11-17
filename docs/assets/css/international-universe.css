@@ -45,6 +45,13 @@ html[lang=en] .global-settings select{max-width:144px}
 }
 @media(max-height:700px) and (min-width:701px){.opening-launch #launchDescription{margin:17px 0}.launch-shortcuts{margin-top:8px}}
 .graphics-standby .launch-backdrop{z-index:3}
+.graphics-standby .launch-backdrop{background-image:linear-gradient(90deg,#030813a8,#03081345),url('../images/work-backdrop-galaxy.webp');background-position:center;background-size:cover}
+.graphics-standby .launch-backdrop span{color:#badbe41a}
+/* The launch copy stays readable while the live universe is deliberately dormant. */
+body[data-opening='waiting'].graphics-standby .launch-index{top:7%;}
+body[data-opening='waiting'].graphics-standby .skip-opening{display:none}
+body[data-opening='loading'].graphics-standby .opening-caption{visibility:visible;opacity:1}
+@media(max-width:700px){.graphics-standby .launch-backdrop{background-image:linear-gradient(90deg,#030813b3,#03081359),url('../images/work-backdrop-galaxy-m.webp')}}
 body[data-step='captain'] .bridge-header{padding-right:130px}
 @media(max-width:700px){body[data-step='captain'] .bridge-header{padding-right:85px}}
 

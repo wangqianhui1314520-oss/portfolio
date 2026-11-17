@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import {stellarNoiseGLSL} from './immersive-volume-field.js?v=cinematic-v21.19';
-import {crystalMediumProfile as look} from './immersive-crystal-look.js?v=cinematic-v21.19';
+import {stellarNoiseGLSL} from './immersive-volume-field.js?v=cinematic-v21.22';
+import {crystalMediumProfile as look} from './immersive-crystal-look.js?v=cinematic-v21.22';
 
 // These two adjoining chambers sit 0.25 units inside the authored T. The
 // optical shell stays unchanged; light is integrated through its real depth.

@@ -144,7 +144,7 @@ test('new world labels stay hidden before first projection while attached labels
  assert.equal(fallback.style.visibility,undefined);assert.equal(fallback.inert,undefined,'static fallback labels must remain operable');
 });
 
-test('the real boot prewarms one graphics load and controller shortcuts reuse it',async()=>{
+test('the real boot waits for visitor intent and controller shortcuts share one graphics load',async()=>{
  const listeners=new Map(),body={dataset:{}},events=[];let loads=0;
  const classes=new Set(['graphics-standby']);body.classList={remove:(...names)=>names.forEach(name=>classes.delete(name)),add:name=>classes.add(name)};
  const journey=createJourney([{id:'one',title:'One',type:'游戏',sector:'forge'}]);
@@ -165,8 +165,8 @@ test('the real boot prewarms one graphics load and controller shortcuts reuse it
   .replace(/import\('\.\/immersive-audio\.js[^']*'\)/g,'Promise.resolve(audioFixture)')
   .replace(/import\('\.\/immersive-exploration\.js[^']*'\)/g,'Promise.resolve(explorationFixture)');
  await runInNewContext('(async()=>{'+source+'})()',context);
- assert.equal(loads,1,'the live entrance prewarms graphics before the visitor boards');
- assert.equal(events.includes('tem:opening-start'),false,'prewarming must not start the voyage');
+ assert.equal(loads,0,'the lightweight entrance must not load graphics before visitor intent');
+ assert.equal(events.includes('tem:opening-start'),false,'entering the page must not start the voyage');
  context.dispatchEvent(new context.Event('tem:opening-skip'));
  assert.equal(loads,1);assert.equal(body.dataset.graphics,'loading');assert.ok(events.includes('tem:graphics-request'));
  context.dispatchEvent(new context.Event('tem:opening-start'));context.dispatchEvent(new context.Event('tem:opening-skip'));assert.equal(loads,1);

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { stellarSunDirection, normalizeStellarLayout } from './immersive-world-layout.js?v=cinematic-v21.19';
-import { publishOpticalRadiance } from './immersive-optical.js?v=cinematic-v21.19';
-import { createStellarDensityAtlas, stellarDensityGLSL, stellarLightSourceGLSL, stellarPointerGLSL, stellarProbeGLSL, stellarVolumeUniformNames, createRadianceCapturePolicy } from './immersive-volume-field.js?v=cinematic-v21.19';
+import { stellarSunDirection, normalizeStellarLayout } from './immersive-world-layout.js?v=cinematic-v21.22';
+import { publishOpticalRadiance } from './immersive-optical.js?v=cinematic-v21.22';
+import { createStellarDensityAtlas, stellarDensityGLSL, stellarLightSourceGLSL, stellarPointerGLSL, stellarProbeGLSL, stellarVolumeUniformNames, createRadianceCapturePolicy } from './immersive-volume-field.js?v=cinematic-v21.22';
 
 // Blender's sun, the volume scattering and physical surfaces share one source.
 export const cinematicLighting=Object.freeze({

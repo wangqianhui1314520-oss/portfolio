@@ -1,16 +1,16 @@
 import * as THREE from 'three';
-import { createEnvironmentResponse } from './immersive-environment.js?v=cinematic-v21.19';
-import { createProjectStarship } from './immersive-starship.js?v=cinematic-v21.19';
-import { createOrbitalDockyard,createEscortCraft } from './immersive-station.js?v=cinematic-v21.19';
-import { bevelGeometry, instancedMesh } from './immersive-hardware.js?v=cinematic-v21.19';
-import { journey, navigate, subscribe } from './immersive-session.js?v=cinematic-v21.19';
-import {archivePose,archiveRail} from './immersive-archive-path.js?v=cinematic-v21.19';
-import {createOrbitalAtlas} from './immersive-orbital-atlas.js?v=cinematic-v21.19';
-import {projectWorldSurface} from './immersive-world-surface.js?v=cinematic-v21.19';
-import {opticalFilm,crystalMaterial} from './immersive-optical.js?v=cinematic-v21.19';
-import { sectors, sectorFor, isProject } from './immersive-journey.js?v=cinematic-v21.19';
-import {compileBeforeReveal,hasLateAssetCompiler} from './immersive-shader-preparation.js?v=cinematic-v21.19';
-import {placeLock} from './immersive-hud.js?v=cinematic-v21.19';
+import { createEnvironmentResponse } from './immersive-environment.js?v=cinematic-v21.22';
+import { createProjectStarship } from './immersive-starship.js?v=cinematic-v21.22';
+import { createOrbitalDockyard,createEscortCraft } from './immersive-station.js?v=cinematic-v21.22';
+import { bevelGeometry, instancedMesh } from './immersive-hardware.js?v=cinematic-v21.22';
+import { journey, navigate, subscribe } from './immersive-session.js?v=cinematic-v21.22';
+import {archivePose,archiveRail} from './immersive-archive-path.js?v=cinematic-v21.22';
+import {createOrbitalAtlas} from './immersive-orbital-atlas.js?v=cinematic-v21.22';
+import {projectWorldSurface} from './immersive-world-surface.js?v=cinematic-v21.22';
+import {opticalFilm,crystalMaterial} from './immersive-optical.js?v=cinematic-v21.22';
+import { sectors, sectorFor, isProject } from './immersive-journey.js?v=cinematic-v21.22';
+import {compileBeforeReveal,hasLateAssetCompiler} from './immersive-shader-preparation.js?v=cinematic-v21.22';
+import {placeLock} from './immersive-hud.js?v=cinematic-v21.22';
 
 const vector=a=>new THREE.Vector3(...a);
 const smooth=x=>x*x*(3-2*x);

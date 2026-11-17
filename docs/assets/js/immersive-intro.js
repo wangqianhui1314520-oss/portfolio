@@ -1,7 +1,7 @@
-import {getMotionPreference} from './runtime-settings.js?v=cinematic-v21.19';
-import { journey, navigate } from './immersive-session.js?v=cinematic-v21.19';
-import { OPENING_DURATION,openingTimeline } from './immersive-opening-timeline.js?v=cinematic-v21.19';
-import { createOpeningPlayback } from './immersive-opening-playback.js?v=cinematic-v21.19';
+import {getMotionPreference} from './runtime-settings.js?v=cinematic-v21.22';
+import { journey, navigate } from './immersive-session.js?v=cinematic-v21.22';
+import { OPENING_DURATION,openingTimeline } from './immersive-opening-timeline.js?v=cinematic-v21.22';
+import { createOpeningPlayback } from './immersive-opening-playback.js?v=cinematic-v21.22';
 
 // The voyage ends at a held welcome. Only a visitor's choice opens an archive or flight.
 const playback=createOpeningPlayback(OPENING_DURATION);
@@ -67,6 +67,7 @@ function begin(){
  readiness.textContent='正在加载宇宙…';
  launch.hidden=true;skip.hidden=false;skip.textContent='跳过序章 ↗';
  publish(openingTimeline(0));
+ if(!opening.ready)status.textContent=document.documentElement.lang==='en'?'Loading the creative universe… You can skip to continue.':'正在加载创作宇宙… 也可以跳过序章继续。';
  if(reduce.matches)finish('reduced-motion');else body.dataset.opening=opening.ready?'playing':'loading';
 }
 function skipToWelcome(){
@@ -74,7 +75,7 @@ function skipToWelcome(){
  dispatchEvent(new Event('tem:opening-skip'));
  finish('skipped');
 }
-function ready(){playback.ready();if(!opening.active)return;if(opening.started){if(reduce.matches)finish('reduced-motion');else body.dataset.opening='playing';}else prepare();}
+function ready(){playback.ready();if(!opening.active)return;if(opening.started){lastBeat='';if(reduce.matches)finish('reduced-motion');else body.dataset.opening='playing';}else prepare();}
 start.addEventListener('click',begin);
 skip.addEventListener('click',skipToWelcome);
 document.getElementById('replayOpening').addEventListener('click',()=>{document.querySelector('.experience-settings').open=false;navigate('home');playback.reset();lastBeat='';ui.inert=true;header.inert=true;begin();});

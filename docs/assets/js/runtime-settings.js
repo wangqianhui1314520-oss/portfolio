@@ -1,4 +1,4 @@
-import {copyRenderReport} from './render-report.js?v=cinematic-v21.19';
+import {copyRenderReport} from './render-report.js?v=cinematic-v21.22';
 import {t} from './i18n.js';
 const safeRead = (key, fallback) => {try {return typeof localStorage === 'undefined' ? fallback : localStorage.getItem(key) || fallback;} catch {return fallback;}};
 let motion = safeRead('tem-motion', 'system');

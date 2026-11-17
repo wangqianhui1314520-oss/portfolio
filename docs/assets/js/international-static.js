@@ -16,11 +16,17 @@ for (const video of document.querySelectorAll('video')) video.addEventListener('
   for (const other of document.querySelectorAll('video')) if (other !== video) other.pause();
 });
 addEventListener('visibilitychange', () => {if (document.hidden) document.querySelectorAll('video').forEach(video => video.pause());});
-// Page transitions run only between the reading pages; the universe does not opt in, so leaving for it skips one.
-addEventListener('pageswap', event => {
-  const destination = event.activation?.entry?.url;
-  if (event.viewTransition && destination && !/\/(?:zh|en)\/(?:work|about|poetry)\//.test(new URL(destination).pathname)) event.viewTransition.skipTransition();
-});
+// Native cross-page transitions and archive-return context live in page-transitions.js.
+
+function archiveFeedback({english, view, count, label = '', title = ''}) {
+  const modes = english
+    ? {featured: 'Selected projects', grid: 'Grid view', list: 'List view', ribbon: 'Project ribbon'}
+    : {featured: '精选作品', grid: '网格视图', list: '列表视图', ribbon: '作品带'};
+  const mode = modes[view] || modes.grid;
+  const prefix = label ? label + (english ? '. ' : '，') : '';
+  const result = english ? `${prefix}${mode}: ${count} ${count === 1 ? 'project' : 'projects'}.` : `${prefix}${mode}，${count} 件作品。`;
+  return result + (view === 'ribbon' && title ? (english ? ` Now showing ${title}.` : `当前：${title}。`) : '');
+}
 
 // Shared header: the same five destinations fold behind one button on narrow screens.
 function initializeMenus() {
@@ -30,16 +36,44 @@ function initializeMenus() {
     if (!header || !menu) continue;
     const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
     const setOpen = open => {toggle.setAttribute('aria-expanded', String(open)); header.dataset.menuOpen = String(open);};
+    const links = () => [...menu.querySelectorAll('a[href]')].filter(link => link.getClientRects().length);
+    const focusEdge = last => {const available = links(); (last ? available.at(-1) : available[0])?.focus({preventScroll: true});};
     header.dataset.menuReady = 'true'; setOpen(false);
-    toggle.addEventListener('click', () => setOpen(!isOpen()));
+    toggle.addEventListener('click', event => {
+      const opening = !isOpen(); setOpen(opening);
+      // Pointer users keep their position. Keyboard activation starts at the first destination.
+      if (opening && event.detail === 0) focusEdge(false);
+    });
+    toggle.addEventListener('keydown', event => {
+      if (event.altKey || event.ctrlKey || event.metaKey || !['ArrowDown', 'ArrowUp'].includes(event.key)) return;
+      event.preventDefault(); event.stopPropagation(); setOpen(true); focusEdge(event.key === 'ArrowUp');
+    });
+    menu.addEventListener('keydown', event => {
+      if (!isOpen() || event.altKey || event.ctrlKey || event.metaKey || !['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+      const available = links(), index = available.indexOf(document.activeElement);
+      if (index === -1 || !available.length) return;
+      event.preventDefault(); event.stopPropagation();
+      const next = event.key === 'Home' ? 0 : event.key === 'End' ? available.length - 1 : (index + (event.key === 'ArrowDown' ? 1 : -1) + available.length) % available.length;
+      available[next].focus({preventScroll: true});
+    });
     menu.addEventListener('click', event => {if (event.target.closest('a')) setOpen(false);});
     document.addEventListener('click', event => {if (isOpen() && !header.contains(event.target)) setOpen(false);});
+    // This is a navigation disclosure, not a modal: Tab remains native and can leave the header.
+    header.addEventListener('focusout', event => {if (isOpen() && !header.contains(event.relatedTarget)) setOpen(false);});
     document.addEventListener('keydown', event => {
       if (event.key !== 'Escape' || !isOpen()) return;
       event.preventDefault(); event.stopImmediatePropagation();
       setOpen(false); toggle.focus({preventScroll: true});
     }, true);
-    addEventListener('resize', () => {if (isOpen() && getComputedStyle(toggle).display === 'none') setOpen(false);});
+    const reconcile = () => {
+      if (getComputedStyle(toggle).display === 'none') {if (isOpen()) setOpen(false); return;}
+      // A focused desktop link can become hidden when the header folds at a breakpoint.
+      if (!isOpen() && menu.contains(document.activeElement)) toggle.focus({preventScroll: true});
+    };
+    addEventListener('resize', reconcile);
+    addEventListener('pageshow', event => {
+      if (event.persisted) {setOpen(false); reconcile();}
+    });
   }
 }
 initializeMenus();
@@ -364,13 +398,15 @@ function initializeRibbonGallery() {
     geometryUntil = performance.now() + 60;
     moveTo(currentIndex, true);
     if (updateURL) updateQuery({category: next === 'all' ? null : next, view});
-    // One announcement names the result and the project now in front; settling does not repeat it.
+    // Grid/list results have no single "current" card. Announce the actual mode and visible count.
     spokenIndex = currentIndex;
     if (speak) {
       const label = filterButtons.find(button => button.dataset.ribbonFilter === next)?.querySelector('.label-long')?.textContent || '';
-      const {title} = describe(currentIndex);
-      say(english ? `${label}: ${items.length} ${items.length === 1 ? 'project' : 'projects'}. Now showing ${title}.` : `${label}：${items.length} 件作品，当前：${title}。`);
+      const title = view === 'ribbon' && items[currentIndex] ? describe(currentIndex).title : '';
+      const count = view === 'featured' ? cards.filter(card => !card.hidden).length : items.length;
+      say(archiveFeedback({english, view, count, label: next === 'all' ? '' : label, title}));
     }
+    dispatchEvent(new Event('tem:archive-filter'));
   }
   function syncBrowse() {
     for (const card of cards) card.hidden = !projectVisible({category:card.dataset.projectCategory,featured:card.dataset.featured === 'true'}, category, view);
@@ -395,7 +431,14 @@ function initializeRibbonGallery() {
     if (next === 'ribbon') {geometryUntil = performance.now() + 60; moveTo(currentIndex, true);}
     else stopPreview();
     dispatchEvent(new Event('tem:archive-view'));
-    if (updateURL) updateQuery({view:next, project:next==='ribbon'?undefined:null});
+    if (updateURL) {
+      updateQuery({view:next, project:next==='ribbon'?undefined:null});
+      const label = category === 'all' ? '' : filterButtons.find(button => button.dataset.ribbonFilter === category)?.querySelector('.label-long')?.textContent || '';
+      const title = next === 'ribbon' && items[currentIndex] ? describe(currentIndex).title : '';
+      const count = next === 'featured' ? cards.filter(card => !card.hidden).length : items.length;
+      say(archiveFeedback({english, view: next, count, label, title}));
+      spokenIndex = currentIndex;
+    }
   }
   function applyStateFromURL() {
     const params = new URL(location.href).searchParams;
@@ -666,7 +709,8 @@ async function initializeTemModel() {
   }
   function fallback() {
     ready = false; stopRendering(); setState('fallback');
-    if (hint) hint.textContent = document.documentElement.lang === 'en' ? 'TEM · Keep exploring the projects.' : 'TEM · 继续浏览右侧的作品。';
+    // A page may supply its own wording (or none) for a crystal that cannot load.
+    if (hint) hint.textContent = figure.dataset.temFallbackHint ?? (document.documentElement.lang === 'en' ? 'TEM · Keep exploring the projects.' : 'TEM · 继续浏览右侧的作品。');
     release(resources); resources = {geometries: new Set(), materials: new Set(), textures: new Set()};
     reflection?.dispose(); reflection = null; renderer?.dispose(); renderer = null;
   }
@@ -741,6 +785,8 @@ async function initializeTemModel() {
   for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) listen(canvas, type, finishGesture);
   listen(canvas, 'click', event => {event.stopPropagation(); if (suppressModelClick) {suppressModelClick = false; return;} wake();});
   listen(figure, 'wheel', event => {
+    // On a page that scrolls, the wheel stays with the page; elsewhere it zooms the crystal.
+    if (figure.dataset.temWheel === 'page') return;
     event.stopPropagation();
     if (!ready || event.ctrlKey || event.metaKey) return;
     event.preventDefault();
@@ -859,7 +905,8 @@ async function initializeTemModel() {
     resize(); requestDraw();
   } catch {if (!disposed) fallback();}
 }
-// The crystal waits until the page has loaded and the browser is idle, and never loads where it is hidden.
+// The crystal waits until the page has loaded and the browser is idle, and never loads where its canvas is hidden
+// (a narrow layout may keep the figure for a still image alone).
 function scheduleTemModel() {
   const figure = document.querySelector('[data-tem-viewer]');
   const canvas = figure?.querySelector('[data-tem-canvas]');

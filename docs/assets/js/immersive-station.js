@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { hardwareMaterials,hardwareMesh,bevelGeometry,consolidateHardware,instancedMesh } from './immersive-hardware.js?v=cinematic-v21.19';
-import {crystalMaterial,createEnergyRibbons,createOpticalMotes} from './immersive-optical.js?v=cinematic-v21.19';
+import { hardwareMaterials,hardwareMesh,bevelGeometry,consolidateHardware,instancedMesh } from './immersive-hardware.js?v=cinematic-v21.22';
+import {crystalMaterial,createEnergyRibbons,createOpticalMotes} from './immersive-optical.js?v=cinematic-v21.22';
 import {mergeGeometries} from '../vendor/three-0.161.0/examples/jsm/utils/BufferGeometryUtils.js';
 
 let sharedMaterials;

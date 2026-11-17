@@ -1,9 +1,9 @@
 import * as THREE from 'three';
-import {instancedMesh} from './immersive-hardware.js?v=cinematic-v21.19';
-import {compileBeforeReveal} from './immersive-shader-preparation.js?v=cinematic-v21.19';
-import {createLightFlow} from './immersive-light-flow.js?v=cinematic-v21.19';
-import {opticalFilm,crystalMaterial,createEnergyRibbons,createOpticalMotes} from './immersive-optical.js?v=cinematic-v21.19';
-import {loadTemAsset} from './immersive-blender-assets.js?v=cinematic-v21.19';
+import {instancedMesh} from './immersive-hardware.js?v=cinematic-v21.22';
+import {compileBeforeReveal} from './immersive-shader-preparation.js?v=cinematic-v21.22';
+import {createLightFlow} from './immersive-light-flow.js?v=cinematic-v21.22';
+import {opticalFilm,crystalMaterial,createEnergyRibbons,createOpticalMotes} from './immersive-optical.js?v=cinematic-v21.22';
+import {loadTemAsset} from './immersive-blender-assets.js?v=cinematic-v21.22';
 
 // Shared machined surfaces; engineering details use instances rather than one
 // draw call per screw, radiator or light. The hangar remains independently movable.

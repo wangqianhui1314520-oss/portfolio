@@ -1,14 +1,14 @@
 import {currentLocale,localePath,projectPath} from './locale-data.js';
 import {t} from './i18n.js';
-import {getMotionPreference} from './runtime-settings.js?v=cinematic-v21.19';
-import { renderProfile, renderProfilePanel, profileTabs } from './immersive-profile.js?v=cinematic-v21.19';
-import {archiveChapterOrder,archiveRail} from './immersive-archive-path.js?v=cinematic-v21.19';
-import {createArchiveDeviceInteraction} from './immersive-archive-interaction.js?v=cinematic-v21.19';
-import { initPoetryReader } from './poetry-reader.js?v=cinematic-v21.19';
-import { sectors, sectorFor, transitionDurations } from './immersive-journey.js?v=cinematic-v21.19';
-import { journey, navigate, subscribe, getRevision, completeTransition } from './immersive-session.js?v=cinematic-v21.19';
-import {opening} from './immersive-intro.js?v=cinematic-v21.19';
-import './immersive-hud.js?v=cinematic-v21.19';
+import {getMotionPreference} from './runtime-settings.js?v=cinematic-v21.22';
+import { renderProfile, renderProfilePanel, profileTabs } from './immersive-profile.js?v=cinematic-v21.22';
+import {archiveChapterOrder,archiveRail} from './immersive-archive-path.js?v=cinematic-v21.22';
+import {createArchiveDeviceInteraction} from './immersive-archive-interaction.js?v=cinematic-v21.22';
+import { initPoetryReader } from './poetry-reader.js?v=cinematic-v21.22';
+import { sectors, sectorFor, transitionDurations } from './immersive-journey.js?v=cinematic-v21.22';
+import { journey, navigate, subscribe, getRevision, completeTransition } from './immersive-session.js?v=cinematic-v21.22';
+import {opening} from './immersive-intro.js?v=cinematic-v21.22';
+import './immersive-hud.js?v=cinematic-v21.22';
 const ui=document.getElementById('expeditionUI'),data=window.PORTFOLIO_DATA;
 const reduced=getMotionPreference();
 const grainToggle=document.getElementById('grainToggle');
@@ -49,7 +49,7 @@ function starMap(){
 }
 function welcome(){
  const p=data.profile;
- return `<section class="surface welcome arrival-surface"><div class="archive-projection arrival-projection"><div class="archive-glass-panel arrival-glass-panel"><div class="optical-registration" aria-hidden="true"><span>A WORLD BY TEM</span><i></i><span>WELCOME / 01</span></div><div class="intro-copy arrival-copy"><span class="eyebrow">PERSONAL UNIVERSE / TEM</span><h1 tabindex="-1">我是 <span>Tem</span></h1><dl class="arrival-role role-track"><dt>DESIGN</dt><dd>AI 原生游戏与产品策划</dd><dt>BUILD</dt><dd>硬件设计与开发 · 创意技术</dd></dl><h2>${esc(p.tagline)}</h2><p>创作游戏、互动故事与 AI 驱动的体验。</p><div class="hero-actions" aria-label="选择你的旅程">${action('start','欣赏作品')}${action('captain','了解我')}</div><a class="quick-browse" href="${browseURL()}">直接浏览作品 →</a><small class="arrival-invitation">自由选择，从这里开始你的旅程。</small></div></div></div></section>`;
+ return `<section class="surface welcome arrival-surface"><div class="archive-projection arrival-projection"><div class="archive-glass-panel arrival-glass-panel"><div class="optical-registration" aria-hidden="true"><span>A WORLD BY TEM</span><i></i><span>WELCOME / 01</span></div><div class="intro-copy arrival-copy"><span class="eyebrow">PERSONAL UNIVERSE / TEM</span><h1 tabindex="-1">我是 <span>Tem</span></h1><dl class="arrival-role role-track"><dt>DESIGN</dt><dd>游戏与 AI 产品策划</dd><dt>BUILD</dt><dd>原型开发 · 硬件实现</dd></dl><h2>${esc(p.tagline)}</h2><p>创作游戏、互动故事与 AI 驱动的体验。</p><div class="hero-actions" aria-label="选择你的旅程">${action('start','欣赏作品')}${action('captain','了解我')}</div><a class="quick-browse" href="${browseURL()}">直接浏览作品 →</a><small class="arrival-invitation">自由选择，从这里开始你的旅程。</small></div></div></div></section>`;
 }
 function chooseAtlas(id){
  if(journey.state.step!=='map'||!sectors.some(s=>s.id===id))return;atlasSelected=id;const selected=sectors.find(s=>s.id===id);

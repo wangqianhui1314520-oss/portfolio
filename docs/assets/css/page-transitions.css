@@ -1,0 +1,33 @@
+/* A short continuity cue, not a loading screen. Unsupported browsers keep normal links. */
+html[data-page-transitions] body.ribbon-page .ribbon-item.is-current .ribbon-cover,
+html[data-page-transitions] body.case-page .case-cover{view-transition-name:none}
+body.reading-page .site-header,body.ribbon-page .ribbon-header{view-transition-name:tem-site-header}
+::view-transition-group(root){animation-duration:220ms}
+::view-transition-old(root){animation:tem-page-out 140ms ease-out both}
+::view-transition-new(root){animation:tem-page-in 220ms ease-out both}
+html[data-page-transition=return]::view-transition-new(root){animation-name:tem-page-return}
+html[data-page-transition=language]::view-transition-new(root){animation-name:tem-page-fade}
+::view-transition-group(tem-site-header){animation:none}
+::view-transition-old(tem-site-header),::view-transition-new(tem-site-header){animation:none;mix-blend-mode:normal}
+/* The archive and reading headers may occupy different widths. Never overlay both wordmarks. */
+::view-transition-old(tem-site-header){opacity:0}
+::view-transition-new(tem-site-header){opacity:1}
+::view-transition-group(tem-project-media){animation-duration:360ms;animation-timing-function:cubic-bezier(.22,.68,0,1)}
+::view-transition-image-pair(tem-project-media){isolation:isolate}
+::view-transition-old(tem-project-media),::view-transition-new(tem-project-media){height:100%;object-fit:contain;mix-blend-mode:normal;animation-duration:220ms}
+@keyframes tem-page-out{to{opacity:0}}
+@keyframes tem-page-in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+@keyframes tem-page-return{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@keyframes tem-page-fade{from{opacity:0}to{opacity:1}}
+body.ribbon-page .browse-card .browse-media{transition:transform 220ms ease-out,border-color 180ms ease-out}
+body.ribbon-page .browse-card:hover .browse-media,body.ribbon-page .browse-card:focus-visible .browse-media{transform:translateY(-3px);border-color:var(--accent)}
+body.ribbon-page .browse-card:focus-visible{outline:2px solid var(--accent);outline-offset:7px}
+body.case-page .case-index a[aria-current=location]{color:var(--ink);border-left-color:var(--accent)}
+body.case-page .case-section{scroll-margin-top:104px}
+@media(prefers-reduced-motion:reduce){
+  @view-transition{navigation:none}
+  ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}
+  body.ribbon-page .browse-card .browse-media{transition:none}
+  body.ribbon-page .browse-card:hover .browse-media,body.ribbon-page .browse-card:focus-visible .browse-media{transform:none}
+}
+@media print{body.case-page .case-index a[aria-current=location]{border-left-color:transparent}}

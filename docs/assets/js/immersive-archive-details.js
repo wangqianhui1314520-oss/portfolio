@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import {hardwareMesh,consolidateHardware} from './immersive-hardware.js?v=cinematic-v21.19';
-import {createLightFlow,circularLightPath} from './immersive-light-flow.js?v=cinematic-v21.19';
+import {hardwareMesh,consolidateHardware} from './immersive-hardware.js?v=cinematic-v21.22';
+import {createLightFlow,circularLightPath} from './immersive-light-flow.js?v=cinematic-v21.22';
 
 // Repeated machining and inhabited decks add scale without one draw per detail.
 export function createArchiveDetails({root,emblem,materials:m,compact}){

@@ -1,4 +1,4 @@
-import {createGpuTiming} from './immersive-gpu-timing.js?v=cinematic-v21.19';
+import {createGpuTiming} from './immersive-gpu-timing.js?v=cinematic-v21.22';
 
 // Opt-in evidence only. Each stage is sampled on a different frame, so no
 // nested TIME_ELAPSED query can change the real render pipeline or its quality.

@@ -1,0 +1,53 @@
+/* Editorial diagrams explain design intent; existing media remains the evidence. */
+.case-story-note{max-width:60ch;padding:0;border:0}
+.case-story .case-story-note{font-size:15px;line-height:1.9;color:var(--quiet)}
+.case-story .case-story-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:27px;padding:28px 0 0;margin:34px 0 38px;list-style:none;border-top:1px solid var(--line)}
+.case-story .case-story-steps>li{min-width:0;margin:0;padding:0;border:0;font-size:16px}
+.case-story-number{display:block;margin-bottom:22px;font-family:'Tem Narrative',Georgia,serif;font-size:36px;font-weight:400;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:-.03em;color:var(--quiet)}
+.case-story .case-story-steps h3{font-size:21px;line-height:1.5;margin:0 0 13px;color:var(--ink)}
+.case-story .case-story-steps p{font-size:16px;line-height:1.9;margin:0;color:var(--muted)}
+.case-story-verify{display:grid;grid-template-columns:115px minmax(0,1fr);gap:13px 24px;padding:28px 0;background:transparent;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.case-story .case-story-verify h3{grid-row:1/3;margin:0;font-size:16px;line-height:1.8;color:var(--ink)}
+.case-story .case-story-verify p{font-size:15px;line-height:1.9;margin:0}
+.case-story-verify .text-link{grid-column:2;justify-self:start;display:inline-flex;align-items:center;min-height:44px;font-size:14px;overflow-wrap:anywhere}
+.case-technical{margin-top:23px;border-top:1px solid var(--line);padding-top:12px}
+.case-technical>summary{display:flex;align-items:center;width:fit-content;min-height:44px;cursor:pointer;font-size:14px;color:var(--accent)}
+.case-technical>summary:after{content:'+';margin-left:12px;font-size:18px}
+.case-technical[open]>summary:after{content:'−'}
+.career-quick>p{max-width:58ch}
+.career-evidence{list-style:none;margin:32px 0 28px;padding:0;border-top:1px solid var(--line)}
+.career-evidence>li{border-bottom:1px solid var(--line)}
+.career-evidence a{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr) auto;align-items:center;gap:18px;min-height:84px;padding:18px 0}
+.career-evidence a>span:first-child{font-size:13px;line-height:1.8;color:var(--quiet)}
+.career-evidence a>strong{font-family:'Tem Narrative',Georgia,serif;font-size:22px;line-height:1.5;font-weight:400;color:var(--ink);overflow-wrap:anywhere}
+.career-evidence a>span:last-child{font-size:22px;color:var(--accent);transition:transform .2s ease}
+.career-evidence a:hover>strong{color:var(--accent)}
+.career-jump{display:flex;flex-wrap:wrap;gap:8px 23px}
+.career-jump a{display:inline-flex;align-items:center;min-height:44px;font-size:14px}
+@media(max-width:1100px){
+  .case-story .case-story-steps{grid-template-columns:minmax(0,1fr);gap:0;padding-top:0}
+  .case-story .case-story-steps>li{display:grid;grid-template-columns:42px minmax(0,1fr);gap:24px;padding:26px 0}
+  .case-story .case-story-steps>li+li{border-top:1px solid var(--line)}
+  .case-story .case-story-steps h3{margin:0 0 10px}
+  .case-story-number{padding-top:2px;margin:0;font-size:30px}
+}
+@media(max-width:560px){
+  .case-story .case-story-steps{margin:27px 0 29px}
+  .case-story .case-story-steps>li{grid-template-columns:32px minmax(0,1fr);gap:18px;padding:23px 0}
+  .case-story-number{font-size:26px}
+  .case-story .case-story-steps h3{font-size:20px}
+  .case-story-verify{display:block;padding:23px 0}
+  .case-story .case-story-verify h3{font-size:17px;margin-bottom:11px}
+  .case-story .case-story-verify p{font-size:15px;margin-bottom:14px}
+  .career-evidence a{grid-template-columns:minmax(0,1fr) auto;gap:4px 15px}
+  .career-evidence a>span:first-child{grid-column:1;grid-row:1}
+  .career-evidence a>strong{grid-column:1;grid-row:2;font-size:23px}
+  .career-evidence a>span:last-child{grid-column:2;grid-row:1/3}
+}
+@media print{
+  .case-story .case-story-steps{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .case-story .case-story-steps>li{display:block;break-inside:avoid}
+  .case-story .case-story-steps h3{margin-top:10px}
+  .case-story-verify{background:transparent;border:1px solid var(--line);break-inside:avoid}
+  .case-story-number{color:inherit}
+}

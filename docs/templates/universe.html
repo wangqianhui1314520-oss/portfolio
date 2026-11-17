@@ -19,11 +19,19 @@
   <link rel="stylesheet" href="assets/css/immersive-refinement.css?v={{ASSET_VERSION}}">
   <link rel="stylesheet" href="assets/css/immersive-cinematic-models.css?v={{ASSET_VERSION}}">
   <link rel="stylesheet" href="assets/css/immersive-hud.css?v={{ASSET_VERSION}}">
+  <link rel="stylesheet" href="assets/css/landing-polish.css?v={{ASSET_VERSION}}">
 </head>
 <body class="expedition graphics-standby" data-step="bridge" data-opening="loading">
   <a class="global-skip" href="{{WORK}}">直接浏览作品 →</a>
   <a class="global-language" data-language-switch href="{{OTHER}}" hreflang="{{OTHER_LANG}}" lang="{{OTHER_LANG}}">{{OTHER_LABEL}}</a>
-  <div class="launch-backdrop" aria-hidden="true"><span>T</span></div>
+  <div class="launch-backdrop" aria-hidden="true">
+    <div class="launch-art">
+      <svg class="launch-orbits" viewBox="0 0 700 650" fill="none"><ellipse cx="350" cy="325" rx="300" ry="255"/><ellipse cx="350" cy="325" rx="300" ry="90" transform="rotate(-32 350 325)"/><path d="M65 325h570M350 45v560"/><circle cx="350" cy="325" r="7"/></svg>
+      <img class="launch-crystal" src="assets/images/tem-crystal.webp" width="690" height="600" alt="" decoding="async" fetchpriority="low">
+      <span class="launch-art-label">IDENTITY / T—01</span>
+      <span class="launch-art-axis">PLAY · NARRATIVE · SYSTEMS</span>
+    </div>
+  </div>
   <canvas id="space" aria-hidden="true"></canvas>
   <div class="space-noise" aria-hidden="true"></div>
   <div class="space-vignette" aria-hidden="true"></div>
@@ -36,10 +44,10 @@
   <dialog id="contactDialog" class="contact-dialog" aria-labelledby="contactTitle"><button class="contact-close" type="button" aria-label="关闭联系方式">×</button><span class="eyebrow">OPEN A CHANNEL / TEM—01</span><h2 id="contactTitle">让下一个世界，<br>从一次对话开始。</h2><p>项目交流、创作合作，或只是打个招呼。</p><p class="contact-location">Jiangsu, China · UTC+8</p><div id="contactLinks"></div></dialog>
   <div id="world-ui"></div>
   <section id="openingLaunch" class="opening-launch" aria-labelledby="launchTitle">
-    <div class="launch-index" aria-hidden="true"><span>TEM—01</span><i></i><span>DEEP SPACE DEPARTURE</span></div>
+    <div class="launch-index"><span class="launch-wordmark">TEM<span class="launch-author">王乾辉 / TEM</span></span><i></i><span class="launch-edition">THE WORLDS WITHIN / 2026</span></div>
     <span class="launch-eyebrow">A PERSONAL UNIVERSE BY TEM</span>
     <h1 id="launchTitle">越过星海，<br>进入我的世界。</h1>
-    <dl class="launch-positioning role-track"><dt>DESIGN</dt><dd>AI 原生游戏与产品策划</dd><dt>BUILD</dt><dd>硬件设计与开发 · 创意技术</dd></dl>
+    <dl class="launch-positioning role-track"><dt>DESIGN</dt><dd>游戏与 AI 产品策划</dd><dt>BUILD</dt><dd>原型开发 · 硬件实现</dd></dl>
     <p id="launchDescription">先看看我的作品，或从一段宇宙旅程开始。<br>游戏、互动故事与创意技术，在这里相遇。</p>
     <div class="launch-actions">
       <a class="launch-browse" href="{{WORK}}"><span>直接浏览作品</span><span aria-hidden="true">→</span></a>
@@ -53,11 +61,11 @@
   <button id="skipOpening" class="skip-opening" type="button" aria-label="跳过宇宙航行，抵达 Tem 的欢迎场景">跳过序章 ↗</button>
   <button id="resetView" class="reset-view" type="button" hidden>复位视角 ⟲</button>
   <div class="world-coordinate" aria-hidden="true"><i></i><span id="worldLocation">EARTH ORBIT / TEM—01</span><small id="worldInstruction">向未知，保持好奇。</small></div>
-  <main id="expeditionUI" class="world-surface" aria-label="Tem 的创作宇宙"><section class="surface welcome"><div class="intro-copy"><span class="eyebrow">PERSONAL UNIVERSE / TEM</span><h1>TEM</h1><dl class="role-track"><dt>DESIGN</dt><dd>AI 原生游戏与产品策划</dd><dt>BUILD</dt><dd>硬件设计与开发 · 创意技术</dd></dl><p>创作游戏、互动故事与 AI 驱动的体验。</p><a href="{{WORK}}">直接浏览作品 →</a><a href="{{ABOUT}}">关于我 ↗</a></div></section></main>
+  <main id="expeditionUI" class="world-surface" aria-label="Tem 的创作宇宙"><section class="surface welcome"><div class="intro-copy"><span class="eyebrow">PERSONAL UNIVERSE / TEM</span><h1>TEM</h1><dl class="role-track"><dt>DESIGN</dt><dd>游戏与 AI 产品策划</dd><dt>BUILD</dt><dd>原型开发 · 硬件实现</dd></dl><p>创作游戏、互动故事与 AI 驱动的体验。</p><a href="{{WORK}}">直接浏览作品 →</a><a href="{{ABOUT}}">关于我 ↗</a></div></section></main>
   <div id="statusAnnouncement" class="sr-only" aria-live="polite" aria-atomic="true"></div>
   <nav class="journey-dock" aria-label="航行控制"><button type="button" data-action="back" class="nav-button" id="backButton" hidden>← 返回</button><div class="stage-line"><span id="stageLabel">01 / 我是 TEM</span><i></i><span id="sectorLabel">THE WORLDS WITHIN</span></div><button type="button" data-action="map" class="nav-button" id="mapButton" hidden>返回航行星图 ↗</button></nav>
   <div class="flight-readout" aria-hidden="true"><span>EXPLORATION LOG</span><b id="visitedCount">00</b></div>
-  <noscript><style>.opening-launch,#expeditionUI,.bridge-header,.journey-dock,.skip-opening{display:none!important}.no-script{inset:18% 8%;overflow:auto;max-width:700px;margin:auto}.no-script a{font-size:18px}</style><main class="no-script"><h1>Tem</h1><p>AI 原生游戏与产品策划<br>硬件设计与开发 · 创意技术</p><a href="{{WORK}}">查看全部作品 ↗</a><a href="{{ABOUT}}">关于我 ↗</a><a href="{{POETRY}}">阅读诗集 ↗</a></main></noscript>
+  <noscript><style>.opening-launch,#expeditionUI,.bridge-header,.journey-dock,.skip-opening{display:none!important}.no-script{inset:18% 8%;overflow:auto;max-width:700px;margin:auto}.no-script a{font-size:18px}</style><main class="no-script"><h1>Tem</h1><p>游戏与 AI 产品策划<br>原型开发 · 硬件实现</p><a href="{{WORK}}">查看全部作品 ↗</a><a href="{{ABOUT}}">关于我 ↗</a><a href="{{POETRY}}">阅读诗集 ↗</a></main></noscript>
   <script src="assets/js/data.js?v={{ASSET_VERSION}}"></script>
   <script type="module" src="assets/js/international-boot.js?v={{ASSET_VERSION}}"></script>
 </body>

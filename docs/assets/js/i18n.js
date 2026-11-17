@@ -1,6 +1,7 @@
 import {currentLocale} from './locale-data.js';
 // UI copy is centralized; original author text is never rewritten.
 export const englishUI = {
+  '王乾辉 / TEM': 'WANG QIANHUI / TEM',
   '返回 Tem 个人介绍': 'Return to Tem', '关于我': 'About', '探索': 'Explore', '联系': 'Contact',
   '创作星图': 'Creative Atlas', '体验设置': 'Experience settings', '关闭联系方式': 'Close contact details',
   '复制性能信息': 'Copy performance info', '性能信息已复制': 'Performance info copied', '性能信息已下载': 'Performance info downloaded',
@@ -76,6 +77,7 @@ export const englishUI = {
   '返回诗集目录': 'Poetry index', '← 诗集目录': '← Poetry index', '关闭阅读': 'Close reader', '返回作品集': 'Back to portfolio',
   '正在连接创作宇宙': 'Connecting to the creative universe', '直接浏览作品': 'Browse my work', '直接浏览作品 →': 'Browse my work →', '快速浏览': 'Browse projects', '查看全部作品': 'View all projects',
   '阅读完整案例': 'Read full case study', 'AI 原生游戏与产品策划': 'AI-Native Games & Products', '硬件设计与开发 · 创意技术': 'Hardware · Creative Technology',
+  '游戏与 AI 产品策划': 'Game & AI Product Designer', '原型开发 · 硬件实现': 'Prototyping · Hardware',
   '创作游戏、互动故事与 AI 驱动的体验。': 'I create games, interactive stories, and AI-powered experiences.',
   '正在加载宇宙…': 'Preparing the universe…', '静态阅读': 'Lightweight reading', '减少动态': 'Reduce motion',
   '自动画质': 'Adaptive quality', '轻量画质': 'Lightweight quality', '完整画质': 'Full quality',

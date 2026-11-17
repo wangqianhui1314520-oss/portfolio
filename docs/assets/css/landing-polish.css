@@ -1,0 +1,77 @@
+/* The entrance is a composed, lightweight identity page, not a second WebGL scene. */
+.opening-launch{padding:136px max(7vw,28px) 94px;justify-content:center;background:transparent;isolation:isolate;overflow-y:auto;overscroll-behavior:contain}
+.opening-launch:before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,#030a15ed 0,#030a15d6 37%,#030a1526 72%,transparent)}
+.opening-launch .launch-index{top:34px;left:7vw;right:7vw;gap:28px;align-items:center;color:#94abba;letter-spacing:.12em}
+.launch-index .launch-wordmark{display:flex;gap:23px;align-items:center;font:600 32px/1 'Tem Interface',sans-serif;letter-spacing:-.065em;color:#edf4f7}
+.launch-index .launch-author{font:400 11px/1.5 'Tem Interface',sans-serif;letter-spacing:.12em;color:#9eb4c4}
+.opening-launch .launch-index i{height:1px;background:#b0c7d525}
+.opening-launch .launch-edition{font-size:10px;letter-spacing:.12em}
+.opening-launch .launch-eyebrow{font:400 11px/1.6 'Tem Interface',sans-serif;letter-spacing:.17em;color:#91bcca;margin:0 0 23px;max-width:55%}
+.opening-launch h1{font-family:'Tem Narrative',serif;font-size:clamp(44px,4.75vw,78px);font-weight:450;line-height:1.18;letter-spacing:-.035em;max-width:58%;text-shadow:none;color:#edf3f6;text-wrap:balance}
+.opening-launch .launch-positioning{font-size:16px!important;line-height:1.55;max-width:54%;margin:28px 0 0!important;row-gap:6px;column-gap:17px;color:#d7e1e8!important}
+.opening-launch .launch-positioning dt{font-family:'Tem Interface',sans-serif;font-size:9px;letter-spacing:.14em;color:#83a9bb;text-shadow:none}
+.opening-launch #launchDescription{font-size:15px;line-height:1.85;letter-spacing:0;color:#aebfcc;max-width:47%;margin:23px 0 29px}
+.opening-launch .launch-actions{gap:12px;max-width:57%;flex-wrap:wrap}
+.opening-launch .launch-browse,.opening-launch .launch-button{min-width:206px;min-height:54px;border-radius:2px;box-shadow:none;padding:14px 20px;font-size:14px;letter-spacing:.015em;line-height:1.6;gap:24px;transition:background-color .2s,border-color .2s,transform .2s}
+.opening-launch .launch-browse{background:#dcecf2;border-color:#dcecf2;color:#0d1d2a}
+.opening-launch .launch-browse:hover{background:#f0f7fa;border-color:#f0f7fa;box-shadow:none;transform:translateY(-2px)}
+.opening-launch .launch-button{background:#0b172766;border-color:#a8c2d049;color:#c7dce8}
+.opening-launch .launch-button:hover{background:#20334899;border-color:#a8c2d0a6;transform:translateY(-2px)}
+.opening-launch .launch-button>span:last-child,.opening-launch .launch-browse>span:last-child{font-size:20px;line-height:1}
+.opening-launch .launch-readiness{font:400 11px/1.6 'Tem Interface',sans-serif!important;color:#8199ab!important;letter-spacing:.025em;margin-top:15px;max-width:52%}
+.opening-launch .launch-readiness:before{width:4px;height:4px;box-shadow:none;background:#86a8b7}
+.opening-launch .launch-shortcuts{margin-top:9px;max-width:54%}
+.opening-launch .launch-shortcuts a{font-size:12px;min-height:40px;color:#a1bacb;border-bottom:0;gap:10px}
+.opening-launch .launch-route{left:7vw;right:7vw;bottom:30px;max-width:none;font:400 9px/1.5 'Tem Interface',sans-serif;letter-spacing:.12em;color:#7691a4;gap:20px}
+.opening-launch .launch-route i{max-width:125px;background:#aac1ce29}
+.opening-launch .launch-route i:after{box-shadow:none;background:#91b8c9;width:4px;height:4px}
+.graphics-standby .launch-backdrop{background-image:linear-gradient(#02081460,#02081460),url('../images/work-backdrop-galaxy.webp');background-position:center;background-size:cover}
+.launch-backdrop:before,.launch-backdrop:after{display:none}
+.launch-art{position:absolute;width:min(57vw,790px);aspect-ratio:700/650;right:-1vw;top:50%;transform:translateY(-47%);color:#98bdcc}
+.launch-orbits{position:absolute;inset:0;width:100%;height:100%;stroke:currentColor;stroke-width:.65;opacity:.25}
+.launch-orbits path{stroke-dasharray:2 8;opacity:.6}
+.launch-orbits circle{fill:#b8deed;stroke:none}
+.launch-crystal{position:absolute;left:13%;top:13%;width:74%;height:74%;object-fit:contain;opacity:.95;filter:drop-shadow(0 8px 26px #80caed18);animation:tem-crystal-float 9s ease-in-out infinite}
+.launch-backdrop .launch-art-label,.launch-backdrop .launch-art-axis{position:absolute;font:400 9px/1.6 'Tem Interface',sans-serif;letter-spacing:.14em;color:#87a7ba}
+.launch-backdrop .launch-art-label{left:14%;right:auto;top:9%;bottom:auto}.launch-backdrop .launch-art-axis{left:auto;top:auto;right:13%;bottom:8%}
+@keyframes tem-crystal-float{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-12px) rotate(0deg)}}
+.global-language{top:31px;right:7vw;font-size:12px;min-height:34px;border-bottom:0;letter-spacing:.06em}
+body[data-opening='waiting'] .opening-letterbox,body[data-opening='waiting'] .journey-dock,body[data-opening='waiting'] .world-coordinate{visibility:hidden}
+@media(min-width:1500px){.opening-launch h1{font-size:78px}.opening-launch{padding-left:max(7vw,calc((100vw - 1450px)/2))}.launch-art{right:max(0px,calc((100vw - 1530px)/2));width:790px}}
+@media(max-width:1000px) and (min-width:701px){.opening-launch{padding-inline:6vw}.opening-launch h1{max-width:70%;font-size:56px}.opening-launch .launch-actions{max-width:70%}.opening-launch #launchDescription{max-width:58%}.launch-art{width:59vw;right:-10vw;opacity:.65}.opening-launch .launch-positioning{max-width:66%}.opening-launch .launch-edition{display:none}}
+@media(max-width:700px){
+ .opening-launch{padding:125px 24px 40px;justify-content:flex-start}
+ .opening-launch:before{background:linear-gradient(90deg,#030a15eb,#030a15b8)}
+ .opening-launch .launch-index{top:26px;left:24px;right:24px;gap:20px}
+ .launch-index .launch-wordmark{font-size:32px;gap:16px}.launch-index .launch-author{font-size:9px;letter-spacing:.07em}
+ .opening-launch .launch-index i,.opening-launch .launch-edition{display:none}
+ .global-language{right:24px;top:23px;font-size:11px;min-height:32px}
+ .opening-launch .launch-eyebrow{font-size:9px;letter-spacing:.12em;max-width:100%;margin-bottom:24px}
+ .opening-launch h1{font-size:clamp(35px,10.2vw,52px);max-width:100%;line-height:1.28;letter-spacing:-.035em}
+ .opening-launch .launch-positioning{max-width:100%;font-size:15px!important;margin-top:26px!important;row-gap:7px;column-gap:14px}
+ .opening-launch #launchDescription{font-size:14px;line-height:1.85;max-width:100%;margin:23px 0}
+ .opening-launch .launch-actions{max-width:100%;width:100%;gap:10px}
+ .opening-launch .launch-browse,.opening-launch .launch-button{min-width:0;width:100%;min-height:52px;padding:13px 18px;font-size:14px}
+ .opening-launch .launch-readiness{max-width:100%;font-size:11px!important;margin-top:14px}
+ .opening-launch .launch-shortcuts{max-width:100%;margin-top:7px}
+ .opening-launch .launch-route{display:none}
+ .launch-art{width:480px;right:-300px;top:80px;transform:none;opacity:.24}
+ .launch-art-label,.launch-art-axis{display:none}
+ .graphics-standby .launch-backdrop{background-image:linear-gradient(#02081460,#02081460),url('../images/work-backdrop-galaxy-m.webp')}
+}
+@media(max-height:700px) and (min-width:701px){.opening-launch{justify-content:flex-start;padding-top:115px;padding-bottom:65px}.opening-launch h1{font-size:48px}.opening-launch .launch-eyebrow{margin-bottom:16px}.opening-launch .launch-positioning{margin-top:20px!important}.opening-launch #launchDescription{margin:17px 0 20px}.opening-launch .launch-shortcuts{margin-top:2px}.launch-art{width:min(54vw,640px)}}
+@media(prefers-reduced-motion:reduce){.launch-crystal{animation:none;transform:rotate(-2deg)}.opening-launch .launch-browse,.opening-launch .launch-button{transition:none}.opening-launch .launch-browse:hover,.opening-launch .launch-button:hover{transform:none}}
+body[data-motion=reduce] .launch-crystal{animation:none}
+/* Keep the launch page editorial; the in-universe HUD layer remains tactical. */
+@layer hud{
+ .opening-launch .launch-browse{background:#dcecf2!important;border:1px solid #dcecf2!important;clip-path:none!important;border-radius:2px!important;color:#0d1d2a!important;box-shadow:none!important;text-shadow:none!important}
+ .opening-launch .launch-browse:hover{background:#f0f7fa!important;border-color:#f0f7fa!important}
+ body.expedition .opening-launch #startOpening{background:#0b172766!important;border:1px solid #a8c2d049!important;clip-path:none!important;border-radius:2px!important;color:#c7dce8!important;box-shadow:none!important;text-shadow:none!important}
+ body.expedition .opening-launch #startOpening:is(:hover,:focus-visible){background:#20334899!important;border-color:#a8c2d0a6!important;color:#edf4f7!important}
+ body.expedition .opening-launch #startOpening:is(:hover,:focus-visible) *{color:inherit!important;text-shadow:none!important}
+ .opening-launch :is(.launch-index,.launch-eyebrow,.launch-route,.launch-readiness){font-family:'Tem Interface',sans-serif!important;letter-spacing:.12em!important;color:#91aab9!important;text-shadow:none!important}
+ .opening-launch .launch-readiness{letter-spacing:.025em!important;color:#8199ab!important}
+ .opening-launch .launch-index i{background:#b0c7d525!important}
+ .opening-launch .launch-browse:focus-visible,body.expedition .opening-launch #startOpening:focus-visible{outline:2px solid #dbedf7!important;outline-offset:4px!important}
+}
+.opening-launch .launch-edition{margin-right:76px}

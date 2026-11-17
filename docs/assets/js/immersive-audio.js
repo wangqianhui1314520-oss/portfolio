@@ -4,7 +4,7 @@
 // 音频只在用户手势后解锁（浏览器自动播放策略），状态变化由
 // tem:opening-* 事件与 journey 状态机驱动。
 // ============================================================
-import { journey, subscribe } from './immersive-session.js?v=cinematic-v21.19';
+import { journey, subscribe } from './immersive-session.js?v=cinematic-v21.22';
 
 const P = 'assets/audio/';
 // 一次性音乐与音效优先使用约 1/8 体积的 AAC（.m4a），解码失败时回退到原 WAV。
