@@ -101,10 +101,17 @@ export function createSpatialWorld({scene,camera,interaction}){
  sectors.forEach(s=>{const m=new THREE.Group();m.add(new THREE.Mesh(new THREE.SphereGeometry(3.2,8,6),proxyMaterial));m.userData.sector=s.id;mapRoot.add(m);mapModels.push(m);});
  const atlas=createOrbitalAtlas({parent:mapRoot,camera,sectors,interaction});
  function sectorOrigin(id){return vector(sectors.find(s=>s.id===id).position);}
+ // Up to six ships keep the composed two rows of three; a seventh widens the lower row to four.
+ // Phones stagger a larger fleet down two columns so each label keeps a row of its own, and a fleet
+ // beyond the composed layouts still receives computed berths rather than failing to build.
  function facilityLocal(i,total){
-   if(total===1)return new THREE.Vector3(innerWidth<700?0:-9,2,-8);
-   const p=innerWidth<700?[[-10,17,-2],[10,17,-8],[-10,0,-6],[10,0,0],[-10,-17,-1],[10,-17,-8]]:[[-28,10,-6],[-2,15,-28],[28,7,-15],[-25,-12,7],[3,-10,-4],[31,-12,-29]];
-   return vector(p[i]);
+   const mobile=innerWidth<700;
+   if(total===1)return new THREE.Vector3(mobile?0:-9,2,-8);
+   if(total<=6)return vector((mobile?[[-10,17,-2],[10,17,-8],[-10,0,-6],[10,0,0],[-10,-17,-1],[10,-17,-8]]:[[-28,10,-6],[-2,15,-28],[28,7,-15],[-25,-12,7],[3,-10,-4],[31,-12,-29]])[i]);
+   if(mobile)return vector([i%2?10:-10,19-i*40/(total-1),[-2,-8,-6,0,-1,-8,-4][i%7]]);
+   if(total===7)return vector([[-28,10,-6],[-2,15,-28],[28,7,-15],[-42,-12,7],[-14,-9,-4],[14,-13,3],[44,-10,-12]][i]);
+   const upper=Math.floor(total/2),lower=i>=upper,count=lower?total-upper:upper,k=lower?i-upper:i;
+   return vector([(k-(count-1)/2)*27,lower?-11:11,(lower?[7,-4,5,-24]:[-6,-28,-15,-20])[k%4]]);
  }
 
  function planetaryMaterial(color,seed){

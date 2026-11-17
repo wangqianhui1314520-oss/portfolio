@@ -183,6 +183,27 @@
       }
     ]
   },
+  "assets/covers/whale-heist-cover.jpg": {
+    "width": 1280,
+    "height": 960,
+    "variants": [
+      {
+        "src": "assets/covers/r/whale-heist-cover-480.webp",
+        "width": 480,
+        "bytes": 71388
+      },
+      {
+        "src": "assets/covers/r/whale-heist-cover-960.webp",
+        "width": 960,
+        "bytes": 232240
+      },
+      {
+        "src": "assets/covers/r/whale-heist-cover-1280.webp",
+        "width": 1280,
+        "bytes": 364166
+      }
+    ]
+  },
   "assets/covers/yuanmo-factions.jpg": {
     "width": 1280,
     "height": 647,

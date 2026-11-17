@@ -47,7 +47,7 @@ export const englishUI = {
   '阅读全文 · 查看原稿': 'Read poems · Explore the manuscripts',
   '认识我': 'Meet me', '阅读与思考': 'Reading & Reflection', '实践与能力': 'Practice & Skills', '航行与记录': 'Experience & Records',
   '联系我 / OPEN A CHANNEL': 'CONTACT / OPEN A CHANNEL', '每一次实践，': 'Every experience', '都留下坐标。': 'leaves a mark.',
-  '荣誉与记录': 'Recognition & Records', '获奖、完赛、参赛、认证': 'Awards, completions, participation & certifications',
+  '荣誉与记录': 'Recognition & Records', '获奖、讲师、完赛、参赛、认证': 'Awards, speaking, completions, participation & certifications',
   '学习与技术基础': 'Learning & technical foundations',
   '证书原件': 'Original certificates', '场景素材': 'Scene credits', '书里的世界，': 'The worlds I read', '也成为我的一部分。': 'become part of me.',
   '这些书在不同阶段影响了我。点开一段，看看我从中带走了什么。': 'Books that shaped different chapters of my life. Open one to read what stayed with me.',

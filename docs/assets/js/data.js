@@ -56,8 +56,10 @@ window.PORTFOLIO_DATA = {
       recognition: [
         { kind: "获奖", title: "「罕见·无界」黑客松 · 全国第 5 名 / 十强赛手团队", text: "2026.10 /《安药 AnYao》团队作品 · 团队「重重迷雾」· 负责硬件设计与开发" },
         { kind: "获奖", title: "腾讯云黑客松 · 华东赛区第 5 名", text: "2026 /《元末逐鹿》团队作品 · 华东赛区优胜奖" },
+        { kind: "讲师", title: "COSCon'26 第十一届中国开源年会 · 特邀讲师", text: "2026.11 / AI for Healthcare 专题论坛 ·《安药智能药盒》· 兼谈 AI 时代下的 FDE 工程与开源精神" },
         { kind: "完赛", title: "翌光计划 Game Jam · 通关双证", text: "2026 / 团队作品 ReBirth ＋ 独立作品《生长档案》· 均已上传 Global Game Jam 官网" },
         { kind: "社区", title: "K-Hub 罕见病开源社区 · 共建者", text: "「罕见·无界」黑客松联合主办方 · 以个人身份参与社区共建" },
+        { kind: "参赛", title: "WaytoAGI 1024 超能 Coding 周末 · 游戏赛道", text: "2026.10 /《鲸鱼魔盗团》独立开发 · 参赛证书 · 同为 WorkBuddy 1024 程序员节作品" },
         { kind: "参赛", title: "知乎黑客松 · 校园新锐季", text: "2026.09 /《求真档案局·看山失踪夜》参赛凭证" },
         { kind: "参赛", title: "AdventureX 2026", text: "2026.07 / 情感智能体框架《秘境引擎》· 5 天独立原型" },
         { kind: "认证", title: "阿里云 ACA · 大模型认证", text: "2026 / Alibaba Cloud Certified Associate · LLM" }
@@ -422,6 +424,33 @@ window.PORTFOLIO_DATA = {
       links: []
     },
     {
+      id: "coscon26-lecturer-cert",
+      type: "作品证书",
+      section: "work",
+      title: "COSCon'26 第十一届中国开源年会 讲师证书",
+      subtitle: "开源下一代 · Open Source: The Next Generation",
+      cover: "assets/certificates/coscon26-lecturer-cert.jpg",
+      year: "2026",
+      role: "特邀讲师",
+      status: "讲师证书",
+      stack: ["COSCon'26", "安药 AnYao"],
+      desc: "COSCon'26 第十一届中国开源年会（2026 年 11 月 14—15 日 · 杭州）讲师证书。在「AI for Healthcare」专题论坛分享《安药智能药盒》，并谈 AI 时代下的 FDE 工程与开源精神。",
+      highlights: [
+        "特邀讲师 ·《安药智能药盒》",
+        "AI for Healthcare 专题论坛 · 2026.11.14"
+      ],
+      specs: [
+        { k: "大会", v: "COSCon'26 第十一届中国开源年会 · 主办：开源社、Datawhale" },
+        { k: "证书", v: "讲师证书（2026 年 11 月）" }
+      ],
+      images: [
+        { src: "assets/certificates/coscon26-lecturer-cert.jpg", caption: "COSCon'26 第十一届中国开源年会 · 讲师证书 · 王乾辉" },
+        { src: "assets/certificates/coscon26-agenda.jpg", caption: "「AI for Healthcare」专题论坛议程（节选）· 15:00—15:30《安药智能药盒》· 王乾辉" }
+      ],
+      play: { type: "none", url: "" },
+      links: []
+    },
+    {
       id: "esp32-learn",
       contribution: { period: "2026.09", role: "独立开发 · 前端 / 课程设计 / 教学产品", actions: ["以 Vue 3 构建交互式教学站，接入 Wokwi 模拟器，实现零硬件在线学习。", "规划 13 模块 / 47 章节，设计交互接线图、自测与结业证书。"], outcome: "实训平台已上线知乎 AIWorks。" },
       sector: "nexus",
@@ -522,7 +551,7 @@ window.PORTFOLIO_DATA = {
           "负责智能药盒硬件侧：四格独立内盖、提醒终端（屏幕 + 确认键）、BLE 协议对接与低电量提示，让「开盖 − 取药 − 本人确认」在硬件上形成可追溯的记录。",
           "参与三端联动的设备侧实现：药盒端灯光、振动、铃声与屏幕提醒和手机、手表同步；并制作 three.js 三维药盒 / 手表实时镜像，让没有实物硬件时也能完整演示。"
         ],
-        outcome: "「罕见·无界」开源创变嘉年华 · 黑客松全国第 5 名，团队入选十强赛手团队；代码以 Apache-2.0 开源。"
+        outcome: "「罕见·无界」开源创变嘉年华 · 黑客松全国第 5 名，团队入选十强赛手团队；代码以 Apache-2.0 开源。2026 年 11 月，我作为特邀讲师在 COSCon'26 第十一届中国开源年会「AI for Healthcare」专题论坛分享这个项目，并谈 AI 时代下的 FDE 工程与开源精神。"
       },
       sector: "nexus",
       type: "智能硬件 / 无障碍应用",
@@ -537,6 +566,7 @@ window.PORTFOLIO_DATA = {
       desc: "面向发作性睡病等睡眠障碍人群的智能药盒系统。核心问题不是「提醒吃药」，而是服药后短暂的记忆空白里那句「这顿药，到底吃没吃？」——安药用独立药格、本人确认与三端同步，把这个问题变成可以查证、家人也能看到的事实。",
       highlights: [
         "「罕见·无界」开源创变嘉年华 · 黑客松 · 全国第 5 名（十强赛手团队）",
+        "COSCon'26 第十一届中国开源年会 · AI for Healthcare 专题论坛分享（特邀讲师）",
         "四格独立内盖 + 提醒终端 · 取药不等于服药，只有本人确认才生成记录",
         "手机 / 药盒 / 手表三端联动 · 任意一端处理，三端一起结束",
         "离线扫码登记 · 本地与局域网运行，数据不上云",
@@ -548,6 +578,7 @@ window.PORTFOLIO_DATA = {
         { k: "主办", v: "北京病痛挑战公益基金会；联合主办：K-Hub 罕见病开源社区、CHANGE Foundation" },
         { k: "时间地点", v: "2026.10.15—10.17 · 杭州 · 南湖未来科学园" },
         { k: "我与社区", v: "K-Hub 罕见病开源社区共建者之一" },
+        { k: "大会分享", v: "COSCon'26 第十一届中国开源年会 · AI for Healthcare 专题论坛《安药智能药盒》（2026.11.14 · 杭州）" },
         { k: "团队", v: "重重迷雾 · 医界工作室" },
         { k: "我的分工", v: "硬件设计与开发 / BLE 协议 / 三端联动与三维镜像" },
         { k: "开源协议", v: "Apache-2.0" }
@@ -582,12 +613,64 @@ window.PORTFOLIO_DATA = {
       },
       images: [
         { src: "assets/certificates/anyao-cert-player.jpg", caption: "「罕见·无界」开源创变嘉年华 · 黑客松 选手证书 · 王乾辉（2026 年 10 月）" },
-        { src: "assets/certificates/anyao-cert-top10.jpg", caption: "十强赛手团队证书 · 团队「重重迷雾」（原始翻拍右侧略有裁切）" }
+        { src: "assets/certificates/anyao-cert-top10.jpg", caption: "十强赛手团队证书 · 团队「重重迷雾」（原始翻拍右侧略有裁切）" },
+        { src: "assets/certificates/coscon26-lecturer-cert.jpg", caption: "COSCon'26 第十一届中国开源年会 · 讲师证书 · 王乾辉（2026 年 11 月 14—15 日）" },
+        { src: "assets/certificates/coscon26-agenda.jpg", caption: "「AI for Healthcare」专题论坛议程（节选）· 11 月 14 日 15:00—15:30《安药智能药盒》· 王乾辉 · K-Hub 智能药盒项目组" }
       ],
       play: { type: "external", url: "https://anyao-link.app.workbuddy.host/" },
       links: [
         { label: "线上体验 · 三端实时联动", url: "https://anyao-link.app.workbuddy.host/" },
         { label: "GitHub 开源地址", url: "https://github.com/wangqianhui1314520-oss/anyao" }
+      ]
+    },
+    {
+      id: "whale-heist",
+      contribution: {
+        period: "2026.10",
+        role: "独立开发 · 游戏策划 / 系统设计 / AI 协作开发",
+        actions: [
+          "独立完成选题、策划与开发，在两天 1024 分钟的赛期内交付可玩版本：把「给 AI 下指令」设计成核心玩法——默认方案与精确限定词的取舍、免费的回声预测、AI Token 资源与返程规划。",
+          "与 Codex、WorkBuddy 协作编码、测试与发布：以原生 JavaScript 分层 Canvas 2D 实现五章十三个房间，接入 51 张 AI 生成美术与 46 段音频；赛后修复输入与移动端问题，把部署包从 114 MB 压到 26 MB。"
+        ],
+        outcome: "WaytoAGI 全国 AI 切磋大会「1024 超能 Coding 周末」游戏赛道参赛作品，获颁参赛证书；也是 WorkBuddy 1024 程序员节作品。已在线发布，32 项脚本回归与 13 项浏览器验收全部通过。"
+      },
+      sector: "forge",
+      type: "游戏",
+      title: "鲸鱼魔盗团",
+      subtitle: "1024 超能 Coding 周末 · 横版小队动作解谜",
+      cover: "assets/covers/whale-heist-cover.jpg",
+      ratio: "4 / 3",
+      year: "2026",
+      role: "独立开发 · 策划 / 系统 / AI 协作开发",
+      status: "已上线 · 可在线试玩",
+      stack: ["原生 JavaScript", "Canvas 2D", "Web Audio", "AI 生成美术与音频", "Codex / WorkBuddy"],
+      desc: "一款把「与 AI 沟通」做成玩法的横版小队动作解谜网页游戏。你操控 DeepSeek 鲸尾少女，带领 Grok、Claude、GLM 潜入海底机房：亲手冲刺破障、搬运资料，也给队友下指令——默认方案省资源却可能波及更多，精确限定词更可控却数量有限。五章主线，最后要在六十秒内全员返航。",
+      highlights: [
+        "WaytoAGI「1024 超能 Coding 周末」· 游戏赛道参赛作品",
+        "WorkBuddy 1024 程序员节作品 · 浏览器在线试玩",
+        "提示词即战术：默认方案 / 精确限定词 / 回声预测",
+        "五章十三个房间 · 背包三格 · 六十秒限时撤离",
+        "原生 JavaScript 零运行依赖 · 电脑键鼠与手机横屏触控"
+      ],
+      specs: [
+        { k: "赛事", v: "WaytoAGI 全国 AI 切磋大会 · 1024 超能 Coding 周末 · 游戏赛道（线上赛区）" },
+        { k: "活动", v: "WorkBuddy 1024 程序员节作品" },
+        { k: "平台", v: "Web 浏览器 · 电脑键鼠 / 手机横屏触控" },
+        { k: "技术栈", v: "原生 JavaScript ES Modules / 分层 Canvas 2D / Web Audio" },
+        { k: "内容", v: "5 章 · 13 个房间 · 3 名 AI 队友 · 51 张美术 · 46 段音频" },
+        { k: "验证", v: "32 项脚本回归 · 13 项浏览器验收全部通过" }
+      ],
+      video: "assets/videos/whale-heist.mp4",
+      // The film is 16:9 and the cover 4:3, so the player opens on a 16:9 poster of the same artwork.
+      videoPoster: "assets/videos/whale-heist-poster.jpg",
+      // The contest entry was registered as 《鲸天魔盗团》; the game's own title screen and cover read 《鲸鱼魔盗团》.
+      images: [
+        { src: "assets/certificates/whale-heist-cert.jpg", caption: "WaytoAGI 全国 AI 切磋大会 · 1024 切磋大会参赛证书 · tem（tem的单人队）· 线上赛区 · 参赛登记名《鲸天魔盗团》（2026 年 10 月 25 日）" }
+      ],
+      play: { type: "external", url: "https://whale-pirate-crew.app.workbuddy.host/?sharecode=KY5SOZXVTD" },
+      links: [
+        { label: "在线试玩 · WorkBuddy", url: "https://whale-pirate-crew.app.workbuddy.host/?sharecode=KY5SOZXVTD" },
+        { label: "完整制作记录", url: "https://wangqianhui1314520-oss.github.io/whale-heist-1024-devlog/" }
       ]
     }
   ]
@@ -597,15 +680,15 @@ window.PORTFOLIO_DATA = {
 window.PORTFOLIO_DATA.international = {
   // Reading order of the work archive and of each case study's "next project": game design first,
   // then the strongest evidence; writing comes last.
-  order: ['yuanmo', 'growth', 'anyao', 'zhihu', 'rebirth', 'kun', 'ming', 'epoch', 'eufy-petlink', 'esp32-learn', 'poetry', 'novel'],
+  order: ['yuanmo', 'growth', 'whale-heist', 'anyao', 'zhihu', 'rebirth', 'kun', 'ming', 'epoch', 'eufy-petlink', 'esp32-learn', 'poetry', 'novel'],
   // Projects whose recognition is an award (see profile.resume.recognition).
   awards: ['yuanmo', 'anyao'],
   // Horizontal focal point of each cover where the narrow ribbon card crops it; unset covers stay centred.
-  coverFocus: {growth: '23%', anyao: '25%', zhihu: '69%', rebirth: '37%', kun: '41%', ming: '46%', epoch: '41%', 'eufy-petlink': '21%', 'esp32-learn': '15%', novel: '31%'},
+  coverFocus: {growth: '23%', 'whale-heist': '48%', anyao: '25%', zhihu: '69%', rebirth: '37%', kun: '41%', ming: '46%', epoch: '41%', 'eufy-petlink': '21%', 'esp32-learn': '15%', novel: '31%'},
   // The first thing the work archive says: who, what, and the evidence.
   intro: {
-    zh: {name: 'Tem · 王乾辉', role: [{label: 'DESIGN', text: 'AI 原生游戏与产品策划'}, {label: 'BUILD', text: '硬件设计与开发 · 创意技术'}], text: '把玩法、叙事与 AI 系统连接成可以体验的作品。', proof: ['黑客松全国第 5 名 · 华东赛区第 5 名', '作品发布于 itch.io · 机核 · 抖音 · Global Game Jam', 'K-Hub 罕见病开源社区共建者之一']},
-    en: {name: 'Tem · Wang Qianhui', role: [{label: 'DESIGN', text: 'AI-Native Games & Products'}, {label: 'BUILD', text: 'Hardware · Creative Technology'}], text: 'I connect play, story, and AI systems into work people can experience.', proof: ['Hackathons: 5th nationally, 5th in East China', 'Released on itch.io, GCORES, Douyin, and Global Game Jam', 'Co-builder of the K-Hub Rare Disease Open Source Community']}
+    zh: {name: 'Tem · 王乾辉', role: [{label: 'DESIGN', text: 'AI 原生游戏与产品策划'}, {label: 'BUILD', text: '硬件设计与开发 · 创意技术'}], text: '把玩法、叙事与 AI 系统连接成可以体验的作品。', proof: ['黑客松全国第 5 名 · 华东赛区第 5 名', '作品发布于 itch.io · 机核 · 抖音 · Global Game Jam', 'K-Hub 罕见病开源社区共建者 · 中国开源年会讲师']},
+    en: {name: 'Tem · Wang Qianhui', role: [{label: 'DESIGN', text: 'AI-Native Games & Products'}, {label: 'BUILD', text: 'Hardware · Creative Technology'}], text: 'I connect play, story, and AI systems into work people can experience.', proof: ['Hackathons: 5th nationally, 5th in East China', 'Released on itch.io, GCORES, Douyin, and Global Game Jam', 'K-Hub Rare Disease Open Source Community co-builder · COSCon’26 speaker']}
   },
   projectCards: {
     growth: {
@@ -655,9 +738,13 @@ window.PORTFOLIO_DATA.international = {
     anyao: {
       zh: {summary:'用独立药格、本人确认与三端同步，回答服药后那句「这顿药，到底吃没吃？」。',result:'罕见·无界黑客松 · 全国第 5 名 · 已开源'},
       en: {summary:'Independent compartments, explicit confirmation, and three-device sync answer one question: “Did I already take this dose?”',result:'Rare & Boundless Hackathon · 5th nationally · Open source'}
+    },
+    'whale-heist': {
+      zh: {summary:'把「给 AI 下指令」做成玩法：带三名 AI 队友潜入海底机房，取回资料，再全员返航。',result:'1024 超能 Coding 周末参赛 · WorkBuddy 1024 程序员节作品'},
+      en: {summary:'Giving orders to AI becomes the game: lead three AI crewmates into an undersea vault, then bring everyone home.',result:'WaytoAGI 1024 Coding Weekend · WorkBuddy 1024 Programmer’s Day'}
     }
   },
-  languages: {ming:'zh',yuanmo:'zh',epoch:'zh',growth:'zh',rebirth:'zh',kun:'zh',novel:'zh',zhihu:'zh',poetry:'zh', 'esp32-learn':'zh','eufy-petlink':'zh','anyao':'zh'},
+  languages: {ming:'zh',yuanmo:'zh',epoch:'zh',growth:'zh',rebirth:'zh',kun:'zh',novel:'zh',zhihu:'zh',poetry:'zh', 'esp32-learn':'zh','eufy-petlink':'zh','anyao':'zh','whale-heist':'zh'},
   caseStudies: {
     ming: {
       zh: {challenge:'让政治选择产生有规则、有记忆的后果，而不仅是一段生成的对话。',context:'以明代政治叙事为背景，连接人物、物品与地点。项目基于 Godot 持续迭代，参加腾讯游戏创作大赛。',
@@ -724,6 +811,12 @@ window.PORTFOLIO_DATA.international = {
         decisions:[{title:'取药不等于服药',text:'四格独立内盖让硬件能识别开盖动作，但只有患者在药盒或手机上显式确认，才生成服药记录。系统宁可留下一条「已取出未确认」，也不替用户假设已经服用。'},{title:'三端一起提醒，一起结束',text:'手机通知、药盒灯光 / 振动 / 铃声与手表提醒同时触发；任意一端处理，三端同步结束，避免多设备重复打扰。'},{title:'家属端区分「还没到」与「漏服」',text:'把未来计划、漏服、跳过与补记分开呈现。未到时间不显示为正常，减少家属把「计划」误读成「已完成」的误报。'}],facts:['团队作品 / 硬件设计与开发','四格药盒 + 三端联动','全国第 5 名 · Apache-2.0 开源']},
       en: {challenge:'People with narcolepsy can lose the memory of the minutes after taking medication. The real problem is not a missing reminder but an unanswerable question: “Did I already take this dose?” The system has to turn taking medication into a fact the patient can verify and family can see.',context:'A team entry for the Rare & Boundless open-source hackathon (team Chongchong Miwu), released under Apache-2.0. The product combines a four-compartment smart pillbox, a patient Android app, a caregiver view, a compatible smartwatch, and a three.js live mirror. I owned hardware design and development: the pillbox structure, BLE protocol integration, the reminder terminal, and three-device synchronization.',
         decisions:[{title:'Opening a compartment is not taking a dose',text:'Independent lids let the hardware detect that a compartment was opened, but a dose is recorded only when the patient confirms explicitly on the pillbox or phone. The system would rather record “removed, not confirmed” than assume the medication was taken.'},{title:'Three devices remind together and stop together',text:'Phone notifications, pillbox light, vibration and ring, and the watch alert all fire together. Handling the reminder on any one device ends it on all three, avoiding repeated interruptions.'},{title:'Separate “not yet due” from “missed”',text:'The caregiver view distinguishes future plans, missed doses, skipped doses, and back-filled records. A dose that is not yet due never appears as normal, removing the false alarm where plans look complete.'}],facts:['Team project / Hardware design & development','Four-compartment pillbox + three-device sync','5th nationally · Apache-2.0 open source']}
+    },
+    'whale-heist': {
+      zh: {challenge:'和 AI 协作，最难的往往是把话说清楚。能不能让玩家亲手体会：指令含糊，AI 会照字面把事情办大；指令精确，又要为此付出代价？',context:'WaytoAGI「1024 超能 Coding 周末」游戏赛道作品，两天 1024 分钟内独立完成可玩版本并在线发布，赛后继续打磨；同时作为 WorkBuddy 1024 程序员节作品，附完整制作记录。灵感来自 2026 年 10 月的一份安全报告：攻击者让多个 AI 模型分工协作，却在开放目录里留下了会话记录。游戏借用「AI 分工」与「自己暴露自己」的反差，改编成虚构的深海喜剧——机构、地图与事件全部虚构，不包含真实目标、方法或工具。',
+        decisions:[{title:'把提示词做成战术选择',text:'三名队友各有稳定的默认行为：Grok 连续破障，Claude 用夸张简历引开多名守卫，GLM 大范围扫描。默认方案只花 AI Token，却可能波及更多目标；加上限定词能精确到一个点或一个人，但每章数量有限。确认前，「回声预测」免费展示影响范围、可能的警报和返程提醒。'},{title:'让返程也成为关卡',text:'背包只有三格，装满就要回鲸艇交付；打开的通道、引开的守卫都会保留到回程。第四章揭示母舰一直在广播行动记录，玩家要关掉广播、接回小队；第五章在远端信标集结三人，确认装载后六十秒内全员撤离。'},{title:'两天做出来，再用测试把它做稳',text:'原生 JavaScript 与分层 Canvas 2D 把规则、世界模拟、渲染和界面分开，零运行依赖、静态部署。与 Codex、WorkBuddy 协作的同时建立 32 项脚本回归和浏览器验收；赛后修复输入卡死与手机画面发虚，WebP 迁移让部署包从 114 MB 降到 26 MB。'}],facts:['独立开发 / 策划、系统与 AI 协作开发','5 章 · 13 个房间 · 3 名 AI 队友','1024 超能 Coding 周末 · 游戏赛道']},
+      en: {challenge:'The hardest part of working with AI is often saying exactly what you mean. Can a game let players feel that firsthand — a vague order carried out to the letter and too far, a precise one that costs something?',context:'A game-track entry for WaytoAGI’s 1024 Coding Weekend: a playable version built solo within the two-day, 1,024-minute event and released online, then refined afterward. It is also a WorkBuddy 1024 Programmer’s Day project, with a complete development log. The idea came from an October 2026 security report in which an attacker had several AI models split the work, then left their session logs in an open directory. The game borrows that irony — AI teamwork undone by its own exposure — as a fictional undersea comedy. Its institutions, maps, and events are invented; it contains no real targets, methods, or tools.',
+        decisions:[{title:'Turn prompting into tactics',text:'Each crewmate has a dependable default: Grok smashes through a run of barriers, Claude lures several guards with an outrageous résumé, and GLM scans a wide area. A default order costs only AI tokens but can reach more than intended; a qualifier narrows it to one spot or one guard, but each chapter allows only a few. Before confirming, a free “echo preview” shows what will be affected, likely alarms, and what it means for the way back.'},{title:'Make the way back part of the level',text:'The pack holds three pieces of data; once it is full, you return to the whale boat to deliver. Opened passages and lured guards stay that way for the return trip. Chapter four reveals that the mothership has been broadcasting the crew’s log all along: switch it off and regroup. In chapter five, gather all three crewmates at a far beacon, confirm the load, and get everyone out within sixty seconds.'},{title:'Build it in two days, then make it dependable',text:'Vanilla JavaScript and layered Canvas 2D keep rules, world simulation, rendering, and interface separate, with no runtime dependencies and static hosting. Working with Codex and WorkBuddy, I kept 32 scripted regression checks and browser checks running; after the event, fixes covered stuck input and blurry phone rendering, and a WebP migration cut the deployed build from 114 MB to 26 MB.'}],facts:['Solo development / Design, systems & AI-assisted development','5 chapters · 13 rooms · 3 AI crewmates','1024 Coding Weekend · Game track']}
     }
   },
   // English project guides explain the visible work; they are not dialogue transcripts.
@@ -773,8 +866,10 @@ window.PORTFOLIO_DATA.locales = {en:{
       recognition:[
         {kind:'Award',title:'Rare & Boundless Hackathon · 5th nationally / Top-ten team',text:'Oct 2026 / Team project: AnYao · Team Chongchong Miwu · Hardware design & development'},
         {kind:'Award',title:'Tencent Cloud Hackathon · 5th, East China',text:'2026 / Team project: Contenders of the Late Yuan · Regional award'},
+        {kind:'Speaker',title:'COSCon’26 · 11th China Open Source Conference · Invited speaker',text:'Nov 2026 / AI for Healthcare forum · “AnYao Smart Pillbox,” with forward-deployed engineering (FDE) and the open-source spirit in the AI era'},
         {kind:'Completion',title:'Yiguang Game Jam · Two completion certificates',text:'2026 / Team project: ReBirth + solo project: Growth Archive · Both submitted to the Global Game Jam site'},
         {kind:'Community',title:'K-Hub Rare Disease Open Source Community · Co-builder',text:'Co-organizer of the Rare & Boundless hackathon · Co-building the community in a personal capacity'},
+        {kind:'Participation',title:'WaytoAGI 1024 Coding Weekend · Game track',text:'Oct 2026 / Whale Heist · Solo development · Certificate of participation · Also a WorkBuddy 1024 Programmer’s Day project'},
         {kind:'Participation',title:'Zhihu Hackathon · Campus Rising Stars',text:'Sep 2026 / Truth Archive Bureau · Participation certificate'},
         {kind:'Participation',title:'AdventureX 2026',text:'Jul 2026 / Emotional-agent framework · Five-day solo prototype'},
         {kind:'Certification',title:'Alibaba Cloud Certified Associate · LLM',text:'2026 / ACA large-language-model certification'}
@@ -817,7 +912,9 @@ window.PORTFOLIO_DATA.locales = {en:{
     'eufy-petlink':{type:'Smart hardware / Edge AI',title:'Eufy PetLink Guardian',subtitle:'Anker Hackathon · Smart security',role:'Team project · Edge hardware / Inference',status:'Anker Hackathon entry',desc:'Reuse the eufy multi-camera system and HomeBase edge compute already in the home, and let the first screen state a verifiable conclusion — “everything is fine at home” — while allowing “I am not sure” when confidence is low. No disease labels, no face recognition.',stack:['eufy multi-camera','HomeBase edge inference','Decision service','Cross-camera handoff'],highlights:['Anker Hackathon · Smart security, scenario innovation','On-device inference · judgment stays on the home network','Four-state conclusion card · a verifiable “all is well”','Cross-camera handoff · one target tracked across cameras','An explicit “I am not sure” when confidence is low'],specs:[{k:'Event',v:'Anker Hackathon · Smart-security track'},{k:'Team',v:'Team Strawberry (3 members)'},{k:'Hardware',v:'eufy multi-camera + HomeBase'},{k:'My role',v:'Stream capture / On-device inference / Decision service / Cross-camera handoff'}],
     value:{features:['On-device conclusion card: the home screen states “everything is fine at home” or “I am not sure” instead of a motion alert','Multi-camera capture and HomeBase edge inference: judgment completes inside the home network','Cross-camera handoff: a single target is tracked across cameras and is not lost between frames','Confidence mechanism: an explicit “I am not sure” when the system is not sure','Privacy by design: no disease labels, no face recognition'],scenarios:['Pet care while at work or traveling: confirm the cat or dog is fine remotely','Homes with several eufy cameras: living room, balcony, feeding area','Everyday reassurance about elderly or young family members — explicitly not medical diagnosis','Quick outings: a glance that confirms the home is all right'],needs:['Users want “I know everything is fine at home,” not “motion detected”','Alert noise and false positives train users to ignore notifications — they need conclusions','Cloud recognition raises privacy concerns; edge inference keeps data at home','Cameras work in isolation, with no continuous state across screens'],business:['Reuses installed hardware: no new camera purchases, activating sold devices and HomeBase compute','Shifts value from hardware margin to service: the conclusion card supports a subscription narrative','Differentiation through scenario innovation: a verifiable conclusion versus the motion-alert red ocean','Privacy as a selling point: on-device processing fits the sensitivity of home security data']},
     contribution:{period:'Oct 2026',role:'Team project · Edge hardware & inference',actions:['Owned eufy multi-camera stream capture and the HomeBase on-device inference pipeline, so the conclusion card is decided entirely inside the home network.','Built the decision service and cross-camera handoff: a single target is tracked across cameras, and conclusions carry confidence — “I am not sure” when it is not sure.'],outcome:'Anker Hackathon entry in the smart-security scenario-innovation track.'}},
-    anyao:{type:'Smart hardware / Accessibility',title:'AnYao',subtitle:'Rare & Boundless Hackathon · Smart pillbox and three-device sync',role:'Team hardware design & development · Engineer',status:'5th nationally at the hackathon · Open source',desc:'A smart pillbox system for people with narcolepsy and other sleep disorders. The problem is not a missing reminder but the question that follows a post-nap memory gap: “Did I already take this dose?” AnYao turns that into a fact the patient can verify and family can see, through independent compartments, explicit patient confirmation, and three-device synchronization.',stack:['Android','BLE','Node.js / WebSocket','three.js','Electron'],highlights:['Rare & Boundless open-source hackathon · 5th nationally (top-ten team)','Four independent lids plus a reminder terminal · removing a pill is not taking it; only the patient’s confirmation creates a record','Phone, pillbox, and watch synchronize · handling any one ends all three','Offline barcode registration · runs locally and on the LAN, no cloud','Apache-2.0 open source · public three-device live demo'],specs:[{k:'Event',v:'Rare & Boundless open-source hackathon'},{k:'Result',v:'5th nationally · Top-ten hacker team'},{k:'Organizers',v:'Illness Challenge Foundation (Beijing); co-organized by the K-Hub Rare Disease Open Source Community and CHANGE Foundation'},{k:'Date & venue',v:'Oct 15–17, 2026 · Nanhu Future Science Park, Hangzhou'},{k:'Community',v:'I am one of the K-Hub community’s co-builders'},{k:'Team',v:'Chongchong Miwu · Medical Realm Studio'},{k:'My role',v:'Hardware design & development / BLE protocol / Three-device sync and 3D mirror'},{k:'License',v:'Apache-2.0'}],links:[{label:'Live demo · three-device sync',url:'https://anyao-link.app.workbuddy.host/'},{label:'GitHub repository',url:'https://github.com/wangqianhui1314520-oss/anyao'}],contribution:{period:'Oct 2026',role:'Team hardware design & development · Engineer',actions:['Owned the hardware side: four independent inner lids, the reminder terminal with screen and confirm button, BLE protocol integration, and low-battery alerts — so open, remove, and confirm form a traceable record in hardware.','Contributed to the device side of three-device synchronization: pillbox light, vibration, ring, and screen alert alongside phone and watch; built the three.js real-time mirror of pillbox and watch so the full flow can be demonstrated without physical hardware.'],outcome:'Rare & Boundless open-source hackathon: 5th nationally, among the top-ten hacker teams. Code released under Apache-2.0.'},images:[{src:'assets/certificates/anyao-cert-player.jpg',caption:'Rare & Boundless open-source hackathon · Participant certificate · Wang Qianhui (Oct 2026)'},{src:'assets/certificates/anyao-cert-top10.jpg',caption:'Top-ten hacker team certificate · Team Chongchong Miwu (the original photo is slightly cropped on the right)'}]},
+    anyao:{type:'Smart hardware / Accessibility',title:'AnYao',subtitle:'Rare & Boundless Hackathon · Smart pillbox and three-device sync',role:'Team hardware design & development · Engineer',status:'5th nationally at the hackathon · Open source',desc:'A smart pillbox system for people with narcolepsy and other sleep disorders. The problem is not a missing reminder but the question that follows a post-nap memory gap: “Did I already take this dose?” AnYao turns that into a fact the patient can verify and family can see, through independent compartments, explicit patient confirmation, and three-device synchronization.',stack:['Android','BLE','Node.js / WebSocket','three.js','Electron'],highlights:['Rare & Boundless open-source hackathon · 5th nationally (top-ten team)','Presented at COSCon’26, the 11th China Open Source Conference · AI for Healthcare forum (invited speaker)','Four independent lids plus a reminder terminal · removing a pill is not taking it; only the patient’s confirmation creates a record','Phone, pillbox, and watch synchronize · handling any one ends all three','Offline barcode registration · runs locally and on the LAN, no cloud','Apache-2.0 open source · public three-device live demo'],specs:[{k:'Event',v:'Rare & Boundless open-source hackathon'},{k:'Result',v:'5th nationally · Top-ten hacker team'},{k:'Organizers',v:'Illness Challenge Foundation (Beijing); co-organized by the K-Hub Rare Disease Open Source Community and CHANGE Foundation'},{k:'Date & venue',v:'Oct 15–17, 2026 · Nanhu Future Science Park, Hangzhou'},{k:'Community',v:'I am one of the K-Hub community’s co-builders'},{k:'Conference talk',v:'COSCon’26, the 11th China Open Source Conference · AI for Healthcare forum · “AnYao Smart Pillbox” (Nov 14, 2026 · Hangzhou)'},{k:'Team',v:'Chongchong Miwu · Medical Realm Studio'},{k:'My role',v:'Hardware design & development / BLE protocol / Three-device sync and 3D mirror'},{k:'License',v:'Apache-2.0'}],links:[{label:'Live demo · three-device sync',url:'https://anyao-link.app.workbuddy.host/'},{label:'GitHub repository',url:'https://github.com/wangqianhui1314520-oss/anyao'}],contribution:{period:'Oct 2026',role:'Team hardware design & development · Engineer',actions:['Owned the hardware side: four independent inner lids, the reminder terminal with screen and confirm button, BLE protocol integration, and low-battery alerts — so open, remove, and confirm form a traceable record in hardware.','Contributed to the device side of three-device synchronization: pillbox light, vibration, ring, and screen alert alongside phone and watch; built the three.js real-time mirror of pillbox and watch so the full flow can be demonstrated without physical hardware.'],outcome:'Rare & Boundless open-source hackathon: 5th nationally, among the top-ten hacker teams. Code released under Apache-2.0. In November 2026, I presented the project as an invited speaker in the AI for Healthcare forum at COSCon’26, the 11th China Open Source Conference, along with forward-deployed engineering (FDE) and the open-source spirit in the AI era.'},images:[{src:'assets/certificates/anyao-cert-player.jpg',caption:'Rare & Boundless open-source hackathon · Participant certificate · Wang Qianhui (Oct 2026)'},{src:'assets/certificates/anyao-cert-top10.jpg',caption:'Top-ten hacker team certificate · Team Chongchong Miwu (the original photo is slightly cropped on the right)'},{src:'assets/certificates/coscon26-lecturer-cert.jpg',caption:'COSCon’26, the 11th China Open Source Conference · Lecturer certificate · Wang Qianhui (Nov 14–15, 2026)'},{src:'assets/certificates/coscon26-agenda.jpg',caption:'AI for Healthcare forum agenda (excerpt) · Nov 14, 15:00–15:30 · “AnYao Smart Pillbox” · Wang Qianhui, K-Hub smart-pillbox project group'}]},
+    'whale-heist':{type:'Game',title:'Whale Heist',subtitle:'1024 Coding Weekend · Side-scrolling squad action puzzle',role:'Solo developer · Design / Systems / AI-assisted development',status:'Released · Playable online',desc:'A side-scrolling squad action-puzzle game for the browser that turns talking to AI into play. As DeepSeek, a whale-tailed heroine, you lead Grok, Claude, and GLM into an undersea server vault: dash through barriers and haul data yourself, and give your crew orders. A default order saves resources but can reach more than you meant; a precise qualifier keeps control but is limited. Five chapters end with a sixty-second evacuation.',stack:['Vanilla JavaScript','Canvas 2D','Web Audio','AI-generated art & audio','Codex / WorkBuddy'],highlights:['WaytoAGI 1024 Coding Weekend · Game-track entry','WorkBuddy 1024 Programmer’s Day project · Playable in the browser','Prompts as tactics: default orders, precise qualifiers, echo previews','5 chapters / 13 rooms · a three-slot pack · a 60-second evacuation','Vanilla JavaScript with no runtime dependencies · keyboard or landscape touch'],specs:[{k:'Event',v:'WaytoAGI National AI Sparring Contest · 1024 Coding Weekend · Game track (online division)'},{k:'Program',v:'WorkBuddy 1024 Programmer’s Day project'},{k:'Platform',v:'Web browser · keyboard and mouse / landscape touch'},{k:'Stack',v:'Vanilla JavaScript ES modules / layered Canvas 2D / Web Audio'},{k:'Content',v:'5 chapters · 13 rooms · 3 AI crewmates · 51 artworks · 46 audio clips'},{k:'Verification',v:'All 32 scripted regression checks and 13 browser checks pass'}],links:[{label:'Play online · WorkBuddy (Chinese)',url:'https://whale-pirate-crew.app.workbuddy.host/?sharecode=KY5SOZXVTD'},{label:'Full development log (Chinese)',url:'https://wangqianhui1314520-oss.github.io/whale-heist-1024-devlog/'}],contribution:{period:'Oct 2026',role:'Solo development · Game design / Systems / AI-assisted development',actions:['Took the project from concept and design to a playable version within the two-day, 1,024-minute event, making “giving orders to AI” the core mechanic: default orders versus precise qualifiers, free echo previews, an AI-token budget, and planning the way back.','Built, tested, and released it with Codex and WorkBuddy: five chapters and thirteen rooms in vanilla JavaScript with layered Canvas 2D, 51 AI-generated artworks, and 46 audio clips. After the event, I fixed input and mobile issues and cut the deployed build from 114 MB to 26 MB.'],outcome:'Game-track entry for WaytoAGI’s 1024 Coding Weekend, with a certificate of participation, and a WorkBuddy 1024 Programmer’s Day project. Released online; all 32 scripted regression checks and 13 browser checks pass.'},images:[{src:'assets/certificates/whale-heist-cert.jpg',caption:'WaytoAGI National AI Sparring Contest · 1024 contest certificate of participation · tem (solo team) · Online division · Entered under the name 鲸天魔盗团 (Oct 25, 2026)'}]},
+    'coscon26-lecturer-cert':{type:'Project certificate',title:'COSCon’26 Lecturer Certificate',subtitle:'11th China Open Source Conference · Open Source: The Next Generation',role:'Invited speaker',status:'Lecturer certificate',stack:['COSCon’26','AnYao'],desc:'Lecturer certificate from COSCon’26, the 11th China Open Source Conference (Nov 14–15, 2026, Hangzhou). I presented “AnYao Smart Pillbox” in the AI for Healthcare forum, along with forward-deployed engineering (FDE) and the open-source spirit in the AI era.',highlights:['Invited speaker · “AnYao Smart Pillbox”','AI for Healthcare forum · Nov 14, 2026'],specs:[{k:'Conference',v:'COSCon’26, the 11th China Open Source Conference · Hosted by KAIYUANSHE and Datawhale'},{k:'Record',v:'Lecturer certificate (Nov 2026)'}],images:[{src:'assets/certificates/coscon26-lecturer-cert.jpg',caption:'COSCon’26 · Lecturer certificate · Wang Qianhui'},{src:'assets/certificates/coscon26-agenda.jpg',caption:'AI for Healthcare forum agenda (excerpt) · 15:00–15:30 · “AnYao Smart Pillbox” · Wang Qianhui'}]},
     'yiguang-cert':{type:'Project certificate',title:'Yiguang Game Jam Completion Certificates',subtitle:'Wuhan global university game-creation challenge',role:'Participant / Developer',status:'Completed',stack:['Game Jam','Yiguang'],desc:'Two completion certificates for team project ReBirth and solo project Growth Archive.',highlights:['ReBirth · Team project','Growth Archive · Solo project'],specs:[{k:'Event',v:'2026 Yiguang game-creation challenge'},{k:'Record',v:'2 completion certificates'}],images:[{src:'assets/certificates/cert-rebirth.jpg',caption:'ReBirth · Team completion certificate'},{src:'assets/certificates/cert-growth.jpg',caption:'Growth Archive · Solo completion certificate'}]},
     'tencent-hackathon-ec':{type:'Project certificate',title:'Tencent Cloud Hackathon: East China Regional Award',subtitle:'Game-development challenge · East China',role:'Awarded team',status:'Regional award',stack:['Tencent Cloud Hackathon','Contenders of the Late Yuan'],desc:'Regional award for team project Contenders of the Late Yuan in the Tencent Cloud Hackathon game-development challenge.',highlights:['Team project: Contenders of the Late Yuan','East China regional award'],specs:[{k:'Event',v:'Tencent Cloud Hackathon · East China'},{k:'Record',v:'Regional award'}],images:[{src:'assets/certificates/tencent-hackathon-ec.jpg',caption:'Tencent Cloud Hackathon · East China regional award'}]},
     'zhihu-hackathon-cert':{type:'Project certificate',title:'Zhihu Hackathon Participation Certificate',subtitle:'Campus Rising Stars',role:'Participant',status:'Participation record',stack:['Zhihu Hackathon','Truth Archive Bureau'],desc:'Participation certificate dated September 19, 2026, for the AI browser mystery Truth Archive Bureau. A record of participation, distinct from an award.',highlights:['48-hour development','AI-powered interactive deduction','Project: Truth Archive Bureau'],specs:[{k:'Event',v:'Zhihu Hackathon · Campus Rising Stars'},{k:'Record',v:'Participation certificate · September 19, 2026'}],images:[{src:'assets/certificates/zhihu-hackathon-cert.jpg',caption:'Zhihu Hackathon participation certificate · Wang Qianhui'}]}

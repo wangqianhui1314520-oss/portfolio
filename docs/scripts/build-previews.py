@@ -3,23 +3,28 @@
 
 Each loop is five seconds from a project's own video, framed at the 16:10
 cover ratio. Portrait footage is centred on a blurred copy of itself.
-Requires ffmpeg on PATH. Usage: python scripts/build-previews.py
+Requires ffmpeg on PATH. Usage: python scripts/build-previews.py [project ...]
+(no arguments rebuilds every loop).
 """
 from pathlib import Path
 import subprocess
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'assets' / 'videos'
 OUTPUT = SOURCE / 'previews'
 DURATION = 5
 CRF = 31
-# Project id: (start second, chosen for movement that reads at card size)
+# Project id: start second, chosen for movement that reads at card size. A tuple adds the region
+# to keep first, as (x, y, width, height) fractions of the frame, for footage set inside a larger frame.
 CLIPS = {
     'yuanmo': 10.6,   # choosing a lord: the painted portraits and the chosen ruler's card
     'growth': 10.5,   # the archived kindergarten gate and the first clues
     'zhihu': 9.0,     # the case board, then the suspect line-up
     'rebirth': 34.0,  # walking through the red-lit laboratory
     'epoch': 38.0,    # the awakening hall of the mechanical era
+    # Grok breaks the first data node on the player's order; only the gameplay recording inside the explainer's slide.
+    'whale-heist': (88.0, (335 / 1920, 86 / 1080, 1248 / 1920, 780 / 1080)),
 }
 
 
@@ -32,18 +37,30 @@ def probe(file):
 
 def main():
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    for project, start in CLIPS.items():
+    selected = set(sys.argv[1:])
+    unknown = selected - CLIPS.keys()
+    if unknown:
+        sys.exit(f'No preview clip is defined for: {", ".join(sorted(unknown))}')
+    for project, clip in CLIPS.items():
+        if selected and project not in selected:
+            continue
+        start, region = clip if isinstance(clip, tuple) else (clip, None)
         source = SOURCE / f'{project}.mp4'
         width, height = probe(source)
+        keep = ''
+        if region:
+            x, y, w, h = region
+            keep = f'crop=iw*{w:.5f}:ih*{h:.5f}:iw*{x:.5f}:ih*{y:.5f},'
+            width, height = round(width * w), round(height * h)
         if width < height:
             # Portrait: the footage stays whole in front of its own blurred, darkened enlargement.
-            graph = ('[0:v]split[a][b];'
+            graph = (f'[0:v]{keep}split[a][b];'
                      '[a]scale=960:600:force_original_aspect_ratio=increase,crop=960:600,boxblur=24:2,eq=brightness=-0.18[bg];'
                      '[b]scale=-2:600[fg];[bg][fg]overlay=(W-w)/2:0,format=yuv420p')
         else:
             # Landscape: crop the centre to 16:10, never enlarging past the source height.
             target = min(600, height)
-            graph = (f'[0:v]crop=min(iw\\,ih*1.6):min(ih\\,iw/1.6),'
+            graph = (f'[0:v]{keep}crop=min(iw\\,ih*1.6):min(ih\\,iw/1.6),'
                      f'scale={round(target * 1.6 / 2) * 2}:{target},format=yuv420p')
         target_file = OUTPUT / f'{project}.mp4'
         subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(start), '-t', str(DURATION), '-i', str(source),

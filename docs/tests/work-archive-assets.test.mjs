@@ -58,7 +58,7 @@ test('the work archive loads a crystal-only model', () => {
 test('preview loops are short, silent, small and cut from the project films', () => {
   const page = read('zh/work/index.html');
   const previews = [...page.matchAll(/data-preview="\/(assets\/videos\/previews\/([\w-]+)\.mp4)"/g)];
-  assert.equal(previews.length, 5);
+  assert.equal(previews.length, 6);
   for (const [, path, id] of previews) {
     const bytes = readFileSync(resolve(root, path));
     assert.equal(bytes.subarray(4, 8).toString('latin1'), 'ftyp', path + ' is an MP4');
