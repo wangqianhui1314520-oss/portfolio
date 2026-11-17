@@ -1,3 +1,4 @@
+import {archiveView, projectVisible} from './portfolio-view.js';
 import {languageDestination} from './locale-data.js';
 
 const languageLinks = [...document.querySelectorAll('[data-language-switch]')];
@@ -61,6 +62,8 @@ function initializeRibbonGallery() {
   const anchor = gallery.querySelector('.ribbon-anchor');
   const list = gallery.querySelector('[data-ribbon-list]');
   const rows = list ? [...list.querySelectorAll('[data-ribbon-row]')] : [];
+  const browse = gallery.querySelector('[data-browse]');
+  const cards = browse ? [...browse.querySelectorAll('[data-browse-card]')] : [];
   const filterButtons = [...document.querySelectorAll('[data-ribbon-filter]')];
   const viewButtons = [...document.querySelectorAll('[data-ribbon-view]')];
   const about = document.querySelector('dialog.ribbon-about');
@@ -70,7 +73,7 @@ function initializeRibbonGallery() {
   const saveData = navigator.connection?.saveData === true;
   const pad = value => String(value).padStart(2, '0');
   let items = allItems, links = items.map(item => item.querySelector('.ribbon-link'));
-  let category = 'all', view = 'ribbon';
+  let category = 'all', view = archiveView(new URL(location.href).searchParams);
   let position = 0, destination = 0, minimum = 0, maximum = 0;
   let frame = 0, previousFrame = 0, currentIndex = 0, selectedIndex = -1, shownIndex = -1, spokenIndex = 0;
   let hoveredIndex = -1, centeredIndex = 0, centerUntil = 0, geometryUntil = 0, snapTimer = 0;
@@ -81,7 +84,7 @@ function initializeRibbonGallery() {
   const bound = index => Math.max(0, Math.min(items.length - 1, index));
   const expanded = () => selectedIndex !== -1;
   const compact = () => narrow.matches;
-  const listView = () => view === 'list';
+  const listView = () => view !== 'ribbon';
   const modified = event => event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;
   const indexOf = element => items.indexOf(element.closest('[data-ribbon-item]'));
   function draw() { track.style.setProperty('--ribbon-x', `${position.toFixed(3)}px`); }
@@ -196,7 +199,7 @@ function initializeRibbonGallery() {
       item.querySelector('.ribbon-link').tabIndex = index !== -1 && index === current ? 0 : -1;
     }
     if (caption) caption.hidden = !expanded();
-    warmNeighbours(current);
+    if (!listView()) warmNeighbours(current);
     showCurrent();
     if (previewItem && previewItem !== previewTarget()) stopPreview();
   }
@@ -344,11 +347,13 @@ function initializeRibbonGallery() {
     if (!filterButtons.some(button => button.dataset.ribbonFilter === next)) next = 'all';
     const keep = items[expanded() ? selectedIndex : currentIndex];
     if (expanded()) collapseWork(false);
+    if (view === 'featured' && next !== 'all') applyView('grid', {updateURL: false});
     category = next;
     for (const button of filterButtons) button.setAttribute('aria-pressed', String(button.dataset.ribbonFilter === next));
     const shown = element => next === 'all' || element.dataset.projectCategory === next;
     for (const item of allItems) item.hidden = !shown(item);
     for (const row of rows) row.hidden = !shown(row);
+    syncBrowse();
     items = allItems.filter(item => !item.hidden);
     links = items.map(item => item.querySelector('.ribbon-link'));
     items.forEach((item, index) => {const number = item.querySelector('.ribbon-item-number'); if (number) number.textContent = pad(index + 1);});
@@ -358,7 +363,7 @@ function initializeRibbonGallery() {
     position = destination = 0; draw();
     geometryUntil = performance.now() + 60;
     moveTo(currentIndex, true);
-    if (updateURL) updateQuery({category: next === 'all' ? null : next});
+    if (updateURL) updateQuery({category: next === 'all' ? null : next, view});
     // One announcement names the result and the project now in front; settling does not repeat it.
     spokenIndex = currentIndex;
     if (speak) {
@@ -367,20 +372,35 @@ function initializeRibbonGallery() {
       say(english ? `${label}: ${items.length} ${items.length === 1 ? 'project' : 'projects'}. Now showing ${title}.` : `${label}：${items.length} 件作品，当前：${title}。`);
     }
   }
+  function syncBrowse() {
+    for (const card of cards) card.hidden = !projectVisible({category:card.dataset.projectCategory,featured:card.dataset.featured === 'true'}, category, view);
+    const selected = view === 'featured', visible = cards.filter(card=>!card.hidden).length;
+    const label = filterButtons.find(button=>button.dataset.ribbonFilter===category)?.querySelector('.label-long')?.textContent || '';
+    const heading = browse?.querySelector('[data-browse-heading]');
+    const description = browse?.querySelector('[data-browse-description]');
+    if(heading) heading.textContent = selected ? (english?'Three projects. Three strengths.':'三个项目，三种能力') : (category==='all' ? (english?'All projects':'完整作品档案') : label);
+    if(description) description.textContent = selected ? (english?'Game systems, hardware delivery, and agent experiences. Start with a selection, then explore the archive.':'从玩法系统、硬件交付到 Agent 体验。先看代表作，再探索完整档案。') : (english?'Open a case study directly. Every project names my role and its outcome.':'点击直接进入案例，每件作品都注明我的角色与成果。');
+    const count=browse?.querySelector('[data-browse-count]'); if(count) count.textContent=selected?visible+' / '+cards.length:visible+(english?' projects':' 件作品');
+    const all=browse?.querySelector('[data-browse-all]');if(all)all.hidden=!selected;
+  }
   function applyView(next, {updateURL = true} = {}) {
-    next = next === 'list' && list ? 'list' : 'ribbon';
-    if (next === 'list') collapseWork(false);
+    next = ['featured','grid','list','ribbon'].includes(next) ? next : 'featured';
+    if (next !== 'ribbon') collapseWork(false);
     view = next; body.dataset.view = next;
+    if(next==='featured' && category!=='all') applyFilter('all',{updateURL,speak:false});
     if (list) list.hidden = next !== 'list';
+    if (browse) browse.hidden = next !== 'featured' && next !== 'grid';
+    syncBrowse();
     for (const button of viewButtons) button.setAttribute('aria-pressed', String(button.dataset.ribbonView === next));
     if (next === 'ribbon') {geometryUntil = performance.now() + 60; moveTo(currentIndex, true);}
     else stopPreview();
-    if (updateURL) updateQuery({view: next === 'list' ? 'list' : null});
+    dispatchEvent(new Event('tem:archive-view'));
+    if (updateURL) updateQuery({view:next, project:next==='ribbon'?undefined:null});
   }
   function applyStateFromURL() {
     const params = new URL(location.href).searchParams;
     applyFilter(params.get('category') || 'all', {updateURL: false, speak: false});
-    applyView(params.get('view'), {updateURL: false});
+    applyView(archiveView(params), {updateURL: false});
     const index = items.findIndex(item => item.dataset.projectId === params.get('project'));
     if (index !== -1 && !listView()) expandWork(index, true, false); else collapseWork(false);
   }
@@ -423,7 +443,7 @@ function initializeRibbonGallery() {
   document.addEventListener('focusout', () => queueMicrotask(paintActive));
   // The skip link lands on the current project, or on the first row of the list.
   document.querySelector('[data-skip-projects]')?.addEventListener('click', event => {
-    const target = listView() ? rows.find(row => !row.hidden)?.querySelector('a') : links[currentIndex];
+    const target = view === 'list' ? rows.find(row => !row.hidden)?.querySelector('a') : listView() ? cards.find(card=>!card.hidden) : links[currentIndex];
     if (!target) return;
     event.preventDefault(); target.focus();
   });
@@ -842,14 +862,16 @@ async function initializeTemModel() {
 // The crystal waits until the page has loaded and the browser is idle, and never loads where it is hidden.
 function scheduleTemModel() {
   const figure = document.querySelector('[data-tem-viewer]');
-  if (!figure) return;
+  const canvas = figure?.querySelector('[data-tem-canvas]');
+  if (!figure || !canvas) return;
   let started = false;
   const start = () => {
-    if (started || !figure.getClientRects().length) return;
-    started = true; removeEventListener('resize', start); void initializeTemModel();
+    if (started || !canvas.getClientRects().length) return;
+    started = true; removeEventListener('resize', start); removeEventListener('tem:archive-view', start); void initializeTemModel();
   };
   const idle = window.requestIdleCallback ? callback => requestIdleCallback(callback, {timeout: 2500}) : callback => setTimeout(callback, 900);
   const begin = () => idle(() => {start(); if (!started) addEventListener('resize', start);});
+  addEventListener('tem:archive-view', start);
   if (document.readyState === 'complete') begin(); else addEventListener('load', begin, {once: true});
 }
 scheduleTemModel();

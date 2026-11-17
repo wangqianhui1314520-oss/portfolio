@@ -138,8 +138,8 @@ test('every generated page has reciprocal language metadata and existing local d
    assert.deepEqual(filters.map(match=>match[2]),['true','false','false','false','false']);
    assert.match(directory,/<div class="ribbon-filters" role="group" aria-label="[^"]+">/);
    // The same projects as a list, with real links, for scanning and for keyboard use.
-   const views=[...directory.matchAll(/<button\b[^>]*\bdata-ribbon-view="(ribbon|list)"[^>]*\baria-pressed="(true|false)"/g)].map(match=>match[1]+':'+match[2]);
-   assert.deepEqual(views,['ribbon:true','list:false']);
+   const views=[...directory.matchAll(/<button\b[^>]*\bdata-ribbon-view="(featured|grid|ribbon|list)"[^>]*\baria-pressed="(true|false)"/g)].map(match=>match[1]+':'+match[2]);
+   assert.deepEqual(views,['featured:true','grid:false','list:false','ribbon:false']);
    const list=directory.match(/<section\b[^>]*\bdata-ribbon-list\b[^>]*>[\s\S]*?<\/section>/)?.[0];
    assert.ok(list&&/\bhidden\b/.test(list.slice(0,list.indexOf('>'))),'The list view exists and starts hidden.');
    const rows=[...list.matchAll(/<li\b[^>]*\bdata-project-id="([^"]+)"[^>]*>[\s\S]*?<\/li>/g)];
@@ -157,7 +157,7 @@ test('every generated page has reciprocal language metadata and existing local d
    assert.match(intro,/<a\b[^>]*\bdata-about-open\b/);
    assert.match(readFileSync(resolve(output,locale+'/about/index.html'),'utf8'),/<section id="experience">/);
    // Covers ship as responsive WebP with the JPEG fallback; only the first two load eagerly.
-   assert.equal(projects.filter(project=>/loading="eager"/.test(project)).length,2,'Only the first covers load eagerly.');
+   assert.equal(projects.filter(project=>/loading="eager"/.test(project)).length,0,'The optional ribbon defers its covers until that view is selected.');
    assert.ok(projects.every(project=>/<picture><source type="image\/webp" srcset="[^"]+ \d+w/.test(project)||/\.svg"/.test(project)),'Raster covers offer WebP sources.');
    assert.equal((directory.match(/\bdata-preview="/g)||[]).length,6,'Six projects have a short preview loop.');
    // The panel below the ribbon names the current project and steps one project at a time.

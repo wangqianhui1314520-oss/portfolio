@@ -108,3 +108,10 @@ npm run blender:info
 完整操作顺序与工程/运行资源对应表见 [SITE.md](docs/SITE.md) 和 [ENGINEERING.md](docs/ENGINEERING.md)。现有电影质感仍需持续精修；工程、导出及测试通过不代表已与概念图逐项一致。
 
 原版本控制仓库和本机工具目录留在父目录。后续开发在 `docs` 中进行。发布方式：GitHub Pages 从 `main` 分支的 `/docs` 目录发布，域名 `wqh-tempest.cn`；`npm run dev` 仅用于本地预览，不影响线上。
+
+
+## 2026-11 作品浏览与案例首屏
+
+作品档案默认展示三件精选（元末逐鹿、安药、大肥鱼），分别说明游戏系统、硬件交付、Agent 连续体验。选择「全部作品」进入完整网格，也可切换列表或原作品带；分类、视图与语言切换保持网址上下文：`?view=grid`、`?view=list`、`?view=ribbon`，带分类的直达链接默认使用网格。精选配置位于 `international.featured`。
+
+案例首屏优先显示手动播放的视频或 `work.evidence` / `work.heroImage` 产品图，职责与时间移到其后。大肥鱼首图使用已有历史运行界面的局部截图，已裁去私人信息，不代表本轮实时演示；原始截图仅保存在本地取证目录，未进入站点。新样式分别位于 `portfolio-browse.css`、`case-evidence.css`。
