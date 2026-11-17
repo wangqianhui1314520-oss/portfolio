@@ -15,7 +15,7 @@ test('DaFeiYu is discoverable in Technology Lab in both languages',()=>{
   assert.ok(data.international.projectCards[work.id][locale].summary);
   assert.ok(data.international.caseStudies[work.id][locale].decisions.length>=3);
   assert.equal(work.play.type,'none');assert.equal(work.play.url,'');
-  assert.equal(work.links[0].url,'https://github.com/wangqianhui1314520-oss/dsh-qq-onebot-bridge');
+  assert.equal(work.links.length,0,'a private repository must not create an open-source badge or public source link');
   const journey=createJourney(d.works);
   for(const [action,value] of [['start'],['ready'],['navigate','nexus'],['arrive'],['scan'],['decode'],['select','dafeiyu'],['dock'],['open']])journey.dispatch(action,value);
   assert.equal(journey.detail.id,work.id);
