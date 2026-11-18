@@ -77,12 +77,17 @@ export function initializePageTransitions() {
     return bounds.width > 0 && bounds.height > 0 && bounds.bottom > 0 && bounds.top < innerHeight && bounds.right > 0 && bounds.left < innerWidth;
   }
 
+  function visualMedia(frame) {
+    // Share the image/video itself, never archive captions or project copy.
+    return frame?.querySelector?.('img:not(.case-evidence-print-poster),video') || frame;
+  }
+
   function archiveMedia(project) {
     // The archive contains three representations of each work. Select exactly one visible representation.
     const candidates = [...document.querySelectorAll('[data-project-id]')].filter(item => item.dataset.projectId === project);
     for (const item of candidates) {
       const media = item.querySelector('.browse-media,.ribbon-cover,.ribbon-row-thumb');
-      if (visible(media)) return media;
+      if (visible(media)) return visualMedia(media);
     }
     return null;
   }
@@ -123,7 +128,7 @@ export function initializePageTransitions() {
     if (motion.matches || !route) {transition.skipTransition(); return;}
     document.documentElement.dataset.pageTransition = route.kind;
     const current = page();
-    const shared = route.project && (current?.kind === 'archive' ? archiveMedia(route.project) : document.querySelector('.case-evidence-frame'));
+    const shared = route.project && (current?.kind === 'archive' ? archiveMedia(route.project) : visualMedia(document.querySelector('.case-evidence-frame')));
     const target = visible(shared) ? shared : null;
     const oldName = target?.style.viewTransitionName || '';
     if (target) target.style.viewTransitionName = 'tem-project-media';

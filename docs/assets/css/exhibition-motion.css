@@ -1,0 +1,28 @@
+/* Progressive enhancement: project content is always visible without JavaScript. */
+[data-browse-card] .browse-media .exhibition-view-hint{
+  position:absolute;top:16px;right:16px;z-index:4;
+  display:inline-flex;align-items:center;max-width:calc(100% - 32px);
+  padding:10px 14px;font-family:'Tem Interface',sans-serif;font-size:13px;line-height:1.4;
+  color:var(--exhibition-hint-ink,var(--bg,Canvas));
+  background:var(--exhibition-hint-bg,var(--ink,CanvasText));
+  border:1px solid currentColor;white-space:nowrap;pointer-events:none;
+  opacity:0;transform:translateY(6px);transition:opacity 160ms ease,transform 180ms ease;
+}
+[data-browse-card]:focus-visible .exhibition-view-hint{opacity:1;transform:none}
+@media(hover:hover) and (pointer:fine){
+  [data-browse-card]:hover .exhibition-view-hint{opacity:1;transform:none}
+}
+[data-browse-card] .browse-media .exhibition-preview{
+  position:absolute;inset:0;z-index:1;display:block;width:100%;height:100%;
+  margin:0;border:0;border-radius:0;object-fit:contain;
+  background:var(--exhibition-preview-bg,var(--bg,Canvas));pointer-events:none;
+  opacity:0;transition:opacity 140ms ease;
+}
+[data-browse-card] .browse-media .exhibition-preview.is-ready{opacity:1}
+[data-browse-card] .browse-media figcaption{z-index:2}
+html[data-exhibition-motion=off] .exhibition-view-hint,html[data-exhibition-motion=off] .exhibition-preview{transition:none}
+@media(max-width:560px){[data-browse-card] .browse-media .exhibition-view-hint{top:12px;right:12px;padding:8px 11px;font-size:12px}}
+@media(prefers-reduced-motion:reduce){
+  [data-browse-card] .browse-media .exhibition-view-hint,[data-browse-card] .browse-media .exhibition-preview{transition:none;transform:none}
+}
+@media print{.exhibition-view-hint,.exhibition-preview{display:none!important}}

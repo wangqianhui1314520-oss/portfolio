@@ -735,6 +735,12 @@ window.PORTFOLIO_DATA = {
 
 // International presentation is part of the same editorial source as the Chinese originals.
 window.PORTFOLIO_DATA.international = {
+  caseMilestones: {
+    anyao: {
+      zh: ['K-Hub 社区应用','第十一届开源大会展示','义务供应链支持'],
+      en: ['In use at K-Hub','11th Open Source Conference','Pro bono supply-chain support']
+    }
+  },
   featured: [{"id":"yuanmo","zh":{"capability":"游戏系统与 AI 交互","proof":"把自然语言决策变成多派系博弈，负责团队产品与核心玩法策划。"},"en":{"capability":"Game systems & AI interaction","proof":"Natural-language decisions meet multi-faction strategy. Team product and core gameplay design."}},{"id":"anyao","zh":{"capability":"硬件工程与系统交付","proof":"智能药盒已在 K-Hub 社区应用，获得义务供应链支持；我负责硬件设计与开发。"},"en":{"capability":"Hardware & system delivery","proof":"In use in the K-Hub community, with pro bono supply-chain support. I owned hardware design and development."}},{"id":"dafeiyu","zh":{"capability":"Agent 与连续体验","proof":"连接长期记忆、主动联系与本地运行，持续迭代个人伴侣项目。"},"en":{"capability":"Agents & continuous experiences","proof":"Long-term memory, proactive contact, and local operation in an ongoing personal companion project."}}],
   // Reading order of the work archive and of each case study's "next project": game design first,
   // then the strongest evidence; writing comes last.

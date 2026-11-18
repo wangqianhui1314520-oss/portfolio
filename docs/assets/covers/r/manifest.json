@@ -245,5 +245,26 @@
         "bytes": 129362
       }
     ]
+  },
+  "assets/images/dafeiyu-dashboard.jpg": {
+    "width": 962,
+    "height": 846,
+    "variants": [
+      {
+        "src": "assets/covers/r/dafeiyu-dashboard-480.webp",
+        "width": 480,
+        "bytes": 17516
+      },
+      {
+        "src": "assets/covers/r/dafeiyu-dashboard-960.webp",
+        "width": 960,
+        "bytes": 59594
+      },
+      {
+        "src": "assets/covers/r/dafeiyu-dashboard-962.webp",
+        "width": 962,
+        "bytes": 64468
+      }
+    ]
   }
 }

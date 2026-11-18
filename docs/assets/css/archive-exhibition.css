@@ -1,0 +1,153 @@
+/* An exhibition, not a cockpit. The optional ribbon remains the original universe. */
+body.portfolio-page.ribbon-page:not([data-view=ribbon]){--bg:#f1f0eb;--ink:#242722;--muted:#555d56;--quiet:#687169;--accent:#265e6c;--line:#24272230;background:var(--bg);color:var(--ink);color-scheme:light}
+body.portfolio-page.ribbon-page:not([data-view=ribbon])::before,body.portfolio-page.ribbon-page:not([data-view=ribbon])::after{display:none}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-gallery::before,body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-gallery::after{display:none}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-header{height:92px;background:#f1f0ebf5;border-bottom:1px solid var(--line);backdrop-filter:blur(14px);color:var(--ink)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-wordmark{top:24px;left:max(48px,calc((100vw - 1400px)/2));font-size:30px;letter-spacing:-.035em;font-weight:650;line-height:44px;color:var(--ink)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-nav{top:24px;color:var(--ink)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-menu a{color:var(--ink);font-size:13px;letter-spacing:0}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-menu a:hover,body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-menu a[aria-current=page]{color:var(--accent)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .menu-toggle{color:var(--ink);border-color:var(--line)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .menu-toggle i,body.portfolio-page.ribbon-page:not([data-view=ribbon]) .menu-toggle i::before,body.portfolio-page.ribbon-page:not([data-view=ribbon]) .menu-toggle i::after{border-color:currentColor}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-gallery{max-width:1496px;padding:152px 48px 80px;background:transparent}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-side{padding:0 0 58px}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);grid-template-areas:"identity summary" "identity proof" "identity actions";gap:20px 80px;align-items:start}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro h1{margin:0}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-name{font-size:13px;letter-spacing:.07em;margin-bottom:25px;color:var(--muted)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .exhibition-statement{display:block;margin:0 0 28px;font-family:'Tem Interface',sans-serif;font-size:clamp(54px,5.4vw,82px);font-weight:500;line-height:1.15;letter-spacing:-.065em;color:var(--ink)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .exhibition-statement>span{display:block}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .exhibition-statement>span:last-child{color:var(--quiet)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-role{display:flex;flex-wrap:wrap;gap:8px 24px;font-family:'Tem Interface',sans-serif}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-track,body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-track:first-child{font-size:15px;line-height:1.8;letter-spacing:0;gap:8px;color:var(--ink);margin:0}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-track:first-child small{display:none}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-track+ .ribbon-intro-track{margin:0;color:var(--muted)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-track small{min-width:0;color:var(--quiet);font-size:10px}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-text{align-self:end;padding-top:60px;margin:0;font-size:18px;line-height:1.9;color:var(--ink);max-width:28em}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-proof{margin:0;color:var(--muted);font-size:12px;line-height:1.9}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-proof li{color:var(--muted)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-actions{grid-area:actions;justify-self:start;align-self:start;gap:22px;margin:0}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-actions a{border:0;border-bottom:1px solid var(--line);background:none;color:var(--ink);padding:6px 0;min-height:44px;border-radius:0;font-size:13px;box-shadow:none}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-actions a:hover{border-color:var(--ink);color:var(--accent)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-toolbar{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;margin:0 0 42px;gap:18px;align-items:center;background:transparent}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-views{gap:10px 22px}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-views button{opacity:1;padding:5px 0;border:0;border-radius:0;background:none;color:var(--quiet);font-size:14px;font-weight:450;min-height:44px}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-views button[aria-pressed=true]{color:var(--ink);background:none;box-shadow:inset 0 -2px var(--ink)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-views button:hover{color:var(--accent)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-filters{gap:5px 10px}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-filters button{min-height:44px;border-color:var(--line);border-radius:100px;color:var(--muted);background:transparent;font-size:12px;padding:8px 12px}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-filters button[aria-pressed=true]{color:var(--bg);background:var(--ink);border-color:var(--ink)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-filter-count{color:inherit;opacity:.75}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-heading{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 24px;margin:0 0 30px;align-items:end}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-heading .eyebrow{grid-column:1;grid-row:1;font-size:11px;letter-spacing:.12em;color:var(--quiet);margin:0 0 10px}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-heading h2{display:block;grid-column:1;grid-row:2;font-family:'Tem Interface',sans-serif;font-size:24px;font-weight:450;line-height:1.5;color:var(--ink);letter-spacing:-.025em}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-heading p{display:none}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-count{grid-column:2;grid-row:2;color:var(--quiet);font-size:12px;line-height:1.8;margin:0}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:66px 36px}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card{display:block;min-width:0;padding:0 0 35px;margin:0;border-bottom:1px solid var(--line);color:var(--ink)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-media{border:0;background:#dedfd8;aspect-ratio:16/10;isolation:isolate;transform:none}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-media img{width:100%;height:100%;object-fit:contain;filter:none;transform:none}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-media figcaption{right:15px;bottom:15px;background:#0a1724d9;color:#ebf4fa;border:1px solid #ffffff26;font-size:11px;line-height:1.6}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card[data-project-id=yuanmo] .browse-media{background:#1b1d1c;--exhibition-preview-bg:#1b1d1c}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card[data-project-id=anyao] .browse-media{background:#dce3dc}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card[data-project-id=dafeiyu] .browse-media{background:#081522}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card-copy{display:block;padding:24px 0 0;order:1}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-topline{gap:13px;color:var(--muted)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-sequence{color:var(--quiet);font-size:11px}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-capability{color:var(--muted);font-size:12px}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card h3{font-family:'Tem Interface',sans-serif;font-size:clamp(27px,2.9vw,40px);font-weight:450;line-height:1.35;letter-spacing:-.035em;color:var(--ink);margin:13px 0 15px}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-proof{font-size:15px;line-height:1.9;color:var(--muted);max-width:48ch}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-facts{margin:22px 0 0;gap:13px}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-facts dt{font-size:11px;line-height:1.8;color:var(--quiet)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-role,body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-result{font-size:13px;line-height:1.9;color:var(--ink)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card-bottom{margin-top:20px;gap:12px}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-cta{color:var(--ink);font-size:12px;gap:16px}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-cta>span{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--line);border-radius:50%;font-size:22px;transition:background .2s,color .2s,transform .2s}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-badge{color:var(--muted);border:1px solid var(--line);background:transparent;border-radius:0;font-size:11px}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-badge[data-badge=award]{color:#6b551a;border-color:#897e574a}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card:hover .browse-cta>span,body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card:focus-visible .browse-cta>span{background:var(--ink);color:var(--bg);transform:rotate(45deg)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card:hover .browse-title,body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card:focus-visible .browse-title{color:var(--ink);text-decoration:none}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card:hover .browse-media,body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card:focus-visible .browse-media{transform:none}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card:focus-visible{outline:2px solid var(--accent);outline-offset:9px;border-color:var(--ink)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-views button:focus-visible,body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-all:focus-visible{outline:2px solid var(--accent);outline-offset:5px}
+body.portfolio-page.ribbon-page[data-view=featured] .browse-grid{grid-template-columns:1fr;gap:76px}
+body.portfolio-page.ribbon-page[data-view=featured] .browse-card[data-featured-order]{grid-column:1;display:flex;flex-direction:column;gap:0;align-items:stretch;margin:0;padding:0 0 46px}
+body.portfolio-page.ribbon-page[data-view=featured] .browse-card .browse-media{order:0;aspect-ratio:1.98;max-height:680px}
+body.portfolio-page.ribbon-page[data-view=featured] .browse-card[data-project-id=anyao] .browse-media{aspect-ratio:2.15}
+body.portfolio-page.ribbon-page[data-view=featured] .browse-card[data-project-id=dafeiyu] .browse-media{aspect-ratio:2.05}
+body.portfolio-page.ribbon-page[data-view=featured] .browse-card[data-project-id=dafeiyu] .browse-media img{padding:25px;box-sizing:border-box}
+body.portfolio-page.ribbon-page[data-view=featured] .browse-card[data-featured-order] .browse-card-copy{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);grid-template-areas:"label facts" "title facts" "proof bottom";gap:0 80px;padding:28px 0 0;order:1}
+body.portfolio-page.ribbon-page[data-view=featured] .browse-card .browse-topline{grid-area:label}
+body.portfolio-page.ribbon-page[data-view=featured] .browse-card h3{grid-area:title;margin:13px 0 15px;font-size:clamp(32px,3.3vw,46px)}
+body.portfolio-page.ribbon-page[data-view=featured] .browse-card .browse-proof{grid-area:proof;font-size:15px;line-height:1.9}
+body.portfolio-page.ribbon-page[data-view=featured] .browse-card .browse-facts{grid-area:facts;display:grid;gap:15px;margin:0}
+body.portfolio-page.ribbon-page[data-view=featured] .browse-card .browse-facts>div{display:grid;grid-template-columns:70px minmax(0,1fr);gap:14px;align-items:baseline}
+body.portfolio-page.ribbon-page[data-view=featured] .browse-card .browse-facts dt{margin:0}
+body.portfolio-page.ribbon-page[data-view=featured] .browse-card .browse-card-bottom{grid-area:bottom;align-self:end;margin:18px 0 0}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-all{margin-top:54px;padding:24px 0;border:0;border-bottom:1px solid var(--ink);border-radius:0;min-height:84px;font-size:clamp(23px,2.4vw,34px);font-weight:450;letter-spacing:-.03em;color:var(--ink)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-all:hover{background:transparent;color:var(--accent)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-row-link{color:var(--ink);border-color:var(--line);padding-block:26px;transition:background .2s}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-row-link:hover{background:#24272206}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-row-title{color:var(--ink);font-family:'Tem Interface',sans-serif;font-size:25px}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-row-number,body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-row-meta,body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-row-role{color:var(--muted)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-row-result,body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-row-arrow{color:var(--ink)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-footer{max-width:1496px;margin:auto;padding:30px 48px 38px;background:transparent;border-color:var(--line);color:var(--muted)}
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-footer a{color:var(--ink)}
+body.portfolio-page.ribbon-page[data-view=ribbon] .exhibition-statement{display:none}
+body.portfolio-page.ribbon-page .ribbon-about{color-scheme:dark}
+@media(max-width:1279px){
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-header[data-menu-open=true] .ribbon-menu{background:#f1f0eb;border-color:var(--line);box-shadow:0 18px 36px #22272014}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro{column-gap:44px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-text{padding-top:54px;font-size:16px}
+}
+@media(max-width:900px){
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-gallery{padding:134px 30px 60px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-wordmark{left:30px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .exhibition-statement{font-size:clamp(46px,6.1vw,58px)}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);column-gap:30px}
+ body.portfolio-page.ribbon-page[data-view=featured] .browse-card[data-featured-order] .browse-card-copy{column-gap:36px}
+}
+@media(max-width:799px){
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-header{height:76px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-wordmark{top:16px;left:22px;font-size:28px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-nav{top:16px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-gallery{padding:113px 22px 50px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-side{padding-bottom:32px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro{display:flex;flex-direction:column;gap:0;align-items:stretch}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-name{margin-bottom:21px;font-size:12px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .exhibition-statement{font-size:clamp(39px,9.8vw,64px);line-height:1.23;margin-bottom:23px;letter-spacing:-.065em}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-role{gap:3px 13px;flex-direction:column}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-track,body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-track:first-child{font-size:13px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-text{padding-top:21px;font-size:15px;line-height:1.8;max-width:31em}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-proof{display:none}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-actions{margin-top:15px;gap:23px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-intro-actions a{font-size:12px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-toolbar{padding:9px 0;margin-bottom:26px;gap:10px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-views{gap:16px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-views button{font-size:13px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-heading{margin-bottom:22px;gap:0 15px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-heading h2{font-size:20px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-count{font-size:11px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-grid{grid-template-columns:1fr;gap:42px}
+ body.portfolio-page.ribbon-page[data-view=featured] .browse-grid{gap:45px}
+ body.portfolio-page.ribbon-page[data-view=featured] .browse-card[data-featured-order]{padding-bottom:30px}
+ body.portfolio-page.ribbon-page[data-view=featured] .browse-card .browse-media,body.portfolio-page.ribbon-page[data-view=featured] .browse-card[data-project-id=anyao] .browse-media,body.portfolio-page.ribbon-page[data-view=featured] .browse-card[data-project-id=dafeiyu] .browse-media{aspect-ratio:16/11;order:0;max-height:none}
+ body.portfolio-page.ribbon-page[data-view=featured] .browse-card[data-project-id=yuanmo] .browse-media{aspect-ratio:1.98}
+ body.portfolio-page.ribbon-page[data-view=featured] .browse-card[data-project-id=anyao] .browse-media{aspect-ratio:16/10}
+ body.portfolio-page.ribbon-page[data-view=featured] .browse-card[data-project-id=dafeiyu] .browse-media{aspect-ratio:1.14}
+ body.portfolio-page.ribbon-page[data-view=featured] .browse-card[data-featured-order] .browse-card-copy{display:block;padding:20px 0 0;order:1}
+ body.portfolio-page.ribbon-page[data-view=featured] .browse-card h3,body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card h3{font-size:28px;margin:10px 0 13px;line-height:1.4}
+ body.portfolio-page.ribbon-page[data-view=featured] .browse-card .browse-proof{display:block;font-size:14px;line-height:1.85}
+ body.portfolio-page.ribbon-page[data-view=featured] .browse-card .browse-facts{display:grid;margin-top:19px;gap:12px}
+ body.portfolio-page.ribbon-page[data-view=featured] .browse-card .browse-facts>div{grid-template-columns:58px minmax(0,1fr);gap:10px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card-bottom{margin-top:16px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-role,body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-result{font-size:13px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-all{font-size:23px;min-height:76px;margin-top:32px}
+ body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-footer{padding:25px 22px}
+}
+@media(max-width:380px){body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-gallery{padding-inline:18px}body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-views{gap:13px}body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-views button{font-size:12px}}
+@media(prefers-reduced-motion:reduce){body.portfolio-page.ribbon-page .browse-cta>span,body.portfolio-page.ribbon-page .ribbon-row-link{transition:none}body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card:hover .browse-cta>span{transform:none}}
+@media print{body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-gallery{padding:0}body.portfolio-page.ribbon-page:not([data-view=ribbon]) .exhibition-statement{font-size:34px}body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-grid{display:block}body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card{display:block;break-inside:avoid}body.portfolio-page.ribbon-page:not([data-view=ribbon]) .browse-card-copy{display:block!important}}
+
+body.portfolio-page.ribbon-page[data-view=ribbon]{color-scheme:dark}
+
+body.portfolio-page.ribbon-page:not([data-view=ribbon]) .ribbon-header[data-menu-open=true] .ribbon-menu{background:#f1f0eb;border-color:var(--line);box-shadow:0 18px 36px #22272014}

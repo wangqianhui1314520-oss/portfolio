@@ -20,7 +20,16 @@ QUALITY = 76
 
 def main():
     data = (ROOT / 'assets' / 'js' / 'data.js').read_text(encoding='utf-8')
-    covers = sorted(set(re.findall(r'cover:\s*"(assets/covers/[^"]+\.jpg)"', data)))
+    covers = set(re.findall(r'cover:\s*"(assets/covers/[^"]+\.jpg)"', data))
+    # A documented product/interface image can replace the decorative cover in
+    # the exhibition. Give that real image the same responsive treatment.
+    for record in re.findall(r'[\"\']?evidence[\"\']?\s*:\s*\{([^{}]*)\}', data):
+        if not re.search(r'[\"\']?type[\"\']?\s*:\s*[\"\']image[\"\']', record):
+            continue
+        source = re.search(r'[\"\']?src[\"\']?\s*:\s*[\"\'](assets/[^\"\']+\.jpg)[\"\']', record)
+        if source:
+            covers.add(source.group(1))
+    covers = sorted(covers)
     OUTPUT.mkdir(parents=True, exist_ok=True)
     manifest = {}
     for cover in covers:

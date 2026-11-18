@@ -37,7 +37,7 @@ test('the horizon and the project tint belong to the overview and the expanded v
   }
 });
 
-test('every reading page shares the archive sky, palette and wordmark', () => {
+test('legacy reading sky remains for About/poetry while cases opt into their own exhibition theme', () => {
   const sky = rule('body.reading-page::before');
   assert.match(sky, /position:fixed/);
   assert.match(sky, /url\('\.\.\/images\/work-backdrop-galaxy\.webp'\)/, 'case studies, About and poetry sit on the archive backdrop');
@@ -48,7 +48,9 @@ test('every reading page shares the archive sky, palette and wordmark', () => {
   assert.match(rule('body.ribbon-page .ribbon-wordmark'), /font-family:Impact/);
   const pages = {'zh/work/growth/index.html': 'case-page', 'en/work/anyao/index.html': 'case-page', 'zh/about/index.html': 'about-page', 'en/about/index.html': 'about-page', 'zh/poetry/index.html': 'poems-page', 'en/poetry/index.html': 'poems-page'};
   for (const [file, own] of Object.entries(pages)) {
-    assert.match(readFileSync(resolve(root, file), 'utf8'), new RegExp(`<body class="reading-page ${own}">`), file);
+    const html = readFileSync(resolve(root, file), 'utf8');
+    assert.match(html, new RegExp(`<body class="reading-page ${own}"(?: data-project="[a-z0-9-]+")?>`), file);
+    if (own === 'case-page') assert.match(html, /case-exhibition\.css\?v=[a-f0-9]+/, file);
   }
   // The poetry body class must not reuse the name of the poetry column, which is width-limited.
   assert.doesNotMatch(css, /body\.poetry-page/);
