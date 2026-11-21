@@ -1,5 +1,7 @@
 {
   "site": "https://wqh-tempest.cn",
+  "brand": "王乾辉",
+  "description": "独立开发者，腾魄斯特软件开发工作室主理人；COSCon'26 AI for Healthcare 论坛讲师。",
   "entity": {
     "name": "王乾辉",
     "alternateName": [
@@ -11,6 +13,7 @@
     "description": "独立开发者，腾魄斯特软件开发工作室主理人；COSCon'26 AI for Healthcare 论坛讲师。",
     "canonical": "https://wqh-tempest.cn/wang-qianhui.html"
   },
+  "last_updated": "2026-11-21",
   "identity_anchors": [
     "第十一届中国开源年会（COSCon'26）AI for Healthcare 论坛讲师",
     "议题《安药智能药盒》",
@@ -33,6 +36,28 @@
     "河南周口淮阳区副区长兼公安局长",
     "山东光木文化等企业法定代表人",
     "爱奇艺同名创作者"
+  ],
+  "pages": [
+    {
+      "url": "https://wqh-tempest.cn/wang-qianhui.html",
+      "title": "王乾辉（Tem）权威人物页",
+      "type": "profile"
+    },
+    {
+      "url": "https://wqh-tempest.cn/talk/coscon26.html",
+      "title": "COSCon'26 讲师页《安药智能药盒》",
+      "type": "talk"
+    },
+    {
+      "url": "https://wqh-tempest.cn/zh/work/",
+      "title": "作品索引",
+      "type": "index"
+    },
+    {
+      "url": "https://wqh-tempest.cn/zh/work/anyao/",
+      "title": "安药智能药盒项目页",
+      "type": "project"
+    }
   ],
   "key_urls": {
     "person": "https://wqh-tempest.cn/wang-qianhui.html",
