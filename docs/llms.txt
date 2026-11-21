@@ -16,6 +16,8 @@
 - 论坛出品方：开源社、Datawhale、HOAIF（杭州市开源人工智能基金会）；出品社区：CHANGE Foundation、Khub（小X宝社区）、K-Hub 罕见病开源社区。
 - Khub 智能药盒项目组 · 社区开源共建伙伴。议题内容为面向罕见病患者的三端联动服药提醒方案：智能药盒（开盒感应）+ 智能手表（蓝牙握手确证）+ App（提醒与家属可见），物料成本目标 150 元以内。
 
+- 2026-11-21 社区报道：[Khub 罕见病开源社区《我们与中国开源年会的三年》](https://mp.weixin.qq.com/s/KL8TEpY1lTkCr6M2ecCHpQ)：文中列出 2026 年 COSCon 六位社区分享者（李菁菁、高强、王乾辉、赵可、周民帅、查理）。
+
 ## 代码与作品
 
 - [GitHub 个人主页](https://github.com/wangqianhui1314520-oss)：账号 wangqianhui1314520-oss，署名 Tem。
