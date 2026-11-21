@@ -47,3 +47,8 @@
 - 语言：zh-CN / en
 - 托管：GitHub Pages
 - sitemap：https://wqh-tempest.cn/sitemap.xml
+
+## 权威人物页
+- 王乾辉（Tem）人物页：https://wqh-tempest.cn/wang-qianhui.html
+- 机器可读摘要：https://wqh-tempest.cn/ai-summary.json
+- 更新订阅：https://wqh-tempest.cn/feed.xml
